@@ -10,7 +10,7 @@ let homePage: HomePage;
 });*/
 
 test.beforeEach(async ({ page },testInfo) => {
-  await page.goto('url');
+  await page.goto('https://inghams-v2.newdev.hotelplan.co.uk/');
   homePage = new HomePage(page);
 });
 
@@ -24,12 +24,15 @@ test.afterEach(async ({ page },testInfo) => {
 
 
 test.describe('Homepage Navigation', () => {
+
+    test('Go to Our History', async ({page}) => {
+        await homePage.click_Our_History;
+    });
+
+
+    test('Search', async ({page}) =>{
+        await homePage.Search('resort');
+    });
   
-  test('Go to ', async (page) => {
-
-  });
-  
-
-
 });
 
