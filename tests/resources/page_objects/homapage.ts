@@ -26,10 +26,16 @@ export class HomePage{
 
     //methods
     async click_Our_History() {
+        await this.Our_History_Button.focus();
         await this.Our_History_Button.click();
+    }
+
+    async check_Our_History() {
         await expect(this.page).toHaveURL('https://inghams-v2.newdev.hotelplan.co.uk/about-us');
         await expect (this.About_Us_Header).toBeVisible();
     }
+
+
 
     async Search(keyword:string){
         await this.Search_Field.fill(keyword);
