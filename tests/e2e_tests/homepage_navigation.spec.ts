@@ -10,7 +10,7 @@ let homePage: HomePage;
 });*/
 
 test.beforeEach(async ({ page },testInfo) => {
-  await page.goto('https://inghams-v2.newdev.hotelplan.co.uk/');
+  await page.goto('https://inghams-v2.newdev.hotelplan.co.uk/',{ waitUntil: 'domcontentloaded' });
   homePage = new HomePage(page);
 });
 
