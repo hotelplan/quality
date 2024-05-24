@@ -19,7 +19,7 @@ export class HomePage{
         this.About_Us_Header = page.getByRole('heading', { name: 'ABOUT US' });
         this.Search_Field = page.getByPlaceholder('Site search');
         this.Search_Button = page.getByRole('button', { name: 'Search' });
-        this.Search_Result = page.locator('#pageBody');
+        this.Search_Result = page.getByText('ERROR 500: INTERNAL SERVER ERROR We’re sorry, the Inghams website is');
     }
 
 
@@ -27,6 +27,7 @@ export class HomePage{
     //methods
     async click_Our_History() {
         await this.Our_History_Button.click();
+        await expect(this.page).toHaveURL('https://inghams-v2.newdev.hotelplan.co.uk/about-us');
         await expect (this.About_Us_Header).toBeVisible();
     }
 
