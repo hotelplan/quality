@@ -26,8 +26,8 @@ test.afterEach(async ({ page },testInfo) => {
 test.describe('Homepage Navigation', () => {
 
     test('Go to Our History', async ({page}) => {
-        await homePage.click_Our_History;
-        await homePage.check_Our_History;
+        await homePage.click_Our_History();
+        await homePage.check_Our_History();
     });
 
 
