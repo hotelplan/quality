@@ -14,6 +14,7 @@ export class HomePage{
 
     //constructor // locators
     constructor(page: Page) {
+        this.page = page;
         this.Our_History_Button = page.getByRole('link', { name: 'Our History' }).first();
         this.About_Us_Header = page.getByRole('heading', { name: 'ABOUT US' });
         this.Search_Field = page.getByPlaceholder('Site search');
