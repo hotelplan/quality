@@ -32,7 +32,7 @@ test.describe('Homepage Navigation', () => {
 
 
     test('Search', async ({page}) =>{
-        await homePage.Search('resort');
+        await homePage.Search('hotel');
     });
   
 });

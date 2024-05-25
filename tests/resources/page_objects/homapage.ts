@@ -19,7 +19,7 @@ export class HomePage{
         this.About_Us_Header = page.getByRole('heading', { name: 'ABOUT US' });
         this.Search_Field = page.getByPlaceholder('Site search');
         this.Search_Button = page.getByRole('button', { name: 'Search' });
-        this.Search_Result = page.getByText('ERROR 500: INTERNAL SERVER ERROR We’re sorry, the Inghams website is');
+        this.Search_Result = page.locator('#pageBody');
     }
 
 
