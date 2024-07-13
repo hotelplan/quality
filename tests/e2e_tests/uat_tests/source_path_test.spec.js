@@ -20,13 +20,15 @@ for(const skiData of SkiDatacsv){
   test(`Test the source path for ${skiData.SourcePath}`, async ({ page }) => {
     test.setTimeout(3000000);
 
-    const homePath = 'https://inghamsv2-ecms.stg.hotelplan.co.uk/';
-    const sourcePath = skiData.SourcePath.replace("home\\", "");
-    const sourceURL = sourcePath.replace("\\", '/');
-    const FullURL = homePath + sourceURL;
+    const homePath = 'https://inghamsv2-ecms.stg.hotelplan.co.uk';
+    const sourcePath = skiData.SourcePath.replace("home", "");
+    //const sourceURL = sourcePath.replace(/\\/g, '/');
+    const FullURL = homePath + sourcePath;
     // Open the URL
-    await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
+    const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
     console.log('TEST = '+ FullURL);
-   
+    console.log('Response = '+ response.status());
+    expect(response.status()).not.toBe(404);
+    expect(response.status()).not.toBe(500);
   });
 }
