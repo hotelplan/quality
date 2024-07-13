@@ -12,7 +12,9 @@
     "@types/node": "^20.12.12"
   },
   "dependencies": {
+    "csv-parse": "^5.5.6",
     "csv-parser": "^3.0.0",
+    "fast-csv": "^5.0.1",
     "playwright": "^1.45.1"
   }
 }

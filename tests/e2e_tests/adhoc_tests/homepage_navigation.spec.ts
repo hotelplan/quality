@@ -1,5 +1,5 @@
 import { test,expect,type Page } from '@playwright/test';
-import { HomePage }  from '.././resources/page_objects/homapage';
+import { HomePage }  from '../../resources/page_objects/homepage';
 
 
 let homePage: HomePage;
