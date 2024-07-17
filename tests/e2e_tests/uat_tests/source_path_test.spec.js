@@ -20,7 +20,8 @@ for(const skiData of SkiDatacsv){
   test(`Test the source path for ${skiData.SourcePath}`, async ({ page }) => {
     test.setTimeout(3000000);
 
-    const homePath = 'https://inghamsv2-ecms.stg.hotelplan.co.uk';
+    //const homePath = 'https://inghamsv2-ecms.stg.hotelplan.co.uk';
+    const homePath = 'https://inghams-v2.newdev.hotelplan.co.uk';
     const sourcePath = skiData.SourcePath.replace("home", "");
     const sourceURL = sourcePath.replace("ski-resorts","resorts");
     const FullURL = homePath + sourceURL;
