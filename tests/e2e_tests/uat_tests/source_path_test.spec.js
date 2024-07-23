@@ -1,5 +1,6 @@
 // Import modules
 import { test, expect } from '@playwright/test';
+import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
@@ -8,6 +9,9 @@ import path from 'path';
 //test.afterAll(async ({ page },testInfo) => {
   //await page.close();
 //});
+
+const env = process.env.ENV || 'dev';
+const baseUrl = environmentBaseUrl[env].inghams;
 
 
 //path of the UAT site

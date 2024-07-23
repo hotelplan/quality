@@ -1,0 +1,27 @@
+export default{
+    ci:{
+        prefix:'',
+        suffix:''
+    },
+    dev:{
+        inghams:'https://inghams-v2.newdev.hotelplan.co.uk',
+        e_cms:'https://inghamsv2-ecms.newdev.hotelplan.co.uk',
+        p_cms:'https://inghamsv2-pcms.newdev.hotelplan.co.uk',
+    },
+    test:{
+        inghams:'https://inghams-v2.test.hotelplan.co.uk',
+        e_cms:'https://inghamsv2-ecms.test.hotelplan.co.uk',
+        p_cms:'https://inghamsv2-pcms.test.hotelplan.co.uk',
+
+    },
+    staging:{
+        inghams:'https://inghams-v2.stg.hotelplan.co.uk',
+        e_cms:'https://inghamsv2-ecms.stg.hotelplan.co.uk',
+        p_cms:'https://inghamsv2-pcms.stg.hotelplan.co.uk',
+    },
+    production:{
+        inghams:'https://www.inghams.co.uk',
+        e_cms:'',
+        p_cms:'',
+    },
+};
