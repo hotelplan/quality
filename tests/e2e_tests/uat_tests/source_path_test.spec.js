@@ -1,6 +1,5 @@
 // Import modules
 import { test, expect } from '@playwright/test';
-import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
@@ -10,15 +9,9 @@ import path from 'path';
   //await page.close();
 //});
 
-const env = process.env.ENV || 'dev';
-const baseUrl = environmentBaseUrl[env].inghams;
-
-
-//path of the UAT site
-//const HOMEpath = 'https://inghamsv2-ecms.stg.hotelplan.co.uk';
+//const env = process.env.ENV || 'dev';
 const HOMEpath = 'https://inghams-v2.newdev.hotelplan.co.uk';
-//const ERRORpath ='https://inghamsv2-ecms.stg.hotelplan.co.uk/error-500';
-const ERRORpath = 'https://inghams-v2.newdev.hotelplan.co.uk/error-500';
+const ERRORpath = `${HOMEpath}/error-500`;
 
 // Helper function to read URLs from the CSV file
 const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Lapland.csv')), {columns: true, skip_empty_lines: true});
