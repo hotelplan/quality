@@ -1,5 +1,6 @@
 // Import modules
 import { test, expect } from '@playwright/test';
+import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
@@ -9,8 +10,8 @@ import path from 'path';
   //await page.close();
 //});
 
-//const env = process.env.ENV || 'dev';
-const HOMEpath = 'https://inghams-v2.newdev.hotelplan.co.uk';
+const env = process.env.ENV || 'dev';
+const HOMEpath = environmentBaseUrl[env].inghams;
 const ERRORpath = `${HOMEpath}/error-500`;
 
 // Helper function to read URLs from the CSV file
