@@ -1,5 +1,6 @@
 // Import modules
 import { test, expect } from '@playwright/test';
+import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
@@ -9,10 +10,9 @@ import path from 'path';
   //await page.close();
 //});
 
-
-//path of the UAT site
-const HOMEpath = 'https://www.inghams.co.uk';
-const ERRORpath = 'https://www.inghams.co.uk/error-500';
+const env = process.env.ENV || 'production';
+const HOMEpath = environmentBaseUrl[env].inghams;
+const ERRORpath = `${HOMEpath}/error-500`;
 
 // Helper function to read URLs from the CSV file
 const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Lapland.csv')), {columns: true, skip_empty_lines: true});
