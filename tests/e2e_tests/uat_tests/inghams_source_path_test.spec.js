@@ -42,27 +42,30 @@ test.describe('Lapland Source Path', () => {
       await expect(response.status()).not.toBe(503);
     });
   }
+  });
   
   
-  for(const santasData of SantaDatacsv){
-    test(`Santa Breaks (${santasData.Country}) test: ${santasData.SourcePath}`, async ({ page }) => {
-      test.setTimeout(3000000);
+  test.describe('Santa Source Path', () => {
+    for(const santasData of SantaDatacsv){
+      test(`Santa Breaks (${santasData.Country}) test: ${santasData.SourcePath}`, async ({ page }) => {
+        test.setTimeout(3000000);
+    
+        const sourcePath = laplandData.SourcePath.replace("home", "");
+        const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
+        const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
+        const sourcePathmod = sourceURLmod.replace(/st./g,"st-");
+        const FullURL = HOMEpath + sourcePathmod;
+        // Open the URL
+        const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
+        console.log('TEST = '+ FullURL);
+        console.log('Response = '+ response.status());
+        await expect(page).not.toHaveURL(ERRORpath)
+        await expect(response.status()).not.toBe(404);
+        await expect(response.status()).not.toBe(500);
+        await expect(response.status()).not.toBe(503);
+      });
+    }
   
-      const sourcePath = laplandData.SourcePath.replace("home", "");
-      const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
-      const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
-      const sourcePathmod = sourceURLmod.replace(/st./g,"st-");
-      const FullURL = HOMEpath + sourcePathmod;
-      // Open the URL
-      const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
-      console.log('TEST = '+ FullURL);
-      console.log('Response = '+ response.status());
-      await expect(page).not.toHaveURL(ERRORpath)
-      await expect(response.status()).not.toBe(404);
-      await expect(response.status()).not.toBe(500);
-      await expect(response.status()).not.toBe(503);
-    });
-  }
   });
   
   
@@ -107,3 +110,4 @@ test.describe('Lapland Source Path', () => {
     });
   }
   });
+  
