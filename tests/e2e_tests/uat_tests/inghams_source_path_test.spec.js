@@ -30,7 +30,7 @@ test.describe('Lapland Source Path', () => {
       const sourcePath = laplandData.SourcePath.replace("home", "");
       const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
       const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
-      const sourcePathmod = sourceURLmod.replace(/st./g,"st-");
+      const sourcePathmod = sourceURLmod.replace(/st\./g,"st-");
       const FullURL = HOMEpath + sourcePathmod;
       // Open the URL
       const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
@@ -53,7 +53,7 @@ test.describe('Lapland Source Path', () => {
         const sourcePath = laplandData.SourcePath.replace("home", "");
         const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
         const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
-        const sourcePathmod = sourceURLmod.replace(/st./g,"st-");
+        const sourcePathmod = sourceURLmod.replace(/st\./g,"st-");
         const FullURL = HOMEpath + sourcePathmod;
         // Open the URL
         const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
@@ -76,7 +76,7 @@ test.describe('Lapland Source Path', () => {
   
       const sourcePath = skiData.SourcePath.replace("home", "");
       const sourceURL = sourcePath.replace("ski-resorts","resorts");
-      const sourcePathmod = sourceURL.replace(/st./g,"st-");
+      const sourcePathmod = sourceURL.replace(/st\./g,"st-");
       const FullURL = HOMEpath + sourcePathmod;
       // Open the URL
       const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
@@ -97,7 +97,7 @@ test.describe('Lapland Source Path', () => {
       test.setTimeout(3000000);
   
       const sourcePath = walkingData.SourcePath.replace("home", "/walking-holidays");
-      const sourcePathmod = SourcePath.replace(/st./g,"st-");
+      const sourcePathmod = SourcePath.replace(/st\./g,"st-");
       const FullURL = HOMEpath + sourcePathmod;
       // Open the URL
       const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
