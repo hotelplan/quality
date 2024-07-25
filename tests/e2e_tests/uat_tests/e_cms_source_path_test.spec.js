@@ -30,7 +30,8 @@ for(const laplandData of LaplandDatacsv){
     const sourcePath = laplandData.SourcePath.replace("home", "");
     const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
     const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
-    const FullURL = HOMEpath + sourceURLmod;
+    const sourcePathmod = sourceURLmod.replace(/st./g,"st-");
+    const FullURL = HOMEpath + sourcePathmod;
     // Open the URL
     const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
     console.log('TEST = '+ FullURL);
@@ -50,7 +51,8 @@ for(const santasData of SantaDatacsv){
     const sourcePath = laplandData.SourcePath.replace("home", "");
     const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
     const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
-    const FullURL = HOMEpath + sourceURLmod;
+    const sourcePathmod = sourceURLmod.replace(/st./g,"st-");
+    const FullURL = HOMEpath + sourcePathmod;
     // Open the URL
     const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
     console.log('TEST = '+ FullURL);
@@ -71,7 +73,8 @@ for(const skiData of SkiDatacsv){
 
     const sourcePath = skiData.SourcePath.replace("home", "");
     const sourceURL = sourcePath.replace("ski-resorts","resorts");
-    const FullURL = HOMEpath + sourceURL;
+    const sourcePathmod = sourceURL.replace(/st./g,"st-");
+    const FullURL = HOMEpath + sourcePathmod;
     // Open the URL
     const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
     console.log('TEST = '+ FullURL);
@@ -91,7 +94,8 @@ for(const walkingData of WalkingDatacsv){
     test.setTimeout(3000000);
 
     const sourcePath = walkingData.SourcePath.replace("home", "/walking-holidays");
-    const FullURL = HOMEpath + sourcePath;
+    const sourcePathmod = SourcePath.replace(/st./g,"st-");
+    const FullURL = HOMEpath + sourcePathmod;
     // Open the URL
     const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
     console.log('TEST = '+ FullURL);
