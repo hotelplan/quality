@@ -11,7 +11,7 @@ export default{
     dev_test:{
         inghams:'https://inghams-v2.newdev.hotelplan.co.uk',
         e_cms:'https://inghamsv2-ecms.newdev.hotelplan.co.uk',
-        p_cms:'https://inghamsv2-pcms.newdev.hotelplan.co.uk',
+        p_cms:'https://inghams-product-cms.newdev.hotelplan.co.uk',
     },
     test:{
         inghams:'https://inghams-v2.test.hotelplan.co.uk',
