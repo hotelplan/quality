@@ -50,7 +50,7 @@ test.describe('Lapland Source Path', () => {
       test(`Santa Breaks (${santasData.Country}) test: ${santasData.SourcePath}`, async ({ page }) => {
         test.setTimeout(3000000);
     
-        const sourcePath = laplandData.SourcePath.replace("home", "");
+        const sourcePath = santasData.SourcePath.replace("home", "");
         const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
         const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
         const sourcePathmod = sourceURLmod.replace(/st\./g,"st-");

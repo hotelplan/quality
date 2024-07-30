@@ -10,7 +10,7 @@ import path from 'path';
   //await page.close();
 //});
 
-const env = process.env.ENV || 'dev_test';
+const env = process.env.ENV || 'staging';
 const HOMEpath = environmentBaseUrl[env].e_cms;
 const ERRORpath = `${HOMEpath}/error-500`;
 
@@ -50,7 +50,7 @@ test.describe('Santa Source Path', () => {
     test(`Santa Breaks (${santasData.Country}) test: ${santasData.SourcePath}`, async ({ page }) => {
       test.setTimeout(3000000);
   
-      const sourcePath = laplandData.SourcePath.replace("home", "");
+      const sourcePath = santasData.SourcePath.replace("home", "");
       const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
       const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
       const sourcePathmod = sourceURLmod.replace(/st\./g,"st-");
