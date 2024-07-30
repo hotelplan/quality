@@ -10,7 +10,7 @@ import path from 'path';
   //await page.close();
 //});
 
-const env = process.env.ENV || 'dev';
+const env = process.env.ENV || 'staging';
 const HOMEpath = environmentBaseUrl[env].inghams;
 const ERRORpath = `${HOMEpath}/error-500`;
 
@@ -97,7 +97,7 @@ test.describe('Lapland Source Path', () => {
       test.setTimeout(3000000);
   
       const sourcePath = walkingData.SourcePath.replace("home", "/walking-holidays");
-      const sourcePathmod = SourcePath.replace(/st\./g,"st-");
+      const sourcePathmod = sourcePath.replace(/st\./g,"st-");
       const FullURL = HOMEpath + sourcePathmod;
       // Open the URL
       const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
