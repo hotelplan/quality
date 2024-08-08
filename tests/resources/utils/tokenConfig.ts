@@ -9,8 +9,11 @@ interface TokenConfig {
     dev_test:{
       p_cms:'WqCxiZQCGxSUiOKlbllYpLycCcoiqcls'
     },
+    qa: {
+      p_cms:'WqCxiZQCGxSUiOKlbllYpLycCcoiqcls'
+    },
     staging: {
-      p_cms:''
+      p_cms:'WqCxiZQCGxSUiOKlbllYpLycCcoiqcls'
     },
     production: {
       p_cms:''

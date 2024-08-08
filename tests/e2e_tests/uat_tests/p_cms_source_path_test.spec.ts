@@ -7,7 +7,7 @@ import tokenConfig from '../../resources/utils/tokenConfig';
 import { describe } from 'node:test';
 
 let ApiContext: APIRequestContext;
-const env = process.env.ENV || 'dev_test';
+const env = process.env.ENV || 'qa';
 const baseUrl = environmentBaseUrl[env].p_cms;
 const adminToken = tokenConfig[env].p_cms;
 
@@ -170,6 +170,40 @@ test.describe('P_CMS Ski Test', () => {
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const Code = skiData.CountryCode;
+            const ModifiedCode = Code.toString();
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('countrySki');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).toContain(ModifiedCode);
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('countryCode');
+            expect(content.properties.countryCode).toBe(skiData.CountryCode);
           });
 
     }
@@ -178,15 +212,49 @@ test.describe('P_CMS Ski Test', () => {
     for (const skiData of uniqueSkiRegionCodeData){
         test(`Ski Region Code(${skiData.RegionCode})`, async ({ page }) => {
             test.setTimeout(3000000);
-        
+
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=regionCode%3A${skiData.RegionCode}%2C%20product%3Aski&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
-        
+            
             console.log(await response.status()); // Log the status for debugging
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const Code = skiData.RegionCode;
+            const ModifiedCode = Code.toString();
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('regionSki');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).toContain(ModifiedCode);
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('regionCode');
+            expect(content.properties.regionCode).toBe(skiData.RegionCode);
           });
 
     }
@@ -204,6 +272,40 @@ test.describe('P_CMS Ski Test', () => {
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const Code = skiData.ResortCode;
+            const ModifiedCode = Code.toString();
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('resortSki');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).toContain(ModifiedCode);
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('resortCode');
+            expect(content.properties.resortCode).toBe(skiData.ResortCode);
           });
 
     }

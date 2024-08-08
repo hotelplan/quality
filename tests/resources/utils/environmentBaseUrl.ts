@@ -13,10 +13,10 @@ export default{
         e_cms:'https://inghamsv2-ecms.newdev.hotelplan.co.uk',
         p_cms:'https://inghams-product-cms.newdev.hotelplan.co.uk',
     },
-    test:{
-        inghams:'https://inghams-v2.test.hotelplan.co.uk',
-        e_cms:'https://inghamsv2-ecms.test.hotelplan.co.uk',
-        p_cms:'https://inghamsv2-pcms.test.hotelplan.co.uk',
+    qa:{
+        inghams:'https://inghams-v2.qa.hotelplan.co.uk',
+        e_cms:'https://inghamsv2-ecms.qa.hotelplan.co.uk',
+        p_cms:'https://inghamsv2-pcms.qa.hotelplan.co.uk',
 
     },
     staging:{
