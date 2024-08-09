@@ -142,10 +142,10 @@ test.describe('P_CMS Santa Test', () => {
 
 
 test.describe('P_CMS Ski Test', () => {
-    const uniqueSkiCountryCodeData = Array.from(new Set(SkiDatacsv
-        .map(data => data.CountryCode)))
+    const uniqueSkiCountryCodeData = Array.from(new Set(SkiCountries
+        .map(data => data.Code)))
         .map(uniqueCountryCode => {
-            return SkiDatacsv.find(data => data.CountryCode === uniqueCountryCode);
+            return SkiCountries.find(data => data.Code === uniqueCountryCode);
         });
     
     const uniqueSkiRegionCodeData = Array.from(new Set(SkiDatacsv
@@ -163,10 +163,10 @@ test.describe('P_CMS Ski Test', () => {
         });
 
     for (const skiData of uniqueSkiCountryCodeData){
-        test(`Ski Country Code(${skiData.CountryCode})`, async ({ page }) => {
+        test(`Ski Country Code(${skiData.Code})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${skiData.CountryCode}%2C%20product%3Aski&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${skiData.Code}%2C%20product%3Aski&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -318,10 +318,10 @@ test.describe('P_CMS Ski Test', () => {
 
 
 test.describe('P_CMS Walking Test', () => {
-    const uniqueWalkingCountryCodeData = Array.from(new Set(WalkingDatacsv
-        .map(data => data.CountryCode)))
+    const uniqueWalkingCountryCodeData = Array.from(new Set(WalkingCountries
+        .map(data => data.Code)))
         .map(uniqueCountryCode => {
-            return WalkingDatacsv.find(data => data.CountryCode === uniqueCountryCode);
+            return WalkingCountries.find(data => data.Code === uniqueCountryCode);
         });
     
     const uniqueWalkingRegionCodeData = Array.from(new Set(WalkingDatacsv
@@ -339,10 +339,10 @@ test.describe('P_CMS Walking Test', () => {
         });
 
     for (const walkingData of uniqueWalkingCountryCodeData){
-        test(`Walking Country Code(${walkingData.CountryCode})`, async ({ page }) => {
+        test(`Walking Country Code(${walkingData.Code})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${walkingData.CountryCode}%2C%20product%3Awalking&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${walkingData.Code}%2C%20product%3Awalking&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
