@@ -20,12 +20,11 @@ const SantaDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Mig
 const SkiDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Ski.csv')), {columns: true, skip_empty_lines: true});
 const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
 
-test.describe.configure({retries: 2});
+test.describe.configure({retries: 2, timeout: 30000})
 // Define the test suite
 test.describe('Lapland Source Path', () => {
 for(const laplandData of LaplandDatacsv){
   test(`Lapland (${laplandData.Country}) test: ${laplandData.SourcePath}`, async ({ page }) => {
-    test.setTimeout(3000000);
 
     const sourcePath = laplandData.SourcePath.replace("home", "");
     const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
@@ -48,7 +47,6 @@ for(const laplandData of LaplandDatacsv){
 test.describe('Santa Source Path', () => {
   for(const santasData of SantaDatacsv){
     test(`Santa Breaks (${santasData.Country}) test: ${santasData.SourcePath}`, async ({ page }) => {
-      test.setTimeout(3000000);
   
       const sourcePath = santasData.SourcePath.replace("home", "");
       const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
@@ -72,7 +70,6 @@ test.describe('Santa Source Path', () => {
 test.describe('Ski Source Path', () => {
 for(const skiData of SkiDatacsv){
   test(`Ski (${skiData.Country}) test: ${skiData.SourcePath}`, async ({ page }) => {
-    test.setTimeout(3000000);
 
     const sourcePath = skiData.SourcePath.replace("home", "");
     const sourceURL = sourcePath.replace("ski-resorts","resorts");
@@ -94,7 +91,6 @@ for(const skiData of SkiDatacsv){
 test.describe('Walking Source Path', () => {
 for(const walkingData of WalkingDatacsv){
   test(`Walking (${walkingData.Country}) test: ${walkingData.SourcePath}`, async ({ page }) => {
-    test.setTimeout(3000000);
 
     const sourcePath = walkingData.SourcePath.replace("home", "/walking-holidays");
     const sourcePathmod = sourcePath.replace(/st\./g,"st-");
