@@ -10,7 +10,7 @@ import path from 'path';
   //await page.close();
 //});
 
-const env = process.env.ENV || 'dev_test';
+const env = process.env.ENV || 'qa';
 const HOMEpath = environmentBaseUrl[env].inghams;
 const ERRORpath = `${HOMEpath}/error-500`;
 

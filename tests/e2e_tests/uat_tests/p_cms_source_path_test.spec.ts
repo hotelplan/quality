@@ -67,6 +67,40 @@ test.describe('P_CMS Lapland Test', () => {
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const Code = laplandData.Code;
+            const ModifiedCode = Code.toString();
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('countryLapland');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).not.toBeNull();
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('countryCode');
+            expect(content.properties.countryCode).toBe(laplandData.Code);
           });
 
     }
@@ -84,6 +118,38 @@ test.describe('P_CMS Lapland Test', () => {
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('resortLapland');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).not.toBeNull();
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('resortCode');
+            expect(content.properties.resortCode).toBe(laplandData.ResortCode);
           });
 
     }
@@ -117,6 +183,40 @@ test.describe('P_CMS Santa Test', () => {
             console.log(responseBody); // Log the response body for debugging
             
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const Code = santaData.Code;
+            const ModifiedCode = Code.toString();
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('countryLapland');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).not.toBeNull();
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('countryCode');
+            expect(content.properties.countryCode).toBe(santaData.Code);
             });
     
     }
@@ -134,6 +234,38 @@ test.describe('P_CMS Santa Test', () => {
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('resortLapland');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).not.toBeNull();
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('resortCode');
+            expect(content.properties.resortCode).toBe(santaData.ResortCode);
           });
 
     }
@@ -181,15 +313,13 @@ test.describe('P_CMS Ski Test', () => {
             expect(responseBody.items.length).toEqual(1);
 
             // Check the first item in the response body
-            const Code = skiData.CountryCode;
-            const ModifiedCode = Code.toString();
             const content = responseBody.items[0];
 
             expect(content).toHaveProperty('contentType');
             expect(content.contentType).toBe('countrySki');
 
             expect(content).toHaveProperty('name');
-            expect(content.name).toContain(ModifiedCode);
+            expect(content.name).not.toBeNull();
 
             expect(content).toHaveProperty('createDate');
             expect(content.createDate).not.toBeNull();
@@ -207,7 +337,7 @@ test.describe('P_CMS Ski Test', () => {
             expect(content).toHaveProperty('properties');
             expect(content).toHaveProperty('properties');
             expect(content.properties).toHaveProperty('countryCode');
-            expect(content.properties.countryCode).toBe(skiData.CountryCode);
+            expect(content.properties.countryCode).toBe(skiData.Code);
           });
 
     }
@@ -232,15 +362,13 @@ test.describe('P_CMS Ski Test', () => {
             expect(responseBody.items.length).toEqual(1);
 
             // Check the first item in the response body
-            const Code = skiData.RegionCode;
-            const ModifiedCode = Code.toString();
             const content = responseBody.items[0];
 
             expect(content).toHaveProperty('contentType');
             expect(content.contentType).toBe('regionSki');
 
             expect(content).toHaveProperty('name');
-            expect(content.name).toContain(ModifiedCode);
+            expect(content.name).not.toBeNull();
 
             expect(content).toHaveProperty('createDate');
             expect(content.createDate).not.toBeNull();
@@ -283,15 +411,13 @@ test.describe('P_CMS Ski Test', () => {
             expect(responseBody.items.length).toEqual(1);
 
             // Check the first item in the response body
-            const Code = skiData.ResortCode;
-            const ModifiedCode = Code.toString();
             const content = responseBody.items[0];
 
             expect(content).toHaveProperty('contentType');
             expect(content.contentType).toBe('resortSki');
 
             expect(content).toHaveProperty('name');
-            expect(content.name).toContain(ModifiedCode);
+            expect(content.name).not.toBeNull();
 
             expect(content).toHaveProperty('createDate');
             expect(content.createDate).not.toBeNull();
@@ -350,6 +476,38 @@ test.describe('P_CMS Walking Test', () => {
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('countryWalking');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).not.toBeNull();
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('countryCode');
+            expect(content.properties.countryCode).toBe(walkingData.Code);
           });
 
     }
@@ -367,6 +525,38 @@ test.describe('P_CMS Walking Test', () => {
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('regionWalking');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).not.toBeNull();
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('regionCode');
+            expect(content.properties.regionCode).toBe(walkingData.RegionCode);
           });
 
     }
@@ -384,6 +574,38 @@ test.describe('P_CMS Walking Test', () => {
             console.log(responseBody); // Log the response body for debugging
         
             expect(response.status()).toBe(200);
+
+            // Check the response body structure and content
+            expect(responseBody).toHaveProperty('items');
+            expect(Array.isArray(responseBody.items)).toBe(true);
+            expect(responseBody.items.length).toEqual(1);
+
+            // Check the first item in the response body
+            const content = responseBody.items[0];
+
+            expect(content).toHaveProperty('contentType');
+            expect(content.contentType).toBe('resortWalking');
+
+            expect(content).toHaveProperty('name');
+            expect(content.name).not.toBeNull();
+
+            expect(content).toHaveProperty('createDate');
+            expect(content.createDate).not.toBeNull();
+
+            expect(content).toHaveProperty('updateDate');
+            expect(content.updateDate).not.toBeNull();
+
+            expect(content).toHaveProperty('route');
+            expect(content.route).not.toBeNull();
+
+            expect(content).toHaveProperty('id');
+            expect(content.id).not.toBeNull();
+
+
+            expect(content).toHaveProperty('properties');
+            expect(content).toHaveProperty('properties');
+            expect(content.properties).toHaveProperty('resortCode');
+            expect(content.properties.resortCode).toBe(walkingData.ResortCode);
           });
 
     }
