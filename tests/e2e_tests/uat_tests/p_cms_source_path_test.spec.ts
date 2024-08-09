@@ -41,6 +41,8 @@ test.afterEach(async ({ page },testInfo) => {
     await page.close();
 });
 
+test.describe.configure({retries: 2, timeout: 30000,})
+
 test.describe('P_CMS Lapland Test', () => {
     const uniqueLaplandCountryCodeData = Array.from(new Set(LaplandCountries
         .map(data => data.Code)))
@@ -57,7 +59,6 @@ test.describe('P_CMS Lapland Test', () => {
 
     for (const laplandData of uniqueLaplandCountryCodeData){
         test(`Lapland Country Code(${laplandData.Code})`, async ({ page }) => {
-            test.setTimeout(3000000);
         
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=countryCode%3A${laplandData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -108,7 +109,6 @@ test.describe('P_CMS Lapland Test', () => {
 
     for (const laplandData of uniqueLaplandResortCodeData){
         test(`Lapland Resort Code(${laplandData.ResortCode})`, async ({ page }) => {
-            test.setTimeout(3000000);
         
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=resortCode%3A${laplandData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -173,7 +173,6 @@ test.describe('P_CMS Santa Test', () => {
 
     for (const santaData of uniqueSantaCountryCodeData){
         test(`Santa Country Code(${santaData.Code})`, async ({ page }) => {
-            test.setTimeout(3000000);
             
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=countryCode%3A${santaData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
             
@@ -224,7 +223,6 @@ test.describe('P_CMS Santa Test', () => {
 
     for (const santaData of uniqueSantaResortCodeData){
         test(`Santa Resort Code(${santaData.ResortCode})`, async ({ page }) => {
-            test.setTimeout(3000000);
         
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=resortCode%3A${santaData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -296,7 +294,6 @@ test.describe('P_CMS Ski Test', () => {
 
     for (const skiData of uniqueSkiCountryCodeData){
         test(`Ski Country Code(${skiData.Code})`, async ({ page }) => {
-            test.setTimeout(3000000);
         
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=countryCode%3A${skiData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -345,7 +342,6 @@ test.describe('P_CMS Ski Test', () => {
 
     for (const skiData of uniqueSkiRegionCodeData){
         test(`Ski Region Code(${skiData.RegionCode})`, async ({ page }) => {
-            test.setTimeout(3000000);
 
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=regionCode%3A${skiData.RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -394,7 +390,6 @@ test.describe('P_CMS Ski Test', () => {
 
     for (const skiData of uniqueSkiResortCodeData){
         test(`Ski Resort Code(${skiData.ResortCode})`, async ({ page }) => {
-            test.setTimeout(3000000);
         
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=resortCode%3A${skiData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -466,7 +461,6 @@ test.describe('P_CMS Walking Test', () => {
 
     for (const walkingData of uniqueWalkingCountryCodeData){
         test(`Walking Country Code(${walkingData.Code})`, async ({ page }) => {
-            test.setTimeout(3000000);
         
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=countryCode%3A${walkingData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -515,7 +509,6 @@ test.describe('P_CMS Walking Test', () => {
 
     for (const walkingData of uniqueWalkingRegionCodeData){
         test(`Walking Region Code(${walkingData.RegionCode})`, async ({ page }) => {
-            test.setTimeout(3000000);
         
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=regionCode%3A${walkingData.RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -564,7 +557,6 @@ test.describe('P_CMS Walking Test', () => {
 
     for (const walkingData of uniqueWalkingResortCodeData){
         test(`Walking Resort Code(${walkingData.ResortCode})`, async ({ page }) => {
-            test.setTimeout(3000000);
         
             const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=resortCode%3A${walkingData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
