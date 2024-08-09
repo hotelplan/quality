@@ -17,6 +17,10 @@ const SantaDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Mig
 const SkiDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Ski.csv')), {columns: true, skip_empty_lines: true});
 const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
 
+const LaplandCountries = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'DD_List_CountriesLapland.csv')), {columns: true, skip_empty_lines: true});
+const SantaCountries = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'DD_List_CountriesSanta.csv')), {columns: true, skip_empty_lines: true});
+const SkiCountries = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'DD_List_CountriesSki.csv')), {columns: true, skip_empty_lines: true});
+const WalkingCountries = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'DD_List_CountriesWalking.csv')), {columns: true, skip_empty_lines: true});
 
 //test.beforeAll(async ({playwright,page}) => {
     
@@ -38,10 +42,10 @@ test.afterEach(async ({ page },testInfo) => {
 });
 
 test.describe('P_CMS Lapland Test', () => {
-    const uniqueLaplandCountryCodeData = Array.from(new Set(LaplandDatacsv
-        .map(data => data.CountryCode)))
+    const uniqueLaplandCountryCodeData = Array.from(new Set(LaplandCountries
+        .map(data => data.Code)))
         .map(uniqueCountryCode => {
-            return LaplandDatacsv.find(data => data.CountryCode === uniqueCountryCode);
+            return LaplandCountries.find(data => data.Code === uniqueCountryCode);
         });
 
     const uniqueLaplandResortCodeData = Array.from(new Set(LaplandDatacsv
@@ -52,10 +56,10 @@ test.describe('P_CMS Lapland Test', () => {
         });
 
     for (const laplandData of uniqueLaplandCountryCodeData){
-        test(`Lapland Country Code(${laplandData.CountryCode})`, async ({ page }) => {
+        test(`Lapland Country Code(${laplandData.Code})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${laplandData.CountryCode}%2C%20product%3Alapland&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${laplandData.Code}%2C%20product%3Alapland&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -88,10 +92,10 @@ test.describe('P_CMS Lapland Test', () => {
 
 
 test.describe('P_CMS Santa Test', () => {
-    const uniqueSantaCountryCodeData = Array.from(new Set(SantaDatacsv
-        .map(data => data.CountryCode)))
+    const uniqueSantaCountryCodeData = Array.from(new Set(SantaCountries
+        .map(data => data.Code)))
         .map(uniqueCountryCode => {
-            return SantaDatacsv.find(data => data.CountryCode === uniqueCountryCode);
+            return SantaCountries.find(data => data.Code === uniqueCountryCode);
         });
 
     const uniqueSantaResortCodeData = Array.from(new Set(SantaDatacsv
@@ -102,21 +106,21 @@ test.describe('P_CMS Santa Test', () => {
         });
 
     for (const santaData of uniqueSantaCountryCodeData){
-        test(`Santa Country Code(${santaData.CountryCode})`, async ({ page }) => {
+        test(`Santa Country Code(${santaData.Code})`, async ({ page }) => {
             test.setTimeout(3000000);
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${santaData.CountryCode}%2C%20product%3Asanta&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
+            
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${santaData.Code}%2C%20product%3Alapland&skip=0&take=10&fields=properties%5B%24all%5D`);
+            
             const responseBody = await response.json();
-        
+            
             console.log(await response.status()); // Log the status for debugging
             console.log(responseBody); // Log the response body for debugging
-        
+            
             expect(response.status()).toBe(200);
-          });
-
+            });
+    
     }
-
+    
 
     for (const santaData of uniqueSantaResortCodeData){
         test(`Santa Resort Code(${santaData.ResortCode})`, async ({ page }) => {
