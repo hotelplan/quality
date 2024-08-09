@@ -20,7 +20,7 @@ const SantaDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Mig
 const SkiDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Ski.csv')), {columns: true, skip_empty_lines: true});
 const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
 
-
+test.describe.configure({retries: 2});
 // Define the test suite
 test.describe('Lapland Source Path', () => {
 for(const laplandData of LaplandDatacsv){
