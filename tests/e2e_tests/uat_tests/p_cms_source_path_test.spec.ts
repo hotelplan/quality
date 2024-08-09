@@ -59,7 +59,7 @@ test.describe('P_CMS Lapland Test', () => {
         test(`Lapland Country Code(${laplandData.Code})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${laplandData.Code}%2C%20product%3Alapland&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=countryCode%3A${laplandData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -110,7 +110,7 @@ test.describe('P_CMS Lapland Test', () => {
         test(`Lapland Resort Code(${laplandData.ResortCode})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=resortCode%3A${laplandData.ResortCode}%2C%20product%3Alapland&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=resortCode%3A${laplandData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -175,7 +175,7 @@ test.describe('P_CMS Santa Test', () => {
         test(`Santa Country Code(${santaData.Code})`, async ({ page }) => {
             test.setTimeout(3000000);
             
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${santaData.Code}%2C%20product%3Alapland&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=countryCode%3A${santaData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
             
             const responseBody = await response.json();
             
@@ -226,7 +226,7 @@ test.describe('P_CMS Santa Test', () => {
         test(`Santa Resort Code(${santaData.ResortCode})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=resortCode%3A${santaData.ResortCode}%2C%20product%3Asanta&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=resortCode%3A${santaData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -298,7 +298,7 @@ test.describe('P_CMS Ski Test', () => {
         test(`Ski Country Code(${skiData.Code})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${skiData.Code}%2C%20product%3Aski&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=countryCode%3A${skiData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -347,7 +347,7 @@ test.describe('P_CMS Ski Test', () => {
         test(`Ski Region Code(${skiData.RegionCode})`, async ({ page }) => {
             test.setTimeout(3000000);
 
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=regionCode%3A${skiData.RegionCode}%2C%20product%3Aski&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=regionCode%3A${skiData.RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
             
@@ -396,7 +396,7 @@ test.describe('P_CMS Ski Test', () => {
         test(`Ski Resort Code(${skiData.ResortCode})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=resortCode%3A${skiData.ResortCode}%2C%20product%3Aski&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=resortCode%3A${skiData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -468,7 +468,7 @@ test.describe('P_CMS Walking Test', () => {
         test(`Walking Country Code(${walkingData.Code})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=countryCode%3A${walkingData.Code}%2C%20product%3Awalking&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=countryCode%3A${walkingData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -517,7 +517,7 @@ test.describe('P_CMS Walking Test', () => {
         test(`Walking Region Code(${walkingData.RegionCode})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=regionCode%3A${walkingData.RegionCode}%2C%20product%3Awalking&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=regionCode%3A${walkingData.RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
@@ -566,7 +566,7 @@ test.describe('P_CMS Walking Test', () => {
         test(`Walking Resort Code(${walkingData.ResortCode})`, async ({ page }) => {
             test.setTimeout(3000000);
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=resortCode%3A${walkingData.ResortCode}%2C%20product%3Awalking&skip=0&take=10&fields=properties%5B%24all%5D`);
+            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=resortCode%3A${walkingData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
             const responseBody = await response.json();
         
