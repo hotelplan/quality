@@ -69,456 +69,67 @@ test.describe('Lapland Test', () => {
 
             
           });
-
     }
 
 });
 
 
-test.describe('P_CMS Santa Test', () => {
-    const uniqueSantaCountryCodeData = Array.from(new Set(SantaCountries
-        .map(data => data.Code)))
-        .map(uniqueCountryCode => {
-            return SantaCountries.find(data => data.Code === uniqueCountryCode);
-        });
+test.describe('Santa Test', () => {
 
-    const uniqueSantaResortCodeData = Array.from(new Set(SantaDatacsv
-        .map(data => data.ResortCode)
-        .filter(resortCode => resortCode !== null && resortCode !== undefined  && resortCode.trim() !== '')))
-        .map(uniqueResortCode => {
-            return SantaDatacsv.find(data => data.ResortCode === uniqueResortCode);
-        });
-
-    for (const santaData of uniqueSantaCountryCodeData){
-        test(`Santa Country Code(${santaData.Code})`, async ({ page }) => {
-            
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=countryCode%3A${santaData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
-            
-            const responseBody = await response.json();
-            
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-            
-            expect(response.status()).toBe(200);
-
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const Code = santaData.Code;
-            const ModifiedCode = Code.toString();
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('countryLapland');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('countryCode');
-            expect(content.properties.countryCode).toBe(santaData.Code);
-            });
-    
-    }
-    
-
-    for (const santaData of uniqueSantaResortCodeData){
-        test(`Santa Resort Code(${santaData.ResortCode})`, async ({ page }) => {
+    for (const santaData of SantaDatacsv){
+        test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=resortCode%3A${santaData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
+            const countryCode = await getSantaCountry(SantaCountries, santaData);
 
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
+            await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath, HOMEpath, ERRORpath);
 
-            // Check the first item in the response body
-            const content = responseBody.items[0];
+            if (countryCode !== undefined) {
+                await PCMS.Check_SantaCountryCode(ApiContext, baseUrl, countryCode);
+            }
 
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('resortLapland');
+            if(santaData.RegionCode !== null && santaData.RegionCode !== undefined && santaData.RegionCode.trim() !== ''){
+                await PCMS.Check_SantaRegionCode(ApiContext, baseUrl, santaData.RegionCode);
+            }
 
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
+            if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
+                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode);
+            }
 
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('resortCode');
-            expect(content.properties.resortCode).toBe(santaData.ResortCode);
+            
           });
-
     }
 
 });
 
 
-test.describe('P_CMS Ski Test', () => {
-    const uniqueSkiCountryCodeData = Array.from(new Set(SkiCountries
-        .map(data => data.Code)))
-        .map(uniqueCountryCode => {
-            return SkiCountries.find(data => data.Code === uniqueCountryCode);
-        });
-    
-    const uniqueSkiRegionCodeData = Array.from(new Set(SkiDatacsv
-        .map(data => data.RegionCode)
-        .filter(regionCode => regionCode !== null && regionCode !== undefined  && regionCode.trim() !== '')))
-        .map(uniqueRegionCode => {
-            return SkiDatacsv.find(data => data.RegionCode === uniqueRegionCode);
-        });
+test.describe('Ski Test', () => {
 
-    const uniqueSkiResortCodeData = Array.from(new Set(SkiDatacsv
-        .map(data => data.ResortCode)
-        .filter(resortCode => resortCode !== null && resortCode !== undefined  && resortCode.trim() !== '')))
-        .map(uniqueResortCode => {
-            return SkiDatacsv.find(data => data.ResortCode === uniqueResortCode);
-        });
-
-    for (const skiData of uniqueSkiCountryCodeData){
-        test(`Ski Country Code(${skiData.Code})`, async ({ page }) => {
+    for (const skiData of SkiDatacsv){
+        test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=countryCode%3A${skiData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
+            const countryCode = await getSkiCountry(SkiCountries, skiData);
 
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
+            await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
 
-            // Check the first item in the response body
-            const content = responseBody.items[0];
+            if (countryCode !== undefined) {
+                await PCMS.Check_SkiCountryCode(ApiContext, baseUrl, countryCode);
+            }
 
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('countrySki');
+            if(skiData.RegionCode !== null && skiData.RegionCode !== undefined && skiData.RegionCode.trim() !== ''){
+                await PCMS.Check_SkiRegionCode(ApiContext, baseUrl, skiData.RegionCode);
+            }
 
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('countryCode');
-            expect(content.properties.countryCode).toBe(skiData.Code);
+            if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
+                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode);
+            }
           });
-
-    }
-
-
-    for (const skiData of uniqueSkiRegionCodeData){
-        test(`Ski Region Code(${skiData.RegionCode})`, async ({ page }) => {
-
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=regionCode%3A${skiData.RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-            
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
-
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('regionSki');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('regionCode');
-            expect(content.properties.regionCode).toBe(skiData.RegionCode);
-          });
-
-    }
-
-
-    for (const skiData of uniqueSkiResortCodeData){
-        test(`Ski Resort Code(${skiData.ResortCode})`, async ({ page }) => {
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=resortCode%3A${skiData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
-
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('resortSki');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('resortCode');
-            expect(content.properties.resortCode).toBe(skiData.ResortCode);
-          });
-
-    }
+    }    
 
 });
 
 
 test.describe('P_CMS Walking Test', () => {
-    const uniqueWalkingCountryCodeData = Array.from(new Set(WalkingCountries
-        .map(data => data.Code)))
-        .map(uniqueCountryCode => {
-            return WalkingCountries.find(data => data.Code === uniqueCountryCode);
-        });
-    
-    const uniqueWalkingRegionCodeData = Array.from(new Set(WalkingDatacsv
-        .map(data => data.RegionCode)
-        .filter(regionCode => regionCode !== null && regionCode !== undefined  && regionCode.trim() !== '')))
-        .map(uniqueRegionCode => {
-            return WalkingDatacsv.find(data => data.RegionCode === uniqueRegionCode);
-        });
 
-    const uniqueWalkingResortCodeData = Array.from(new Set(WalkingDatacsv
-        .map(data => data.ResortCode)
-        .filter(resortCode => resortCode !== null && resortCode !== undefined  && resortCode.trim() !== '')))
-        .map(uniqueResortCode => {
-            return WalkingDatacsv.find(data => data.ResortCode === uniqueResortCode);
-        });
-
-    for (const walkingData of uniqueWalkingCountryCodeData){
-        test(`Walking Country Code(${walkingData.Code})`, async ({ page }) => {
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=countryCode%3A${walkingData.Code}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
-
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('countryWalking');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('countryCode');
-            expect(content.properties.countryCode).toBe(walkingData.Code);
-          });
-
-    }
-
-
-    for (const walkingData of uniqueWalkingRegionCodeData){
-        test(`Walking Region Code(${walkingData.RegionCode})`, async ({ page }) => {
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=regionCode%3A${walkingData.RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
-
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('regionWalking');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('regionCode');
-            expect(content.properties.regionCode).toBe(walkingData.RegionCode);
-          });
-
-    }
-
-
-    for (const walkingData of uniqueWalkingResortCodeData){
-        test(`Walking Resort Code(${walkingData.ResortCode})`, async ({ page }) => {
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=resortCode%3A${walkingData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
-
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('resortWalking');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('resortCode');
-            expect(content.properties.resortCode).toBe(walkingData.ResortCode);
-          });
-
-    }
 
 });
 
@@ -532,6 +143,41 @@ async function getLaplandCountry(LaplandCountries: any, laplandData:any ) {
         const modifiedName = lowerCaseCountryName.replace(/\//g, '-');
         if (modifiedName === laplandData.Country) {
             const code = laplandCountry.Code;
+            console.log(code);
+            return code;
+            break;
+        }
+    }
+    return undefined; // Return undefined if no match is found
+}
+
+
+async function getSantaCountry(SantaCountries: any, santaData:any ) {
+
+    for (const santaCountry of SantaCountries) {
+        const countryName = santaCountry.Name;
+        const lowerCaseCountryName = countryName.toLowerCase();
+        const modifiedName = lowerCaseCountryName.replace(/\//g, '-');
+        if (modifiedName === santaData.Country) {
+            const code = santaCountry.Code;
+            console.log(code);
+            return code;
+            break;
+        }
+    }
+    return undefined; // Return undefined if no match is found
+}
+
+
+async function getSkiCountry(SkiCountries: any, skiData:any ) {
+
+    for (const skiCountry of SkiCountries) {
+        const countryName = skiCountry.Name;
+        const lowerCaseCountryName = countryName.toLowerCase();
+        const modifiedName = lowerCaseCountryName.replace(/\//g, '-');
+        if (modifiedName === skiData.Country) {
+            const code = skiCountry.Code;
+            console.log(code);
             return code;
             break;
         }
