@@ -1,13 +1,8 @@
 import { expect } from '@playwright/test';
-import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
 
 
-const env = process.env.ENV || 'qa';
-const baseUrl = environmentBaseUrl[env].p_cms;
-
-
-async function Check_CountryCode(apiContext:any, product: string, CountryCode: string) {
-    const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3A${product}&filter=countryCode%3A${CountryCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
+async function Check_LaplandCountryCode(apiContext:any, baseUrl: string, CountryCode: string) {
+    const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=countryCode%3A${CountryCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
         
@@ -50,8 +45,8 @@ async function Check_CountryCode(apiContext:any, product: string, CountryCode: s
 }
 
 
-async function Check_RegionCode(apiContext:any, product: string, RegionCode: string) {
-    const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3A${product}&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
+async function Check_LaplandRegionCode(apiContext:any, baseUrl: string, RegionCode: string) {
+    const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
     
@@ -69,7 +64,7 @@ async function Check_RegionCode(apiContext:any, product: string, RegionCode: str
     const content = responseBody.items[0];
 
     expect(content).toHaveProperty('contentType');
-    expect(content.contentType).toBe('regionSki');
+    expect(content.contentType).toBe('regionLapland');
 
     expect(content).toHaveProperty('name');
     expect(content.name).not.toBeNull();
@@ -94,8 +89,8 @@ async function Check_RegionCode(apiContext:any, product: string, RegionCode: str
 }
 
 
-async function Check_ResortCode(apiContext:any, product: string, ResortCode: string) {
-    const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3A${product}&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
+async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCode: string) {
+    const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
 
@@ -113,7 +108,7 @@ async function Check_ResortCode(apiContext:any, product: string, ResortCode: str
     const content = responseBody.items[0];
 
     expect(content).toHaveProperty('contentType');
-    expect(content.contentType).toBe('resortSki');
+    expect(content.contentType).toBe('resortLapland');
 
     expect(content).toHaveProperty('name');
     expect(content.name).not.toBeNull();
@@ -139,7 +134,7 @@ async function Check_ResortCode(apiContext:any, product: string, ResortCode: str
 
 
 export const PCMS = {
-    Check_CountryCode,
-    Check_RegionCode,
-    Check_ResortCode
+    Check_LaplandCountryCode,
+    Check_LaplandRegionCode,
+    Check_LaplandResortCode
 };

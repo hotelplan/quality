@@ -1,6 +1,7 @@
 import { APIRequestContext, test, expect } from '@playwright/test';
 import {parse} from 'csv-parse/sync';
 import { PCMS } from '../../resources/fixtures/p_cmsUtilities';
+import { ECMS } from '../../resources/fixtures/e_cmsUtilities';
 import fs from 'fs';
 import path from 'path';
 import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
@@ -10,6 +11,8 @@ let ApiContext: APIRequestContext;
 const env = process.env.ENV || 'qa';
 const baseUrl = environmentBaseUrl[env].p_cms;
 const adminToken = tokenConfig[env].p_cms;
+const HOMEpath = environmentBaseUrl[env].e_cms;
+const ERRORpath = `${HOMEpath}/error-500`;
 
 // Helper function to read URLs from the CSV file
 const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Lapland.csv')), {columns: true, skip_empty_lines: true});
@@ -43,24 +46,31 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 30000,})
 
-test.describe('P_CMS Lapland Test', () => {
+test.describe('Lapland Test', () => {
 
     for (const laplandData of LaplandDatacsv){
         test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getLaplandCountry(LaplandCountries, laplandData);
 
+            await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath, HOMEpath, ERRORpath);
+
             if (countryCode !== undefined) {
-                await PCMS.Check_CountryCode(ApiContext, 'lapland', countryCode);
+                await PCMS.Check_LaplandCountryCode(ApiContext, baseUrl, countryCode);
+            }
+
+            if(laplandData.RegionCode !== null && laplandData.RegionCode !== undefined && laplandData.RegionCode.trim() !== ''){
+                await PCMS.Check_LaplandRegionCode(ApiContext, baseUrl, laplandData.RegionCode);
+            }
+
+            if(laplandData.ResortCode !== null && laplandData.ResortCode !== undefined && laplandData.ResortCode.trim() !== ''){
+                await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode);
             }
 
             
           });
 
     }
-
-
-    
 
 });
 
