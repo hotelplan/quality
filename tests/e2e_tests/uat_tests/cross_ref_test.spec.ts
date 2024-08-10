@@ -128,7 +128,29 @@ test.describe('Ski Test', () => {
 });
 
 
-test.describe('P_CMS Walking Test', () => {
+test.describe('Walking Test', () => {
+
+
+    for (const walkingData of WalkingDatacsv){
+        test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
+        
+            const countryCode = await getWalkingCountry(WalkingCountries, walkingData);
+
+            await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
+
+            if (countryCode !== undefined) {
+                await PCMS.Check_WalkingCountryCode(ApiContext, baseUrl, countryCode);
+            }
+
+            if(walkingData.RegionCode !== null && walkingData.RegionCode !== undefined && walkingData.RegionCode.trim() !== ''){
+                await PCMS.Check_WalkingRegionCode(ApiContext, baseUrl, walkingData.RegionCode);
+            }
+
+            if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){
+                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode);
+            }
+          });
+    }    
 
 
 });
@@ -177,6 +199,23 @@ async function getSkiCountry(SkiCountries: any, skiData:any ) {
         const modifiedName = lowerCaseCountryName.replace(/\//g, '-');
         if (modifiedName === skiData.Country) {
             const code = skiCountry.Code;
+            console.log(code);
+            return code;
+            break;
+        }
+    }
+    return undefined; // Return undefined if no match is found
+}
+
+
+async function getWalkingCountry(WalkingCountries: any, walkingData:any ) {
+
+    for (const walkingCountry of WalkingCountries) {
+        const countryName = walkingCountry.Name;
+        const lowerCaseCountryName = countryName.toLowerCase();
+        const modifiedName = lowerCaseCountryName.replace(/\//g, '-');
+        if (modifiedName === walkingData.Country) {
+            const code = walkingCountry.Code;
             console.log(code);
             return code;
             break;
