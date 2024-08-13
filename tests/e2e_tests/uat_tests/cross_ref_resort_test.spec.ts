@@ -46,9 +46,9 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 30000,})
 
-test.describe('Lapland Region Test', () => {
+test.describe('Lapland Resort Test', () => {
 
-    const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('region'));
+    const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('resort'));
 
     for (const laplandData of filteredData){
         test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
@@ -76,9 +76,9 @@ test.describe('Lapland Region Test', () => {
 });
 
 
-test.describe('Santa Region Test', () => {
+test.describe('Santa Resort Test', () => {
 
-    const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('region'));
+    const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('resort'));
 
     for (const santaData of filteredData){
         test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
@@ -106,9 +106,9 @@ test.describe('Santa Region Test', () => {
 });
 
 
-test.describe('Ski Region Test', () => {
+test.describe('Ski Resort Test', () => {
 
-    const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('region'));
+    const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('resort'));
 
     for (const skiData of filteredData){
         test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
@@ -134,9 +134,9 @@ test.describe('Ski Region Test', () => {
 });
 
 
-test.describe('Walking Region Test', () => {
+test.describe('Walking Resort Test', () => {
 
-    const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('region'));
+    const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('resort'));
 
     for (const walkingData of filteredData){
         test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {

@@ -136,7 +136,7 @@ test.describe('Ski Region Test', () => {
 
 test.describe('Walking Region Test', () => {
 
-    const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('region'));
+    const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('region'));
 
     for (const walkingData of filteredData){
         test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
