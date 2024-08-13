@@ -49,7 +49,7 @@ test.describe('Lapland Accommodation Source Path', () => {
 
 test.describe('Santa Accommodation Source Path', () => {
   
-  const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('accommodation'));
+  const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
   for(const santasData of filteredData){
     test(`Santa Breaks (${santasData.Country}) test: ${santasData.SourcePath}`, async ({ page }) => {
@@ -75,7 +75,7 @@ test.describe('Santa Accommodation Source Path', () => {
 
 test.describe('Ski Accommodation Source Path', () => {
 
-  const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('accommodation'));
+  const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
   for(const skiData of filteredData){
     test(`Ski (${skiData.Country}) test: ${skiData.SourcePath}`, async ({ page }) => {
@@ -99,7 +99,7 @@ test.describe('Ski Accommodation Source Path', () => {
 
 test.describe('Walking Accommodation Source Path', () => {
 
-  const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('accommodation'));
+  const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
   for(const walkingData of filteredData){
     test(`Walking (${walkingData.Country}) test: ${walkingData.SourcePath}`, async ({ page }) => {

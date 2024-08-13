@@ -46,9 +46,11 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 30000,})
 
-test.describe('Lapland Test', () => {
+test.describe('Lapland Country Test', () => {
 
-    for (const laplandData of LaplandDatacsv){
+    const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('country'));
+
+    for (const laplandData of filteredData){
         test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getLaplandCountry(LaplandCountries, laplandData);
@@ -74,9 +76,11 @@ test.describe('Lapland Test', () => {
 });
 
 
-test.describe('Santa Test', () => {
+test.describe('Santa Country Test', () => {
 
-    for (const santaData of SantaDatacsv){
+    const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('country'));
+
+    for (const santaData of filteredData){
         test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSantaCountry(SantaCountries, santaData);
@@ -102,9 +106,11 @@ test.describe('Santa Test', () => {
 });
 
 
-test.describe('Ski Test', () => {
+test.describe('Ski Country Test', () => {
 
-    for (const skiData of SkiDatacsv){
+    const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('country'));
+
+    for (const skiData of filteredData){
         test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSkiCountry(SkiCountries, skiData);
@@ -128,10 +134,11 @@ test.describe('Ski Test', () => {
 });
 
 
-test.describe('Walking Test', () => {
+test.describe('Walking Country Test', () => {
 
+    const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('country'));
 
-    for (const walkingData of WalkingDatacsv){
+    for (const walkingData of filteredData){
         test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getWalkingCountry(WalkingCountries, walkingData);
