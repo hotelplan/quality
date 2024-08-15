@@ -17,11 +17,6 @@ const SantaDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Mig
 const SkiDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Ski.csv')), {columns: true, skip_empty_lines: true});
 const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
 
-const LaplandCountries = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'DD_List_CountriesLapland.csv')), {columns: true, skip_empty_lines: true});
-const SantaCountries = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'DD_List_CountriesSanta.csv')), {columns: true, skip_empty_lines: true});
-const SkiCountries = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'DD_List_CountriesSki.csv')), {columns: true, skip_empty_lines: true});
-const WalkingCountries = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'DD_List_CountriesWalking.csv')), {columns: true, skip_empty_lines: true});
-
 //test.beforeAll(async ({playwright,page}) => {
     
 //});
@@ -279,6 +274,8 @@ test.describe('P_CMS Walking Resort Test', () => {
             expect(content).toHaveProperty('properties');
             expect(content.properties).toHaveProperty('resortCode');
             expect(content.properties.resortCode).toBe(walkingData.ResortCode);
+
+
           });
 
     }
