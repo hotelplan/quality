@@ -142,7 +142,7 @@ async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCo
     expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('language');
-    expect(JSON.stringify(ConfigData)).toContain(content.properties.language);
+    expect(content.properties.language).not.toBeNull();
 
     expect(content.properties).toHaveProperty('mapimage');
 
@@ -249,7 +249,7 @@ async function Check_SantaRegionCode(apiContext:any, baseUrl: string, RegionCode
 }
 
 
-async function Check_SantaResortCode(apiContext:any, baseUrl: string, ResortCode: string) {
+async function Check_SantaResortCode(apiContext:any, baseUrl: string, ResortCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -292,21 +292,27 @@ async function Check_SantaResortCode(apiContext:any, baseUrl: string, ResortCode
     expect(content.properties.resortCode).toBe(ResortCode);
 
     expect(content.properties).toHaveProperty('resortSummary');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.resortSummary);
 
     expect(content.properties).toHaveProperty('resortDescription');
     expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('currency');
+    expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('language');
+    expect(content.properties.language).not.toBeNull();
 
     expect(content.properties).toHaveProperty('mapimage');
 
     expect(content.properties).toHaveProperty('latitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
 
     expect(content.properties).toHaveProperty('longitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
+    expect(content.properties.travelSummary).not.toBeNull
 
     expect(content.properties).toHaveProperty('travelDetails');
 
@@ -402,7 +408,7 @@ async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: 
 }
 
 
-async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: string) {
+async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -445,21 +451,27 @@ async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: 
     expect(content.properties.resortCode).toBe(ResortCode);
 
     expect(content.properties).toHaveProperty('resortSummary');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.resortSummary);
 
     expect(content.properties).toHaveProperty('resortDescription');
     expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('currency');
+    expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('language');
+    expect(content.properties.language).not.toBeNull();
 
     expect(content.properties).toHaveProperty('mapimage');
 
     expect(content.properties).toHaveProperty('latitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
 
     expect(content.properties).toHaveProperty('longitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
+    expect(content.properties.travelSummary).not.toBeNull
 
     expect(content.properties).toHaveProperty('travelDetails');
 
@@ -555,7 +567,7 @@ async function Check_WalkingRegionCode(apiContext:any, baseUrl: string, RegionCo
 }
 
 
-async function Check_WalkingResortCode(apiContext:any, baseUrl: string, ResortCode: string) {
+async function Check_WalkingResortCode(apiContext:any, baseUrl: string, ResortCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -591,28 +603,33 @@ async function Check_WalkingResortCode(apiContext:any, baseUrl: string, ResortCo
     expect(content).toHaveProperty('id');
     expect(content.id).not.toBeNull();
 
-
     expect(content).toHaveProperty('properties');
     expect(content).toHaveProperty('properties');
     expect(content.properties).toHaveProperty('resortCode');
     expect(content.properties.resortCode).toBe(ResortCode);
 
     expect(content.properties).toHaveProperty('resortSummary');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.resortSummary);
 
     expect(content.properties).toHaveProperty('resortDescription');
     expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('currency');
+    expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('language');
+    expect(content.properties.language).not.toBeNull();
 
     expect(content.properties).toHaveProperty('mapimage');
 
     expect(content.properties).toHaveProperty('latitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
 
     expect(content.properties).toHaveProperty('longitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
+    expect(content.properties.travelSummary).not.toBeNull
 
     expect(content.properties).toHaveProperty('travelDetails');
 

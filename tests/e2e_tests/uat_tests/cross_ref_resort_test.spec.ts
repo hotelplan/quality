@@ -90,6 +90,8 @@ test.describe('Santa Resort Test', () => {
         test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSantaCountry(SantaCountries, santaData);
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath, HOMEpath, ERRORpath);
 
@@ -102,7 +104,7 @@ test.describe('Santa Resort Test', () => {
             }
 
             if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
-                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode);
+                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode, configData);
             }
 
             
@@ -120,6 +122,8 @@ test.describe('Ski Resort Test', () => {
         test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSkiCountry(SkiCountries, skiData);
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
 
@@ -132,7 +136,7 @@ test.describe('Ski Resort Test', () => {
             }
 
             if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
-                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode);
+                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode, configData);
             }
           });
     }    
@@ -148,6 +152,8 @@ test.describe('Walking Resort Test', () => {
         test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getWalkingCountry(WalkingCountries, walkingData);
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
 
@@ -160,7 +166,7 @@ test.describe('Walking Resort Test', () => {
             }
 
             if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){
-                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode);
+                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode, configData);
             }
           });
     }    

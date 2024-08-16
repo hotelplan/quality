@@ -1,7 +1,9 @@
 import { APIRequestContext, test, expect } from '@playwright/test';
 import {parse} from 'csv-parse/sync';
+import { PCMS } from '../../resources/fixtures/p_cmsUtilities';
 import fs from 'fs';
 import path from 'path';
+import { parseString } from 'xml2js';
 import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
 import tokenConfig from '../../resources/utils/tokenConfig';
 import { describe } from 'node:test';
@@ -50,48 +52,15 @@ test.describe('P_CMS Lapland Resort Test', () => {
 
     for (const laplandData of uniqueLaplandResortCodeData){
         test(`Lapland Resort Code(${laplandData.ResortCode})`, async ({ page }) => {
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=resortCode%3A${laplandData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
 
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('resortLapland');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('resortCode');
-            expect(content.properties.resortCode).toBe(laplandData.ResortCode);
-          });
+            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
+            
+            if(laplandData.ResortCode !== null && laplandData.ResortCode !== undefined && laplandData.ResortCode.trim() !== ''){
+                await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode, configData);
+            }
+          
+        });
 
     }
 
@@ -112,46 +81,12 @@ test.describe('P_CMS Santa Resort Test', () => {
     for (const santaData of uniqueSantaResortCodeData){
         test(`Santa Resort Code(${santaData.ResortCode})`, async ({ page }) => {
         
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=resortCode%3A${santaData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('resortLapland');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('resortCode');
-            expect(content.properties.resortCode).toBe(santaData.ResortCode);
+            if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
+                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode, configData);
+            }
           });
 
     }
@@ -172,47 +107,12 @@ test.describe('P_CMS Ski Resort Test', () => {
 
     for (const skiData of uniqueSkiResortCodeData){
         test(`Ski Resort Code(${skiData.ResortCode})`, async ({ page }) => {
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=resortCode%3A${skiData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('resortSki');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('resortCode');
-            expect(content.properties.resortCode).toBe(skiData.ResortCode);
+            if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
+                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode, configData);
+            }
           });
 
     }
@@ -233,52 +133,39 @@ test.describe('P_CMS Walking Resort Test', () => {
 
     for (const walkingData of uniqueWalkingResortCodeData){
         test(`Walking Resort Code(${walkingData.ResortCode})`, async ({ page }) => {
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=resortCode%3A${walkingData.ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('resortWalking');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('resortCode');
-            expect(content.properties.resortCode).toBe(walkingData.ResortCode);
-
+            if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){
+                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode, configData);
+            }
 
           });
 
     }
 
 });
+
+
+
+async function readConfigFile(configFilePath: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+        fs.readFile(configFilePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading the config file:', err);
+                reject(err);
+                return;
+            }
+            parseString(data, (parseErr, result) => {
+                if (parseErr) {
+                    console.error('Error parsing the config file:', parseErr);
+                    reject(parseErr);
+                    return;
+                }
+                //console.log('Config:', result);
+                resolve(result);
+            });
+        });
+    });
+}
 

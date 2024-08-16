@@ -4,6 +4,7 @@ import { PCMS } from '../../resources/fixtures/p_cmsUtilities';
 import { ECMS } from '../../resources/fixtures/e_cmsUtilities';
 import fs from 'fs';
 import path from 'path';
+import { parseString } from 'xml2js';
 import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
 import tokenConfig from '../../resources/utils/tokenConfig';
 
@@ -54,6 +55,8 @@ test.describe('Lapland Region Test', () => {
         test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getLaplandCountry(LaplandCountries, laplandData);
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath, HOMEpath, ERRORpath);
 
@@ -84,6 +87,8 @@ test.describe('Santa Region Test', () => {
         test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSantaCountry(SantaCountries, santaData);
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath, HOMEpath, ERRORpath);
 
@@ -114,6 +119,8 @@ test.describe('Ski Region Test', () => {
         test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSkiCountry(SkiCountries, skiData);
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
 
@@ -142,6 +149,8 @@ test.describe('Walking Region Test', () => {
         test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getWalkingCountry(WalkingCountries, walkingData);
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
 
@@ -229,4 +238,25 @@ async function getWalkingCountry(WalkingCountries: any, walkingData:any ) {
         }
     }
     return undefined; // Return undefined if no match is found
+}
+
+async function readConfigFile(configFilePath: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+        fs.readFile(configFilePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading the config file:', err);
+                reject(err);
+                return;
+            }
+            parseString(data, (parseErr, result) => {
+                if (parseErr) {
+                    console.error('Error parsing the config file:', parseErr);
+                    reject(parseErr);
+                    return;
+                }
+                //console.log('Config:', result);
+                resolve(result);
+            });
+        });
+    });
 }
