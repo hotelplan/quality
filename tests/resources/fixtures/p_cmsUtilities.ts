@@ -45,7 +45,7 @@ async function Check_LaplandCountryCode(apiContext:any, baseUrl: string, Country
 }
 
 
-async function Check_LaplandRegionCode(apiContext:any, baseUrl: string, RegionCode: string) {
+async function Check_LaplandRegionCode(apiContext:any, baseUrl: string, RegionCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -139,7 +139,7 @@ async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCo
     expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('currency');
-    expect(content.properties.resortDescription).not.toBeNull();
+    expect(content.properties.currency).not.toBeNull();
 
     expect(content.properties).toHaveProperty('language');
     expect(content.properties.language).not.toBeNull();
@@ -298,7 +298,7 @@ async function Check_SantaResortCode(apiContext:any, baseUrl: string, ResortCode
     expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('currency');
-    expect(content.properties.resortDescription).not.toBeNull();
+    expect(content.properties.currency).not.toBeNull();
 
     expect(content.properties).toHaveProperty('language');
     expect(content.properties.language).not.toBeNull();
@@ -457,7 +457,7 @@ async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: 
     expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('currency');
-    expect(content.properties.resortDescription).not.toBeNull();
+    expect(content.properties.currency).not.toBeNull();
 
     expect(content.properties).toHaveProperty('language');
     expect(content.properties.language).not.toBeNull();
@@ -615,7 +615,7 @@ async function Check_WalkingResortCode(apiContext:any, baseUrl: string, ResortCo
     expect(content.properties.resortDescription).not.toBeNull();
 
     expect(content.properties).toHaveProperty('currency');
-    expect(content.properties.resortDescription).not.toBeNull();
+    expect(content.properties.currency).not.toBeNull();
 
     expect(content.properties).toHaveProperty('language');
     expect(content.properties.language).not.toBeNull();

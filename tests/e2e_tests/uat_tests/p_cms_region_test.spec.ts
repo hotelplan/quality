@@ -1,7 +1,9 @@
 import { APIRequestContext, test, expect } from '@playwright/test';
 import {parse} from 'csv-parse/sync';
+import { PCMS } from '../../resources/fixtures/p_cmsUtilities';
 import fs from 'fs';
 import path from 'path';
+import { parseString } from 'xml2js';
 import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
 import tokenConfig from '../../resources/utils/tokenConfig';
 import { describe } from 'node:test';
@@ -55,47 +57,12 @@ test.describe('P_CMS Ski Region Test', () => {
 
     for (const skiData of uniqueSkiRegionCodeData){
         test(`Ski Region Code(${skiData.RegionCode})`, async ({ page }) => {
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=regionCode%3A${skiData.RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-            
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
-
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('regionSki');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('regionCode');
-            expect(content.properties.regionCode).toBe(skiData.RegionCode);
+            if(skiData.RegionCode !== null && skiData.RegionCode !== undefined && skiData.RegionCode.trim() !== ''){
+                await PCMS.Check_SkiRegionCode(ApiContext, baseUrl, skiData.RegionCode, configData);
+            }
           });
 
     }
@@ -114,50 +81,37 @@ test.describe('P_CMS Walking Region Test', () => {
 
     for (const walkingData of uniqueWalkingRegionCodeData){
         test(`Walking Region Code(${walkingData.RegionCode})`, async ({ page }) => {
-        
-            const response = await ApiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=regionCode%3A${walkingData.RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
-        
-            const responseBody = await response.json();
-        
-            console.log(await response.status()); // Log the status for debugging
-            console.log(responseBody); // Log the response body for debugging
-        
-            expect(response.status()).toBe(200);
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
-            // Check the response body structure and content
-            expect(responseBody).toHaveProperty('items');
-            expect(Array.isArray(responseBody.items)).toBe(true);
-            expect(responseBody.items.length).toEqual(1);
-
-            // Check the first item in the response body
-            const content = responseBody.items[0];
-
-            expect(content).toHaveProperty('contentType');
-            expect(content.contentType).toBe('regionWalking');
-
-            expect(content).toHaveProperty('name');
-            expect(content.name).not.toBeNull();
-
-            expect(content).toHaveProperty('createDate');
-            expect(content.createDate).not.toBeNull();
-
-            expect(content).toHaveProperty('updateDate');
-            expect(content.updateDate).not.toBeNull();
-
-            expect(content).toHaveProperty('route');
-            expect(content.route).not.toBeNull();
-
-            expect(content).toHaveProperty('id');
-            expect(content.id).not.toBeNull();
-
-
-            expect(content).toHaveProperty('properties');
-            expect(content).toHaveProperty('properties');
-            expect(content.properties).toHaveProperty('regionCode');
-            expect(content.properties.regionCode).toBe(walkingData.RegionCode);
+            if(walkingData.RegionCode !== null && walkingData.RegionCode !== undefined && walkingData.RegionCode.trim() !== ''){
+                await PCMS.Check_WalkingRegionCode(ApiContext, baseUrl, walkingData.RegionCode, configData);
+            }
           });
 
     }
 
 });
+
+
+async function readConfigFile(configFilePath: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+        fs.readFile(configFilePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading the config file:', err);
+                reject(err);
+                return;
+            }
+            parseString(data, (parseErr, result) => {
+                if (parseErr) {
+                    console.error('Error parsing the config file:', parseErr);
+                    reject(parseErr);
+                    return;
+                }
+                //console.log('Config:', result);
+                resolve(result);
+            });
+        });
+    });
+}
 
