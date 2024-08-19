@@ -411,6 +411,7 @@ async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: 
 
     // Check the first item in the response body
     const content = responseBody.items[0];
+    console.log(content.properties);
 
     expect(content).toHaveProperty('contentType');
     expect(content.contentType).toBe('regionSki');
@@ -442,6 +443,7 @@ async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: 
 
     expect(content.properties).toHaveProperty('regionDescription');
     expect(content.properties.regionDescription).not.toBeNull();
+    //expect(JSON.stringify(ConfigData)).toContain(content.properties.regionDescription.markup);
 
     expect(content.properties).toHaveProperty('latitude');
     expect(content.properties.latitude).not.toBeNull();
@@ -453,6 +455,7 @@ async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: 
 
     expect(content.properties).toHaveProperty('regionReferredContent');
     expect(content.properties.regionReferredContent).not.toBeNull
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.regionReferredContent);
 }
 
 
