@@ -2,6 +2,7 @@ import { APIRequestContext, test, expect } from '@playwright/test';
 import {parse} from 'csv-parse/sync';
 import { PCMS } from '../../resources/fixtures/p_cmsUtilities';
 import { ECMS } from '../../resources/fixtures/e_cmsUtilities';
+import { parseString } from 'xml2js';
 import fs from 'fs';
 import path from 'path';
 import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
@@ -54,6 +55,8 @@ test.describe('Lapland Accommodation Test', () => {
         test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getLaplandCountry(LaplandCountries, laplandData);
+            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath, HOMEpath, ERRORpath);
 
@@ -62,11 +65,11 @@ test.describe('Lapland Accommodation Test', () => {
             }
 
             if(laplandData.RegionCode !== null && laplandData.RegionCode !== undefined && laplandData.RegionCode.trim() !== ''){
-                await PCMS.Check_LaplandRegionCode(ApiContext, baseUrl, laplandData.RegionCode);
+                await PCMS.Check_LaplandRegionCode(ApiContext, baseUrl, laplandData.RegionCode, configData);
             }
 
             if(laplandData.ResortCode !== null && laplandData.ResortCode !== undefined && laplandData.ResortCode.trim() !== ''){
-                await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode);
+                await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode, configData);
             }
 
             
@@ -84,6 +87,8 @@ test.describe('Santa Accommodation Test', () => {
         test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSantaCountry(SantaCountries, santaData);
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath, HOMEpath, ERRORpath);
 
@@ -92,11 +97,11 @@ test.describe('Santa Accommodation Test', () => {
             }
 
             if(santaData.RegionCode !== null && santaData.RegionCode !== undefined && santaData.RegionCode.trim() !== ''){
-                await PCMS.Check_SantaRegionCode(ApiContext, baseUrl, santaData.RegionCode);
+                await PCMS.Check_SantaRegionCode(ApiContext, baseUrl, santaData.RegionCode, configData);
             }
 
             if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
-                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode);
+                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode, configData);
             }
 
             
@@ -114,6 +119,8 @@ test.describe('Ski Accommodation Test', () => {
         test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSkiCountry(SkiCountries, skiData);
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
 
@@ -122,11 +129,11 @@ test.describe('Ski Accommodation Test', () => {
             }
 
             if(skiData.RegionCode !== null && skiData.RegionCode !== undefined && skiData.RegionCode.trim() !== ''){
-                await PCMS.Check_SkiRegionCode(ApiContext, baseUrl, skiData.RegionCode);
+                await PCMS.Check_SkiRegionCode(ApiContext, baseUrl, skiData.RegionCode, configData);
             }
 
             if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
-                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode);
+                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode, configData);
             }
           });
     }    
@@ -142,6 +149,8 @@ test.describe('Walking Accommodation Test', () => {
         test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getWalkingCountry(WalkingCountries, walkingData);
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configData = await readConfigFile(configFilePath);
 
             await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
 
@@ -150,11 +159,11 @@ test.describe('Walking Accommodation Test', () => {
             }
 
             if(walkingData.RegionCode !== null && walkingData.RegionCode !== undefined && walkingData.RegionCode.trim() !== ''){
-                await PCMS.Check_WalkingRegionCode(ApiContext, baseUrl, walkingData.RegionCode);
+                await PCMS.Check_WalkingRegionCode(ApiContext, baseUrl, walkingData.RegionCode, configData);
             }
 
             if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){
-                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode);
+                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode, configData);
             }
           });
     }    
@@ -229,4 +238,26 @@ async function getWalkingCountry(WalkingCountries: any, walkingData:any ) {
         }
     }
     return undefined; // Return undefined if no match is found
+}
+
+
+async function readConfigFile(configFilePath: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+        fs.readFile(configFilePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading the config file:', err);
+                reject(err);
+                return;
+            }
+            parseString(data, (parseErr, result) => {
+                if (parseErr) {
+                    console.error('Error parsing the config file:', parseErr);
+                    reject(parseErr);
+                    return;
+                }
+                //console.log('Config:', result);
+                resolve(result);
+            });
+        });
+    });
 }

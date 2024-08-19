@@ -55,7 +55,7 @@ test.describe('Lapland Country Test', () => {
         test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getLaplandCountry(LaplandCountries, laplandData);
-            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath, 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath, HOMEpath, ERRORpath);
@@ -65,11 +65,11 @@ test.describe('Lapland Country Test', () => {
             }
 
             if(laplandData.RegionCode !== null && laplandData.RegionCode !== undefined && laplandData.RegionCode.trim() !== ''){
-                await PCMS.Check_LaplandRegionCode(ApiContext, baseUrl, laplandData.RegionCode);
+                await PCMS.Check_LaplandRegionCode(ApiContext, baseUrl, laplandData.RegionCode, configData);
             }
 
             if(laplandData.ResortCode !== null && laplandData.ResortCode !== undefined && laplandData.ResortCode.trim() !== ''){
-                await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode);
+                await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode, configData);
             }
 
             
@@ -97,11 +97,11 @@ test.describe('Santa Country Test', () => {
             }
 
             if(santaData.RegionCode !== null && santaData.RegionCode !== undefined && santaData.RegionCode.trim() !== ''){
-                await PCMS.Check_SantaRegionCode(ApiContext, baseUrl, santaData.RegionCode);
+                await PCMS.Check_SantaRegionCode(ApiContext, baseUrl, santaData.RegionCode, configData);
             }
 
             if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
-                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode);
+                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode, configData);
             }
 
             
@@ -119,7 +119,7 @@ test.describe('Ski Country Test', () => {
         test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getSkiCountry(SkiCountries, skiData);
-            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
@@ -129,11 +129,11 @@ test.describe('Ski Country Test', () => {
             }
 
             if(skiData.RegionCode !== null && skiData.RegionCode !== undefined && skiData.RegionCode.trim() !== ''){
-                await PCMS.Check_SkiRegionCode(ApiContext, baseUrl, skiData.RegionCode);
+                await PCMS.Check_SkiRegionCode(ApiContext, baseUrl, skiData.RegionCode, configData);
             }
 
             if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
-                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode);
+                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode, configData);
             }
           });
     }    
@@ -149,7 +149,7 @@ test.describe('Walking Country Test', () => {
         test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
         
             const countryCode = await getWalkingCountry(WalkingCountries, walkingData);
-            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
@@ -159,11 +159,11 @@ test.describe('Walking Country Test', () => {
             }
 
             if(walkingData.RegionCode !== null && walkingData.RegionCode !== undefined && walkingData.RegionCode.trim() !== ''){
-                await PCMS.Check_WalkingRegionCode(ApiContext, baseUrl, walkingData.RegionCode);
+                await PCMS.Check_WalkingRegionCode(ApiContext, baseUrl, walkingData.RegionCode, configData);
             }
 
             if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){
-                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode);
+                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode, configData);
             }
           });
     }    

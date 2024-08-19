@@ -86,6 +86,21 @@ async function Check_LaplandRegionCode(apiContext:any, baseUrl: string, RegionCo
     expect(content).toHaveProperty('properties');
     expect(content.properties).toHaveProperty('regionCode');
     expect(content.properties.regionCode).toBe(RegionCode);
+
+    expect(content.properties).toHaveProperty('regionSummary');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.regionSummary);
+
+    expect(content.properties).toHaveProperty('regionDescription');
+    expect(content.properties.regionDescription).not.toBeNull();
+
+    expect(content.properties).toHaveProperty('latitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
+
+    expect(content.properties).toHaveProperty('longitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
+
+    expect(content.properties).toHaveProperty('regionReferredContent');
+    expect(content.properties.regionReferredContent).not.toBeNull
 }
 
 
@@ -205,7 +220,7 @@ async function Check_SantaCountryCode(apiContext:any, baseUrl: string, CountryCo
 }
 
 
-async function Check_SantaRegionCode(apiContext:any, baseUrl: string, RegionCode: string) {
+async function Check_SantaRegionCode(apiContext:any, baseUrl: string, RegionCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -246,6 +261,21 @@ async function Check_SantaRegionCode(apiContext:any, baseUrl: string, RegionCode
     expect(content).toHaveProperty('properties');
     expect(content.properties).toHaveProperty('regionCode');
     expect(content.properties.regionCode).toBe(RegionCode);
+
+    expect(content.properties).toHaveProperty('regionSummary');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.regionSummary);
+
+    expect(content.properties).toHaveProperty('regionDescription');
+    expect(content.properties.regionDescription).not.toBeNull();
+
+    expect(content.properties).toHaveProperty('latitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
+
+    expect(content.properties).toHaveProperty('longitude');
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
+
+    expect(content.properties).toHaveProperty('regionReferredContent');
+    expect(content.properties.regionReferredContent).not.toBeNull
 }
 
 
@@ -364,7 +394,7 @@ async function Check_SkiCountryCode(apiContext:any, baseUrl: string, CountryCode
 }
 
 
-async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: string) {
+async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -405,6 +435,24 @@ async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: 
     expect(content).toHaveProperty('properties');
     expect(content.properties).toHaveProperty('regionCode');
     expect(content.properties.regionCode).toBe(RegionCode);
+
+    expect(content.properties).toHaveProperty('regionSummary');
+    expect(content.properties.regionSummary).not.toBeNull();
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.regionSummary.markup);
+
+    expect(content.properties).toHaveProperty('regionDescription');
+    expect(content.properties.regionDescription).not.toBeNull();
+
+    expect(content.properties).toHaveProperty('latitude');
+    expect(content.properties.latitude).not.toBeNull();
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
+
+    expect(content.properties).toHaveProperty('longitude');
+    expect(content.properties.longitude).not.toBeNull();
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
+
+    expect(content.properties).toHaveProperty('regionReferredContent');
+    expect(content.properties.regionReferredContent).not.toBeNull
 }
 
 
@@ -523,7 +571,7 @@ async function Check_WalkingCountryCode(apiContext:any, baseUrl: string, Country
 }
 
 
-async function Check_WalkingRegionCode(apiContext:any, baseUrl: string, RegionCode: string) {
+async function Check_WalkingRegionCode(apiContext:any, baseUrl: string, RegionCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -564,6 +612,24 @@ async function Check_WalkingRegionCode(apiContext:any, baseUrl: string, RegionCo
     expect(content).toHaveProperty('properties');
     expect(content.properties).toHaveProperty('regionCode');
     expect(content.properties.regionCode).toBe(RegionCode);
+
+    expect(content.properties).toHaveProperty('regionSummary');
+    expect(content.properties.regionSummary).not.toBeNull();
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.regionSummary.markup);
+
+    expect(content.properties).toHaveProperty('regionDescription');
+    expect(content.properties.regionDescription).not.toBeNull();
+
+    expect(content.properties).toHaveProperty('latitude');
+    expect(content.properties.latitude).not.toBeNull();
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
+
+    expect(content.properties).toHaveProperty('longitude');
+    expect(content.properties.longitude).not.toBeNull();
+    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
+
+    expect(content.properties).toHaveProperty('regionReferredContent');
+    expect(content.properties.regionReferredContent).not.toBeNull
 }
 
 

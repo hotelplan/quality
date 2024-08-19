@@ -147,7 +147,6 @@ test.describe('P_CMS Walking Resort Test', () => {
 });
 
 
-
 async function readConfigFile(configFilePath: string): Promise<any> {
     return new Promise((resolve, reject) => {
         fs.readFile(configFilePath, 'utf8', (err, data) => {
