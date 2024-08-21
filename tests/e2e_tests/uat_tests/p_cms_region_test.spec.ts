@@ -9,7 +9,7 @@ import tokenConfig from '../../resources/utils/tokenConfig';
 import { describe } from 'node:test';
 
 let ApiContext: APIRequestContext;
-const env = process.env.ENV || 'qa';
+const env = process.env.ENV || 'staging';
 const baseUrl = environmentBaseUrl[env].p_cms;
 const adminToken = tokenConfig[env].p_cms;
 
