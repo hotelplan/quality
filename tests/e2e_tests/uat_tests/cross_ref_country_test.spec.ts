@@ -64,14 +64,6 @@ test.describe('Lapland Country Test', () => {
                 await PCMS.Check_LaplandCountryCode(ApiContext, baseUrl, countryCode);
             }
 
-            if(laplandData.RegionCode !== null && laplandData.RegionCode !== undefined && laplandData.RegionCode.trim() !== ''){
-                await PCMS.Check_LaplandRegionCode(ApiContext, baseUrl, laplandData.RegionCode, configData);
-            }
-
-            if(laplandData.ResortCode !== null && laplandData.ResortCode !== undefined && laplandData.ResortCode.trim() !== ''){
-                await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode, configData);
-            }
-
             
           });
     }
@@ -96,13 +88,6 @@ test.describe('Santa Country Test', () => {
                 await PCMS.Check_SantaCountryCode(ApiContext, baseUrl, countryCode);
             }
 
-            if(santaData.RegionCode !== null && santaData.RegionCode !== undefined && santaData.RegionCode.trim() !== ''){
-                await PCMS.Check_SantaRegionCode(ApiContext, baseUrl, santaData.RegionCode, configData);
-            }
-
-            if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
-                await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode, configData);
-            }
 
             
           });
@@ -128,13 +113,6 @@ test.describe('Ski Country Test', () => {
                 await PCMS.Check_SkiCountryCode(ApiContext, baseUrl, countryCode);
             }
 
-            if(skiData.RegionCode !== null && skiData.RegionCode !== undefined && skiData.RegionCode.trim() !== ''){
-                await PCMS.Check_SkiRegionCode(ApiContext, baseUrl, skiData.RegionCode, configData);
-            }
-
-            if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
-                await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode, configData);
-            }
           });
     }    
 
@@ -156,14 +134,6 @@ test.describe('Walking Country Test', () => {
 
             if (countryCode !== undefined) {
                 await PCMS.Check_WalkingCountryCode(ApiContext, baseUrl, countryCode);
-            }
-
-            if(walkingData.RegionCode !== null && walkingData.RegionCode !== undefined && walkingData.RegionCode.trim() !== ''){
-                await PCMS.Check_WalkingRegionCode(ApiContext, baseUrl, walkingData.RegionCode, configData);
-            }
-
-            if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){
-                await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode, configData);
             }
           });
     }    

@@ -63,19 +63,10 @@ test.describe('Lapland Resort Test', () => {
 
             await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath, HOMEpath, ERRORpath);
 
-            if (countryCode !== undefined) {
-                await PCMS.Check_LaplandCountryCode(ApiContext, baseUrl, countryCode);
-            }
-
-            if(laplandData.RegionCode !== null && laplandData.RegionCode !== undefined && laplandData.RegionCode.trim() !== ''){
-                await PCMS.Check_LaplandRegionCode(ApiContext, baseUrl, laplandData.RegionCode);
-            }
-
             if(laplandData.ResortCode !== null && laplandData.ResortCode !== undefined && laplandData.ResortCode.trim() !== ''){
                 await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode, configData);
             }
 
-            
           });
     }
 
@@ -94,14 +85,6 @@ test.describe('Santa Resort Test', () => {
             const configData = await readConfigFile(configFilePath);
 
             await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath, HOMEpath, ERRORpath);
-
-            if (countryCode !== undefined) {
-                await PCMS.Check_SantaCountryCode(ApiContext, baseUrl, countryCode);
-            }
-
-            if(santaData.RegionCode !== null && santaData.RegionCode !== undefined && santaData.RegionCode.trim() !== ''){
-                await PCMS.Check_SantaRegionCode(ApiContext, baseUrl, santaData.RegionCode);
-            }
 
             if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
                 await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode, configData);
@@ -127,14 +110,6 @@ test.describe('Ski Resort Test', () => {
 
             await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
 
-            if (countryCode !== undefined) {
-                await PCMS.Check_SkiCountryCode(ApiContext, baseUrl, countryCode);
-            }
-
-            if(skiData.RegionCode !== null && skiData.RegionCode !== undefined && skiData.RegionCode.trim() !== ''){
-                await PCMS.Check_SkiRegionCode(ApiContext, baseUrl, skiData.RegionCode);
-            }
-
             if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
                 await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode, configData);
             }
@@ -156,14 +131,6 @@ test.describe('Walking Resort Test', () => {
             const configData = await readConfigFile(configFilePath);
 
             await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
-
-            if (countryCode !== undefined) {
-                await PCMS.Check_WalkingCountryCode(ApiContext, baseUrl, countryCode);
-            }
-
-            if(walkingData.RegionCode !== null && walkingData.RegionCode !== undefined && walkingData.RegionCode.trim() !== ''){
-                await PCMS.Check_WalkingRegionCode(ApiContext, baseUrl, walkingData.RegionCode);
-            }
 
             if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){
                 await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode, configData);
