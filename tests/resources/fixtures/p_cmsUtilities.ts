@@ -199,7 +199,7 @@ async function Check_LaplandAccommodation(apiContext:any, baseUrl: string, Accom
     // Check the response body structure and content
     expect(responseBody).toHaveProperty('items');
     expect(Array.isArray(responseBody.items)).toBe(true);
-    expect(responseBody.items.length).toEqual(1);
+    expect(responseBody.items.length).toEqual(1); // initial check
 
     // Check the first item in the response body
 }
