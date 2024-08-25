@@ -176,6 +176,35 @@ async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCo
 }
 
 
+async function Check_LaplandAccommodation(apiContext:any, baseUrl: string, Accommodation: string, ConfigData: any) {
+    /*const params = new URLSearchParams({
+        filter: `name:*${Accommodation}*`, // Assuming '*' is used for contains
+        skip: '0',
+        take: '10',
+        fields: 'properties[$all]'
+    });
+    
+    const url = `${baseUrl}/umbraco/delivery/api/v2/content?${params.toString()}`;
+    console.log(url);
+    const response = await apiContext['get'](url);*/
+    const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=contentType%3AaccommodationLapland&filter=name%3A*${Accommodation}*&skip=0&take=10&fields=properties%5B%24all%5D`);
+        
+    const responseBody = await response.json();
+
+    console.log(await response.status()); // Log the status for debugging
+    console.log(responseBody); // Log the response body for debugging
+
+    expect(response.status()).toBe(200);
+
+    // Check the response body structure and content
+    expect(responseBody).toHaveProperty('items');
+    expect(Array.isArray(responseBody.items)).toBe(true);
+    expect(responseBody.items.length).toEqual(1);
+
+    // Check the first item in the response body
+}
+
+
 async function Check_SantaCountryCode(apiContext:any, baseUrl: string, CountryCode: string) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=countryCode%3A${CountryCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
@@ -709,6 +738,7 @@ export const PCMS = {
     Check_LaplandCountryCode,
     Check_LaplandRegionCode,
     Check_LaplandResortCode,
+    Check_LaplandAccommodation,
     Check_SantaCountryCode,
     Check_SantaRegionCode,
     Check_SantaResortCode,
