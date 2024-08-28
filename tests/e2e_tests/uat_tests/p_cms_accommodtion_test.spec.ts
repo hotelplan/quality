@@ -53,9 +53,9 @@ test.describe('Lapland Accommodation Test', () => {
             const configData = await readConfigFile(configFilePath);
 
             const accommodation = laplandData.SourcePath.split('\\').pop()
-                //?.split('-')
-                //.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                //.join(' ');
+                ?.split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
             console.log('Accommodation:', accommodation);
 
             await PCMS.Check_LaplandAccommodation(ApiContext, baseUrl, accommodation, configData);

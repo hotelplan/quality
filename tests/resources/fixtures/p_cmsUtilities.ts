@@ -177,17 +177,9 @@ async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCo
 
 
 async function Check_LaplandAccommodation(apiContext:any, baseUrl: string, Accommodation: string, ConfigData: any) {
-    /*const params = new URLSearchParams({
-        filter: `name:*${Accommodation}*`, // Assuming '*' is used for contains
-        skip: '0',
-        take: '10',
-        fields: 'properties[$all]'
-    });
     
-    const url = `${baseUrl}/umbraco/delivery/api/v2/content?${params.toString()}`;
-    console.log(url);
-    const response = await apiContext['get'](url);*/
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=contentType%3AaccommodationLapland&filter=name%3A*${Accommodation}*&skip=0&take=10&fields=properties%5B%24all%5D`);
+    //const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=contentType%3AaccommodationLapland&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
 
