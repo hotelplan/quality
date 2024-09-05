@@ -36,8 +36,8 @@ async function Santa_Sourcepath_Checker(page: any, SourcePath: string, HOMEpath:
 
 async function Ski_Sourcepath_Checker(page: any, SourcePath: string, HOMEpath: string, ERRORpath: string) {
     const sourcePath = SourcePath.replace("home", "");
-    //const sourceURL = sourcePath.replace("ski-resorts","resorts");
-    const sourcePathmod = sourcePath.replace(/st\./g,"st-");
+    const sourceURL = sourcePath.replace("ski-resorts","resorts");
+    const sourcePathmod = sourceURL.replace(/st\./g,"st-");
     const FullURL = HOMEpath + sourcePathmod;
     // Open the URL
     const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });

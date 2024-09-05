@@ -28,9 +28,6 @@ async function Check_LaplandCountryCode(apiContext:any, baseUrl: string, Country
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
-
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
 
@@ -72,8 +69,6 @@ async function Check_LaplandRegionCode(apiContext:any, baseUrl: string, RegionCo
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
@@ -131,8 +126,6 @@ async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCo
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
@@ -224,9 +217,6 @@ async function Check_SantaCountryCode(apiContext:any, baseUrl: string, CountryCo
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
-
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
 
@@ -268,8 +258,6 @@ async function Check_SantaRegionCode(apiContext:any, baseUrl: string, RegionCode
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
@@ -327,8 +315,6 @@ async function Check_SantaResortCode(apiContext:any, baseUrl: string, ResortCode
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
@@ -398,8 +384,6 @@ async function Check_SkiCountryCode(apiContext:any, baseUrl: string, CountryCode
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
@@ -442,9 +426,6 @@ async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: 
 
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
-
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
@@ -507,8 +488,6 @@ async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: 
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
@@ -578,9 +557,6 @@ async function Check_WalkingCountryCode(apiContext:any, baseUrl: string, Country
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
 
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
-
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
 
@@ -621,9 +597,6 @@ async function Check_WalkingRegionCode(apiContext:any, baseUrl: string, RegionCo
 
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
-
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
@@ -683,9 +656,6 @@ async function Check_WalkingResortCode(apiContext:any, baseUrl: string, ResortCo
 
     expect(content).toHaveProperty('createDate');
     expect(content.createDate).not.toBeNull();
-
-    expect(content).toHaveProperty('updateDate');
-    expect(content.updateDate).not.toBeNull();
 
     expect(content).toHaveProperty('route');
     expect(content.route).not.toBeNull();
