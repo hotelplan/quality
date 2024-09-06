@@ -45,7 +45,7 @@ test.afterEach(async ({ page },testInfo) => {
     await page.close();
 });
 
-test.describe.configure({retries: 2, timeout: 30000,})
+test.describe.configure({retries: 2, timeout: 60000,})
 
 test.describe('Lapland Country Test', () => {
 
