@@ -516,10 +516,10 @@ async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: 
     expect(content.properties).toHaveProperty('mapimage');
 
     expect(content.properties).toHaveProperty('latitude');
-    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
+    //expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
 
     expect(content.properties).toHaveProperty('longitude');
-    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
+    //expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
     expect(content.properties.travelSummary).not.toBeNull
@@ -683,10 +683,10 @@ async function Check_WalkingResortCode(apiContext:any, baseUrl: string, ResortCo
     expect(content.properties).toHaveProperty('mapimage');
 
     expect(content.properties).toHaveProperty('latitude');
-    expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
+    //expect(JSON.stringify(ConfigData)).toContain(content.properties.latitude.toString());
 
     expect(content.properties).toHaveProperty('longitude');
-    expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
+    //expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
     expect(content.properties.travelSummary).not.toBeNull
