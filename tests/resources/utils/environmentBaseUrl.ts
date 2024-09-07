@@ -24,9 +24,9 @@ export default{
         e_cms:'https://inghamsv2-ecms.stg.hotelplan.co.uk',
         p_cms:'https://inghamsv2-pcms.stg.hotelplan.co.uk',
     },
-    production:{
+    prod:{
         inghams:'https://www.inghams.co.uk',
-        e_cms:'',
-        p_cms:'',
+        e_cms:'https://inghamsv2-ecms.hotelplan.co.uk',
+        p_cms:'https://inghamsv2-pcms.hotelplan.co.uk',
     },
 };

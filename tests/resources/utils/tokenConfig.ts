@@ -15,8 +15,8 @@ interface TokenConfig {
     staging: {
       p_cms:'WqCxiZQCGxSUiOKlbllYpLycCcoiqcls'
     },
-    production: {
-      p_cms:''
+    prod: {
+      p_cms:'WqCxiZQCGxSUiOKlbllYpLycCcoiqcls'
     },
   };
   
