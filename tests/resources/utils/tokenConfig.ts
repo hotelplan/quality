@@ -12,7 +12,7 @@ interface TokenConfig {
     qa: {
       p_cms:'WqCxiZQCGxSUiOKlbllYpLycCcoiqcls'
     },
-    staging: {
+    stg: {
       p_cms:'WqCxiZQCGxSUiOKlbllYpLycCcoiqcls'
     },
     prod: {

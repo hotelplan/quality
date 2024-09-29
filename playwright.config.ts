@@ -26,11 +26,11 @@ export default defineConfig({
   use: {
     trace: 'on-first-retry',
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.ENV === 'production' 
-    ? baseEnvUrl.production.inghams
-    : process.env.ENV === 'staging' 
-      ? baseEnvUrl.staging.inghams
-      : baseEnvUrl.dev.inghams
+    baseURL: process.env.ENV === 'prod' 
+    ? baseEnvUrl.prod.inghams
+    : process.env.ENV === 'stg' 
+      ? baseEnvUrl.stg.inghams
+      : baseEnvUrl.qa.inghams
   },
 
   /* Configure projects for major browsers */
