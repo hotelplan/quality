@@ -27,9 +27,12 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe('Lapland Header Content Test', () => {
   
-  test('Header Country Page Test', async ({page, ecmsSignInpage}) => {
+  test('Header Country Page Test', async ({page, ecmsSignInpage, ecmsMainPage}) => {
     await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
     await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
+    await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", null, "LaplandFinland", null, null, null);
+    await ecmsMainPage.ECMS_Select_Target_Page("LaplandFinland");
+    
 
   });
 
