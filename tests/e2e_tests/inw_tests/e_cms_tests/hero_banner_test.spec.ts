@@ -25,13 +25,16 @@ test.afterEach(async ({ page },testInfo) => {
 });*/
 
 
-test.describe('Lapland Header Content Test', () => {
+test.describe('Lapland Hero Banner Content Test', () => {
   
-  test('Header Country Page Test', async ({page, ecmsSignInpage, ecmsMainPage}) => {
+  test('Hero Banner Country Page Test', async ({page, ecmsSignInpage, ecmsMainPage}) => {
     await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
     await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
     await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", null, "LaplandFinland", null, null, null);
     await ecmsMainPage.ECMS_Select_Target_Page("LaplandFinland");
+    await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
+
+    //https://inghamsv2-ecms.qa.hotelplan.co.uk/lapland-holidays/resorts/laplandfinland
     
 
   });
