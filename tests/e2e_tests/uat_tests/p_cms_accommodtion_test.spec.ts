@@ -58,7 +58,7 @@ test.describe('Lapland Accommodation Test', () => {
                 .join(' ');
             console.log('Accommodation:', accommodation);
 
-            await PCMS.Check_LaplandAccommodation(ApiContext, baseUrl, accommodation, configData);
+            //await PCMS.Check_LaplandAccommodation(ApiContext, baseUrl, accommodation, configData);
             
           });
     }

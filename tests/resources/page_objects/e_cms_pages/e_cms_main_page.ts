@@ -60,7 +60,7 @@ export class EcmsMainPage{
     }
 
     //methods
-    async ECMS_Expand_Tree(product: string, secondary_product: string | null, country: string | null, region: string | null, resort: string | null, accommodation: string | null){
+    async ECMS_Expand_Tree(product: string, secondary_product: string | null, country: string | null, region: string | null, resort: string | null){
         
         await this.ECMS_Main_Expansion_Arrow("Home").waitFor({state: 'visible', timeout: 10000});
         await this.ECMS_Main_Expansion_Arrow("Home").hover();
@@ -100,12 +100,6 @@ export class EcmsMainPage{
             await this.ECMS_Main_Expansion_Arrow(resort).waitFor({ state: 'visible', timeout: 10000 });
             await this.ECMS_Main_Expansion_Arrow(resort).hover();
             await this.ECMS_Main_Expansion_Arrow(resort).click();
-        }
-
-        if (accommodation != null) {
-            await this.ECMS_Main_Expansion_Arrow(accommodation).waitFor({ state: 'visible', timeout: 10000 });
-            await this.ECMS_Main_Expansion_Arrow(accommodation).hover();
-            await this.ECMS_Main_Expansion_Arrow(accommodation).click();
         }
 
 
@@ -160,8 +154,8 @@ export class EcmsMainPage{
         await this.ECMS_Main_Content_Banner_Select_Media(media_name).click();
 
         await expect(this.ECMS_Main_Content_Banner_Select_Media_Button).toBeEnabled({timeout: 10000});
-        await this.ECMS_Main_Content_Banner_Select_Media_Button.hover();
-        await this.ECMS_Main_Content_Banner_Select_Media_Button.click();
+        await this.ECMS_Main_Content_Banner_Select_Media_Button.hover({timeout: 10000});
+        await this.ECMS_Main_Content_Banner_Select_Media_Button.click({timeout: 10000});
 
         if(await this.ECMS_Main_Content_Submit_Banner_Button.isVisible()){
             await this.ECMS_Main_Content_Submit_Banner_Button.hover();
@@ -172,7 +166,7 @@ export class EcmsMainPage{
             await this.ECMS_Main_Content_Create_Banner_Button.hover();
             await this.ECMS_Main_Content_Create_Banner_Button.click();
         }
-        
+
         await this.ECMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
         await this.ECMS_Main_Content_Save_And_Publish_Button.hover();
         await this.ECMS_Main_Content_Save_And_Publish_Button.click();
