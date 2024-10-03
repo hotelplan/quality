@@ -35,7 +35,7 @@ export class EcmsMainPage{
 
         this.ECMS_Main_Content_Fields = page.getByLabel('Content Fields');
         this.ECMS_Main_Content_Tab = page.getByRole('tab', { name: 'Content', exact: true });
-        this.ECMS_Main_Content_Banner_Item = page.getByRole('button', { name: 'Banner Item' });
+        this.ECMS_Main_Content_Banner_Item = page.locator('//button[@class = "btn-reset umb-outline blockelement-labelblock-editor blockelement__draggable-element"]');
         this.ECMS_Main_Content_Add_Banner = page.getByRole('button', { name: 'Add Banner' });
 
         this.ECMS_Main_Content_Banner_Layout = page.locator('//option[contains(text(),"Full Bleed")]//parent::select');

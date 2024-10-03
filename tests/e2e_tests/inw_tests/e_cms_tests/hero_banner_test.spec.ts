@@ -3,6 +3,7 @@ import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
+import { ECMS } from '../../../resources/fixtures/e_cmsUtilities';
 
 const env = process.env.ENV || 'qa';
 const InghamsUrl = environmentBaseUrl[env].inghams;
@@ -41,7 +42,8 @@ test.describe('Lapland Hero Banner Content Test', () => {
   
 
   for(const laplandCountrydata of LaplandCountryData){
-    test(`Hero Banner Country Page Test (${laplandCountrydata.SourcePath})`, async ({page, ecmsSignInpage, ecmsMainPage}) => {
+    test(`Hero Banner Country Page Test (${laplandCountrydata.SourcePath})`, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+      test.slow();
 
       const target = laplandCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
@@ -55,17 +57,99 @@ test.describe('Lapland Hero Banner Content Test', () => {
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
 
-      //await expect(page.locator('//div[contains(@class,"c-hero is-active")]')).toBeVisible({timeout: 30000});
-
-      //https://inghamsv2-ecms.qa.hotelplan.co.uk/lapland-holidays/resorts/laplandfinland
-      ////div[contains(@class,"c-hero is-active")]
+      const SiteURL = await ECMS.Lapland_URL_Builder(ECMSurl, laplandCountrydata.SourcePath);
+      // Open the URL
+      await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
+      await countryPage.Country_Hero_Banner_Checker("291A0817","Full Bleed","Top","Full");
       
-
     });
   }
 
+});
 
 
+
+test.describe('Ski Hero Banner Content Test', () => {
+
+  const SkiCountryData = SkiDatacsv.filter(row => row['Alias'].includes('country'));
+  const SkiRegionData = SkiDatacsv.filter(row => row['Alias'].includes('region'));
+  const SkiResortData = SkiDatacsv.filter(row => row['Alias'].includes('resort'));
+  const SkiAccomodationData = SkiDatacsv.filter(row => row['Alias'].includes('accommodation'));
+  
+  test.describe('Ski Country Page', () => {
+
+    for(const skiCountrydata of SkiCountryData){
+      test(`Hero Banner Country Page Test (${skiCountrydata.SourcePath})`, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+        test.slow();
+
+        const target = skiCountrydata.SourcePath.split('\\').pop()
+          ?.split('-')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+        console.log('Target:', target);
+
+        await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
+        await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
+        await ecmsMainPage.ECMS_Expand_Tree("Ski Holidays", null, target, null, null);
+        await ecmsMainPage.ECMS_Select_Target_Page(target);
+        await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
+
+        const SiteURL = await ECMS.Ski_URL_Builder(ECMSurl, skiCountrydata.SourcePath);
+        // Open the URL
+        await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
+        await countryPage.Country_Hero_Banner_Checker("291A0817","Full Bleed","Top","Full");
+        
+      });
+    }
+
+  });
+
+
+  test.describe('Ski Region Page', () => {
+    for(const skiRegiondata of SkiRegionData){
+      test(`Hero Banner Region Page Test (${skiRegiondata.SourcePath})`, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+        test.slow();
+
+        console.log('Region:', skiRegiondata.Region);
+        const target = skiRegiondata.Region.split('-')
+        .map(part => part.split(' ')
+            .map(word => {
+                if (word.includes('’')) {
+                    const parts = word.split('’');
+                    return parts[0].charAt(0).toLowerCase() + '’' + parts[1].charAt(0).toUpperCase() + parts[1].slice(1).toLowerCase();
+                } else {
+                    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                }
+            })
+            .join(' ')
+        )
+        .join('-');
+        console.log('Target:', target);
+
+        const country = skiRegiondata.Country.split('\\').pop()
+        ?.split('-')
+        .map(word => word.split(' ')
+            .map(subWord => subWord.charAt(0).toUpperCase() + subWord.slice(1).toLowerCase())
+            .join(' ')
+        )
+        .join('-');
+        console.log('Country:', country);
+
+        await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
+        await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
+        await ecmsMainPage.ECMS_Expand_Tree("Ski Holidays", null, country, target, null);
+        await ecmsMainPage.ECMS_Select_Target_Page(target);
+        await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
+
+        const SiteURL = await ECMS.Ski_URL_Builder(ECMSurl, skiRegiondata.SourcePath);
+        // Open the URL
+        await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
+        //await countryPage.Country_Hero_Banner_Checker("291A0817","Full Bleed","Top","Full");
+        
+      });
+    }
+
+  });
 
 });
 
