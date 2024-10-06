@@ -47,7 +47,7 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 60000,})
 
-test.describe('Lapland Country Test', () => {
+test.describe('Lapland Country Test', {tag: '@uat'}, () => {
 
     const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('country'));
 
@@ -71,7 +71,7 @@ test.describe('Lapland Country Test', () => {
 });
 
 
-test.describe('Santa Country Test', () => {
+test.describe('Santa Country Test', {tag: '@uat'}, () => {
 
     const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('country'));
 
@@ -96,7 +96,7 @@ test.describe('Santa Country Test', () => {
 });
 
 
-test.describe('Ski Country Test', () => {
+test.describe('Ski Country Test', {tag: '@uat'}, () => {
 
     const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('country'));
 
@@ -119,7 +119,7 @@ test.describe('Ski Country Test', () => {
 });
 
 
-test.describe('Walking Country Test', () => {
+test.describe('Walking Country Test', {tag: '@uat'}, () => {
 
     const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('country'));
 

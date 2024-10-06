@@ -22,7 +22,7 @@ const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'M
 
 test.describe.configure({retries: 2, timeout: 60000,})
 // Define the test suite
-test.describe('Lapland Country Source Path', () => {
+test.describe('Lapland Country Source Path', {tag: '@uat'}, () => {
 
   const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('country'));
 
@@ -47,7 +47,7 @@ test.describe('Lapland Country Source Path', () => {
 });
 
 
-test.describe('Santa Country Source Path', () => {
+test.describe('Santa Country Source Path', {tag: '@uat'}, () => {
   
   const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('country'));
 
@@ -73,7 +73,7 @@ test.describe('Santa Country Source Path', () => {
 });
 
 
-test.describe('Ski Country Source Path', () => {
+test.describe('Ski Country Source Path', {tag: '@uat'}, () => {
 
   const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('country'));
 
@@ -97,7 +97,7 @@ test.describe('Ski Country Source Path', () => {
 });
 
 
-test.describe('Walking Country Source Path', () => {
+test.describe('Walking Country Source Path', {tag: '@uat'}, () => {
 
   const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('country'));
 

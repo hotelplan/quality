@@ -1,0 +1,72 @@
+name: Hotel-Plan-Test-Workflow
+
+run-name: HP ${{ github.event.inputs.scope }} Test Run Build ${{github.run_number}} - ${{ github.event.inputs.environment }}
+
+on:
+    workflow_dispatch:
+      inputs:
+        logLevel:
+          description: 'Log Level'
+          required: true
+          default: 'INFO'
+          type: choice
+          options:
+          - INFO
+          - DEBUG
+          - TRACE
+        environment:
+          description: 'Environment'
+          required: true
+          default: 'dev'
+          type: choice
+          options:
+          - qa
+          - stg
+          - prod
+        scope:
+          description: 'Test Scope'
+          required: true
+          default: 'Smoke'
+          type: choice
+          options:
+          - Smoke
+          - Regression
+          - UAT
+
+
+jobs:
+  HP_Test_Run:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+
+    - name: Set environment variable
+      run: echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+
+    - name: Run Playwright tests
+      run: |
+        if [ "${{ github.event.inputs.scope }}" == "Smoke" ]; then
+          npx playwright test --grep /@smoke/ --project=Chromium --project=Mobile_Chrome
+        elif [ "${{ github.event.inputs.scope }}" == "Regression" ]; then
+          npx playwright test --grep /@regression/ --project=Chromium --project=Mobile_Chrome
+        elif [ "${{ github.event.inputs.scope }}" == "UAT" ]; then
+          npx playwright test --grep /@uat/ --project=Chromium --project=Mobile_Chrome
+        fi
+
+    - name: Test Report Generation
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: HP_${{ github.event.inputs.scope }}_Test_Results_${{github.run_number}} - ${{ github.event.inputs.environment }}  # Name of the folder
+        path: test-results/*  

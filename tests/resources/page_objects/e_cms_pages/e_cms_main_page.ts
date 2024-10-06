@@ -70,9 +70,16 @@ export class EcmsMainPage{
         await this.ECMS_Main_Expansion_Arrow(product).hover();
         await this.ECMS_Main_Expansion_Arrow(product).click();
 
-        await this.ECMS_Main_Expansion_Arrow("Resorts").waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Main_Expansion_Arrow("Resorts").hover();
-        await this.ECMS_Main_Expansion_Arrow("Resorts").click();
+        await this.page.waitForTimeout(500);
+
+        if(await this.ECMS_Main_Expansion_Arrow("Resorts").isVisible()){
+            await this.ECMS_Main_Expansion_Arrow("Resorts").hover();
+            await this.ECMS_Main_Expansion_Arrow("Resorts").click();
+        }
+        else{
+            await this.ECMS_Main_Expansion_Arrow("Destinations").hover();
+            await this.ECMS_Main_Expansion_Arrow("Destinations").click();
+        }
 
         if (secondary_product != null) {
             await this.ECMS_Main_Expansion_Arrow(secondary_product).waitFor({ state: 'visible', timeout: 10000 });

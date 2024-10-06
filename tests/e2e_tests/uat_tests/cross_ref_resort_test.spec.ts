@@ -42,7 +42,7 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 60000,})
 
-test.describe('Lapland Resort Test', () => {
+test.describe('Lapland Resort Test', {tag: '@uat'}, () => {
 
     const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('resort'));
 
@@ -67,7 +67,7 @@ test.describe('Lapland Resort Test', () => {
 });
 
 
-test.describe('Santa Resort Test', () => {
+test.describe('Santa Resort Test', {tag: '@uat'}, () => {
 
     const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('resort'));
 
@@ -90,7 +90,7 @@ test.describe('Santa Resort Test', () => {
 });
 
 
-test.describe('Ski Resort Test', () => {
+test.describe('Ski Resort Test', {tag: '@uat'}, () => {
 
     const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('resort'));
 
@@ -111,7 +111,7 @@ test.describe('Ski Resort Test', () => {
 });
 
 
-test.describe('Walking Resort Test', () => {
+test.describe('Walking Resort Test', {tag: '@uat'}, () => {
 
     const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('resort'));
 
