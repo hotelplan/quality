@@ -49,6 +49,9 @@ on:
           - Regression
           - UAT
 
+    repository_dispatch:
+      types: [deploy]
+
 
 jobs:
   HP_Test_Run:
