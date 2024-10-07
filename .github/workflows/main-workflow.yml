@@ -3,6 +3,22 @@ name: Hotel-Plan-Test-Workflow
 run-name: HP ${{ github.event.inputs.scope }} Test Run Build ${{github.run_number}} - ${{ github.event.inputs.environment }}
 
 on:
+    workflow_call:
+      inputs:
+        logLevel:
+          description: 'Log Level'
+          required: true
+          type: string
+        environment:
+          description: 'Environment'
+          required: true
+          type: string
+        scope:
+          description: 'Test Scope'
+          required: true
+          type: string
+
+
     workflow_dispatch:
       inputs:
         logLevel:
