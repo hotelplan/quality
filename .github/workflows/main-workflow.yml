@@ -49,6 +49,7 @@ on:
           - Regression
           - UAT
 
+          
     repository_dispatch:
       types: [deploy]
 

@@ -9,7 +9,7 @@ import environmentBaseUrl from '../../resources/utils/environmentBaseUrl';
 import tokenConfig from '../../resources/utils/tokenConfig';
 
 let ApiContext: APIRequestContext;
-const env = process.env.ENV || 'prod';
+const env = process.env.ENV || 'qa';
 const baseUrl = environmentBaseUrl[env].p_cms;
 const adminToken = tokenConfig[env].p_cms;
 const HOMEpath = environmentBaseUrl[env].e_cms;
