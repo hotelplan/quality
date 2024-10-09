@@ -53,7 +53,7 @@ test.describe('P_CMS Lapland Resort Test', {tag: '@uat'}, () => {
     for (const laplandData of uniqueLaplandResortCodeData){
         test(`Lapland Resort Code(${laplandData.ResortCode})`, async ({ page }) => {
 
-            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
             
             if(laplandData.ResortCode !== null && laplandData.ResortCode !== undefined && laplandData.ResortCode.trim() !== ''){
@@ -81,7 +81,7 @@ test.describe('P_CMS Santa Resort Test', {tag: '@uat'}, () => {
     for (const santaData of uniqueSantaResortCodeData){
         test(`Santa Resort Code(${santaData.ResortCode})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
@@ -107,7 +107,7 @@ test.describe('P_CMS Ski Resort Test', {tag: '@uat'}, () => {
 
     for (const skiData of uniqueSkiResortCodeData){
         test(`Ski Resort Code(${skiData.ResortCode})`, async ({ page }) => {
-            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
@@ -133,7 +133,7 @@ test.describe('P_CMS Walking Resort Test', {tag: ['@uat'],}, () => {
 
     for (const walkingData of uniqueWalkingResortCodeData){
         test(`Walking Resort Code(${walkingData.ResortCode})`, async ({ page }) => {
-            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){

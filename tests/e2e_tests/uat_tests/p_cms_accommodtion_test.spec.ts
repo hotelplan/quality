@@ -47,12 +47,12 @@ test.describe('Lapland Accommodation Test', () => {
     const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
     for (const laplandData of filteredData){
-        test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
+        test(`Lapland (${laplandData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            const accommodation = laplandData.SourcePath.split('\\').pop()
+            const accommodation = laplandData.SourcePath.replace(/\\/g, '/').split('\\').pop()
                 ?.split('-')
                 .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' ');
@@ -71,9 +71,9 @@ test.describe('Santa Accommodation Test',  () => {
     const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
     for (const santaData of filteredData){
-        test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
+        test(`Santa (${santaData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
@@ -92,9 +92,9 @@ test.describe('Ski Accommodation Test',  () => {
     const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
     for (const skiData of filteredData){
-        test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
+        test(`Ski (${skiData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
 
@@ -112,9 +112,9 @@ test.describe('Walking Accommodation Test', () => {
     const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
     for (const walkingData of filteredData){
-        test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
+        test(`Walking (${walkingData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){

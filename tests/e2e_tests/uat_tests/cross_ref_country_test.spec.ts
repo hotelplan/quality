@@ -52,13 +52,13 @@ test.describe('Lapland Country Test', {tag: '@uat'}, () => {
     const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('country'));
 
     for (const laplandData of filteredData){
-        test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
+        test(`Lapland (${laplandData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
             const countryCode = await getLaplandCountry(LaplandCountries, laplandData);
-            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath.replace(/\\/g, '/').replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if (countryCode !== undefined) {
                 await PCMS.Check_LaplandCountryCode(ApiContext, baseUrl, countryCode);
@@ -76,13 +76,13 @@ test.describe('Santa Country Test', {tag: '@uat'}, () => {
     const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('country'));
 
     for (const santaData of filteredData){
-        test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
+        test(`Santa (${santaData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
             const countryCode = await getSantaCountry(SantaCountries, santaData);
-            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if (countryCode !== undefined) {
                 await PCMS.Check_SantaCountryCode(ApiContext, baseUrl, countryCode);
@@ -101,13 +101,13 @@ test.describe('Ski Country Test', {tag: '@uat'}, () => {
     const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('country'));
 
     for (const skiData of filteredData){
-        test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
+        test(`Ski (${skiData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
             const countryCode = await getSkiCountry(SkiCountries, skiData);
-            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if (countryCode !== undefined) {
                 await PCMS.Check_SkiCountryCode(ApiContext, baseUrl, countryCode);
@@ -124,13 +124,13 @@ test.describe('Walking Country Test', {tag: '@uat'}, () => {
     const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('country'));
 
     for (const walkingData of filteredData){
-        test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
+        test(`Walking (${walkingData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
             const countryCode = await getWalkingCountry(WalkingCountries, walkingData);
-            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if (countryCode !== undefined) {
                 await PCMS.Check_WalkingCountryCode(ApiContext, baseUrl, countryCode);

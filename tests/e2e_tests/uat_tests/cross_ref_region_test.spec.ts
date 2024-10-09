@@ -48,12 +48,12 @@ test.describe('Lapland Region Test', {tag: '@uat'}, () => {
     const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('region'));
 
     for (const laplandData of filteredData){
-        test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
+        test(`Lapland (${laplandData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if(laplandData.RegionCode !== null && laplandData.RegionCode !== undefined && laplandData.RegionCode.trim() !== ''){
                 await PCMS.Check_LaplandRegionCode(ApiContext, baseUrl, laplandData.RegionCode, configData);
@@ -71,12 +71,12 @@ test.describe('Santa Region Test', {tag: '@uat'}, () => {
     const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('region'));
 
     for (const santaData of filteredData){
-        test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
+        test(`Santa (${santaData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if(santaData.RegionCode !== null && santaData.RegionCode !== undefined && santaData.RegionCode.trim() !== ''){
                 await PCMS.Check_SantaRegionCode(ApiContext, baseUrl, santaData.RegionCode, configData);
@@ -94,12 +94,12 @@ test.describe('Ski Region Test', {tag: '@uat'}, () => {
     const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('region'));
 
     for (const skiData of filteredData){
-        test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
+        test(`Ski (${skiData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
 
             if(skiData.RegionCode !== null && skiData.RegionCode !== undefined && skiData.RegionCode.trim() !== ''){
@@ -116,12 +116,12 @@ test.describe('Walking Region Test', {tag: '@uat'}, () => {
     const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('region'));
 
     for (const walkingData of filteredData){
-        test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
+        test(`Walking (${walkingData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
 
             if(walkingData.RegionCode !== null && walkingData.RegionCode !== undefined && walkingData.RegionCode.trim() !== ''){

@@ -47,15 +47,15 @@ test.describe('Lapland Resort Test', {tag: '@uat'}, () => {
     const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('resort'));
 
     for (const laplandData of filteredData){
-        test(`Lapland (${laplandData.SourcePath})`, async ({ page }) => {
+        test(`Lapland (${laplandData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', laplandData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             console.log(configFilePath)
             //console.log(configData,);
 
-            await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Lapland_Sourcepath_Checker(page, laplandData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if(laplandData.ResortCode !== null && laplandData.ResortCode !== undefined && laplandData.ResortCode.trim() !== ''){
                 await PCMS.Check_LaplandResortCode(ApiContext, baseUrl, laplandData.ResortCode, configData);
@@ -72,12 +72,12 @@ test.describe('Santa Resort Test', {tag: '@uat'}, () => {
     const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('resort'));
 
     for (const santaData of filteredData){
-        test(`Santa (${santaData.SourcePath})`, async ({ page }) => {
+        test(`Santa (${santaData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', santaData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Santa_Sourcepath_Checker(page, santaData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if(santaData.ResortCode !== null && santaData.ResortCode !== undefined && santaData.ResortCode.trim() !== ''){
                 await PCMS.Check_SantaResortCode(ApiContext, baseUrl, santaData.ResortCode, configData);
@@ -95,12 +95,12 @@ test.describe('Ski Resort Test', {tag: '@uat'}, () => {
     const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('resort'));
 
     for (const skiData of filteredData){
-        test(`Ski (${skiData.SourcePath})`, async ({ page }) => {
+        test(`Ski (${skiData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Ski_Sourcepath_Checker(page, skiData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if(skiData.ResortCode !== null && skiData.ResortCode !== undefined && skiData.ResortCode.trim() !== ''){
                 await PCMS.Check_SkiResortCode(ApiContext, baseUrl, skiData.ResortCode, configData);
@@ -116,12 +116,12 @@ test.describe('Walking Resort Test', {tag: '@uat'}, () => {
     const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('resort'));
 
     for (const walkingData of filteredData){
-        test(`Walking (${walkingData.SourcePath})`, async ({ page }) => {
+        test(`Walking (${walkingData.SourcePath.replace(/\\/g, '/')})`, async ({ page }) => {
         
-            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
-            await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath, HOMEpath, ERRORpath);
+            await ECMS.Walking_Sourcepath_Checker(page, walkingData.SourcePath.replace(/\\/g, '/'), HOMEpath, ERRORpath);
 
             if(walkingData.ResortCode !== null && walkingData.ResortCode !== undefined && walkingData.ResortCode.trim() !== ''){
                 await PCMS.Check_WalkingResortCode(ApiContext, baseUrl, walkingData.ResortCode, configData);

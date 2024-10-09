@@ -57,7 +57,7 @@ test.describe('P_CMS Ski Region Test', {tag: '@uat'}, () => {
 
     for (const skiData of uniqueSkiRegionCodeData){
         test(`Ski Region Code(${skiData.RegionCode})`, async ({ page }) => {
-            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', skiData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             if(skiData.RegionCode !== null && skiData.RegionCode !== undefined && skiData.RegionCode.trim() !== ''){
@@ -81,7 +81,7 @@ test.describe('P_CMS Walking Region Test', {tag: '@uat'}, () => {
 
     for (const walkingData of uniqueWalkingRegionCodeData){
         test(`Walking Region Code(${walkingData.RegionCode})`, async ({ page }) => {
-            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath, 'content.config');
+            const configFilePath = path.join(__dirname, 'uat_data', walkingData.SourcePath.replace(/\\/g, '/'), 'content.config');
             const configData = await readConfigFile(configFilePath);
 
             if(walkingData.RegionCode !== null && walkingData.RegionCode !== undefined && walkingData.RegionCode.trim() !== ''){
