@@ -47,7 +47,7 @@ on:
           options:
           - Smoke
           - Regression
-          - UAT
+          - Migration
 
           
     repository_dispatch:
@@ -80,7 +80,7 @@ jobs:
           npx playwright test --grep /@smoke/ --project=Chromium
         elif [ "${{ github.event.inputs.scope }}" == "Regression" ]; then
           npx playwright test --grep /@regression/ --project=Chromium
-        elif [ "${{ github.event.inputs.scope }}" == "UAT" ]; then
+        elif [ "${{ github.event.inputs.scope }}" == "Migration" ]; then
           npx playwright test --grep /@uat/ --project=Chromium
         fi
 
