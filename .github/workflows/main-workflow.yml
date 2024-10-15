@@ -1,6 +1,6 @@
 name: Hotel-Plan-Test-Workflow
 
-run-name: HP ${{ github.event.inputs.scope }} Test Run Build ${{github.run_number}} - ${{ github.event.inputs.environment }}
+run-name: HP ${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }} Test Run Build ${{github.run_number}} - ${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}
 
 on:
     workflow_call:
@@ -72,15 +72,15 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Set environment variable
-      run: echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+      run: echo "ENV=${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" >> $GITHUB_ENV
 
     - name: Run Playwright tests
       run: |
-        if [ "${{ github.event.inputs.scope }}" == "Smoke" ]; then
+        if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Smoke" ]; then
           npx playwright test --grep /@smoke/ --project=Chromium
-        elif [ "${{ github.event.inputs.scope }}" == "Regression" ]; then
+        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Regression" ]; then
           npx playwright test --grep /@regression/ --project=Chromium
-        elif [ "${{ github.event.inputs.scope }}" == "Migration" ]; then
+        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Migration" ]; then
           npx playwright test --grep /@uat/ --project=Chromium
         fi
 
@@ -88,5 +88,5 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: HP_${{ github.event.inputs.scope }}_Test_Results_${{github.run_number}} - ${{ github.event.inputs.environment }}  # Name of the folder
+        name: HP_${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}_Test_Results_${{github.run_number}} - ${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}  # Name of the folder
         path: test-results/*  
