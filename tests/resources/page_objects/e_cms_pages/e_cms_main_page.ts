@@ -76,9 +76,13 @@ export class EcmsMainPage{
             await this.ECMS_Main_Expansion_Arrow("Resorts").hover();
             await this.ECMS_Main_Expansion_Arrow("Resorts").click();
         }
-        else{
+        else if(await this.ECMS_Main_Expansion_Arrow("Destinations").isVisible()){
             await this.ECMS_Main_Expansion_Arrow("Destinations").hover();
             await this.ECMS_Main_Expansion_Arrow("Destinations").click();
+        }
+        else{
+            await this.ECMS_Main_Expansion_Arrow("Ski Resorts").hover();
+            await this.ECMS_Main_Expansion_Arrow("Ski Resorts").click();
         }
 
         if (secondary_product != null) {
