@@ -43,7 +43,7 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 60000,})
 
-test.describe('Lapland Region Test', {tag: '@uat'}, () => {
+test.describe('Lapland Region Test', {tag: '@migration'}, () => {
 
     const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('region'));
 
@@ -66,7 +66,7 @@ test.describe('Lapland Region Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('Santa Region Test', {tag: '@uat'}, () => {
+test.describe('Santa Region Test', {tag: '@migration'}, () => {
 
     const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('region'));
 
@@ -89,7 +89,7 @@ test.describe('Santa Region Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('Ski Region Test', {tag: '@uat'}, () => {
+test.describe('Ski Region Test', {tag: '@migration'}, () => {
 
     const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('region'));
 
@@ -111,7 +111,7 @@ test.describe('Ski Region Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('Walking Region Test', {tag: '@uat'}, () => {
+test.describe('Walking Region Test', {tag: '@migration'}, () => {
 
     const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('region'));
 

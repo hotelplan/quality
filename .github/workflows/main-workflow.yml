@@ -81,7 +81,7 @@ jobs:
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Regression" ]; then
           npx playwright test --grep /@regression/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Migration" ]; then
-          npx playwright test --grep /@uat/ --project=Chromium
+          npx playwright test --grep /@migration/ --project=Chromium
         fi
 
     - name: Test Report Generation

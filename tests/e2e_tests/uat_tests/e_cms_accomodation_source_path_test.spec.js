@@ -22,7 +22,7 @@ const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'M
 
 test.describe.configure({timeout: 60000,})
 // Define the test suite
-test.describe('Lapland Accommodation Source Path', {tag: '@uat'}, () => {
+test.describe('Lapland Accommodation Source Path', {tag: '@migration'}, () => {
 
   const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -47,7 +47,7 @@ test.describe('Lapland Accommodation Source Path', {tag: '@uat'}, () => {
 });
 
 
-test.describe('Santa Accommodation Source Path', {tag: '@uat'}, () => {
+test.describe('Santa Accommodation Source Path', {tag: '@migration'}, () => {
   
   const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -73,7 +73,7 @@ test.describe('Santa Accommodation Source Path', {tag: '@uat'}, () => {
 });
 
 
-test.describe('Ski Accommodation Source Path', {tag: '@uat'}, () => {
+test.describe('Ski Accommodation Source Path', {tag: '@migration'}, () => {
 
   const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -97,7 +97,7 @@ test.describe('Ski Accommodation Source Path', {tag: '@uat'}, () => {
 });
 
 
-test.describe('Walking Accommodation Source Path', {tag: '@uat'}, () => {
+test.describe('Walking Accommodation Source Path', {tag: '@migration'}, () => {
 
   const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('accommodation'));
 

@@ -40,7 +40,7 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 30000,})
 
-test.describe('P_CMS Lapland Resort Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Lapland Resort Test', {tag: '@migration'}, () => {
 
     const uniqueLaplandResortCodeData = Array.from(new Set(LaplandDatacsv
         .map(data => data.ResortCode)
@@ -67,7 +67,7 @@ test.describe('P_CMS Lapland Resort Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('P_CMS Santa Resort Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Santa Resort Test', {tag: '@migration'}, () => {
 
     const uniqueSantaResortCodeData = Array.from(new Set(SantaDatacsv
         .map(data => data.ResortCode)
@@ -94,7 +94,7 @@ test.describe('P_CMS Santa Resort Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('P_CMS Ski Resort Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Ski Resort Test', {tag: '@migration'}, () => {
 
     const uniqueSkiResortCodeData = Array.from(new Set(SkiDatacsv
         .map(data => data.ResortCode)
@@ -120,7 +120,7 @@ test.describe('P_CMS Ski Resort Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('P_CMS Walking Resort Test', {tag: ['@uat'],}, () => {
+test.describe('P_CMS Walking Resort Test', {tag: ['@migration'],}, () => {
 
     const uniqueWalkingResortCodeData = Array.from(new Set(WalkingDatacsv
         .map(data => data.ResortCode)

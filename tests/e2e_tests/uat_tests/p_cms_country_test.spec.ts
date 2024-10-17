@@ -43,7 +43,7 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 30000,})
 
-test.describe('P_CMS Lapland Country Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Lapland Country Test', {tag: '@migration'}, () => {
     const uniqueLaplandCountryCodeData = Array.from(new Set(LaplandCountries
         .map(data => data.Code)))
         .map(uniqueCountryCode => {
@@ -102,7 +102,7 @@ test.describe('P_CMS Lapland Country Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('P_CMS Santa Country Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Santa Country Test', {tag: '@migration'}, () => {
     const uniqueSantaCountryCodeData = Array.from(new Set(SantaCountries
         .map(data => data.Code)))
         .map(uniqueCountryCode => {
@@ -162,7 +162,7 @@ test.describe('P_CMS Santa Country Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('P_CMS Ski Country Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Ski Country Test', {tag: '@migration'}, () => {
     const uniqueSkiCountryCodeData = Array.from(new Set(SkiCountries
         .map(data => data.Code)))
         .map(uniqueCountryCode => {
@@ -220,7 +220,7 @@ test.describe('P_CMS Ski Country Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('P_CMS Walking Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Walking Test', {tag: '@migration'}, () => {
     const uniqueWalkingCountryCodeData = Array.from(new Set(WalkingCountries
         .map(data => data.Code)))
         .map(uniqueCountryCode => {

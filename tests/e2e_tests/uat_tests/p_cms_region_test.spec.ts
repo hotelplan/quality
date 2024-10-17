@@ -45,7 +45,7 @@ test.afterEach(async ({ page },testInfo) => {
 
 test.describe.configure({retries: 2, timeout: 30000,})
 
-test.describe('P_CMS Ski Region Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Ski Region Test', {tag: '@migration'}, () => {
     
     const uniqueSkiRegionCodeData = Array.from(new Set(SkiDatacsv
         .map(data => data.RegionCode)
@@ -70,7 +70,7 @@ test.describe('P_CMS Ski Region Test', {tag: '@uat'}, () => {
 });
 
 
-test.describe('P_CMS Walking Region Test', {tag: '@uat'}, () => {
+test.describe('P_CMS Walking Region Test', {tag: '@migration'}, () => {
     
     const uniqueWalkingRegionCodeData = Array.from(new Set(WalkingDatacsv
         .map(data => data.RegionCode)
