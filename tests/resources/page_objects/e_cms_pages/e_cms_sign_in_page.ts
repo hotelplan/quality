@@ -30,7 +30,8 @@ export class EcmsSignInPage{
         await this.ECMS_SignIn_Login_Button.hover();
         await this.ECMS_SignIn_Login_Button.click();
 
-        await this.page.waitForLoadState('domcontentloaded' && 'load');
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('load');
         await expect(this.ECMS_Welcome_Heading).toBeVisible({timeout: 30000});
     }
 

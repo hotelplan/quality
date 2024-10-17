@@ -53,7 +53,7 @@ export class EcmsMainPage{
         this.ECMS_Main_Content_Create_Banner_Button = page.getByRole('button', { name: 'Create', exact: true });
 
         this.ECMS_Main_Content_Save_And_Publish_Button = page.getByRole('button', { name: 'Save and publish' });
-        this.ECMS_Main_Content_Published_Message = page.getByText('Content published: and is');
+        this.ECMS_Main_Content_Published_Message = page.getByText('Content published: and visible on the website ×');
 
     
 
@@ -182,6 +182,7 @@ export class EcmsMainPage{
         await this.ECMS_Main_Content_Save_And_Publish_Button.hover();
         await this.ECMS_Main_Content_Save_And_Publish_Button.click();
 
+        await this.ECMS_Main_Content_Published_Message.hover();
         await expect(this.ECMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
 
     }

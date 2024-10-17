@@ -52,7 +52,7 @@ test.describe('Lapland Hero Banner Content Test', () => {
       console.log('Target:', target);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
-      await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
+      await ecmsSignInpage.ECMS_Login("christian.ticar@hotelplan.co.uk","[&3}xmN)V)");
       await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", null, target, null, null);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
@@ -89,7 +89,7 @@ test.describe('Ski Hero Banner Content Test', () => {
         console.log('Target:', target);
 
         await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
-        await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
+        await ecmsSignInpage.ECMS_Login("christian.ticar@hotelplan.co.uk","[&3}xmN)V)");
         await ecmsMainPage.ECMS_Expand_Tree("Ski Holidays", null, target, null, null);
         await ecmsMainPage.ECMS_Select_Target_Page(target);
         await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
@@ -136,7 +136,7 @@ test.describe('Ski Hero Banner Content Test', () => {
         console.log('Country:', country);
 
         await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
-        await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
+        await ecmsSignInpage.ECMS_Login("christian.ticar@hotelplan.co.uk","[&3}xmN)V)");
         await ecmsMainPage.ECMS_Expand_Tree("Ski Holidays", null, country, target, null);
         await ecmsMainPage.ECMS_Select_Target_Page(target);
         await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
@@ -174,7 +174,7 @@ test.describe('Walking Hero Banner Content Test', () => {
         console.log('Target:', target);
 
         await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
-        await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
+        await ecmsSignInpage.ECMS_Login("christian.ticar@hotelplan.co.uk","[&3}xmN)V)");
         await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, target, null, null);
         await ecmsMainPage.ECMS_Select_Target_Page(target);
         await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
@@ -221,7 +221,7 @@ test.describe('Walking Hero Banner Content Test', () => {
         console.log('Country:', country);
 
         await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
-        await ecmsSignInpage.ECMS_Login("chris.hobden@hotelplan.co.uk","Welcome123");
+        await ecmsSignInpage.ECMS_Login("christian.ticar@hotelplan.co.uk","[&3}xmN)V)");
         await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, target, null);
         await ecmsMainPage.ECMS_Select_Target_Page(target);
         await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
