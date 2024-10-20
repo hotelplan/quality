@@ -70,14 +70,6 @@ jobs:
     - name: Set environment variable
       run: echo "ENV=${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" >> $GITHUB_ENV
 
-    - name: Debug Secrets
-      run: |
-        echo "ECMS_USERNAME: ECMS_USERNAME"
-        echo "ECMS_PASSWORD: ECMS_PASSWORD"
-      env:
-        ECMS_USERNAME: ${{ secrets.ECMS_USERNAME }}
-        ECMS_PASSWORD: ${{ secrets.ECMS_PASSWORD }}
-
     - name: Run Playwright tests
       env:
         ECMS_USERNAME: ${{ secrets.ECMS_USERNAME }}
