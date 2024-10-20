@@ -20,7 +20,7 @@ export class EcmsSignInPage{
     }
 
     //methods
-    async ECMS_Login(Email: string, Password: string){
+    async ECMS_Login(Email: any, Password: any){
 
         await this.ECMS_SignIn_Email_Field.waitFor({state: 'visible', timeout: 10000});  
         await this.ECMS_SignIn_Email_Field.fill(Email);

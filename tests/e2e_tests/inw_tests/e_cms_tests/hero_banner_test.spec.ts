@@ -45,6 +45,13 @@ test.describe('Lapland Hero Banner Content Test', () => {
     test(`Hero Banner Country Page Test (${laplandCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
       test.slow();
 
+      const username = process.env.ECMS_USERNAME;
+      const password = process.env.ECMS_PASSWORD;
+      const environment = process.env.ENVIRONMENT;
+      console.log('Username:', username);
+      console.log('Password:', password);
+      console.log('Environment:', environment);
+
       const target = laplandCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -52,7 +59,7 @@ test.describe('Lapland Hero Banner Content Test', () => {
       console.log('Target:', target);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
-      await ecmsSignInpage.ECMS_Login("christian.ticar@hotelplan.co.uk","[&3}xmN)V)");
+      await ecmsSignInpage.ECMS_Login(username,password);
       await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", null, target, null, null);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
