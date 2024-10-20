@@ -3,60 +3,56 @@ name: Hotel-Plan-Test-Workflow
 run-name: HP ${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }} Test Run Build ${{github.run_number}} - ${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}
 
 on:
-    workflow_call:
-      inputs:
-        logLevel:
-          description: 'Log Level'
-          required: true
-          type: string
-        environment:
-          description: 'Environment'
-          required: true
-          type: string
-        scope:
-          description: 'Test Scope'
-          required: true
-          type: string
+  workflow_call:
+    inputs:
+      logLevel:
+        description: 'Log Level'
+        required: true
+        type: string
+      environment:
+        description: 'Environment'
+        required: true
+        type: string
+      scope:
+        description: 'Test Scope'
+        required: true
+        type: string
 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log Level'
+        required: true
+        default: 'INFO'
+        type: choice
+        options:
+        - INFO
+        - DEBUG
+        - TRACE
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - qa
+        - stg
+        - prod
+      scope:
+        description: 'Test Scope'
+        required: true
+        default: 'Smoke'
+        type: choice
+        options:
+        - Smoke
+        - Regression
+        - Migration
 
-    workflow_dispatch:
-      inputs:
-        logLevel:
-          description: 'Log Level'
-          required: true
-          default: 'INFO'
-          type: choice
-          options:
-          - INFO
-          - DEBUG
-          - TRACE
-        environment:
-          description: 'Environment'
-          required: true
-          default: 'dev'
-          type: choice
-          options:
-          - qa
-          - stg
-          - prod
-        scope:
-          description: 'Test Scope'
-          required: true
-          default: 'Smoke'
-          type: choice
-          options:
-          - Smoke
-          - Regression
-          - Migration
-
-          
-    repository_dispatch:
-      types: [deploy]
-
+  repository_dispatch:
+    types: [deploy]
 
 jobs:
   HP_Test_Run:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -75,6 +71,9 @@ jobs:
       run: echo "ENV=${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" >> $GITHUB_ENV
 
     - name: Run Playwright tests
+      env:
+        ECMS_USERNAME: ${{ secrets.ECMS_USERNAME }}
+        ECMS_PASSWORD: ${{ secrets.ECMS_PASSWORD }}
       run: |
         if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Smoke" ]; then
           npx playwright test --grep /@smoke/ --project=Chromium
@@ -88,5 +87,5 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: HP_${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}_Test_Results_${{github.run_number}} - ${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}  # Name of the folder
-        path: test-results/*  
+        name: HP_${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}_Test_Results_${{github.run_number}} - ${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}
+        path: test-results/*
