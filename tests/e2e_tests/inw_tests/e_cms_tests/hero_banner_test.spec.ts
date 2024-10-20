@@ -53,8 +53,6 @@ test.describe('Lapland Hero Banner Content Test', () => {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
       console.log('Target:', target);
-      console.log('Username:', process.env.ECMS_USERNAME);
-      console.log('Password:', process.env.ECMS_PASSWORD);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
@@ -92,8 +90,6 @@ test.describe('Ski Hero Banner Content Test', () => {
           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
         console.log('Target:', target);
-        console.log('Username:', process.env.ECMS_USERNAME);
-        console.log('Password:', process.env.ECMS_PASSWORD);
 
         await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
         await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
