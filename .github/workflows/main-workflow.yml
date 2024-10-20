@@ -32,7 +32,7 @@ on:
       environment:
         description: 'Environment'
         required: true
-        default: 'dev'
+        default: 'qa'
         type: choice
         options:
         - qa
