@@ -70,19 +70,10 @@ jobs:
     - name: Set environment variable
       run: echo "ENV=${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" >> $GITHUB_ENV
 
-    - name: Set environment variable for ECMS_USERNAME
-      run: echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME }}" >> $GITHUB_ENV
-
-    - name: Set environment variable for ECMS_PASSWORD
-      run: echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD }}" >> $GITHUB_ENV
-
     - name: Run Playwright tests
-      env:
-        ECMS_USERNAME: ${{ secrets.ECMS_USERNAME }}
-        ECMS_PASSWORD: ${{ secrets.ECMS_PASSWORD }}
       run: |
-        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME }}"
-        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD }}"
+        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME }}" >> $GITHUB_ENV
+        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD }}" >> $GITHUB_ENV
         if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Smoke" ]; then
           npx playwright test --grep /@smoke/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Regression" ]; then
