@@ -72,8 +72,8 @@ jobs:
 
     - name: Run Playwright tests
       run: |
-        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME }}" >> $GITHUB_ENV
-        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD }}" >> $GITHUB_ENV
+        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME }}"
+        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD }}"
         if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Smoke" ]; then
           npx playwright test --grep /@smoke/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Regression" ]; then
