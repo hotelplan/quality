@@ -67,11 +67,14 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
+    - name: Set environment variable for ECMS_USERNAME
+      run: echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME }}" >> $GITHUB_ENV
+
+    - name: Set environment variable for ECMS_PASSWORD
+      run: echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD }}" >> $GITHUB_ENV
+
     - name: Set environment variable
-      run: 
-        echo "ENV=${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" >> $GITHUB_ENV
-        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME }}" >> $GITHUB_ENV
-        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD }}" >> $GITHUB_ENV
+      run: echo "ENV=${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" >> $GITHUB_ENV
 
     - name: Run Playwright tests
       env:
