@@ -72,11 +72,11 @@ jobs:
 
     - name: Run Playwright tests
       env:
-        ECMS_USERNAME: ${{ secrets.ECMS_USERNAME_QA }}
-        ECMS_PASSWORD: ${{ secrets.ECMS_PASSWORD_QA }}
+        ECMS_USERNAME: ${{ secrets.ECMS_USERNAME_STG }}
+        ECMS_PASSWORD: ${{ secrets.ECMS_PASSWORD_STG }}
       run: |
-        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME_QA }}"
-        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_QA }}"
+        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME_STG }}"
+        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_STG }}"
         if [ "${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" == "qa" ]; then
           export ECMS_USERNAME=${{ secrets.ECMS_USERNAME_QA }}
           export ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_QA }}
@@ -84,7 +84,7 @@ jobs:
           export ECMS_USERNAME=${{ secrets.ECMS_USERNAME_STG }}
           export ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_STG }}
         fi
-        
+
         if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Smoke" ]; then
           npx playwright test --grep /@smoke/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Regression" ]; then
