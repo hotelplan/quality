@@ -72,11 +72,11 @@ jobs:
 
     - name: Run Playwright tests
       env:
-        ECMS_USERNAME: ${{ secrets.ECMS_USERNAME_STG }}
-        ECMS_PASSWORD: ${{ secrets.ECMS_PASSWORD_STG }}
+        ECMS_USERNAME: ${{ secrets.ECMS_USERNAME_QA }}
+        ECMS_PASSWORD: ${{ secrets.ECMS_PASSWORD_QA }}
       run: |
-        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME_STG }}"
-        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_STG }}"
+        echo "ECMS_USERNAME=${{ secrets.ECMS_USERNAME_QA }}"
+        echo "ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_QA }}"
         if [ "${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" == "qa" ]; then
           export ECMS_USERNAME=${{ secrets.ECMS_USERNAME_QA }}
           export ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_QA }}
