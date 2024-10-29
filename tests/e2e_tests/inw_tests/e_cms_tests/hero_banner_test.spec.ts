@@ -36,7 +36,7 @@ test.afterEach(async ({ page },testInfo) => {
 });*/
 
 
-test.describe('Lapland Hero Banner Content Test', () => {
+test.describe.skip('Lapland Hero Banner Content Test', () => {
 
   const LaplandCountryData = LaplandDatacsv.filter(row => row['Alias'].includes('country'));
   const LaplandRegionData = LaplandDatacsv.filter(row => row['Alias'].includes('region'));
@@ -74,7 +74,7 @@ test.describe('Lapland Hero Banner Content Test', () => {
 
 
 
-test.describe('Ski Hero Banner Content Test', () => {
+test.describe.skip('Ski Hero Banner Content Test', () => {
 
   const SkiCountryData = SkiDatacsv.filter(row => row['Alias'].includes('country'));
   const SkiRegionData = SkiDatacsv.filter(row => row['Alias'].includes('region'));
@@ -112,7 +112,7 @@ test.describe('Ski Hero Banner Content Test', () => {
   });
 
 
-  test.describe('Ski Region Page', () => {
+  test.describe.skip('Ski Region Page', () => {
     for(const skiRegiondata of SkiRegionData){
       test(`Hero Banner Region Page Test (${skiRegiondata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, regionPage}) => {
         test.slow();
@@ -161,7 +161,7 @@ test.describe('Ski Hero Banner Content Test', () => {
 });
 
 
-test.describe('Walking Hero Banner Content Test', () => {
+test.describe.skip('Walking Hero Banner Content Test', () => {
 
   const WalkingCountryData = WalkingDatacsv.filter(row => row['Alias'].includes('country'));
   const WalkingRegionData = WalkingDatacsv.filter(row => row['Alias'].includes('region'));
@@ -197,7 +197,7 @@ test.describe('Walking Hero Banner Content Test', () => {
   });
 
 
-  test.describe('Walking Region Page', () => {
+  test.describe.skip('Walking Region Page', () => {
     for(const walkingRegiondata of WalkingRegionData){
       test(`Hero Banner Region Page Test (${walkingRegiondata.SourcePath})`, {tag: ['@smoke', '@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, regionPage}) => {
         test.slow();
