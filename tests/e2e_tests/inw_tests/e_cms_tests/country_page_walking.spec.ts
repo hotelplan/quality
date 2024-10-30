@@ -48,6 +48,16 @@ for(const walkingCountrydata of WalkingCountryData){
     });
 
 
+    test(`Walking Country Page Footer Test (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+      
+      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
+
+      await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
+      await countryPage.Check_Walking_Country_Page_Footer();
+
+    });
+
+
     test(`Hero Banner Country Page Test (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
       test.slow();
 
