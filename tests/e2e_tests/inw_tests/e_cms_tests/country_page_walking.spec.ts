@@ -38,22 +38,38 @@ for(const walkingCountrydata of WalkingCountryData){
 
   test.describe(`Walking Country Page (${walkingCountrydata.SourcePath})`, () => {
 
-    test(`Walking Country Page Header Test (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
-      
+    test(`Walking Country Page Header-Footer Test (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+      test.setTimeout(180000);
+
+      const target = walkingCountrydata.SourcePath.split('\\').pop()
+      ?.split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+      console.log('Target:', target);
+
+      await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
+      await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
+      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, target, null, null);
+      await ecmsMainPage.ECMS_Select_Target_Page(target);
+
+      await ecmsMainPage.ECMS_Add_Default_Program_Header_Footer("Walking");
+
       const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
 
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await countryPage.Check_Walking_Country_Page_Header();  
+      await countryPage.Check_Walking_Country_Page_Footer();
+      /////////
+      await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
+      await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
+      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, target, null, null);
+      await ecmsMainPage.ECMS_Select_Target_Page(target);
 
-    });
-
-
-    test(`Walking Country Page Footer Test (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
-      
-      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
+      await ecmsMainPage.ECMS_Remove_Default_Program_Header_Footer();
 
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
-      await countryPage.Check_Walking_Country_Page_Footer();
+      await countryPage.Check_Walking_Country_Page_Header_Not_Visible();  
+      await countryPage.Check_Walking_Country_Page_Footer_Not_Visible();
 
     });
 

@@ -1,4 +1,5 @@
 import { type Page, type Locator, expect } from '@playwright/test';
+import exp from 'constants';
 
 export class EcmsMainPage{
     //variables
@@ -25,6 +26,13 @@ export class EcmsMainPage{
 
     readonly ECMS_Main_Content_Save_And_Publish_Button: Locator;
     readonly ECMS_Main_Content_Published_Message: Locator;
+
+    readonly ECMS_Main_Search_Tab: Locator;
+    readonly ECMS_Main_Search_Current_Default_Program: (program: string) => Locator;
+    readonly ECMS_Main_Search_Add_Default_Program: Locator;
+    readonly ECMS_Main_Search_Remove_Default_Program: Locator;
+    readonly ECMS_Main_Search_Select_Default_Program: (program: string) => Locator;
+
 
 
     //locators
@@ -55,13 +63,20 @@ export class EcmsMainPage{
         this.ECMS_Main_Content_Save_And_Publish_Button = page.getByRole('button', { name: 'Save and publish' });
         this.ECMS_Main_Content_Published_Message = page.getByText('Content published: and visible on the website ×');
 
+        this.ECMS_Main_Search_Tab = page.getByRole('tab', { name: 'Search' });
+        this.ECMS_Main_Search_Current_Default_Program = (program: string) => page.locator(`//div[@class="umb-node-preview__content"]//div[text()="${program}"]`);
+        this.ECMS_Main_Search_Add_Default_Program = page.getByLabel('Default Program: Add');
+        this.ECMS_Main_Search_Remove_Default_Program = page.locator('//button[@ng-click="onRemove()"]');
+        this.ECMS_Main_Search_Select_Default_Program = (program: string) => page.locator(`//li[@data-element="tree-item-${program}"]`);
+
     
 
     }
 
     //methods
     async ECMS_Expand_Tree(product: string, secondary_product: string | null, country: string | null, region: string | null, resort: string | null){
-        
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('load');
         await this.ECMS_Main_Expansion_Arrow("Home").waitFor({state: 'visible', timeout: 10000});
         await this.ECMS_Main_Expansion_Arrow("Home").hover();
         await this.ECMS_Main_Expansion_Arrow("Home").click();
@@ -176,6 +191,75 @@ export class EcmsMainPage{
         else{
             await this.ECMS_Main_Content_Create_Banner_Button.hover();
             await this.ECMS_Main_Content_Create_Banner_Button.click();
+        }
+
+        await this.ECMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Save_And_Publish_Button.hover();
+        await this.ECMS_Main_Content_Save_And_Publish_Button.click();
+
+        await this.ECMS_Main_Content_Published_Message.hover();
+        await expect(this.ECMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
+
+    }
+
+
+    async ECMS_Add_Default_Program_Header_Footer(program: string){
+        await this.ECMS_Main_Search_Tab.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Search_Tab.hover();
+        await this.ECMS_Main_Search_Tab.click();
+
+        await this.page.waitForTimeout(3000);
+
+        if(await this.ECMS_Main_Search_Add_Default_Program.isVisible()){
+            await this.ECMS_Main_Search_Add_Default_Program.hover();
+            await this.ECMS_Main_Search_Add_Default_Program.click();
+
+            await this.ECMS_Main_Search_Select_Default_Program(program).waitFor({state: 'visible', timeout: 10000});
+            await this.ECMS_Main_Search_Select_Default_Program(program).hover();
+            await this.ECMS_Main_Search_Select_Default_Program(program).click();
+
+            await expect(this.ECMS_Main_Search_Current_Default_Program(program)).toBeVisible({timeout: 10000});
+        }
+        else{
+            await this.ECMS_Main_Search_Remove_Default_Program.hover();
+            await this.ECMS_Main_Search_Remove_Default_Program.click();
+
+            await expect(this.ECMS_Main_Search_Current_Default_Program(program)).not.toBeVisible({timeout  : 10000});
+            await expect(this.ECMS_Main_Search_Add_Default_Program).toBeVisible({timeout: 10000});
+
+            await this.ECMS_Main_Search_Add_Default_Program.hover();
+            await this.ECMS_Main_Search_Add_Default_Program.click();
+
+            await this.ECMS_Main_Search_Select_Default_Program(program).waitFor({state: 'visible', timeout: 10000});
+            await this.ECMS_Main_Search_Select_Default_Program(program).hover();
+            await this.ECMS_Main_Search_Select_Default_Program(program).click();
+
+            await expect(this.ECMS_Main_Search_Current_Default_Program(program)).toBeVisible({timeout: 10000});
+        }
+
+        await this.ECMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Save_And_Publish_Button.hover();
+        await this.ECMS_Main_Content_Save_And_Publish_Button.click();
+
+        await this.ECMS_Main_Content_Published_Message.hover();
+        await expect(this.ECMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
+
+    }
+
+
+    async ECMS_Remove_Default_Program_Header_Footer(){
+        await this.ECMS_Main_Search_Tab.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Search_Tab.hover();
+        await this.ECMS_Main_Search_Tab.click();
+
+        await this.page.waitForTimeout(3000);
+
+        if(await this.ECMS_Main_Search_Add_Default_Program.isHidden()){
+            await this.ECMS_Main_Search_Remove_Default_Program.hover();
+            await this.ECMS_Main_Search_Remove_Default_Program.click();
+
+            await expect(this.ECMS_Main_Search_Add_Default_Program).toBeVisible({timeout: 10000});
+
         }
 
         await this.ECMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});

@@ -91,6 +91,60 @@ export class CountryPage{
         await expect(this.Country_Footer_Links).toContainText('Walking With Inghams');
         await expect(this.Country_Footer_Links).toContainText('Walking Deals & offers');
 
+        await expect(this.Country_Footer_Socials).toContainText('Walking');
+
+        await expect(this.Country_Footer_Brands).toContainText('Ski');
+        await expect(this.Country_Footer_Brands).toContainText('Walking');
+        await expect(this.Country_Footer_Brands).toContainText('Lapland');
+
+        await expect(this.Country_Footer_Content_Links).toContainText('Terms and conditions');
+        await expect(this.Country_Footer_Content_Links).toContainText('Privacy policy');
+        await expect(this.Country_Footer_Content_Links).toContainText('Modern Slavery statement');
+        await expect(this.Country_Footer_Content_Links).toContainText('Accessibility');
+        await expect(this.Country_Footer_Content_Links).toContainText('Sitemap');
+        await expect(this.Country_Footer_Content_Links).toContainText('Cookie settings');
+
+        await expect(this.Country_Footer_Brand_Details).toContainText('Inghams is a brand of Hotelplan Limited, “part of the Hotelplan UK Group” © 2024. All Rights Reserved. Registered in England and Wales as Hotelplan Ltd. Registered No 350786. ATOL 0025. ABTA V4871. VAT No: GB 217 4698 42.');
+    }
+
+
+    async Check_Walking_Country_Page_Header_Not_Visible() {
+        await expect(this.Country_Header_Home_Icon).toBeVisible({timeout: 10000});
+        await expect(this.Country_Header_Logo).toBeVisible({timeout: 10000});
+        await expect(this.Country_Header_Product).toBeVisible({timeout: 10000});
+        await expect(this.Country_Header_Navigation).toBeHidden({timeout: 10000});
+        await expect(this.Country_Header_Contact).toBeVisible({timeout: 10000});
+        await expect(this.Country_Header_User).toBeVisible({timeout: 10000});
+
+        await expect(this.Country_Header_Product).toContainText('WALKING');
+
+        await expect(this.Country_Header_Navigation).not.toContainText('Destinations');
+        await expect(this.Country_Header_Navigation).not.toContainText('Holiday Types');
+        await expect(this.Country_Header_Navigation).not.toContainText('Lakes and Mountains');
+        await expect(this.Country_Header_Navigation).not.toContainText('Holiday by Train');
+        await expect(this.Country_Header_Navigation).not.toContainText('Inspire Me');
+        await expect(this.Country_Header_Navigation).not.toContainText('Deals and Offers');
+    }
+
+
+    async Check_Walking_Country_Page_Footer_Not_Visible() {
+        await expect(this.Country_Footer_Links).toBeVisible({timeout: 10000});
+        await expect(this.Country_Footer_Socials).toBeHidden({timeout: 10000});
+        await expect(this.Country_Footer_Brands).toBeVisible({timeout: 10000});
+        await expect(this.Country_Footer_Brands_Ski_Symbol).toBeVisible({timeout: 10000});
+        await expect(this.Country_Footer_Brands_Walking_Symbol).toBeVisible({timeout: 10000});
+        await expect(this.Country_Footer_Brands_Lapland_Symbol).toBeVisible({timeout: 10000});
+        await expect(this.Country_Footer_Content_Links).toBeVisible({timeout: 10000});
+        await expect(this.Country_Footer_Brand_Details).toBeVisible({timeout: 10000});
+
+        await expect(this.Country_Footer_Links).toContainText('Manage my booking');
+        await expect(this.Country_Footer_Links).toContainText('Agent login');
+        await expect(this.Country_Footer_Links).toContainText('Help and FAQs');
+        await expect(this.Country_Footer_Links).toContainText('Contact us');
+        await expect(this.Country_Footer_Links).toContainText('About Us');
+        await expect(this.Country_Footer_Links).not.toContainText('Walking With Inghams');
+        await expect(this.Country_Footer_Links).not.toContainText('Walking Deals & offers');
+
         await expect(this.Country_Footer_Brands).toContainText('Ski');
         await expect(this.Country_Footer_Brands).toContainText('Walking');
         await expect(this.Country_Footer_Brands).toContainText('Lapland');
