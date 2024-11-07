@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 
 
 dotenv.config();
-const env = process.env.ENV || 'qa';
+const env = process.env.ENV || "qa";
 const InghamsUrl = environmentBaseUrl[env].inghams;
 const ECMSurl = environmentBaseUrl[env].e_cms;
 const PCMSurl = environmentBaseUrl[env].p_cms;
