@@ -113,9 +113,7 @@ for(const walkingCountrydata of WalkingCountryData){
     });
     
 
-
-
-
+    
 
     
   });
