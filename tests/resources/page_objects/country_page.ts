@@ -23,6 +23,8 @@ export class CountryPage{
     readonly Country_Hero_Banner: Locator;
 
     readonly Country_At_a_Glance: Locator;
+    readonly Country_At_a_Glance_Content: Locator;
+    readonly Country_At_a_Glance_More_Info: Locator;
 
 
     //locators
@@ -48,6 +50,8 @@ export class CountryPage{
         this.Country_Hero_Banner = page.locator('//div[contains(@class,"c-hero is-active")]');
 
         this.Country_At_a_Glance = page.locator('//div[@class="c-geography-context__glance"]');
+        this.Country_At_a_Glance_Content = page.locator('//div[contains(@class,"glance-content")]');
+        this.Country_At_a_Glance_More_Info = page.locator('//a[contains(@class,"more-info")]');
 
 
 
@@ -194,6 +198,14 @@ export class CountryPage{
     async Check_At_a_Glance(target: string) {
         await expect(this.Country_At_a_Glance).toBeVisible({timeout: 30000});
         await expect(this.Country_At_a_Glance).toContainText(target);
+
+        await expect(this.Country_At_a_Glance_Content).toBeVisible({timeout: 30000});
+        await expect(this.Country_At_a_Glance_More_Info).toBeVisible({timeout: 30000});
+        await expect(this.Country_At_a_Glance_More_Info).toBeEnabled();
+
+        const MoreInfoURL = await this.Country_At_a_Glance_More_Info.getAttribute('href');
+        await expect(MoreInfoURL).not.toBeNull();
+
     }
 
 
