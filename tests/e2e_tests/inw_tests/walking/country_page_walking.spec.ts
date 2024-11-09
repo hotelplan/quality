@@ -97,8 +97,7 @@ for(const walkingCountrydata of WalkingCountryData){
     });
 
     
-    test(`At a Glance Test Walking Country Page  (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, pcmsSignInpage, ecmsMainPage, countryPage}) => {
-      test.slow();
+    test(`At a Glance Test Walking Country Page  (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, pcmsSignInpage, pcmsMainPage, countryPage}) => {
 
       const target = walkingCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
@@ -106,16 +105,10 @@ for(const walkingCountrydata of WalkingCountryData){
         .join(' ');
       console.log('Target:', target);
 
-      await page.goto(PCMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
-      await pcmsSignInpage.PCMS_Login(process.env.PCMS_USERNAME,process.env.PCMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, target, null, null);
-      await ecmsMainPage.ECMS_Select_Target_Page(target);
-      await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
-
       const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
-      await countryPage.Country_Hero_Banner_Checker("291A0817","Full Bleed","Top","Full");
+      await countryPage.Check_At_a_Glance(target);
         
     });
     

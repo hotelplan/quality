@@ -22,6 +22,8 @@ export class CountryPage{
 
     readonly Country_Hero_Banner: Locator;
 
+    readonly Country_At_a_Glance: Locator;
+
 
     //locators
     constructor(page: Page) {
@@ -44,6 +46,8 @@ export class CountryPage{
         this.Country_Footer_Brand_Details = page.locator('//div[@class="c-footer__content"]//p[contains(text(),"Inghams")]');
 
         this.Country_Hero_Banner = page.locator('//div[contains(@class,"c-hero is-active")]');
+
+        this.Country_At_a_Glance = page.locator('//div[@class="c-geography-context__glance"]');
 
 
 
@@ -184,6 +188,12 @@ export class CountryPage{
             await expect(ClassAttribute).toContain("alignment-horizontal-" + horizontalname);
         }
 
+    }
+
+
+    async Check_At_a_Glance(target: string) {
+        await expect(this.Country_At_a_Glance).toBeVisible({timeout: 30000});
+        await expect(this.Country_At_a_Glance).toContainText(target);
     }
 
 
