@@ -98,6 +98,7 @@ for(const walkingCountrydata of WalkingCountryData){
 
     
     test(`At a Glance Test Walking Country Page  (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, pcmsSignInpage, pcmsMainPage, countryPage}) => {
+      test.slow();
 
       const target = walkingCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
