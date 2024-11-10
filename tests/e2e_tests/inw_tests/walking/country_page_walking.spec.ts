@@ -75,7 +75,7 @@ for(const walkingCountrydata of WalkingCountryData){
 
 
     test(`Hero Banner Test Walking Country Page (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
-      test.slow();
+      test.setTimeout(180000);
 
       const target = walkingCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
@@ -98,7 +98,7 @@ for(const walkingCountrydata of WalkingCountryData){
 
     
     test(`At a Glance Test Walking Country Page  (${walkingCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, pcmsSignInpage, pcmsMainPage, countryPage}) => {
-      test.slow();
+      test.setTimeout(180000);
 
       const target = walkingCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
