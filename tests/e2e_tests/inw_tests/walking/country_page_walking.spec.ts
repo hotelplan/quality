@@ -105,15 +105,21 @@ for(const walkingCountrydata of WalkingCountryData){
         .join(' ');
       console.log('Target:', target);
 
+      await page.goto(PCMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
+      await pcmsSignInpage.PCMS_Login(process.env.PCMS_USERNAME,process.env.PCMS_PASSWORD);
+      await pcmsMainPage.PCMS_Expand_Tree("Walking");
+      await pcmsMainPage.PCMS_Select_Target_Page("Countries", target);
+      const LocaleParams = await pcmsMainPage.PCMS_Modify_Country_Locale();
+
       const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
-      await countryPage.Check_At_a_Glance(target);
+      await countryPage.Check_At_a_Glance(target, LocaleParams);
         
     });
     
 
-    
+
 
     
   });

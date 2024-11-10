@@ -195,11 +195,18 @@ export class CountryPage{
     }
 
 
-    async Check_At_a_Glance(target: string) {
+    async Check_At_a_Glance(target: string, parameter?: any) {
+
+        console.log(parameter);
+
         await expect(this.Country_At_a_Glance).toBeVisible({timeout: 30000});
         await expect(this.Country_At_a_Glance).toContainText(target);
 
         await expect(this.Country_At_a_Glance_Content).toBeVisible({timeout: 30000});
+        await expect(this.Country_At_a_Glance_Content).toContainText(parameter.LanguagerandomOption);
+        await expect(this.Country_At_a_Glance_Content).toContainText(parameter.CurrencyrandomOption);
+        await expect(this.Country_At_a_Glance_Content).toContainText(parameter.TimezonerandomOption);
+
         await expect(this.Country_At_a_Glance_More_Info).toBeVisible({timeout: 30000});
         await expect(this.Country_At_a_Glance_More_Info).toBeEnabled();
 
