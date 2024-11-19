@@ -19,10 +19,34 @@ export class EcmsMainPage{
     readonly ECMS_Main_Content_Banner_Add_Media: Locator;
     readonly ECMS_Main_Content_Banner_Media_Exist: Locator;
     readonly ECMS_Main_Content_Banner_Remove_Media: Locator;
-    readonly ECMS_Main_Content_Banner_Select_Media: (media: string) => Locator;
-    readonly ECMS_Main_Content_Banner_Select_Media_Button: Locator;
-    readonly ECMS_Main_Content_Submit_Banner_Button: Locator;
-    readonly ECMS_Main_Content_Create_Banner_Button: Locator;
+    readonly ECMS_Main_Content_Select_Media: (media: string) => Locator;
+    readonly ECMS_Main_Content_Select_Media_Button: Locator;
+    readonly ECMS_Main_Content_Submit_Button: Locator;
+    readonly ECMS_Main_Content_Create_Button: Locator;
+    readonly ECMS_Main_Content_1_Create_Button: Locator;
+
+    readonly ECMS_Conttent_1_Property: Locator;
+    readonly ECMS_Conttent_1_Add_Content_Button: Locator;
+
+    readonly ECMS_Conttent_2_Property: Locator;
+    readonly ECMS_Conttent_2_Add_Content_Button: Locator;
+
+    readonly ECMS_Close_Content_Property: Locator;
+
+    readonly ECMS_Remove_All_Items_Button: Locator;
+    readonly ECMS_Delete_Label: Locator;
+    readonly ECMS_Delete_Button: Locator;
+
+    readonly ECMS_Component: (component: string) => Locator;
+    readonly ECMS_Add_Accordion_Item_Button: Locator;
+    readonly ECMS_Accordion_Item_Title: Locator;
+    readonly ECMS_Accordion_Item_Add_Content: Locator;
+    readonly ECMS_Accordion_Create_Button: Locator;
+    readonly ECMS_Accordion_Component_Create_Button: Locator;
+    readonly ECMS_Accordion_Media_Create_Button: Locator;
+    
+    readonly ECMS_Add_Image_Carousel_Item_Button: Locator;
+    readonly ECMS_Main_Image_Carousel_Select_Image_Video: Locator;
 
     readonly ECMS_Main_Content_Save_And_Publish_Button: Locator;
     readonly ECMS_Main_Content_Published_Message: Locator;
@@ -55,11 +79,35 @@ export class EcmsMainPage{
         this.ECMS_Main_Content_Banner_Media_Exist = page.locator('//ng-form[@name = "vm.mediaCardForm"]');
         this.ECMS_Main_Content_Banner_Remove_Media = page.getByRole('button', { name: 'Remove' });
 
-        this.ECMS_Main_Content_Banner_Select_Media = (media: string) => page.locator(`//div[@title = "${media}"]`);
-        this.ECMS_Main_Content_Banner_Select_Media_Button = page.getByRole('button', { name: 'Select', exact: true });
-        this.ECMS_Main_Content_Submit_Banner_Button = page.getByRole('button', { name: 'Submit' });
-        this.ECMS_Main_Content_Create_Banner_Button = page.getByRole('button', { name: 'Create', exact: true });
+        this.ECMS_Main_Content_Select_Media = (media: string) => page.locator(`//div[@title = "${media}"]`);
+        this.ECMS_Main_Content_Select_Media_Button = page.getByRole('button', { name: 'Select', exact: true });
+        this.ECMS_Main_Content_Submit_Button = page.getByRole('button', { name: 'Submit' });
+        this.ECMS_Main_Content_Create_Button = page.getByRole('button', { name: 'Create', exact: true });
+        this.ECMS_Main_Content_1_Create_Button = page.getByRole('button', { name: 'Create', exact: true }).first();
 
+        this.ECMS_Conttent_1_Property = page.getByRole('button', { name: 'Open Property Actions' }).nth(1);
+        this.ECMS_Conttent_1_Add_Content_Button = page.getByRole('button', { name: 'Add content' }).first();
+
+        this.ECMS_Conttent_2_Property = page.getByRole('button', { name: 'Open Property Actions' }).nth(2);
+        this.ECMS_Conttent_2_Add_Content_Button = page.getByRole('button', { name: 'Add content' }).nth(1);
+
+        this.ECMS_Close_Content_Property = page.getByRole('button', { name: 'Close Property Actions' })
+
+        this.ECMS_Remove_All_Items_Button = page.getByRole('button', { name: 'Remove all items' });
+        this.ECMS_Delete_Label = page.getByRole('heading', { name: 'Delete' });
+        this.ECMS_Delete_Button = page.getByLabel('Delete').getByRole('button', { name: 'Delete' });
+
+        this.ECMS_Component = (component: string) => page.locator(`//div[text()="${component}"]`);
+        this.ECMS_Add_Accordion_Item_Button = page.getByRole('button', { name: 'Add Accordion Item' });
+        this.ECMS_Accordion_Item_Title = page.getByLabel('Title*');
+        this.ECMS_Accordion_Item_Add_Content = page.getByRole('button', { name: 'Add content' }).nth(2);
+        this.ECMS_Accordion_Create_Button = page.getByRole('button', { name: 'Create', exact: true }).nth(1)
+        this.ECMS_Accordion_Component_Create_Button = page.getByRole('button', { name: 'Create', exact: true }).nth(2);
+        this.ECMS_Accordion_Media_Create_Button = page.getByRole('button', { name: 'Create', exact: true }).nth(3);
+
+        this.ECMS_Add_Image_Carousel_Item_Button = page.getByRole('button', { name: 'Add Image Carousel Item' });
+        this.ECMS_Main_Image_Carousel_Select_Image_Video = page.getByRole('link', { name: 'Select Image Or Video' });
+    
         this.ECMS_Main_Content_Save_And_Publish_Button = page.getByRole('button', { name: 'Save and publish' });
         this.ECMS_Main_Content_Published_Message = page.getByText('Content published: and visible on the website ×');
 
@@ -141,6 +189,16 @@ export class EcmsMainPage{
     }
 
 
+    async ECMS_Click_Save_And_Publish(){
+        await this.ECMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Save_And_Publish_Button.hover();
+        await this.ECMS_Main_Content_Save_And_Publish_Button.click();
+
+        await this.ECMS_Main_Content_Published_Message.hover();
+        await expect(this.ECMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
+    }
+
+
     async ECMS_Modify_Hero_Banner(media_name: string){
         await this.ECMS_Main_Content_Tab.waitFor({state: 'visible', timeout: 10000});
         await this.ECMS_Main_Content_Tab.hover();
@@ -176,30 +234,23 @@ export class EcmsMainPage{
         await this.ECMS_Main_Content_Banner_Add_Media.hover();
         await this.ECMS_Main_Content_Banner_Add_Media.click();
 
-        await this.ECMS_Main_Content_Banner_Select_Media(media_name).waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Main_Content_Banner_Select_Media(media_name).hover();
-        await this.ECMS_Main_Content_Banner_Select_Media(media_name).click();
+        await this.ECMS_Main_Content_Select_Media(media_name).waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media(media_name).hover();
+        await this.ECMS_Main_Content_Select_Media(media_name).click();
 
-        await expect(this.ECMS_Main_Content_Banner_Select_Media_Button).toBeEnabled({timeout: 10000});
-        await this.ECMS_Main_Content_Banner_Select_Media_Button.hover({timeout: 10000});
-        await this.ECMS_Main_Content_Banner_Select_Media_Button.click({timeout: 10000});
+        await expect(this.ECMS_Main_Content_Select_Media_Button).toBeEnabled({timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media_Button.hover({timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media_Button.click({timeout: 10000});
 
-        if(await this.ECMS_Main_Content_Submit_Banner_Button.isVisible()){
-            await this.ECMS_Main_Content_Submit_Banner_Button.hover();
-            await this.ECMS_Main_Content_Submit_Banner_Button.click();
+        if(await this.ECMS_Main_Content_Submit_Button.isVisible()){
+            await this.ECMS_Main_Content_Submit_Button.hover();
+            await this.ECMS_Main_Content_Submit_Button.click();
 
         }
         else{
-            await this.ECMS_Main_Content_Create_Banner_Button.hover();
-            await this.ECMS_Main_Content_Create_Banner_Button.click();
+            await this.ECMS_Main_Content_Create_Button.hover();
+            await this.ECMS_Main_Content_Create_Button.click();
         }
-
-        await this.ECMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Main_Content_Save_And_Publish_Button.hover();
-        await this.ECMS_Main_Content_Save_And_Publish_Button.click();
-
-        await this.ECMS_Main_Content_Published_Message.hover();
-        await expect(this.ECMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
 
     }
 
@@ -238,12 +289,6 @@ export class EcmsMainPage{
             await expect(this.ECMS_Main_Search_Current_Default_Program(program)).toBeVisible({timeout: 10000});
         }
 
-        await this.ECMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Main_Content_Save_And_Publish_Button.hover();
-        await this.ECMS_Main_Content_Save_And_Publish_Button.click();
-
-        await this.ECMS_Main_Content_Published_Message.hover();
-        await expect(this.ECMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
 
     }
 
@@ -263,12 +308,176 @@ export class EcmsMainPage{
 
         }
 
-        await this.ECMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Main_Content_Save_And_Publish_Button.hover();
-        await this.ECMS_Main_Content_Save_And_Publish_Button.click();
 
-        await this.ECMS_Main_Content_Published_Message.hover();
-        await expect(this.ECMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
+    }
+
+
+    async ECMS_Modify_Accordions(){
+        await this.ECMS_Main_Content_Tab.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Tab.hover();
+        await this.ECMS_Main_Content_Tab.click();
+
+        await this.page.waitForTimeout(2000);
+        
+        //Delete all content
+        await this.ECMS_Conttent_1_Property.hover();
+        await this.ECMS_Conttent_1_Property.click({timeout: 10000});
+        await this.page.waitForTimeout(3000);
+
+        if(await this.ECMS_Remove_All_Items_Button.isEnabled()){
+            await this.ECMS_Remove_All_Items_Button.hover();
+            await this.ECMS_Remove_All_Items_Button.click();
+
+            await this.ECMS_Delete_Label.waitFor({state: 'visible', timeout: 10000});
+            await this.ECMS_Delete_Button.hover();
+            await this.ECMS_Delete_Button.click();
+        }
+        else{
+            await this.ECMS_Close_Content_Property.click({timeout: 10000});
+        }
+
+        await this.page.waitForTimeout(1500);
+        await this.ECMS_Conttent_2_Property.hover();
+        await this.ECMS_Conttent_2_Property.click({timeout: 10000});
+        await this.page.waitForTimeout(1500);
+
+        if(await this.ECMS_Remove_All_Items_Button.isEnabled()){
+            await this.ECMS_Remove_All_Items_Button.hover();
+            await this.ECMS_Remove_All_Items_Button.click();
+
+            await this.ECMS_Delete_Label.waitFor({state: 'visible', timeout: 10000});
+            await this.ECMS_Delete_Button.hover();
+            await this.ECMS_Delete_Button.click();
+        }
+        else{
+            await this.ECMS_Close_Content_Property.click({timeout: 10000});
+        }
+        
+        //Configure Accordions
+        await this.ECMS_Conttent_1_Add_Content_Button.hover();
+        await this.ECMS_Conttent_1_Add_Content_Button.click();
+
+        await this.ECMS_Component("Accordion").waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Component("Accordion").hover();
+        await this.ECMS_Component("Accordion").click();
+
+        await this.ECMS_Add_Accordion_Item_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Add_Accordion_Item_Button.hover();
+        await this.ECMS_Add_Accordion_Item_Button.click();
+        await this.ECMS_Accordion_Item_Title.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Item_Title.fill('RTE Test Accordion Item');
+        
+        await this.ECMS_Accordion_Item_Add_Content.hover();
+        await this.ECMS_Accordion_Item_Add_Content.click();
+
+        //RTE
+        await this.ECMS_Component("Rich Text Editor").waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Component("Rich Text Editor").hover();
+        await this.ECMS_Component("Rich Text Editor").click();
+
+        const RTE = await this.page?.waitForSelector('[title="Rich Text Area"]');
+        const RTEarea = await RTE?.contentFrame();
+
+        const RTEparagraph = await RTEarea?.waitForSelector('[id ="tinymce"]')
+        await RTEparagraph?.fill('RTE Test Accordion Item Content: The quick brown fox jumps over the lazy dog.');
+
+
+        await this.ECMS_Accordion_Component_Create_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Component_Create_Button.hover();
+        await this.ECMS_Accordion_Component_Create_Button.click();
+
+        await this.ECMS_Accordion_Create_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Create_Button.hover();
+        await this.ECMS_Accordion_Create_Button.click();
+        /////////////////////////
+
+        await this.ECMS_Add_Accordion_Item_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Add_Accordion_Item_Button.hover();
+        await this.ECMS_Add_Accordion_Item_Button.click();
+        await this.ECMS_Accordion_Item_Title.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Item_Title.fill('Image Carousel Test Accordion Item');
+        
+        await this.ECMS_Accordion_Item_Add_Content.hover();
+        await this.ECMS_Accordion_Item_Add_Content.click();
+
+        //async Image Carousel
+        await this.ECMS_Component("Image Carousel").waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Component("Image Carousel").hover();
+        await this.ECMS_Component("Image Carousel").click();
+        //Image 1
+        await this.ECMS_Add_Image_Carousel_Item_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Add_Image_Carousel_Item_Button.hover();
+        await this.ECMS_Add_Image_Carousel_Item_Button.click();
+
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.hover();
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.click();
+
+        await this.ECMS_Main_Content_Select_Media("Bamboo 1283976").waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media("Bamboo 1283976").hover();
+        await this.ECMS_Main_Content_Select_Media("Bamboo 1283976").click();
+
+        await expect(this.ECMS_Main_Content_Select_Media_Button).toBeEnabled({timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media_Button.hover({timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media_Button.click({timeout: 10000});
+
+        await this.ECMS_Accordion_Media_Create_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Media_Create_Button.hover();
+        await this.ECMS_Accordion_Media_Create_Button.click();
+        //Image 2
+        await this.ECMS_Add_Image_Carousel_Item_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Add_Image_Carousel_Item_Button.hover();
+        await this.ECMS_Add_Image_Carousel_Item_Button.click();
+
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.hover();
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.click();
+
+        await this.ECMS_Main_Content_Select_Media("291A0817").waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media("291A0817").hover();
+        await this.ECMS_Main_Content_Select_Media("291A0817").click();
+
+        await expect(this.ECMS_Main_Content_Select_Media_Button).toBeEnabled({timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media_Button.hover({timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media_Button.click({timeout: 10000});
+
+        await this.ECMS_Accordion_Media_Create_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Media_Create_Button.hover();
+        await this.ECMS_Accordion_Media_Create_Button.click();
+        //Image 3
+        await this.ECMS_Add_Image_Carousel_Item_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Add_Image_Carousel_Item_Button.hover();
+        await this.ECMS_Add_Image_Carousel_Item_Button.click();
+
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.hover();
+        await this.ECMS_Main_Image_Carousel_Select_Image_Video.click();
+
+        await this.ECMS_Main_Content_Select_Media("Test Inghams Ski Adobestock 232841876").waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media("Test Inghams Ski Adobestock 232841876").hover();
+        await this.ECMS_Main_Content_Select_Media("Test Inghams Ski Adobestock 232841876").click();
+
+        await expect(this.ECMS_Main_Content_Select_Media_Button).toBeEnabled({timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media_Button.hover({timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media_Button.click({timeout: 10000});
+
+        await this.ECMS_Accordion_Media_Create_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Media_Create_Button.hover();
+        await this.ECMS_Accordion_Media_Create_Button.click();
+        /////////////////////////
+        
+        await this.ECMS_Accordion_Component_Create_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Component_Create_Button.hover();
+        await this.ECMS_Accordion_Component_Create_Button.click();
+
+        await this.ECMS_Accordion_Create_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Accordion_Create_Button.hover();
+        await this.ECMS_Accordion_Create_Button.click();
+
+        await this.ECMS_Main_Content_1_Create_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_1_Create_Button.hover();
+        await this.ECMS_Main_Content_1_Create_Button.click();
+
 
     }
 

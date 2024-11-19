@@ -78,6 +78,17 @@ export class PcmsMainPage{
     }
 
 
+    async PCMS_Click_Saved_And_Publish(){
+        await this.PCMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
+        await this.PCMS_Main_Content_Save_And_Publish_Button.hover();
+        await this.PCMS_Main_Content_Save_And_Publish_Button.click();
+
+        await this.PCMS_Main_Content_Published_Message.hover();
+        await expect(this.PCMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
+
+    }
+
+
     async PCMS_Modify_Country_Locale(){
         await this.PCMS_Main_Locale_Tab.waitFor({ state: 'visible', timeout: 10000 });
         await this.PCMS_Main_Locale_Tab.hover();
@@ -104,12 +115,6 @@ export class PcmsMainPage{
         await this.PCMS_Main_Locale_Currency.selectOption({ label: CurrencyrandomOption });
         await this.PCMS_Main_Locale_Timezone.selectOption({ label: TimezonerandomOption });
 
-        await this.PCMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
-        await this.PCMS_Main_Content_Save_And_Publish_Button.hover();
-        await this.PCMS_Main_Content_Save_And_Publish_Button.click();
-
-        await this.PCMS_Main_Content_Published_Message.hover();
-        await expect(this.PCMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});
 
         return{
             LanguagerandomOption,

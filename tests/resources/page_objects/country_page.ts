@@ -26,6 +26,8 @@ export class CountryPage{
     readonly Country_At_a_Glance_Content: Locator;
     readonly Country_At_a_Glance_More_Info: Locator;
 
+    readonly Country_Accordion: Locator;
+
 
     //locators
     constructor(page: Page) {
@@ -47,11 +49,13 @@ export class CountryPage{
         this.Country_Footer_Content_Links = page.locator('//div[@class="c-footer__content-links"]');
         this.Country_Footer_Brand_Details = page.locator('//div[@class="c-footer__content"]//p[contains(text(),"Inghams")]');
 
-        this.Country_Hero_Banner = page.locator('//div[contains(@class,"c-hero is-active")]');
+        this.Country_Hero_Banner = page.locator('//div[contains(@class,"c-hero ")]');
 
         this.Country_At_a_Glance = page.locator('//div[@class="c-geography-context__glance"]');
         this.Country_At_a_Glance_Content = page.locator('//div[contains(@class,"glance-content")]');
         this.Country_At_a_Glance_More_Info = page.locator('//a[contains(@class,"more-info")]');
+
+        this.Country_Accordion = page.locator('//div[@class="c-accordion"]');
 
 
 
@@ -213,6 +217,57 @@ export class CountryPage{
         const MoreInfoURL = await this.Country_At_a_Glance_More_Info.getAttribute('href');
         await expect(MoreInfoURL).not.toBeNull();
 
+    }
+
+
+    async Check_Accordions() {
+        await expect(this.Country_Accordion).toBeVisible({timeout: 30000});
+        await expect(this.Country_Accordion).toContainText('RTE Test Accordion Item');
+        await expect(this.Country_Accordion).toContainText('Image Carousel Test Accordion Item');
+        await expect(this.Country_Accordion).toContainText('RTE Test Accordion Item Content: The quick brown fox jumps over the lazy dog.');
+
+        const countryAccordion = this.Country_Accordion;
+        const allElements = await countryAccordion.locator('*').elementHandles();
+
+        for (const element of allElements) {
+            const tagName = await element.evaluate(el => (el as Element).tagName);
+            const attributes = await element.evaluate(el => Array.from((el as Element).attributes).map(attr => ({ name: attr.name, value: attr.value })));
+            for (const attribute of attributes) {
+                if (attribute.value.includes('Bamboo 1283976')) {
+                    await expect(attribute.value).toContain('Bamboo 1283976');
+                    console.log('Accordion Item Found:', attribute.value);
+                    break;
+                }
+            }
+        }
+
+
+        for (const element of allElements) {
+            const tagName = await element.evaluate(el => (el as Element).tagName);
+            const attributes = await element.evaluate(el => Array.from((el as Element).attributes).map(attr => ({ name: attr.name, value: attr.value })));
+            for (const attribute of attributes) {
+                if (attribute.value.includes('291A0817')) {
+                    await expect(attribute.value).toContain('291A0817');
+                    console.log('Accordion Item Found:', attribute.value);
+                    break;
+                }
+            }
+        }
+
+        
+        for (const element of allElements) {
+            const tagName = await element.evaluate(el => (el as Element).tagName);
+            const attributes = await element.evaluate(el => Array.from((el as Element).attributes).map(attr => ({ name: attr.name, value: attr.value })));
+            for (const attribute of attributes) {
+                if (attribute.value.includes('Test Inghams Ski Adobestock 232841876')) {
+                    await expect(attribute.value).toContain('Test Inghams Ski Adobestock 232841876');
+                    console.log('Accordion Item Found:', attribute.value);
+                    break;
+                }
+            }
+        }
+
+        
     }
 
 

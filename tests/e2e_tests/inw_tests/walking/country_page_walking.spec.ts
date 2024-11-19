@@ -54,6 +54,7 @@ for(const walkingCountrydata of WalkingCountryData){
       await ecmsMainPage.ECMS_Select_Target_Page(target);
 
       await ecmsMainPage.ECMS_Add_Default_Program_Header_Footer("Walking");
+      await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
       const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
 
@@ -67,6 +68,7 @@ for(const walkingCountrydata of WalkingCountryData){
       await ecmsMainPage.ECMS_Select_Target_Page(target);
 
       await ecmsMainPage.ECMS_Remove_Default_Program_Header_Footer();
+      await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await countryPage.Check_Walking_Country_Page_Header_Not_Visible();  
@@ -89,6 +91,7 @@ for(const walkingCountrydata of WalkingCountryData){
       await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, target, null, null);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
+      await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
       const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
       // Open the URL
@@ -112,6 +115,7 @@ for(const walkingCountrydata of WalkingCountryData){
       await pcmsMainPage.PCMS_Expand_Tree("Walking");
       await pcmsMainPage.PCMS_Select_Target_Page("Countries", target);
       const LocaleParams = await pcmsMainPage.PCMS_Modify_Country_Locale();
+      await pcmsMainPage.PCMS_Click_Saved_And_Publish();
 
       const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
       // Open the URL
@@ -135,12 +139,13 @@ for(const walkingCountrydata of WalkingCountryData){
       await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, target, null, null);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       
-      //await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
+      await ecmsMainPage.ECMS_Modify_Accordions();
+      await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
       const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingCountrydata.SourcePath);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
-      await countryPage.Country_Hero_Banner_Checker("291A0817","Full Bleed","Top","Full");
+      await countryPage.Check_Accordions();
         
     });
 
