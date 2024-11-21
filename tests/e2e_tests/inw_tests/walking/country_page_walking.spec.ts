@@ -26,7 +26,7 @@ const WalkingCountryData = WalkingDatacsv.filter(row => row['Alias'].includes('c
 //});
   
 test.afterEach(async ({ page },testInfo) => {
-  //await page.close();
+  await page.close();
 });
   
 /*test.afterAll(async ({ page }) => {
