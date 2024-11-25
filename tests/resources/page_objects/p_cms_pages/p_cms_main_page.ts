@@ -18,6 +18,7 @@ export class PcmsMainPage{
     readonly PCMS_Main_Locale_Timezone: Locator;
 
     readonly PCMS_Main_Content_Save_And_Publish_Button: Locator;
+    readonly PCMS_Main_Content_Save_And_Publish_Button_Lapland: Locator;
     readonly PCMS_Main_Content_Published_Message: Locator;
  
 
@@ -28,7 +29,7 @@ export class PcmsMainPage{
         this.page = page;
         this.PCMS_Main_Expansion_Arrow = (product: string) => page.locator(`//a[text()="${product}"]//preceding-sibling::button`);
         this.PCMS_Main_Group_Page = (group: string) => page.locator(`//a[text()="${group}"]`);
-        this.PCMS_Main_Target_Page = (target: string) => page.locator(`//a[contains(@title,"${target}")]`);
+        this.PCMS_Main_Target_Page = (target: string) => page.locator(`//a[contains(@title,"${target}")] | //span[contains(text(),"${target}")]`);
         this.PCMS_Main_Content_Fields = page.getByLabel('Content Fields');
 
         this.PCMS_Main_Country_Tab = page.getByRole('tab', { name: 'Country' });
@@ -40,6 +41,7 @@ export class PcmsMainPage{
         this.PCMS_Main_Locale_Timezone = page.locator('//option[contains(text(),"GMT")]//parent::select');
 
         this.PCMS_Main_Content_Save_And_Publish_Button = page.getByRole('button', { name: 'Save and publish' });
+        this.PCMS_Main_Content_Save_And_Publish_Button_Lapland = page.getByRole('button', { name: 'Save and publish' }).nth(1);
         this.PCMS_Main_Content_Published_Message = page.getByText('Content published: and visible on the website ×');
 
 
@@ -79,9 +81,16 @@ export class PcmsMainPage{
 
 
     async PCMS_Click_Saved_And_Publish(){
-        await this.PCMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
-        await this.PCMS_Main_Content_Save_And_Publish_Button.hover();
-        await this.PCMS_Main_Content_Save_And_Publish_Button.click();
+        try{
+            await this.PCMS_Main_Content_Save_And_Publish_Button.waitFor({state: 'visible', timeout: 10000});
+            await this.PCMS_Main_Content_Save_And_Publish_Button.hover();
+            await this.PCMS_Main_Content_Save_And_Publish_Button.click();
+        }catch{
+            await this.PCMS_Main_Content_Save_And_Publish_Button_Lapland.waitFor({state: 'visible', timeout: 10000});
+            await this.PCMS_Main_Content_Save_And_Publish_Button_Lapland.hover();
+            await this.PCMS_Main_Content_Save_And_Publish_Button_Lapland.click();
+        }
+        
 
         await this.PCMS_Main_Content_Published_Message.hover();
         await expect(this.PCMS_Main_Content_Published_Message).toBeVisible({timeout: 30000});

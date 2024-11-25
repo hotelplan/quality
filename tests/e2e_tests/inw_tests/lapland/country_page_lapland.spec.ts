@@ -14,7 +14,7 @@ const ECMSurl = environmentBaseUrl[env].e_cms;
 const PCMSurl = environmentBaseUrl[env].p_cms;
 
 // Helper function to read URLs from the CSV file
-const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_Lapland.csv')), {columns: true, Laplandp_empty_lines: true});
+const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_Lapland.csv')), {columns: true, skip_empty_lines: true});
 const LaplandCountryData = LaplandDatacsv.filter(row => row['Alias'].includes('country'));
 
 //test.beforeAll(async ({page}) => {
