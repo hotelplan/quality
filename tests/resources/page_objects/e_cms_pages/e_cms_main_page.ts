@@ -6,6 +6,7 @@ export class EcmsMainPage{
     readonly page: Page;
     readonly ECMS_Main_Expansion_Arrow: (target: string) => Locator;
     readonly ECMS_Main_Target_Page: (target: string) => Locator;
+    readonly ECMS_Main_Secondary_Resort_Arrow: Locator;
 
     readonly ECMS_Main_Content_Fields: Locator;
     readonly ECMS_Main_Content_Tab: Locator;
@@ -64,6 +65,7 @@ export class EcmsMainPage{
         this.page = page;
         this.ECMS_Main_Expansion_Arrow = (target: string) => page.locator(`//a[text()="${target}"]//preceding-sibling::button`);
         this.ECMS_Main_Target_Page = (target: string) => page.locator(`//a[text()="${target}"]`);
+        this.ECMS_Main_Secondary_Resort_Arrow = page.getByRole('button', { name: 'Expand child items for Resorts' }).nth(1);
 
         this.ECMS_Main_Content_Fields = page.getByLabel('Content Fields');
         this.ECMS_Main_Content_Tab = page.getByRole('tab', { name: 'Content', exact: true });
@@ -115,7 +117,7 @@ export class EcmsMainPage{
         this.ECMS_Main_Search_Current_Default_Program = (program: string) => page.locator(`//div[@class="umb-node-preview__content"]//div[text()="${program}"]`);
         this.ECMS_Main_Search_Add_Default_Program = page.getByLabel('Default Program: Add');
         this.ECMS_Main_Search_Remove_Default_Program = page.locator('//button[@ng-click="onRemove()"]');
-        this.ECMS_Main_Search_Select_Default_Program = (program: string) => page.locator(`//li[@data-element="tree-item-${program}"]`);
+        this.ECMS_Main_Search_Select_Default_Program = (program: string) => page.locator(`//div[contains(@ng-hide,"Search")]//li[@data-element="tree-item-${program}"]`);
 
     
 
@@ -135,7 +137,7 @@ export class EcmsMainPage{
 
         await this.page.waitForTimeout(500);
 
-        if(await this.ECMS_Main_Expansion_Arrow("Resorts").isVisible()){
+        if(await this.ECMS_Main_Expansion_Arrow("Resorts").isVisible() && secondary_product === null){
             await this.ECMS_Main_Expansion_Arrow("Resorts").hover();
             await this.ECMS_Main_Expansion_Arrow("Resorts").click();
         }
@@ -143,19 +145,22 @@ export class EcmsMainPage{
             await this.ECMS_Main_Expansion_Arrow("Destinations").hover();
             await this.ECMS_Main_Expansion_Arrow("Destinations").click();
         }
-        else{
+        else if(await this.ECMS_Main_Expansion_Arrow("Ski Resorts").isVisible()){
             await this.ECMS_Main_Expansion_Arrow("Ski Resorts").hover();
             await this.ECMS_Main_Expansion_Arrow("Ski Resorts").click();
         }
 
+        await this.page.waitForTimeout(500);
+
         if (secondary_product != null) {
+
             await this.ECMS_Main_Expansion_Arrow(secondary_product).waitFor({ state: 'visible', timeout: 10000 });
             await this.ECMS_Main_Expansion_Arrow(secondary_product).hover();
             await this.ECMS_Main_Expansion_Arrow(secondary_product).click();
 
-            await this.ECMS_Main_Expansion_Arrow("Resorts").waitFor({state: 'visible', timeout: 10000});
-            await this.ECMS_Main_Expansion_Arrow("Resorts").hover();
-            await this.ECMS_Main_Expansion_Arrow("Resorts").click();
+            await this.ECMS_Main_Secondary_Resort_Arrow.waitFor({state: 'visible', timeout: 10000});
+            await this.ECMS_Main_Secondary_Resort_Arrow.hover();
+            await this.ECMS_Main_Secondary_Resort_Arrow.click();
         }
 
         if (country != null) {

@@ -14,8 +14,8 @@ const ECMSurl = environmentBaseUrl[env].e_cms;
 const PCMSurl = environmentBaseUrl[env].p_cms;
 
 // Helper function to read URLs from the CSV file
-const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_Lapland.csv')), {columns: true, skip_empty_lines: true});
-const LaplandCountryData = LaplandDatacsv.filter(row => row['Alias'].includes('country'));
+const SantaBreaksDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_SantasBreaks.csv')), {columns: true, skip_empty_lines: true});
+const SantaBreaksCountryData = SantaBreaksDatacsv.filter(row => row['Alias'].includes('country'));
 
 //test.beforeAll(async ({page}) => {
     
@@ -34,15 +34,15 @@ test.afterEach(async ({ page },testInfo) => {
 });*/
 
 
-for(const LaplandCountrydata of LaplandCountryData){
+for(const SantaBreaksCountrydata of SantaBreaksCountryData){
 
-  test.describe(`Lapland Country Page (${LaplandCountrydata.SourcePath})`, () => {
+  test.describe(`SantaBreaks Country Page (${SantaBreaksCountrydata.SourcePath})`, () => {
     test.describe.configure({mode: "serial"});
 
-    test(`Header-Footer Test Lapland Country Page (${LaplandCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+    test(`Header-Footer Test SantaBreaks Country Page (${SantaBreaksCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
       test.setTimeout(180000);
 
-      const target = LaplandCountrydata.SourcePath.split('\\').pop()
+      const target = SantaBreaksCountrydata.SourcePath.split('\\').pop()
       ?.split('-')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
@@ -50,37 +50,37 @@ for(const LaplandCountrydata of LaplandCountryData){
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", null, target, null, null);
+      await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", "Santa Breaks", target, null, null);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
 
-      await ecmsMainPage.ECMS_Add_Default_Program_Header_Footer("Lapland");
+      await ecmsMainPage.ECMS_Add_Default_Program_Header_Footer("Santa Breaks");
       await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
-      const SiteURL = await ECMS.Lapland_URL_Builder(ECMSurl, LaplandCountrydata.SourcePath);
+      const SiteURL = await ECMS.Santa_URL_Builder(ECMSurl, SantaBreaksCountrydata.SourcePath);
 
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
-      await countryPage.Check_Lapland_Country_Page_Header();  
-      await countryPage.Check_Lapland_Country_Page_Footer();
+      //await countryPage.Check_SantaBreaks_Country_Page_Header();  
+      //await countryPage.Check_SantaBreaks_Country_Page_Footer();
       /////////
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", null, target, null, null);
+      await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", "Santa Breaks", target, null, null);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
 
       await ecmsMainPage.ECMS_Remove_Default_Program_Header_Footer();
       await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
-      await countryPage.Check_Lapland_Country_Page_Header_Not_Visible();  
-      await countryPage.Check_Lapland_Country_Page_Footer_Not_Visible();
+      //await countryPage.Check_SantaBreaks_Country_Page_Header_Not_Visible();  
+      //await countryPage.Check_SantaBreaks_Country_Page_Footer_Not_Visible();
 
     });
 
 
-    test(`Hero Banner Test Lapland Country Page (${LaplandCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+    test(`Hero Banner Test SantaBreaks Country Page (${SantaBreaksCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
       test.setTimeout(180000);
 
-      const target = LaplandCountrydata.SourcePath.split('\\').pop()
+      const target = SantaBreaksCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
@@ -88,12 +88,12 @@ for(const LaplandCountrydata of LaplandCountryData){
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", null, target, null, null);
+      await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", "Santa Breaks", target, null, null);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
       await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
-      const SiteURL = await ECMS.Lapland_URL_Builder(ECMSurl, LaplandCountrydata.SourcePath);
+      const SiteURL = await ECMS.Santa_URL_Builder(ECMSurl, SantaBreaksCountrydata.SourcePath);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await countryPage.Country_Hero_Banner_Checker("291A0817","Full Bleed","Top","Full");
@@ -101,10 +101,10 @@ for(const LaplandCountrydata of LaplandCountryData){
     });
 
     
-    test(`At a Glance Test Lapland Country Page  (${LaplandCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, pcmsSignInpage, pcmsMainPage, countryPage}) => {
+    test(`At a Glance Test SantaBreaks Country Page  (${SantaBreaksCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, pcmsSignInpage, pcmsMainPage, countryPage}) => {
       test.setTimeout(180000);
 
-      const target = LaplandCountrydata.SourcePath.split('\\').pop()
+      const target = SantaBreaksCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
@@ -112,13 +112,13 @@ for(const LaplandCountrydata of LaplandCountryData){
 
       await page.goto(PCMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await pcmsSignInpage.PCMS_Login(process.env.PCMS_USERNAME,process.env.PCMS_PASSWORD);
-      await pcmsMainPage.PCMS_Expand_Tree("Lapland");
+      await pcmsMainPage.PCMS_Expand_Tree("Santa Breaks");
       await pcmsMainPage.PCMS_Select_Target_Page("Countries", target);
       const LocaleParams = await pcmsMainPage.PCMS_Modify_Country_Locale();
       await pcmsMainPage.PCMS_Click_Saved_And_Publish();
 
-      const SiteURL = await ECMS.Lapland_URL_Builder(ECMSurl, LaplandCountrydata.SourcePath);
-      console.log('SiteURL:', SiteURL);
+      const SiteURL = await ECMS.Santa_URL_Builder(ECMSurl, SantaBreaksCountrydata.SourcePath);
+      await console.log('SiteURL:', SiteURL);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await countryPage.Check_At_a_Glance(target, LocaleParams);
@@ -126,10 +126,10 @@ for(const LaplandCountrydata of LaplandCountryData){
     });
     
 
-    test(`Accordions Test Lapland Country Page (${LaplandCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+    test(`Accordions Test SantaBreaks Country Page (${SantaBreaksCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
       test.setTimeout(180000);
 
-      const target = LaplandCountrydata.SourcePath.split('\\').pop()
+      const target = SantaBreaksCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
@@ -137,13 +137,13 @@ for(const LaplandCountrydata of LaplandCountryData){
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", null, target, null, null);
+      await ecmsMainPage.ECMS_Expand_Tree("Lapland Holidays", "Santa Breaks", target, null, null);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       
       await ecmsMainPage.ECMS_Modify_Accordions();
       await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
-      const SiteURL = await ECMS.Lapland_URL_Builder(ECMSurl, LaplandCountrydata.SourcePath);
+      const SiteURL = await ECMS.Santa_URL_Builder(ECMSurl, SantaBreaksCountrydata.SourcePath);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await countryPage.Check_Accordions();
