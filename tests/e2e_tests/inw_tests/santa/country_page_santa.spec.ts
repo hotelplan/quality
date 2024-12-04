@@ -45,7 +45,7 @@ for(const SantaBreaksCountrydata of SantaBreaksCountryData){
       const target = SantaBreaksCountrydata.SourcePath.split('\\').pop()
       ?.split('-')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .join('-');
       console.log('Target:', target);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
@@ -83,7 +83,7 @@ for(const SantaBreaksCountrydata of SantaBreaksCountryData){
       const target = SantaBreaksCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+        .join('-');
       console.log('Target:', target);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
@@ -132,7 +132,7 @@ for(const SantaBreaksCountrydata of SantaBreaksCountryData){
       const target = SantaBreaksCountrydata.SourcePath.split('\\').pop()
         ?.split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+        .join('-');
       console.log('Target:', target);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });

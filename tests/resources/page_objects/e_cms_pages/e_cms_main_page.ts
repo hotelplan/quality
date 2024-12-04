@@ -1,5 +1,5 @@
 import { type Page, type Locator, expect } from '@playwright/test';
-import exp from 'constants';
+import * as Media from '../../data/media.json';
 
 export class EcmsMainPage{
     //variables
@@ -418,9 +418,9 @@ export class EcmsMainPage{
         await this.ECMS_Main_Image_Carousel_Select_Image_Video.hover();
         await this.ECMS_Main_Image_Carousel_Select_Image_Video.click();
 
-        await this.ECMS_Main_Content_Select_Media("Bamboo 1283976").waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Main_Content_Select_Media("Bamboo 1283976").hover();
-        await this.ECMS_Main_Content_Select_Media("Bamboo 1283976").click();
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE1).waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE1).hover();
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE1).click();
 
         await expect(this.ECMS_Main_Content_Select_Media_Button).toBeEnabled({timeout: 10000});
         await this.ECMS_Main_Content_Select_Media_Button.hover({timeout: 10000});
@@ -438,9 +438,9 @@ export class EcmsMainPage{
         await this.ECMS_Main_Image_Carousel_Select_Image_Video.hover();
         await this.ECMS_Main_Image_Carousel_Select_Image_Video.click();
 
-        await this.ECMS_Main_Content_Select_Media("291A0817").waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Main_Content_Select_Media("291A0817").hover();
-        await this.ECMS_Main_Content_Select_Media("291A0817").click();
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE2).waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE2).hover();
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE2).click();
 
         await expect(this.ECMS_Main_Content_Select_Media_Button).toBeEnabled({timeout: 10000});
         await this.ECMS_Main_Content_Select_Media_Button.hover({timeout: 10000});
@@ -458,9 +458,9 @@ export class EcmsMainPage{
         await this.ECMS_Main_Image_Carousel_Select_Image_Video.hover();
         await this.ECMS_Main_Image_Carousel_Select_Image_Video.click();
 
-        await this.ECMS_Main_Content_Select_Media("Test Inghams Ski Adobestock 232841876").waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Main_Content_Select_Media("Test Inghams Ski Adobestock 232841876").hover();
-        await this.ECMS_Main_Content_Select_Media("Test Inghams Ski Adobestock 232841876").click();
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE3).waitFor({state: 'visible', timeout: 10000});
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE3).hover();
+        await this.ECMS_Main_Content_Select_Media(Media.IMAGE3).click();
 
         await expect(this.ECMS_Main_Content_Select_Media_Button).toBeEnabled({timeout: 10000});
         await this.ECMS_Main_Content_Select_Media_Button.hover({timeout: 10000});
