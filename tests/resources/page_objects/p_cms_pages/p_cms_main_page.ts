@@ -29,7 +29,7 @@ export class PcmsMainPage{
         this.page = page;
         this.PCMS_Main_Expansion_Arrow = (product: string) => page.locator(`//a[text()="${product}"]//preceding-sibling::button`);
         this.PCMS_Main_Group_Page = (group: string) => page.locator(`//a[text()="${group}"]`);
-        this.PCMS_Main_Target_Page = (target: string) => page.locator(`//a[contains(@title,"${target}")] | //span[contains(text(),"${target}")]`);
+        this.PCMS_Main_Target_Page = (target: string) => page.locator(`//a[contains(@title,"${target}")] | //span[contains(text(),"${target}")] | //div[contains(text(),"${target}")] `);
         this.PCMS_Main_Content_Fields = page.getByLabel('Content Fields');
 
         this.PCMS_Main_Country_Tab = page.getByRole('tab', { name: 'Country' });
