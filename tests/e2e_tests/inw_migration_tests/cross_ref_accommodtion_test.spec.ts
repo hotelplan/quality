@@ -1,7 +1,7 @@
 import { APIRequestContext, test, expect } from '@playwright/test';
 import {parse} from 'csv-parse/sync';
-import { PCMS } from '../../resources/fixtures/p_cmsUtilities';
-import { ECMS } from '../../resources/fixtures/e_cmsUtilities';
+import { PCMS } from '../../resources/inw_resources/fixtures/p_cmsUtilities';
+import { ECMS } from '../../resources/inw_resources/fixtures/e_cmsUtilities';
 import { parseString } from 'xml2js';
 import fs from 'fs';
 import path from 'path';
