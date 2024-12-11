@@ -1,9 +1,9 @@
-import { test, expect } from '../../../resources/fixtures/page_fixtures';
+import { test, expect } from '../../../resources/inw_resources/fixtures/page_fixtures';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
-import { ECMS } from '../../../resources/fixtures/e_cmsUtilities';
+import { ECMS } from '../../../resources/inw_resources/fixtures/e_cmsUtilities';
 import dotenv from 'dotenv';
 
 
