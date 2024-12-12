@@ -18,6 +18,13 @@ export default{
         e_cms:'https://inghamsv2-ecms.qa.hotelplan.co.uk',
         p_cms:'https://inghamsv2-pcms.qa.hotelplan.co.uk',
 
+        en_gb:'https://dev-feature.explore.co.uk/',
+        en_us:'https://www.exploreworldwide.com/',
+        en_au:'https://www.exploreworldwide.com.au/',
+        en_nz:'https://www.exploreworldwide.co.nz/',
+        en_ca:'https://www.exploreworldwide.ca/',
+        en_eu:'https://www.exploreworldwide.eu/',
+        en_ch:'https://www.exploreworldwide.ch/',
     },
     stg:{
         inghams:'https://inghams-v2.stg.hotelplan.co.uk',
