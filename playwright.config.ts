@@ -24,6 +24,7 @@ export default defineConfig({
   reporter: [['html', { outputFolder: 'test-results' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    headless: false,
     trace: 'on-first-retry',
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.ENV === 'prod' 
