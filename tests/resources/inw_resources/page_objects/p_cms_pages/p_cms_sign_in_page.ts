@@ -38,7 +38,7 @@ export class PcmsSignInPage{
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('load');
 
-        await this.page.waitForTimeout(10000);
+        await this.page.waitForTimeout(30000);
 
         if(await this.PCMS_Start_Tour_Button.isVisible()){
             await this.PCMS_Close_Tour_Button.waitFor({state: 'visible', timeout: 10000});

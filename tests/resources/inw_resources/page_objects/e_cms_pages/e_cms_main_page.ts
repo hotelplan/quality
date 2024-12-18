@@ -42,6 +42,7 @@ export class EcmsMainPage{
     readonly ECMS_Add_Accordion_Item_Button: Locator;
     readonly ECMS_Accordion_Item_Title: Locator;
     readonly ECMS_Accordion_Item_Add_Content: Locator;
+    readonly ECMS_Accordion_Item_Add_Content_Region: Locator;
     readonly ECMS_Accordion_Create_Button: Locator;
     readonly ECMS_Accordion_Component_Create_Button: Locator;
     readonly ECMS_Accordion_Media_Create_Button: Locator;
@@ -103,6 +104,7 @@ export class EcmsMainPage{
         this.ECMS_Add_Accordion_Item_Button = page.getByRole('button', { name: 'Add Accordion Item' });
         this.ECMS_Accordion_Item_Title = page.getByLabel('Title*');
         this.ECMS_Accordion_Item_Add_Content = page.getByRole('button', { name: 'Add content' }).nth(2);
+        this.ECMS_Accordion_Item_Add_Content_Region = page.getByRole('button', { name: 'Add content' }).nth(4);
         this.ECMS_Accordion_Create_Button = page.getByRole('button', { name: 'Create', exact: true }).nth(1)
         this.ECMS_Accordion_Component_Create_Button = page.getByRole('button', { name: 'Create', exact: true }).nth(2);
         this.ECMS_Accordion_Media_Create_Button = page.getByRole('button', { name: 'Create', exact: true }).nth(3);
@@ -135,7 +137,7 @@ export class EcmsMainPage{
         await this.ECMS_Main_Expansion_Arrow(product).hover();
         await this.ECMS_Main_Expansion_Arrow(product).click();
 
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(5000);
 
         if(await this.ECMS_Main_Expansion_Arrow("Resorts").isVisible() && secondary_product === null){
             await this.ECMS_Main_Expansion_Arrow("Resorts").hover();
@@ -372,8 +374,14 @@ export class EcmsMainPage{
         await this.ECMS_Accordion_Item_Title.waitFor({state: 'visible', timeout: 10000});
         await this.ECMS_Accordion_Item_Title.fill('RTE Test Accordion Item');
         
-        await this.ECMS_Accordion_Item_Add_Content.hover();
-        await this.ECMS_Accordion_Item_Add_Content.click();
+        try{
+            await this.ECMS_Accordion_Item_Add_Content.hover({timeout: 1000});
+            await this.ECMS_Accordion_Item_Add_Content.click();
+        }
+        catch{
+            await this.ECMS_Accordion_Item_Add_Content_Region.hover();
+            await this.ECMS_Accordion_Item_Add_Content_Region.click();
+        }
 
         //RTE
         await this.ECMS_Component("Rich Text Editor").waitFor({state: 'visible', timeout: 10000});
@@ -402,8 +410,14 @@ export class EcmsMainPage{
         await this.ECMS_Accordion_Item_Title.waitFor({state: 'visible', timeout: 10000});
         await this.ECMS_Accordion_Item_Title.fill('Image Carousel Test Accordion Item');
         
-        await this.ECMS_Accordion_Item_Add_Content.hover();
-        await this.ECMS_Accordion_Item_Add_Content.click();
+        try{
+            await this.ECMS_Accordion_Item_Add_Content.hover({timeout: 1000});
+            await this.ECMS_Accordion_Item_Add_Content.click();
+        }
+        catch{
+            await this.ECMS_Accordion_Item_Add_Content_Region.hover();
+            await this.ECMS_Accordion_Item_Add_Content_Region.click();
+        }
 
         //async Image Carousel
         await this.ECMS_Component("Image Carousel").waitFor({state: 'visible', timeout: 10000});
