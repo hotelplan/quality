@@ -481,8 +481,8 @@ export class EcmsMainPage{
         await this.ECMS_Main_Content_Select_Media_Button.click({timeout: 10000});
 
         await this.ECMS_Accordion_Media_Create_Button.waitFor({state: 'visible', timeout: 10000});
-        await this.ECMS_Accordion_Media_Create_Button.hover();
-        await this.ECMS_Accordion_Media_Create_Button.click();
+        await this.ECMS_Accordion_Media_Create_Button.hover({timeout: 10000});
+        await this.ECMS_Accordion_Media_Create_Button.click({timeout: 10000});
         /////////////////////////
         
         await this.ECMS_Accordion_Component_Create_Button.waitFor({state: 'visible', timeout: 10000});
