@@ -1,0 +1,171 @@
+link_type,active,filtersearch,primary_link,secondary_link,expected_url
+Destinations,FALSE,,Australasia,New Zealand tours,destinations/australasia/new-zealand
+Destinations,TRUE,,Europe,Albania tours,destinations/europe/albania
+Destinations,TRUE,,Europe,Andorra tours,destinations/europe/andorra
+Destinations,TRUE,,Europe,Austria tours,destinations/europe/austria
+Destinations,TRUE,,Europe,Bosnia and Herzegovina,destinations/europe/bosnia-and-herzegovina
+Destinations,TRUE,,Europe,Bulgaria tours,destinations/europe/bulgaria
+Destinations,TRUE,,Europe,Croatia tours,destinations/europe/croatia
+Destinations,TRUE,,Europe,Czechia tours,destinations/europe/czechia
+Destinations,TRUE,,Europe,Estonia tours,destinations/europe/estonia
+Destinations,TRUE,,Europe,Finland tours,destinations/europe/finland
+Destinations,TRUE,,Europe,France tours,destinations/europe/france
+Destinations,TRUE,,Europe,Greece tours,destinations/europe/greece
+Destinations,TRUE,,Europe,Hungary tours,destinations/europe/hungary
+Destinations,TRUE,,Europe,Iceland tours,destinations/europe/iceland
+Destinations,TRUE,,Europe,Ireland tours,destinations/europe/republic-of-ireland
+Destinations,TRUE,,Europe,Italy tours,destinations/europe/italy
+Destinations,TRUE,,Europe,Kosovo tours,destinations/europe/kosovo
+Destinations,TRUE,,Europe,Malta tours,destinations/europe/malta
+Destinations,TRUE,,Europe,Montenegro tours,destinations/europe/montenegro
+Destinations,TRUE,,Europe,North Cyprus tours,destinations/europe/northern-cyprus
+Destinations,TRUE,,Europe,North Macedonia tours,destinations/europe/north-macedonia
+Destinations,TRUE,,Europe,Norway tours,destinations/europe/norway
+Destinations,TRUE,,Europe,Poland tours,destinations/europe/poland
+Destinations,TRUE,,Europe,Portugal tours,destinations/europe/portugal
+Destinations,TRUE,,Europe,Romania tours,destinations/europe/romania
+Destinations,TRUE,,Europe,Serbia tours,destinations/europe/serbia
+Destinations,TRUE,,Europe,Slovakia tours,destinations/europe/slovakia
+Destinations,TRUE,,Europe,Slovenia tours,destinations/europe/slovenia
+Destinations,TRUE,,Europe,Spain tours,destinations/europe/spain
+Destinations,TRUE,,Europe,Switzerland tours,destinations/europe/switzerland
+Destinations,TRUE,,Europe,Turkey tours,destinations/europe/turkey
+Destinations,TRUE,,Europe,Ukraine tours,destinations/europe/ukraine
+Destinations,TRUE,,Europe,United Kingdom tours,destinations/europe/united-kingdom
+Destinations,TRUE,,Europe,Amalfi Coast,destinations/europe/italy/amalfi-coast-tours
+Destinations,TRUE,,Europe,Azores tours,destinations/europe/azores
+Destinations,TRUE,,Europe,Baltic States tours,destinations/europe/baltic-states
+Destinations,TRUE,,Europe,Canary Islands tours,destinations/europe/canary-islands
+Destinations,TRUE,,Europe,Cappadocia tours,destinations/europe/turkey/cappadocia-tours
+Destinations,TRUE,,Europe,Madeira tours,destinations/europe/madeira
+Destinations,TRUE,,Europe,Sicily,destinations/europe/sicily
+Destinations,FALSE,,Africa,Benin tours,destinations/africa/benin
+Destinations,FALSE,,Africa,Botswana tours,destinations/africa/botswana
+Destinations,FALSE,,Africa,Eswatini tours,destinations/africa/eswatini
+Destinations,FALSE,,Africa,Ghana tours,destinations/africa/ghana
+Destinations,FALSE,,Africa,Ivory Coast tours,destinations/africa/ivory-coast
+Destinations,FALSE,,Africa,Kenya tours,destinations/africa/kenya-tours
+Destinations,FALSE,,Africa,Madagascar tours,destinations/africa/madagascar
+Destinations,FALSE,,Africa,Morocco tours,destinations/africa/morocco
+Destinations,FALSE,,Africa,Namibia tours,destinations/africa/namibia
+Destinations,FALSE,,Africa,Rwanda tours,destinations/africa/rwanda
+Destinations,FALSE,,Africa,Senegal tours,destinations/africa/senegal
+Destinations,FALSE,,Africa,South Africa tours,destinations/africa/south-africa
+Destinations,FALSE,,Africa,Tanzania tours,destinations/africa/tanzania
+Destinations,FALSE,,Africa,The Gambia tours,destinations/africa/the-gambia
+Destinations,FALSE,,Africa,Togo tours,destinations/africa/togo
+Destinations,FALSE,,Africa,Tunisia tours,destinations/africa/tunisia
+Destinations,FALSE,,Africa,Uganda tours,destinations/africa/uganda
+Destinations,FALSE,,Africa,Zimbabwe tours,destinations/africa/zimbabwe
+Destinations,FALSE,,Middle East,Egypt tours,destinations/middle-east/egypt
+Destinations,FALSE,,Middle East,Jordan tours,destinations/middle-east/jordan
+Destinations,FALSE,,Middle East,Oman tours,destinations/middle-east/oman
+Destinations,FALSE,,Middle East,Saudi Arabia tours,destinations/middle-east/saudi-arabia
+Destinations,FALSE,,Asia,Armenia tours,destinations/asia/armenia
+Destinations,FALSE,,Asia,Azerbaijan tours,destinations/asia/azerbaijan
+Destinations,FALSE,,Asia,Bhutan tours,destinations/asia/bhutan
+Destinations,FALSE,,Asia,Borneo tours,destinations/asia/borneo
+Destinations,FALSE,,Asia,Cambodia tours,destinations/asia/cambodia
+Destinations,FALSE,,Asia,China tours,destinations/asia/china
+Destinations,FALSE,,Asia,Georgia tours,destinations/asia/georgia
+Destinations,FALSE,,Asia,Hong Kong tours,destinations/asia/hong-kong
+Destinations,FALSE,,Asia,India tours,destinations/asia/india
+Destinations,FALSE,,Asia,Indonesia tours,destinations/asia/indonesia
+Destinations,FALSE,,Asia,Japan tours,destinations/asia/japan
+Destinations,FALSE,,Asia,Kazakhstan tours,destinations/asia/kazakhstan
+Destinations,FALSE,,Asia,Kyrgyzstan tours,destinations/asia/kyrgyzstan
+Destinations,FALSE,,Asia,Laos tours,destinations/asia/laos
+Destinations,FALSE,,Asia,Malaysia tours,destinations/asia/malaysia
+Destinations,FALSE,,Asia,Maldives tours,destinations/asia/maldives
+Destinations,FALSE,,Asia,Mongolia tours,destinations/asia/mongolia
+Destinations,FALSE,,Asia,Nepal tours,destinations/asia/nepal
+Destinations,FALSE,,Asia,Pakistan tours,destinations/asia/pakistan
+Destinations,FALSE,,Asia,Philippines tours,destinations/asia/philippines
+Destinations,FALSE,,Asia,Singapore tours,destinations/asia/singapore
+Destinations,FALSE,,Asia,Sri Lanka tours,destinations/asia/sri-lanka
+Destinations,FALSE,,Asia,Tajikistan tours,destinations/asia/tajikistan
+Destinations,FALSE,,Asia,Thailand tours,destinations/asia/thailand
+Destinations,FALSE,,Asia,Turkmenistan tours,destinations/asia/turkmenistan
+Destinations,FALSE,,Asia,Uzbekistan tours,destinations/asia/uzbekistan
+Destinations,FALSE,,Asia,Vietnam tours,destinations/asia/vietnam
+Destinations,FALSE,,Caribbean,Cuba tours,destinations/caribbean/cuba
+Destinations,FALSE,,Caribbean,Jamaica tours,destinations/caribbean/jamaica
+Destinations,FALSE,,Central America,Belize tours,destinations/central-america/belize
+Destinations,FALSE,,Central America,Costa Rica tours,destinations/central-america/costa-rica
+Destinations,FALSE,,Central America,El Salvador tours,destinations/central-america/el-salvador
+Destinations,FALSE,,Central America,Guatemala tours,destinations/central-america/guatemala
+Destinations,FALSE,,Central America,Honduras tours,destinations/central-america/honduras
+Destinations,FALSE,,Central America,Mexico tours,destinations/central-america/mexico
+Destinations,FALSE,,Central America,Nicaragua tours,destinations/central-america/nicaragua
+Destinations,FALSE,,Central America,Panama tours,destinations/central-america/panama
+Destinations,FALSE,,North America,Canada tours,destinations/north-america/canada
+Destinations,FALSE,,North America,USA tours,destinations/north-america/usa
+Destinations,FALSE,,Polar,Antarctica,destinations/polar-regions/antarctica-region
+Destinations,FALSE,,Polar,Arctic,destinations/polar-regions/arctic-region
+Destinations,FALSE,,Polar,Falkland Islands,destinations/polar-regions/falkland-islands
+Destinations,FALSE,,Polar,Greenland,destinations/europe/greenland
+Destinations,FALSE,,Polar,Norway,destinations/europe/norway
+Destinations,FALSE,,Polar,South Georgia,destinations/polar-regions/south-georgia
+Destinations,FALSE,,Polar,Spitsbergen,destinations/polar-regions/spitsbergen
+Destinations,FALSE,,South America,Argentina tours,destinations/south-america/argentina
+Destinations,FALSE,,South America,Bolivia tours,destinations/south-america/bolivia
+Destinations,FALSE,,South America,Brazil tours,destinations/south-america/brazil
+Destinations,FALSE,,South America,Chile tours,destinations/south-america/chile
+Destinations,FALSE,,South America,Colombia tours,destinations/south-america/colombia
+Destinations,FALSE,,South America,Ecuador tours,destinations/south-america/ecuador
+Destinations,FALSE,,South America,Guyana tours,destinations/south-america/guyana
+Destinations,FALSE,,South America,Peru tours,destinations/south-america/peru
+Destinations,FALSE,,South America,Galapagos tours,destinations/south-america/galapagos
+Destinations,FALSE,,South America,Inca Trail tours,destinations/south-america/peru/inca-trail-treks
+Destinations,FALSE,,South America,Machu Picchu tours,destinations/south-america/peru/machu-picchu
+Destinations,FALSE,,South America,Patagonia tours,destinations/south-america/patagonia
+Experiences,TRUE,,Classic Discovery,Classic Discovery tours,experiences/cultural-discovery
+Experiences,TRUE,,Classic Discovery,Festival tours,experiences/festival-tours
+Experiences,TRUE,,Classic Discovery,Food & drink tours,experiences/food-drink-tours
+Experiences,TRUE,,Classic Discovery,Wildlife holidays,experiences/wildlife-holidays
+Experiences,TRUE,,Classic Discovery,Rail journeys,experiences/rail-journeys
+Experiences,TRUE,,Classic Discovery,Boat journeys,experiences/boat-journeys
+Experiences,TRUE,,Classic Discovery,Activity holidays,experiences/multi-activity-holidays
+Experiences,FALSE,,Walking & Trekking,Group walking holidays,experiences/walking-and-trekking-tours
+Experiences,FALSE,,Walking & Trekking,Types of walking holidays,experiences/walking-and-trekking-tours/types-of-walking-holiday
+Experiences,FALSE,,Walking & Trekking,Walking and trekking grades,experiences/walking-and-trekking-tours/trek-grades
+Experiences,FALSE,,Walking & Trekking,Leisurely walking holidays,experiences/walking-and-trekking-tours/trek-grades/leisurely-grade-walking-tours
+Experiences,FALSE,,Walking & Trekking,Moderate walking holidays,experiences/walking-and-trekking-tours/trek-grades/moderate-grade-walking-tours
+Experiences,FALSE,,Walking & Trekking,Challenging walking holidays,experiences/walking-and-trekking-tours/trek-grades/challenging-grade-walking-tours
+Experiences,FALSE,TRUE,Walking & Trekking,Challenging and Tough walking holidays,search?query=&experiences=8&walkingcyclinggrades=6
+Experiences,FALSE,TRUE,Walking & Trekking,Moderate and Challenging walking holidays,search?query=&experiences=8&walkingcyclinggrades=4
+Experiences,FALSE,TRUE,Walking & Trekking,Leisurely and Moderate walking holidays,search?query=&experiences=8&walkingcyclinggrades=8%2C9
+Experiences,FALSE,,Cycling Holidays,Group cycling holidays,experiences/cycling-tours
+Experiences,FALSE,,Cycling Holidays,Electric bike holidays,experiences/cycling-tours/electric-bike-tours
+Experiences,FALSE,,Cycling Holidays,Cycling tour grades,experiences/cycling-tours/cycling-grades
+Experiences,FALSE,,Cycling Holidays,Leisurely cycling holidays,experiences/cycling-tours/cycling-grades/leisurely-grade-cycling-trips
+Experiences,FALSE,TRUE,Cycling Holidays,Leisurely and Moderate cycling holidays,"search?experiences=7&walkingcyclinggrades=8,9"
+Experiences,FALSE,,Cycling Holidays,Moderate cycling holidays,experiences/cycling-tours/cycling-grades/moderate-grade-cycling-trips
+Experiences,FALSE,TRUE,Cycling Holidays,Moderate and Challenging cycling holidays,search?experiences=7&walkingCyclingGrades=4
+Experiences,FALSE,,Wildlife,Safari holidays,experiences/wildlife-holidays/safari-holidays
+Experiences,FALSE,,Wildlife,Big Cats safari holidays,experiences/wildlife-holidays/big-cats-safari-holidays
+Experiences,FALSE,,Wildlife,Bear watching holidays,experiences/wildlife-holidays/bear-watching-holidays
+Experiences,FALSE,,Wildlife,Gorilla trekking tours,experiences/wildlife-holidays/gorilla-watching-holidays
+Experiences,FALSE,,Wildlife,Whale and dolphin watching,experiences/wildlife-holidays/whale-and-dolphin-watching
+Experiences,FALSE,,Wildlife,Family wildlife holidays,experiences/family-holidays/family-wildlife-holidays
+Experiences,FALSE,,Solo,Solo adventure holidays,experiences/holidays-for-solo-travellers/solo-adventure-holidays
+Experiences,FALSE,,Solo,Solo walking holidays,experiences/holidays-for-solo-travellers/singles-walking-holidays
+Experiences,FALSE,,Solo,Solo cycling holidays,experiences/holidays-for-solo-travellers/singles-cycling-holidays
+Experiences,FALSE,,Explore Upgraded,,experiences/explore-upgraded
+Experiences,FALSE,,Polar,Arctic,destinations/polar-regions/arctic-region
+Experiences,FALSE,,Polar,Antarctica,destinations/polar-regions/antarctica-region
+Experiences,FALSE,,Polar,Falklands Islands,destinations/polar-regions/falkland-islands
+Experiences,FALSE,,Polar,South Georgia,destinations/polar-regions/south-georgia
+Experiences,FALSE,,Polar,Spitsbergen,destinations/polar-regions/spitsbergen
+Experiences,FALSE,,Polar,Polar voyages,experiences/polar-voyages
+Experiences,FALSE,,Food & Drink,,experiences/food-drink-tours
+Experiences,FALSE,,Family Adventures,Group family holidays,experiences/family-holidays
+Experiences,FALSE,,Family Adventures,Family trips by school holiday,experiences/family-holidays/school-holidays
+Experiences,FALSE,,Family Adventures,Family wildlife holidays,experiences/family-holidays/family-wildlife-holidays
+About,TRUE,,About Explore,Why book with us,about
+About,TRUE,,About Explore,Our accommodation,about/our-accommodation
+About,TRUE,,About Explore,Explore tour leaders,about/explore-tour-leaders
+About,TRUE,,About Explore,Trip pace,about/trip-pace
+About,TRUE,,About Explore,Travel experts,adventure-travel-experts
+About,TRUE,,About Explore,Contact us,contact-us
+About,TRUE,,About Explore,Order a brochure,brochures
