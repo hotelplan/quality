@@ -38,7 +38,7 @@ export class EcmsSignInPage{
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('load');
 
-        await this.page.waitForTimeout(10000);
+        await this.page.waitForTimeout(15000);
 
         if(await this.ECMS_Start_Tour_Button.isVisible()){
             await this.ECMS_Close_Tour_Button.waitFor({state: 'visible', timeout: 10000});

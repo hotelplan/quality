@@ -126,7 +126,20 @@ export class EcmsMainPage{
     }
 
     //methods
-    async ECMS_Expand_Tree(product: string, secondary_product: string | null, country: string | null, region: string | null, resort: string | null){
+    async ECMS_Expand_Tree(product: string, secondary_product: string | null, country: string | null, region: string | null = null, resort: string | null){
+
+        if (country === "") {
+            country = null;
+        }
+
+        if (region === "") {
+            region = null;
+        }
+
+        if (resort === "") {
+            resort = null;
+        }
+
         await this.page.waitForLoadState('domcontentloaded');
         await this.page.waitForLoadState('load');
         await this.ECMS_Main_Expansion_Arrow("Home").waitFor({state: 'visible', timeout: 10000});
