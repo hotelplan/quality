@@ -15,7 +15,7 @@ const PCMSurl = environmentBaseUrl[env].p_cms;
 
 // Helper function to read URLs from the CSV file
 const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
-const WalkingRegionData = WalkingDatacsv.filter(row => row['Alias'].includes('region'));
+const WalkingResortData = WalkingDatacsv.filter(row => row['Alias'].includes('resort'));
 
 //test.beforeAll(async ({page}) => {
     
@@ -34,37 +34,46 @@ test.afterEach(async ({ page },testInfo) => {
 });*/
 
 
-for(const walkingRegiondata of WalkingRegionData){
+for(const walkingResortdata of WalkingResortData){
 
-  test.describe(`Walking Region Page (${walkingRegiondata.SourcePath})`, () => {
+  test.describe(`Walking Region Page (${walkingResortdata.SourcePath})`, () => {
     test.describe.configure({mode: "serial"});
 
-    const country = walkingRegiondata.Country.split('\\').pop()
+    const country = walkingResortdata.Country.split('\\').pop()
     ?.split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+    
 
-    const target = walkingRegiondata.SourcePath.split('\\').pop()
+    const region = walkingResortdata.Region.split('\\').pop()
+    ?.split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+    
+
+    const target = walkingResortdata.SourcePath.split('\\').pop()
     ?.split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+    
 
     
-    test(`Header-Footer Test Walking Region Page (${walkingRegiondata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, regionPage}) => {
+    test(`Header-Footer Test Walking Resort Page (${walkingResortdata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, regionPage}) => {
       test.setTimeout(180000);
 
       console.log('Country:', country);
+      console.log('Region:', region);
       console.log('Target:', target);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, target, null);
+      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, region, target);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
 
       await ecmsMainPage.ECMS_Add_Default_Program_Header_Footer("Walking");
       await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
-      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingRegiondata.SourcePath);
+      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingResortdata.SourcePath);
 
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await regionPage.Check_Walking_Region_Page_Header();  
@@ -72,7 +81,7 @@ for(const walkingRegiondata of WalkingRegionData){
       /////////
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, target, null);
+      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, region, target);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
 
       await ecmsMainPage.ECMS_Remove_Default_Program_Header_Footer();
@@ -85,17 +94,17 @@ for(const walkingRegiondata of WalkingRegionData){
     });
 
 
-    test(`Hero Banner Test Walking Region Page (${walkingRegiondata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, regionPage}) => {
+    test(`Hero Banner Test Walking Resort Page (${walkingResortdata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, regionPage}) => {
       test.setTimeout(180000);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, target, null);
+      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, region, target);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       await ecmsMainPage.ECMS_Modify_Hero_Banner("291A0817");
       await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
-      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingRegiondata.SourcePath);
+      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingResortdata.SourcePath);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await regionPage.Region_Hero_Banner_Checker("291A0817","Full Bleed","Top","Full");
@@ -103,17 +112,17 @@ for(const walkingRegiondata of WalkingRegionData){
     });
 
     
-    test(`At a Glance Test Walking Region Page  (${walkingRegiondata.SourcePath})`, {tag: ['@regression'],}, async ({page, pcmsSignInpage, pcmsMainPage, regionPage}) => {
+    test(`At a Glance Test Walking Resort Page  (${walkingResortdata.SourcePath})`, {tag: ['@regression'],}, async ({page, pcmsSignInpage, pcmsMainPage, regionPage}) => {
       test.setTimeout(180000);
 
       await page.goto(PCMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await pcmsSignInpage.PCMS_Login(process.env.PCMS_USERNAME,process.env.PCMS_PASSWORD);
       await pcmsMainPage.PCMS_Expand_Tree("Walking");
-      await pcmsMainPage.PCMS_Select_Target_Page("Regions", target);
+      await pcmsMainPage.PCMS_Select_Target_Page("Resorts", target);
       const LocaleParams = await pcmsMainPage.PCMS_Modify_Country_Locale();
       await pcmsMainPage.PCMS_Click_Saved_And_Publish();
 
-      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingRegiondata.SourcePath);
+      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingResortdata.SourcePath);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await regionPage.Check_At_a_Glance(target, LocaleParams);
@@ -121,18 +130,18 @@ for(const walkingRegiondata of WalkingRegionData){
     });
     
 
-    test(`Accordions Test Walking Region Page (${walkingRegiondata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, regionPage}) => {
+    test(`Accordions Test Walking Resort Page (${walkingResortdata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, regionPage}) => {
       test.setTimeout(180000);
 
       await page.goto(ECMSurl+'/umbraco/login',{ waitUntil: 'domcontentloaded' });
       await ecmsSignInpage.ECMS_Login(process.env.ECMS_USERNAME,process.env.ECMS_PASSWORD);
-      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, target, null);
+      await ecmsMainPage.ECMS_Expand_Tree("Walking Holidays", null, country, region, target);
       await ecmsMainPage.ECMS_Select_Target_Page(target);
       
       await ecmsMainPage.ECMS_Modify_Accordions();
       await ecmsMainPage.ECMS_Click_Save_And_Publish();
 
-      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingRegiondata.SourcePath);
+      const SiteURL = await ECMS.Walking_URL_Builder(ECMSurl, walkingResortdata.SourcePath);
       // Open the URL
       await page.goto(SiteURL, { waitUntil: 'domcontentloaded' });
       await regionPage.Check_Accordions();
