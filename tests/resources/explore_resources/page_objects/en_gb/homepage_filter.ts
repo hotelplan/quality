@@ -50,8 +50,8 @@ export class Homepage {
         await expect(this.div_filters).toContainText(destination);
     }
 
-    async randomSearch(query_type: any, destination: any | null, trip_type: any | null, monthyear: any | null) {
-        
+    async randomSearch(query_type: any, destination: any | null, trip_type: any | null, monthyear: any | null) {    
+
         if (query_type != 'keyword') {
             if (!destination) {
                 console.log('Destination is null or empty, skipping destination field.');
