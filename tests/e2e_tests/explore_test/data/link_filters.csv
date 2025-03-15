@@ -145,7 +145,7 @@ Experiences,FALSE,TRUE,Cycling Holidays,Moderate and Challenging cycling holiday
 Experiences,FALSE,,Wildlife,Safari holidays,experiences/wildlife-holidays/safari-holidays
 Experiences,FALSE,,Wildlife,Big Cats safari holidays,experiences/wildlife-holidays/big-cats-safari-holidays
 Experiences,FALSE,,Wildlife,Bear watching holidays,experiences/wildlife-holidays/bear-watching-holidays
-Experiences,FALSE,,Wildlife,Gorilla trekking tours,experiences/wildlife-holidays/gorilla-watching-holidays
+Experiences,FALSE,,Wildlife,Gorilla trekking tours,experiences/wildlife-holidays/gorilla-trekking-tours
 Experiences,FALSE,,Wildlife,Whale and dolphin watching,experiences/wildlife-holidays/whale-and-dolphin-watching
 Experiences,FALSE,,Wildlife,Family wildlife holidays,experiences/family-holidays/family-wildlife-holidays
 Experiences,FALSE,,Solo,Solo adventure holidays,experiences/holidays-for-solo-travellers/solo-adventure-holidays
@@ -169,3 +169,38 @@ About,TRUE,,About Explore,Trip pace,about/trip-pace
 About,TRUE,,About Explore,Travel experts,adventure-travel-experts
 About,TRUE,,About Explore,Contact us,contact-us
 About,TRUE,,About Explore,Order a brochure,brochures
+About,FALSE,,Sustainability,Partnerships,about/sustainability/charities-and-partners
+About,FALSE,,Sustainability,Climate Change,about/sustainability/climate-change
+About,FALSE,,Sustainability,Carbon removal,about/sustainability/climate-change/klimate
+About,FALSE,,Sustainability,Glasgow Declaration,about/sustainability/climate-change/glasgow-declaration
+About,FALSE,,Sustainability,Animal Protection Policy,about/sustainability/sustainability-on-tour/animal-protection-policy
+About,FALSE,,Sustainability,ethy,about/sustainability/ethy
+About,FALSE,,Sustainability,Explore Foundation,about/sustainability/explore-foundation
+About,FALSE,,Sustainability,Purpose Paper,about/sustainability/planet-and-people-report
+About,FALSE,,Sustainability,B Corp,about/sustainability/b-corp
+About,FALSE,,Essential information,Bookings and pre-departures FAQS,essential-information/booking-and-pre-departure-faqs
+About,FALSE,,Essential information,The legal bits,essential-information/the-small-print
+About,FALSE,,Essential information,Flights,about/flights
+About,FALSE,,Essential information,Travel safety & insurance,essential-information/travel-safety-and-insurance
+About,FALSE,,Essential information,Travel health,essential-information/travel-health
+About,FALSE,,Essential information,Transfers,essential-information/transfers
+About,FALSE,,Essential information,Customer assurance,essential-information/customer-assurance
+About,FALSE,,Essential information,Entry Requirements,entry-requirements
+About,FALSE,,Blog,,blog
+About,FALSE,,Events,All upcoming and past events >>,events
+Footer,TRUE,,Contact Us,,
+Footer,TRUE,,Explore Loyalty Club,,
+Footer,TRUE,,The Blog,,
+Footer,TRUE,,Privacy Centre,,
+Footer,TRUE,,B Corp,,
+Footer,TRUE,,Purpose Paper,,
+Footer,TRUE,,Climate Change,,
+Footer,TRUE,,Carbon Measurement,,
+Footer,TRUE,,Animal Protection Policy,,
+Footer,TRUE,,The Explorer Foundation,,
+Footer,TRUE,,Modern Slavery Statement,,
+Footer,TRUE,,Travel alerts,,
+Footer,TRUE,,Essential information,,
+Footer,TRUE,,Financial Protection,,
+Footer,TRUE,,Booking Conditions,,
+Footer,TRUE,,Travel Agents,,

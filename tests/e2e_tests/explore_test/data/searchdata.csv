@@ -18,32 +18,32 @@ region,Middle East,,
 region,North America,,
 region,Polar Regions,,
 region,South America,,
-,,,Discovery
-,,,Wildlife
-,,,Walking and Trekking
-,,,Boat Journeys
-,,,Polar
-,,,Cylcing
-,,,Family
-,,,Explore Upgraded
-,,,Food and Drink
-,,,Rail Journeys
-,,,Multi-Activity
-,,,Festival
-,,,Short Breaks
-,,,Winter Activity
-,,January,
-,,February,
-,,March,
-,,April,
-,,May,
-,,June,
-,,July,
-,,August,
-,,September,
-,,October,
-,,November,
-,,December,
+trip_type,,,Discovery
+trip_type,,,Wildlife
+trip_type,,,Walking and Trekking
+trip_type,,,Boat Journeys
+trip_type,,,Polar
+trip_type,,,Cylcing
+trip_type,,,Family
+trip_type,,,Explore Upgraded
+trip_type,,,Food and Drink
+trip_type,,,Rail Journeys
+trip_type,,,Multi-Activity
+trip_type,,,Festival
+trip_type,,,Short Breaks
+trip_type,,,Winter Activity
+date,,January,
+date,,February,
+date,,March,
+date,,April,
+date,,May,
+date,,June,
+date,,July,
+date,,August,
+date,,September,
+date,,October,
+date,,November,
+date,,December,
 country,Kenya,,
 country,Morocco,,
 country,Benin,,
