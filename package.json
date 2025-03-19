@@ -3,13 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:regression:inw": "npx playwright test --grep @inw",
+    "test:regression:inw:report": "npx playwright test --grep @inw && (allure generate ./allure-results -o ./allure-report --clean && allure open ./allure-report) || (allure generate ./allure-results -o ./allure-report --clean && allure open ./allure-report)",
+    "report:open": "npx allure serve allure-results",
+    "report:generate:single": "npx allure generate --single-file allure-results --clean",
+    "report:open:cmd": ".\\run-allure.cmd",
+    "report:generate:single:cmd": ".\\run-allure-single-file-report.cmd"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.49.0",
-    "@types/node": "^20.12.12"
+    "@types/node": "^20.12.12",
+    "allure-playwright": "^3.2.0"
   },
   "dependencies": {
     "csv-parse": "^5.6.0",
@@ -17,6 +25,7 @@
     "dotenv": "^16.4.5",
     "fast-csv": "^5.0.1",
     "playwright": "^1.45.1",
-    "xml2js": "^0.6.2"
+    "xml2js": "^0.6.2",
+    "allure-commandline": "^2.33.0"
   }
 }
