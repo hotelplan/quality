@@ -15,11 +15,11 @@ setup(`ECMS User Login`, async ({ page, ecmsSignInpage }) => {
 
 });
 
-setup(`PCMS User Login`, async ({ page, ecmsSignInpage }) => {
+setup(`PCMS User Login`, async ({ page, pcmsSignInpage }) => {
     console.log('PCMS User setting up...')
 
     await page.goto(PCMSurl + '/umbraco/login', { waitUntil: 'domcontentloaded' });
-    await ecmsSignInpage.ECMS_Login(process.env.PCMS_USERNAME, process.env.PCMS_PASSWORD);
+    await pcmsSignInpage.PCMS_Login(process.env.PCMS_USERNAME, process.env.PCMS_PASSWORD);
     await page.context().storageState({ path: '.auth/pcmsUserStorageState.json' as string });
     console.log('PCMS User  Successfully Login...')
 
