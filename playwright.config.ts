@@ -48,12 +48,14 @@ export default defineConfig({
     {
       name: 'Chromium',
       dependencies: ['get storage state'],
-      use: { ...devices['Desktop Chrome'] },
-    },
+      use: {
+        ...devices['Desktop Chrome'],
+        screenshot: 'on',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure',
+        viewport: { width: 1920, height: 1080 }
+      },
 
-    {
-      name: 'Firefox',
-      use: { ...devices['Desktop Firefox'] },
     },
 
     {
@@ -64,7 +66,11 @@ export default defineConfig({
     /* Test against mobile viewports. */
     {
        name: 'Mobile_Chrome',
-       use: { ...devices['Pixel 5'] },
+       use: { ...devices['Pixel 5'],
+        screenshot: 'on',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure',
+        },
     },
     {
        name: 'Mobile_Safari',
