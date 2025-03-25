@@ -5,6 +5,7 @@ import { PcmsSignInPage }  from '../p_cms_pages/p_cms_sign_in_page';
 import { PcmsMainPage } from '../p_cms_pages/p_cms_main_page';
 import { CountryPage } from '../country_page';
 import { RegionPage } from '../region_page';
+import { SearchResultPage } from '../component/search'
 
 
 type pages = {
@@ -13,7 +14,8 @@ type pages = {
     pcmsSignInpage: PcmsSignInPage,
     pcmsMainPage: PcmsMainPage,
     countryPage: CountryPage,
-    regionPage: RegionPage
+    regionPage: RegionPage,
+    searchResultPage: SearchResultPage
 }
 
 
@@ -41,6 +43,9 @@ const testPages = base.extend<pages>({
 
     regionPage: async ({page},use) => {
         await use(new RegionPage(page));
+    },
+    searchResultPage: async ({page},use) => {
+        await use(new SearchResultPage(page));
     },
 
 
