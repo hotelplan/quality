@@ -11,7 +11,9 @@
     "report:generate:single": "npx allure generate --single-file allure-results --clean",
     "report:open:cmd": ".\\run-allure.cmd",
     "report:generate:single:cmd": ".\\run-allure-single-file-report.cmd",
-    "test:debug": "npx playwright test --debug"
+    "test:debug": "npx playwright test --debug",
+    "check:lint:errors": "npx eslint --config eslint.config.mjs .",
+    "fix:lint": "npx eslint --config eslint.config.mjs . --fix"
   },
   "keywords": [],
   "author": "",
