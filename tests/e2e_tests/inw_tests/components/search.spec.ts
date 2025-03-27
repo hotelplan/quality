@@ -11,6 +11,59 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Search', async () => {
+
+    test('The broad search should proceed for general users @inw', async ({ searchResultPage }) => {
+        await test.step('Given: I search for ski holidays', async () => {
+            await searchResultPage.clickSearchHolidayBtn()
+        })
+
+        await test.step('And: I navigate to Search results page', async () => {
+            await searchResultPage.validateSearchResultPageUrl()
+        })
+
+        await test.step(`And: I see the search bar displaying at the top of the page`, async () => {
+            await searchResultPage.checkSearchBarAvailability()
+        })
+
+        await test.step(`When: I scroll up and down the page`, async () => {
+            await searchResultPage.scrollDown()
+            
+        })
+
+        await test.step(`Then: the Search bar displayed is sticky`, async () => {
+            await searchResultPage.validateSearchBarTobeSticky()
+        })
+
+    })
+
+
+
+    test('The partial search should proceed for general users @inw', async ({ searchResultPage }) => {
+        await test.step('Given: I search for ski holidays', async () => {
+            await searchResultPage.clickSearchHolidayBtn()
+        })
+
+        await test.step('And: I navigate to Search results page', async () => {
+            await searchResultPage.validateSearchResultPageUrl()
+        })
+
+        await test.step(`And: I see the search bar displaying at the top of the page`, async () => {
+            await searchResultPage.checkSearchBarAvailability()
+        })
+
+        await test.step(`When: I scroll up and down the page`, async () => {
+            await searchResultPage.scrollDown()
+            
+        })
+
+        await test.step(`Then: the Search bar displayed is sticky`, async () => {
+            await searchResultPage.validateSearchBarTobeSticky()
+        })
+
+    })
+
+    
+
     test('The search bar should be displayed as sticky for general users @inw', async ({ searchResultPage }) => {
         await test.step('Given: I search for ski holidays', async () => {
             await searchResultPage.clickSearchHolidayBtn()
