@@ -1,5 +1,8 @@
 import { type Page, type Locator, expect } from '@playwright/test';
 import { BoundingBox } from '../../utilities/models';
+import { APIRequestContext, APIResponse } from "@playwright/test";
+import tokenConfig from '../../../../resources/utils/tokenConfig';
+import environmentBaseUrl from '../../../../resources/utils/environmentBaseUrl';
 
 export class SearchResultPage {
     readonly page: Page
@@ -8,13 +11,19 @@ export class SearchResultPage {
     readonly searchFldMobile: Locator
     readonly toggle: Locator
     public initialBox: BoundingBox | null = null;
+    public env: string | null = null;
+    public PCMSurl: string | null = null;
+    private request: APIRequestContext;
 
-    constructor(page: Page) {
+    constructor(page: Page, apiContext: APIRequestContext) {
         this.page = page;
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.searchHolidayBtn = page.getByRole('button', { name: 'Search holidays' })
         this.searchFldMobile = page.getByRole('button', { name: 'Search..' })
         this.toggle = page.locator('input[value="showDest"]')
+        this.request = apiContext
+        this.env = process.env.ENV || "qa";
+        this.PCMSurl = environmentBaseUrl[this.env].p_cms;
         this.initialBox = null
     }
 
@@ -48,7 +57,7 @@ export class SearchResultPage {
         await this.searchHolidayBtn.click();
     }
 
-    async validateToggleValue(toggleValue: boolean = false) {    
+    async validateToggleValue(toggleValue: boolean = false) {
         const isChecked = await this.toggle.isChecked();
 
         await this.page.waitForLoadState('domcontentloaded');
@@ -60,6 +69,22 @@ export class SearchResultPage {
             expect(isChecked, 'Toggle is grouped by Resort').toBe(false)
 
         }
+    }
+
+    async validateAccommodationGroupResults() {
+        const currentURL = new URL(this.page.url());
+        const params = currentURL.searchParams.toString();
+        const apiURL = this.PCMSurl + '/api/Availability/ING/GBINA%7CGBINS/accommodations?' + params
+        let getAccommodations: APIResponse | undefined
+
+        await this.page.waitForLoadState('domcontentloaded')
+        getAccommodations = await this.request.get(apiURL, {
+            headers: {
+                'api-key': `${tokenConfig.qa.p_cms}`
+            }
+        })
+
+        console.log("getAccommodations:: ", await getAccommodations.json())
     }
 
 }
