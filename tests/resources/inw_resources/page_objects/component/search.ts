@@ -6,6 +6,7 @@ export class SearchResultPage {
     readonly searchBar: Locator
     readonly searchHolidayBtn: Locator
     readonly searchFldMobile: Locator
+    readonly toggle: Locator
     public initialBox: BoundingBox | null = null;
 
     constructor(page: Page) {
@@ -13,6 +14,7 @@ export class SearchResultPage {
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.searchHolidayBtn = page.getByRole('button', { name: 'Search holidays' })
         this.searchFldMobile = page.getByRole('button', { name: 'Search..' })
+        this.toggle = page.locator('input[value="showDest"]')
         this.initialBox = null
     }
 
@@ -44,6 +46,20 @@ export class SearchResultPage {
             await this.searchFldMobile.click();
         }
         await this.searchHolidayBtn.click();
+    }
+
+    async validateToggleValue(toggleValue: boolean = false) {    
+        const isChecked = await this.toggle.isChecked();
+
+        await this.page.waitForLoadState('domcontentloaded');
+        await expect(this.toggle).toHaveCount(1)
+
+        if (toggleValue) {
+            expect(isChecked).toBe(true)
+        } else {
+            expect(isChecked).toBe(false)
+
+        }
     }
 
 }
