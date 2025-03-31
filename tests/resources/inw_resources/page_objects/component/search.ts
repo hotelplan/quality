@@ -3,6 +3,7 @@ import { BoundingBox } from '../../utilities/models';
 
 export class SearchResultPage {
     readonly page: Page
+    readonly searchProductTab: (product: string) => Locator;
     readonly searchBar: Locator
     readonly searchHolidayBtn: Locator
     readonly searchFldMobile: Locator
@@ -10,6 +11,7 @@ export class SearchResultPage {
 
     constructor(page: Page) {
         this.page = page;
+        this.searchProductTab = (product: string = 'Ski') => page.getByRole('button', { name: product, exact: true });
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.searchHolidayBtn = page.getByRole('button', { name: 'Search holidays' })
         this.searchFldMobile = page.getByRole('button', { name: 'Search..' })
