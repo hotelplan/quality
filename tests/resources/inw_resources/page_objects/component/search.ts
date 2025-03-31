@@ -52,12 +52,12 @@ export class SearchResultPage {
         const isChecked = await this.toggle.isChecked();
 
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(this.toggle).toHaveCount(1)
+        await expect(this.toggle, 'Toggle is available').toHaveCount(1)
 
         if (toggleValue) {
-            expect(isChecked).toBe(true)
+            expect(isChecked, 'Toggle is grouped by Accommodation').toBe(true)
         } else {
-            expect(isChecked).toBe(false)
+            expect(isChecked, 'Toggle is grouped by Resort').toBe(false)
 
         }
     }
