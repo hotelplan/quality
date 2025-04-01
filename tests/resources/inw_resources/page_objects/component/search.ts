@@ -51,9 +51,11 @@ export class SearchResultPage {
     }
 
     async clickSearchHolidayBtn() {
-        if (!(await this.searchHolidayBtn.isVisible())) {
-            await this.searchFldMobile.click();
-        }
+        await this.searchHolidayBtn.waitFor({ state: 'visible', timeout: 5000 })
+            .catch(async () => {
+                await this.searchFldMobile.click();
+            });
+
         await this.searchHolidayBtn.click();
     }
 
