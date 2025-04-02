@@ -77,7 +77,7 @@ test.describe('Broad Search', async () => {
             await test.step('Then: search criteria matches the accomodation page', async () => {
                 const page2 = await searchResultPage.opentAccommodationCards();
                 await searchResultPage.checkAccomodationPageCriteriaBar(page2,'Any date (7 nights)');
-                await searchResultPage.checkAccomodationPageCriteriaBar(page2, '2 adults');
+                await searchResultPage.checkAccomodationPageCriteriaBar(page2, 'Any Guest ');
                 await searchResultPage.checkAccomodationPageCriteriaBar(page2, 'From Any departure location');
             });
         });
