@@ -13,6 +13,7 @@ export class SearchResultPage {
     readonly toggleValue: Locator
     readonly toggleSwitch: Locator
     readonly accommodationCard: Locator
+    readonly resortCard: Locator
     readonly viewHotelsButtons: Locator
     public initialBox: BoundingBox | null = null;
     public env: string | null = null;
@@ -20,6 +21,7 @@ export class SearchResultPage {
     public accommodationNamesFromAPI: string[] = [];
     public accommodationNamesFromUI: string[] = [];
     public resortNamesFromAPI: string[] = [];
+    public resortNamesFromUI: string[] = [];
     private request: APIRequestContext;
 
     constructor(page: Page, apiContext: APIRequestContext) {
@@ -31,6 +33,7 @@ export class SearchResultPage {
         this.toggleSwitch = page.locator('.c-toggle-switch')
         this.accommodationCard = page.locator('.c-search-card--resorts .c-search-card .c-header-h3')
         this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View hotels' })
+        this.resortCard = page.locator('.c-search-card .content .c-header-h3')
         this.request = apiContext
         this.env = process.env.ENV || "qa";
         this.PCMSurl = environmentBaseUrl[this.env].p_cms;
@@ -38,6 +41,7 @@ export class SearchResultPage {
         this.accommodationNamesFromAPI = []
         this.accommodationNamesFromUI = []
         this.resortNamesFromAPI = []
+        this.resortNamesFromUI = []
     }
 
     async validateSearchResultPageUrl() {
@@ -182,6 +186,25 @@ export class SearchResultPage {
                 });
             });
         });
+    }
+
+    async validateResortResponseAgainstUIDisplay() {
+        //Todo: Optimize the page waiting mechanism to eliminate the need for waitForTimeout
+        await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('load');
+        await this.resortCard.first().waitFor({ state: 'visible' })
+        await this.page.waitForTimeout(5000)
+        let resortCount = await this.resortCard.count()
+
+        for (let index = 0; index < resortCount; index++) {
+            let resortName = await this.resortCard.nth(index).textContent()
+            if (resortName !== null) {
+                this.resortNamesFromUI.push(resortName);
+            }
+        }
+        
+        expect(this.resortNamesFromAPI.sort()).toEqual(this.resortNamesFromUI.sort());
+
     }
 }
 
