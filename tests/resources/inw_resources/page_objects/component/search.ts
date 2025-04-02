@@ -15,6 +15,7 @@ export class SearchResultPage {
     readonly accommodationCard: Locator
     readonly resortCard: Locator
     readonly viewHotelsButtons: Locator
+    readonly viewAccommodationsButtons: Locator
     public initialBox: BoundingBox | null = null;
     public env: string | null = null;
     public PCMSurl: string | null = null;
@@ -33,6 +34,7 @@ export class SearchResultPage {
         this.toggleSwitch = page.locator('.c-toggle-switch')
         this.accommodationCard = page.locator('.c-search-card--resorts .c-search-card .c-header-h3')
         this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View hotels' })
+        this.viewAccommodationsButtons = page.locator('.c-search-card .c-search-card__footer').getByRole('button', { name: 'View accommodation(s)' })
         this.resortCard = page.locator('.c-search-card .content .c-header-h3')
         this.request = apiContext
         this.env = process.env.ENV || "qa";
@@ -202,9 +204,17 @@ export class SearchResultPage {
                 this.resortNamesFromUI.push(resortName);
             }
         }
-        
+
         expect(this.resortNamesFromAPI.sort()).toEqual(this.resortNamesFromUI.sort());
 
+    }
+
+    async validateViewAccommodationsButtonAvailability() {
+        let viewHotelsBtnCount = await this.viewAccommodationsButtons.count()
+
+        for (let index = 0; index < viewHotelsBtnCount; index++) {
+            expect(await this.viewAccommodationsButtons.nth(index).textContent(), `View Accommodations button is available on card: ${index + 1}`).toBe('View accommodation(s)')
+        }
     }
 }
 
