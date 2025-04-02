@@ -14,7 +14,9 @@ export class SearchResultPage {
     readonly minusButton: Locator
     readonly plusButton: Locator
     readonly numberValue: Locator
-    readonly searchCriteriaBarResult: (context: any, criteria: string) => Locator
+    readonly addChildButton: Locator
+    readonly childAgeSelections: Locator
+    readonly searchCriteriaBarResult: (context: any) => Locator
     readonly searchAccomodationCard: Locator
     readonly searchAccomodationCardImage: Locator
     readonly searchAccomodationViewHotelsBtn: Locator
@@ -31,7 +33,9 @@ export class SearchResultPage {
         this.minusButton = page.getByRole('button', { name: '-' })
         this.plusButton = page.getByRole('button', { name: '+' })
         this.numberValue = page.locator('//div[@class="number-range__value"]')
-        this.searchCriteriaBarResult = (context: any, criteria: string) => context.getByText(criteria, { exact: true })
+        this.addChildButton = page.getByRole('button', { name: 'Add a child' })
+        this.childAgeSelections = page.locator('//datalist[@id="childSelectList"]/option')
+        this.searchCriteriaBarResult = (context: any) => context.locator('//div[@class="c-search-criteria-bar__price-basis"]')
         this.searchNoGuestDoneBtn = page.getByRole('button', { name: 'Done' })
         this.searchAccomodationCard = page.locator('//div[@class="c-search-card c-card c-card-slider"]')
         this.searchAccomodationCardImage = page.locator('//div[@aria-labelledby="accomodation-images"]')
@@ -65,7 +69,8 @@ export class SearchResultPage {
         await this.page.waitForLoadState('domcontentloaded')
         await this.page.waitForLoadState('load')
         await this.page.waitForTimeout(5000);
-        expect(this.searchCriteriaBarResult(this.page, content)).toBeVisible({timeout: 30000});
+        expect(this.searchCriteriaBarResult(this.page)).toBeVisible({timeout: 30000});
+        expect(this.searchCriteriaBarResult(this.page)).toContainText(content, {timeout: 30000});
     }
 
     async countAccommodationCards() {
@@ -90,7 +95,8 @@ export class SearchResultPage {
     async checkAccomodationPageCriteriaBar(context: any, content: string) {
         await context.waitForLoadState('domcontentloaded')
         await context.waitForTimeout(5000);
-        expect(this.searchCriteriaBarResult(context, content)).toBeVisible({timeout: 30000});
+        expect(this.searchCriteriaBarResult(context)).toBeVisible({timeout: 30000});
+        expect(this.searchCriteriaBarResult(context)).toContainText(content, {timeout: 30000});
     }
 
 /////////////////Search Actions ///////////////////////
@@ -107,14 +113,15 @@ export class SearchResultPage {
         await this.searchHolidayBtn.click();
     }
 
-    async setNumberOfGuests(targetNumber: number, maxAttempts = 20){
+    async setNumberOfGuests(targetNumber: number, numberOfChildren: number = 0, maxAttempts = 20){
         await this.searchNoGuestsBtn.isVisible();
         await this.searchNoGuestsBtn.isEnabled();
         await this.searchNoGuestsBtn.click();
         await this.searchNoGuestHeader.waitFor({ state: 'visible' });
-
+  
         let attempts = 0;
         
+        // Set number of adult guests
         while (attempts < maxAttempts) {
             // Get the current value
             await this.numberValue.waitFor({ state: 'visible' });
@@ -123,8 +130,7 @@ export class SearchResultPage {
             
             // Exit if we've reached the target value
             if (currentValue === targetNumber) {
-                await this.searchNoGuestDoneBtn.click();
-                return;
+                break; // Don't click Done yet, as we might need to add children
             }
             
             // Click the appropriate button based on comparison
@@ -137,9 +143,30 @@ export class SearchResultPage {
             // Small wait to allow UI to update
             await this.page.waitForTimeout(100);
             attempts++;
+            
+            if (attempts >= maxAttempts) {
+                throw new Error(`Failed to set adult count to ${targetNumber} after ${maxAttempts} attempts`);
+            }
         }
         
-        throw new Error(`Failed to set value to ${targetNumber} after ${maxAttempts} attempts`);
+        // Add children if specified
+        if (numberOfChildren > 0) {
+            for (let i = 0; i < numberOfChildren; i++) {
+                await this.addChildButton.click();
+                await this.page.waitForTimeout(300); // Wait for UI to update
+                
+                // Select a random age between 0-15 for each child
+                const ageOptions = await this.childAgeSelections.count();
+                if (ageOptions > 0) {
+                    // Get a random index between 0 and min(17, available options)
+                    const randomIndex = Math.floor(Math.random() * Math.min(18, ageOptions));
+                    await this.childAgeSelections.nth(randomIndex).click();
+                }
+            }
+        }
+        
+        // Click Done after setting both adults and children
+        await this.searchNoGuestDoneBtn.click();
     }
 
 }
