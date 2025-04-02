@@ -135,8 +135,7 @@ export class SearchResultPage {
                 this.accommodationNamesFromUI.push(accommodationName);
             }
         }
-
-        expect(areSortedStringArraysEqual(this.accommodationNamesFromAPI, this.accommodationNamesFromUI)).toBe(true)
+        expect(this.accommodationNamesFromAPI.sort()).toEqual(this.accommodationNamesFromUI.sort());
     }
 
     async validateViewHotelsButtonAvailability() {
