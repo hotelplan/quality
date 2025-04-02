@@ -11,6 +11,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test.describe('Search', async () => {
+
     test('The search bar should be displayed as sticky for general users @inw', async ({ searchResultPage }) => {
         await test.step('Given: I search for ski holidays', async () => {
             await searchResultPage.clickSearchHolidayBtn()

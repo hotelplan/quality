@@ -36,7 +36,6 @@ export class HomePage{
     }
 
 
-
     async Search(keyword:string){
         await this.Search_Field.fill(keyword);
         await this.Search_Button.click();
