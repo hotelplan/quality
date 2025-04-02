@@ -10,7 +10,8 @@ export class SearchResultPage {
     readonly searchBar: Locator
     readonly searchHolidayBtn: Locator
     readonly searchFldMobile: Locator
-    readonly toggle: Locator
+    readonly toggleValue: Locator
+    readonly toggleSwitch: Locator
     readonly accommodationCard: Locator
     readonly viewHotelsButtons: Locator
     public initialBox: BoundingBox | null = null;
@@ -18,6 +19,7 @@ export class SearchResultPage {
     public PCMSurl: string | null = null;
     public accommodationNamesFromAPI: string[] = [];
     public accommodationNamesFromUI: string[] = [];
+    public resortNamesFromAPI: string[] = [];
     private request: APIRequestContext;
 
     constructor(page: Page, apiContext: APIRequestContext) {
@@ -25,7 +27,8 @@ export class SearchResultPage {
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.searchHolidayBtn = page.getByRole('button', { name: 'Search holidays' })
         this.searchFldMobile = page.getByRole('button', { name: 'Search..' })
-        this.toggle = page.locator('input[value="showDest"]')
+        this.toggleValue = page.locator('input[value="showDest"]')
+        this.toggleSwitch = page.locator('.c-toggle-switch')
         this.accommodationCard = page.locator('.c-search-card--resorts .c-search-card .c-header-h3')
         this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View hotels' })
         this.request = apiContext
@@ -34,6 +37,7 @@ export class SearchResultPage {
         this.initialBox = null
         this.accommodationNamesFromAPI = []
         this.accommodationNamesFromUI = []
+        this.resortNamesFromAPI = []
     }
 
     async validateSearchResultPageUrl() {
@@ -69,10 +73,10 @@ export class SearchResultPage {
     }
 
     async validateToggleValue(toggleValue: boolean = false) {
-        const isChecked = await this.toggle.isChecked();
+        const isChecked = await this.toggleValue.isChecked();
 
         await this.page.waitForLoadState('domcontentloaded');
-        await expect(this.toggle, 'Toggle is available').toHaveCount(1)
+        await expect(this.toggleValue, 'Toggle is available').toHaveCount(1)
 
         if (toggleValue) {
             expect(isChecked, 'Toggle is grouped by Accommodation').toBe(true)
@@ -133,10 +137,52 @@ export class SearchResultPage {
         let viewHotelsBtnCount = await this.viewHotelsButtons.count()
 
         for (let index = 0; index < viewHotelsBtnCount; index++) {
-            expect(await this.viewHotelsButtons.nth(index).textContent(), `View Hotels button is available on card: ${index+1}`).toBe('View Hotels')
+            expect(await this.viewHotelsButtons.nth(index).textContent(), `View Hotels button is available on card: ${index + 1}`).toBe('View Hotels')
         }
     }
 
+    async clickGroupToggle() {
+        await this.toggleSwitch.waitFor({ state: 'visible' })
+        await this.toggleSwitch.click()
+    }
+
+    async validateResortApiResults() {
+        const currentURL = new URL(this.page.url());
+        const params = currentURL.searchParams.toString();
+        const apiURL = this.PCMSurl + '/api/Availability/ING/GBINA%7CGBINN%7CGBIND/resorts?' + params
+
+        let getResorts: APIResponse | undefined
+
+        await this.page.waitForLoadState('domcontentloaded')
+        getResorts = await this.request.get(apiURL, {
+            headers: {
+                'api-key': `${tokenConfig.qa.p_cms}`
+            }
+        })
+
+        expect(getResorts.status(), 'Accommodation API returns 200 success and a valid json response').toBe(200)
+
+        const resortResponse = (await getResorts.json()).items
+
+        resortResponse.forEach((item) => {
+            expect(item, 'Resort API should return a property regions').toHaveProperty('regions');
+            expect(Array.isArray(item.regions), 'Regions should be an array').toBe(true);
+
+            item.regions.forEach((region) => {
+                expect(region, 'Region should have a property "resorts"').toHaveProperty('resorts');
+                expect(Array.isArray(region.resorts), 'Resorts should be an array').toBe(true);
+                expect(region.resorts.length, 'Resort array should not be empty').toBeGreaterThan(0);
+            });
+        });
+
+        resortResponse.forEach((item) => {
+            item.regions.forEach((region) => {
+                region.resorts.forEach((resort) => {
+                    this.resortNamesFromAPI.push(resort.name);
+                });
+            });
+        });
+    }
 }
 
 
