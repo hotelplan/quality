@@ -34,14 +34,15 @@ test.describe('Broad Search', async () => {
                 await searchResultPage.checkCriteriaBarContent('From Any departure location');
             });
 
-            await test.step('When: I check Accomodation cards search results', async () => {
+            await test.step('When : I check Accomodation cards search results', async () => {
                 await searchResultPage.countAccommodationCards();
             });
 
             await test.step('Then: search criteria matches the accomodation page', async () => {
-                await searchResultPage.checkAccomodationPageCriteriaBar('Any date (7 nights)');
-                await searchResultPage.checkAccomodationPageCriteriaBar('2 adults');
-                await searchResultPage.checkAccomodationPageCriteriaBar('From Any departure location');
+                const page2 = await searchResultPage.opentAccommodationCards();
+                await searchResultPage.checkAccomodationPageCriteriaBar(page2,'Any date (7 nights)');
+                await searchResultPage.checkAccomodationPageCriteriaBar(page2, '2 adults');
+                await searchResultPage.checkAccomodationPageCriteriaBar(page2, 'From Any departure location');
             });
         });
 
@@ -68,14 +69,15 @@ test.describe('Broad Search', async () => {
                 await searchResultPage.checkCriteriaBarContent('From Any departure location');
             });
 
-            await test.step('When: I check Accomodation cards search results', async () => {
+            await test.step('When : I check Accomodation cards search results', async () => {
                 await searchResultPage.countAccommodationCards();
             });
 
             await test.step('Then: search criteria matches the accomodation page', async () => {
-                await searchResultPage.checkAccomodationPageCriteriaBar('Any date (7 nights)');
-                await searchResultPage.checkAccomodationPageCriteriaBar('Any Guest');
-                await searchResultPage.checkAccomodationPageCriteriaBar('From Any departure location');
+                const page2 = await searchResultPage.opentAccommodationCards();
+                await searchResultPage.checkAccomodationPageCriteriaBar(page2,'Any date (7 nights)');
+                await searchResultPage.checkAccomodationPageCriteriaBar(page2, '2 adults');
+                await searchResultPage.checkAccomodationPageCriteriaBar(page2, 'From Any departure location');
             });
         });
     }

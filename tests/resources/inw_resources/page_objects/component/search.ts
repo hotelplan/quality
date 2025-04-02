@@ -14,7 +14,7 @@ export class SearchResultPage {
     readonly minusButton: Locator
     readonly plusButton: Locator
     readonly numberValue: Locator
-    readonly searchCriteriaBarResult: (criteria: string) => Locator
+    readonly searchCriteriaBarResult: (context: any, criteria: string) => Locator
     readonly searchAccomodationCard: Locator
     readonly searchAccomodationCardImage: Locator
     readonly searchAccomodationViewHotelsBtn: Locator
@@ -31,7 +31,7 @@ export class SearchResultPage {
         this.minusButton = page.getByRole('button', { name: '-' })
         this.plusButton = page.getByRole('button', { name: '+' })
         this.numberValue = page.locator('//div[@class="number-range__value"]')
-        this.searchCriteriaBarResult = (criteria: string) => page.getByText(criteria, { exact: true })
+        this.searchCriteriaBarResult = (context: any, criteria: string) => context.getByText(criteria, { exact: true })
         this.searchNoGuestDoneBtn = page.getByRole('button', { name: 'Done' })
         this.searchAccomodationCard = page.locator('//div[@class="c-search-card c-card c-card-slider"]')
         this.searchAccomodationCardImage = page.locator('//div[@aria-labelledby="accomodation-images"]')
@@ -65,7 +65,7 @@ export class SearchResultPage {
         await this.page.waitForLoadState('domcontentloaded')
         await this.page.waitForLoadState('load')
         await this.page.waitForTimeout(5000);
-        expect(this.searchCriteriaBarResult(content)).toBeVisible({timeout: 30000});
+        expect(this.searchCriteriaBarResult(this.page, content)).toBeVisible({timeout: 30000});
     }
 
     async countAccommodationCards() {
@@ -77,18 +77,20 @@ export class SearchResultPage {
         expect(this.searchAccomodationCardImage.first()).toBeVisible({timeout: 30000});
     }
 
-    async checkAccomodationPageCriteriaBar(content: string) {
+    async opentAccommodationCards() {
         expect(this.searchAccomodationViewHotelsBtn.first()).toBeVisible({timeout: 30000});
         await this.searchAccomodationViewHotelsBtn.first().click();
 
         const page2Promise = this.page.waitForEvent('popup');
         const page2 = await page2Promise;
 
-        await page2.waitForLoadState('domcontentloaded')
-        await page2.waitForTimeout(5000);
-        await expect(page2.getByText(content, { exact: true })).toBeVisible({timeout: 30000});
+        return page2;
+    }
 
-        await page2.close();
+    async checkAccomodationPageCriteriaBar(context: any, content: string) {
+        await context.waitForLoadState('domcontentloaded')
+        await context.waitForTimeout(5000);
+        expect(this.searchCriteriaBarResult(context, content)).toBeVisible({timeout: 30000});
     }
 
 /////////////////Search Actions ///////////////////////
