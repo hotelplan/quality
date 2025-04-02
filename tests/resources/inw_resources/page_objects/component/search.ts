@@ -1,7 +1,6 @@
 import { type Page, type Locator, expect } from '@playwright/test';
 import { BoundingBox } from '../../utilities/models';
 import { APIRequestContext, APIResponse } from "@playwright/test";
-import { areSortedStringArraysEqual } from '../../utilities/helper'
 import tokenConfig from '../../../../resources/utils/tokenConfig';
 import environmentBaseUrl from '../../../../resources/utils/environmentBaseUrl';
 
