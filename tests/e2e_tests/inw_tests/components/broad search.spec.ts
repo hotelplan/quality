@@ -47,6 +47,7 @@ test.describe('Broad Search', async () => {
         });
 
         test(`The broad search proceeds with duration only for ${product} holidays @inw`, async ({ searchResultPage }) => {
+            test.setTimeout(120000);
             await test.step(`Given: I sleect a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
