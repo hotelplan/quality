@@ -17,6 +17,11 @@ export class SearchResultPage {
     readonly resortCard: Locator
     readonly viewHotelsButtons: Locator
     readonly viewAccommodationsButtons: Locator
+    readonly searchAnywhereBtn: Locator
+    readonly searchWhereToGofield: Locator
+    readonly searchWhereToGoResult: (location: string) => Locator;
+    readonly searchWhereToGoAltResult: (location: string) => Locator;
+
     readonly searchNoGuestsBtn: Locator
     readonly searchNoGuestHeader: Locator
     readonly searchNoGuestDoneBtn: Locator
@@ -50,6 +55,11 @@ export class SearchResultPage {
         this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View hotels' })
         this.viewAccommodationsButtons = page.locator('.c-search-card .c-search-card__footer').getByRole('button', { name: 'View accommodation(s)' })
         this.resortCard = page.locator('.c-search-card .content .c-header-h3')
+        this.searchAnywhereBtn = page.getByRole('button', { name: 'Anywhere' })
+        this.searchWhereToGofield = page.getByRole('textbox', { name: 'Start typing..' })
+        this.searchWhereToGoResult = (location: string) => page.locator('span').filter({ hasText: location });
+        this.searchWhereToGoAltResult = (location: string) => page.getByText(location, { exact: true });
+
         this.searchNoGuestsBtn = page.locator('//button[@class="trip-search__option guests"]')
         this.searchNoGuestHeader = page.getByRole('heading', { name: 'Who\'s coming?' })
         this.minusButton = page.getByRole('button', { name: '-', exact: true })
@@ -335,6 +345,25 @@ export class SearchResultPage {
 
         // Click Done after setting both adults and children
         await this.searchNoGuestDoneBtn.click();
+    }
+
+    async searchAnywhere(location: string){
+        await this.searchAnywhereBtn.click();
+        await expect(this.searchWhereToGofield).toBeVisible({timeout: 30000});
+        await this.searchWhereToGofield.fill(location);
+        await this.searchWhereToGofield.press('Enter');
+        const captitalizedLocation = location.split('/').map(part => 
+            part.split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ')
+        ).join('/');
+        try{
+            await expect(this.searchWhereToGoResult(captitalizedLocation)).toBeVisible({timeout: 3000});
+            await this.searchWhereToGoResult(captitalizedLocation).click();
+        }catch(error){
+            await expect(this.searchWhereToGoAltResult(captitalizedLocation)).toBeVisible({timeout: 3000});
+            await this.searchWhereToGoAltResult(captitalizedLocation).click();
+        }
     }
 
 }
