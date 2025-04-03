@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('Search', async () => {
     for (const product of products) {
         test(`The search bar should be displayed as sticky for ${product} holidays @inw`, async ({ searchResultPage }) => {
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
 

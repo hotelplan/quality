@@ -16,7 +16,7 @@ test.describe('Partial Search', async () => {
     for (const product of products) {
         test(`The broad search proceeds with duration and adult guests for ${product} holidays @inw`, async ({ searchResultPage }) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
 
@@ -52,7 +52,7 @@ test.describe('Partial Search', async () => {
 
         test(`The broad search proceeds with duration, adult, and child guests for ${product} holidays @inw`, async ({ searchResultPage }) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
 

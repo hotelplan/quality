@@ -26,7 +26,7 @@ test.describe('Lapland Region Broad Search', async () => {
     for (const Data of laplandRegionData) {
         test(`Broad search proceeds with default values for ${Data.Region} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab('Lapland');
             });
 
@@ -62,7 +62,7 @@ test.describe('Santa Region Broad Search', async () => {
     for (const Data of santaRegionData) {
         test(`Broad search proceeds with default values for ${Data.Region} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab('Lapland');
             });
 
@@ -98,7 +98,7 @@ test.describe('Ski Region Broad Search', async () => {
     for (const Data of skiRegionData) {
         test(`Broad search proceeds with default values for ${Data.SourcePath} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab('Ski');
             });
 
@@ -134,7 +134,7 @@ test.describe('Walking Region Broad Search', async () => {
     for (const Data of walkingRegionData) {
         test(`Broad search proceeds with default values for ${Data.Region} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab('Walking');
             });
 

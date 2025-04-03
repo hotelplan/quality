@@ -21,7 +21,6 @@ export class SearchResultPage {
     readonly searchWhereToGofield: Locator
     readonly searchWhereToGoResult: (location: string) => Locator;
     readonly searchWhereToGoAltResult: (location: string) => Locator;
-
     readonly searchNoGuestsBtn: Locator
     readonly searchNoGuestHeader: Locator
     readonly searchNoGuestDoneBtn: Locator
