@@ -8,6 +8,11 @@ export class SearchResultPage {
     readonly searchBar: Locator
     readonly searchHolidayBtn: Locator
     readonly searchFldMobile: Locator
+    readonly searchAnywhereBtn: Locator
+    readonly searchWhereToGofield: Locator
+    readonly searchWhereToGoResult: (location: string) => Locator;
+    readonly searchWhereToGoAltResult: (location: string) => Locator;
+
     readonly searchNoGuestsBtn: Locator
     readonly searchNoGuestHeader: Locator
     readonly searchNoGuestDoneBtn: Locator
@@ -28,6 +33,11 @@ export class SearchResultPage {
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.searchHolidayBtn = page.getByRole('button', { name: 'Search holidays' })
         this.searchFldMobile = page.getByRole('button', { name: 'Search..' })
+        this.searchAnywhereBtn = page.getByRole('button', { name: 'Anywhere' })
+        this.searchWhereToGofield = page.getByRole('textbox', { name: 'Start typing..' })
+        this.searchWhereToGoResult = (location: string) => page.locator('span').filter({ hasText: location });
+        this.searchWhereToGoAltResult = (location: string) => page.getByText(location, { exact: true });
+
         this.searchNoGuestsBtn = page.locator('//button[@class="trip-search__option guests"]')
         this.searchNoGuestHeader = page.getByRole('heading', { name: 'Who\'s coming?' })
         this.minusButton = page.getByRole('button', { name: '-', exact: true })
@@ -167,6 +177,25 @@ export class SearchResultPage {
         
         // Click Done after setting both adults and children
         await this.searchNoGuestDoneBtn.click();
+    }
+
+    async searchAnywhere(location: string){
+        await this.searchAnywhereBtn.click();
+        await expect(this.searchWhereToGofield).toBeVisible({timeout: 30000});
+        await this.searchWhereToGofield.fill(location);
+        await this.searchWhereToGofield.press('Enter');
+        const captitalizedLocation = location.split('/').map(part => 
+            part.split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ')
+        ).join('/');
+        try{
+            await expect(this.searchWhereToGoResult(captitalizedLocation)).toBeVisible({timeout: 3000});
+            await this.searchWhereToGoResult(captitalizedLocation).click();
+        }catch(error){
+            await expect(this.searchWhereToGoAltResult(captitalizedLocation)).toBeVisible({timeout: 3000});
+            await this.searchWhereToGoAltResult(captitalizedLocation).click();
+        }
     }
 
 }
