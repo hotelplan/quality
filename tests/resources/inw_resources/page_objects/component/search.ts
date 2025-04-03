@@ -50,9 +50,6 @@ export class SearchResultPage {
         this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View hotels' })
         this.viewAccommodationsButtons = page.locator('.c-search-card .c-search-card__footer').getByRole('button', { name: 'View accommodation(s)' })
         this.resortCard = page.locator('.c-search-card .content .c-header-h3')
-        this.request = apiContext
-        this.env = process.env.ENV || "qa";
-        this.PCMSurl = environmentBaseUrl[this.env].p_cms;
         this.searchNoGuestsBtn = page.locator('//button[@class="trip-search__option guests"]')
         this.searchNoGuestHeader = page.getByRole('heading', { name: 'Who\'s coming?' })
         this.minusButton = page.getByRole('button', { name: '-', exact: true })
@@ -65,6 +62,9 @@ export class SearchResultPage {
         this.searchAccomodationCard = page.locator('//div[@class="c-search-card c-card c-card-slider"]')
         this.searchAccomodationCardImage = page.locator('//div[@aria-labelledby="accomodation-images"]')
         this.searchAccomodationViewHotelsBtn = page.locator('.c-search-card--resorts-footer > .c-btn')
+        this.request = apiContext
+        this.env = process.env.ENV || "qa";
+        this.PCMSurl = environmentBaseUrl[this.env].p_cms;
         this.initialBox = null
         this.accommodationNamesFromAPI = []
         this.accommodationNamesFromUI = []
