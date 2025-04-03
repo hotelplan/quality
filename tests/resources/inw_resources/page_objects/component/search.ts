@@ -98,8 +98,8 @@ export class SearchResultPage {
         await this.page.waitForLoadState('domcontentloaded')
         await this.page.waitForLoadState('load')
         await this.page.waitForTimeout(5000);
-        expect(this.searchCriteriaBarResult(this.page)).toBeVisible({timeout: 30000});
-        expect(this.searchCriteriaBarResult(this.page)).toContainText(content, {timeout: 30000});
+        expect(this.searchCriteriaBarResult(this.page)).toBeVisible({ timeout: 30000 });
+        expect(this.searchCriteriaBarResult(this.page)).toContainText(content, { timeout: 30000 });
     }
 
     async countAccommodationCards() {
@@ -108,11 +108,11 @@ export class SearchResultPage {
         const cardCount = await this.searchAccomodationCard.count();
         console.log(`Initial count of accommodation cards: ${cardCount}`);
         expect(cardCount).toBeGreaterThan(0);
-        expect(this.searchAccomodationCardImage.first()).toBeVisible({timeout: 30000});
+        expect(this.searchAccomodationCardImage.first()).toBeVisible({ timeout: 30000 });
     }
 
     async opentAccommodationCards() {
-        expect(this.searchAccomodationViewHotelsBtn.first()).toBeVisible({timeout: 30000});
+        expect(this.searchAccomodationViewHotelsBtn.first()).toBeVisible({ timeout: 30000 });
         await this.searchAccomodationViewHotelsBtn.first().click();
 
         const page2Promise = this.page.waitForEvent('popup');
@@ -124,19 +124,19 @@ export class SearchResultPage {
     async checkAccomodationPageCriteriaBar(context: any, content: string) {
         await context.waitForLoadState('domcontentloaded')
         await context.waitForTimeout(5000);
-        expect(this.searchCriteriaBarResult(context)).toBeVisible({timeout: 30000});
-        expect(this.searchCriteriaBarResult(context)).toContainText(content, {timeout: 30000});
+        expect(this.searchCriteriaBarResult(context)).toBeVisible({ timeout: 30000 });
+        expect(this.searchCriteriaBarResult(context)).toContainText(content, { timeout: 30000 });
     }
 
-/////////////////Search Actions ///////////////////////
+    /////////////////Search Actions ///////////////////////
 
     async clickSearchProductTab(product: string = 'Ski') {
         await this.searchProductTab(product).isVisible();
         await this.searchProductTab(product).click();
     }
-    
+
     async clickSearchHolidayBtn() {
-        await this.searchHolidayBtn.waitFor({ state: 'visible', timeout: 5000 })
+        await this.searchHolidayBtn.waitFor({ state: 'visible' })
             .catch(async () => {
                 await this.searchFldMobile.click();
             });
@@ -281,48 +281,48 @@ export class SearchResultPage {
             expect(await this.viewAccommodationsButtons.nth(index).textContent(), `View Accommodations button is available on card: ${index + 1}`).toBe('View accommodation(s)')
         }
     }
-    async setNumberOfGuests(targetNumber: number, numberOfChildren: number = 0, maxAttempts = 20){
+    async setNumberOfGuests(targetNumber: number, numberOfChildren: number = 0, maxAttempts = 20) {
         await this.searchNoGuestsBtn.isVisible();
         await this.searchNoGuestsBtn.isEnabled();
         await this.searchNoGuestsBtn.click();
         await this.searchNoGuestHeader.waitFor({ state: 'visible' });
-  
+
         let attempts = 0;
-        
+
         // Set number of adult guests
         while (attempts < maxAttempts) {
             // Get the current value
             await this.numberValue.waitFor({ state: 'visible' });
             const currentText = await this.numberValue.innerText();
             const currentValue = parseInt(currentText.trim(), 10);
-            
+
             // Exit if we've reached the target value
             if (currentValue === targetNumber) {
                 break; // Don't click Done yet, as we might need to add children
             }
-            
+
             // Click the appropriate button based on comparison
             if (currentValue > targetNumber) {
                 await this.minusButton.click();
             } else {
                 await this.plusButton.click();
             }
-            
+
             // Small wait to allow UI to update
             await this.page.waitForTimeout(100);
             attempts++;
-            
+
             if (attempts >= maxAttempts) {
                 throw new Error(`Failed to set adult count to ${targetNumber} after ${maxAttempts} attempts`);
             }
         }
-        
+
         // Add children if specified
         if (numberOfChildren > 0) {
             for (let i = 0; i < numberOfChildren; i++) {
                 await this.addChildButton.click();
                 await this.page.waitForTimeout(300); // Wait for UI to update
-                
+
                 // Select a random age between 0-15 for each child
                 const ageOptions = await this.childAgeSelections.count();
                 if (ageOptions > 0) {
@@ -332,7 +332,7 @@ export class SearchResultPage {
                 }
             }
         }
-        
+
         // Click Done after setting both adults and children
         await this.searchNoGuestDoneBtn.click();
     }
