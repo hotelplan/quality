@@ -59,11 +59,11 @@ test.describe('Search', async () => {
                 await searchResultPage.validateToggleValue()
             })
 
-            await test.step(`And: I verify that the Accommodation API response corresponds to accommodation.`, async () => {
+            await test.step(`When: I verify that the Accommodation API response corresponds to accommodation.`, async () => {
                 await searchResultPage.validateAccommodationApiResults(product)
             })
 
-            await test.step(`And: I verify that the accommodation name displayed in the UI matches the API response.`, async () => {
+            await test.step(`Then: I verify that the accommodation name displayed in the UI matches the API response.`, async () => {
                 await searchResultPage.validateAccommodationResponseAgainstUIDisplay()
             })
 
@@ -75,11 +75,11 @@ test.describe('Search', async () => {
                 await searchResultPage.clickGroupToggle()
 
             })
-            await test.step(`And: I verify that the Resorts API response corresponds to Resort.`, async () => {
+            await test.step(`When: I verify that the Resorts API response corresponds to Resort.`, async () => {
                 await searchResultPage.validateResortApiResults(product)
             })
 
-            await test.step(`And: I verify that the Resort name displayed in the UI matches the API response.`, async () => {
+            await test.step(`Then: I verify that the Resort name displayed in the UI matches the API response.`, async () => {
                 await searchResultPage.validateResortResponseAgainstUIDisplay()
             })
 
