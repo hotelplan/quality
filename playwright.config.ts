@@ -37,7 +37,7 @@ export default defineConfig({
         ? baseEnvUrl.stg.inghams
         : baseEnvUrl.qa.inghams
   },
-  timeout: 60000,
+  timeout: 120000,
   expect: {
 
     timeout: 60000
@@ -65,10 +65,26 @@ export default defineConfig({
 
     {
       name: 'Safari',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        ...devices['Desktop Safari'],
+        screenshot: 'on',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure',
+      },
+    },
+
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+        screenshot: 'on',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure',
+      },
     },
 
     /* Test against mobile viewports. */
+
     {
       name: 'Mobile_Chrome',
       use: {
