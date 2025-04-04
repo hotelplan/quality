@@ -26,7 +26,7 @@ test.describe('Lapland Resort Broad Search', async () => {
     for (const Data of laplandResortData) {
         test(`Broad search proceeds with default values for ${Data.Resort} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab('Lapland');
             });
 
@@ -62,7 +62,7 @@ test.describe('Santa Resort Broad Search', async () => {
     for (const Data of santaResortData) {
         test(`Broad search proceeds with default values for ${Data.Resort} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab('Lapland');
             });
 
@@ -98,7 +98,7 @@ test.describe('Ski Resort Broad Search', async () => {
     for (const Data of skiResortData) {
         test(`Broad search proceeds with default values for ${Data.Resort} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab('Ski');
             });
 
@@ -134,7 +134,7 @@ test.describe('Walking Resort Broad Search', async () => {
     for (const Data of walkingResortData) {
         test(`Broad search proceeds with default values for ${Data.Resort} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab('Walking');
             });
 

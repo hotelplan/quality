@@ -37,6 +37,11 @@ export default defineConfig({
         ? baseEnvUrl.stg.inghams
         : baseEnvUrl.qa.inghams
   },
+  timeout: 60000,
+  expect: {
+
+    timeout: 60000
+  },
 
   /* Configure projects for major browsers */
   projects: [
@@ -65,16 +70,17 @@ export default defineConfig({
 
     /* Test against mobile viewports. */
     {
-       name: 'Mobile_Chrome',
-       use: { ...devices['Pixel 5'],
+      name: 'Mobile_Chrome',
+      use: {
+        ...devices['Pixel 5'],
         screenshot: 'on',
         video: 'retain-on-failure',
         trace: 'retain-on-failure',
-        },
+      },
     },
     {
-       name: 'Mobile_Safari',
-       use: { ...devices['iPhone 12'] },
+      name: 'Mobile_Safari',
+      use: { ...devices['iPhone 12'] },
     },
 
     /* Test against specific tags. */

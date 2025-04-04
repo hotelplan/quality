@@ -16,7 +16,7 @@ test.describe('Broad Search', async () => {
     for (const product of products) {
         test(`The broad search proceeds with default values for ${product} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
             
@@ -48,7 +48,7 @@ test.describe('Broad Search', async () => {
 
         test(`The broad search proceeds with duration only for ${product} holidays @inw`, async ({ searchResultPage }) => {
             test.setTimeout(120000);
-            await test.step(`Given: I sleect a product to search`, async () => {
+            await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
 

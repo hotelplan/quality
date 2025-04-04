@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import { test as base, request, APIRequestContext } from '@playwright/test';
 import { EcmsSignInPage }  from '../e_cms_pages/e_cms_sign_in_page';
 import { EcmsMainPage } from '../e_cms_pages/e_cms_main_page';
 import { PcmsSignInPage }  from '../p_cms_pages/p_cms_sign_in_page';
@@ -45,7 +45,9 @@ const testPages = base.extend<pages>({
         await use(new RegionPage(page));
     },
     searchResultPage: async ({page},use) => {
-        await use(new SearchResultPage(page));
+        let apiContext: APIRequestContext;
+        apiContext = await request.newContext();
+        await use(new SearchResultPage(page, apiContext));
     },
 
 
