@@ -167,10 +167,20 @@ export class SearchResultPage {
         }
     }
 
-    async validateAccommodationApiResults() {
+    async validateAccommodationApiResults(product: string) {
         const currentURL = new URL(this.page.url());
         const params = currentURL.searchParams.toString();
-        const apiURL = this.PCMSurl + '/api/Availability/ING/GBINA%7CGBINN%7CGBIND/accommodations?' + params
+        let apiURL: string = ''
+
+        if (product === 'Ski') {
+            apiURL = this.PCMSurl + '/api/Availability/ING/GBINA%7CGBINN%7CGBIND/accommodations?' + params
+        } else if (product === 'Walking') {
+            apiURL = this.PCMSurl + '/api/Availability/ING/GBINB/accommodations?' + params
+
+        } else if (product === 'Lapland') {
+            apiURL = this.PCMSurl + '/api/Availability/ING/GBINA%7CGBINS/accommodations?' + params
+
+        }
 
         let getAccommodations: APIResponse | undefined
 
@@ -226,11 +236,20 @@ export class SearchResultPage {
         await this.toggleSwitch.click()
     }
 
-    async validateResortApiResults() {
+    async validateResortApiResults(product: string) {
         const currentURL = new URL(this.page.url());
         const params = currentURL.searchParams.toString();
-        const apiURL = this.PCMSurl + '/api/Availability/ING/GBINA%7CGBINN%7CGBIND/resorts?' + params
+        let apiURL: string = ''
 
+        if (product === 'Ski') {
+            apiURL = this.PCMSurl + '/api/Availability/ING/GBINA%7CGBINN%7CGBIND/resorts?' + params
+        } else if (product === 'Walking') {
+            apiURL = this.PCMSurl + '/api/Availability/ING/GBINB/resorts?' + params
+
+        } else if (product === 'Lapland') {
+            apiURL = this.PCMSurl + '/api/Availability/ING/GBINA%7CGBINS/resorts?' + params
+
+        }
         let getResorts: APIResponse | undefined
 
         await this.page.waitForLoadState('domcontentloaded')
@@ -240,7 +259,7 @@ export class SearchResultPage {
             }
         })
 
-        expect(getResorts.status(), 'Accommodation API returns 200 success and a valid json response').toBe(200)
+        expect(getResorts.status(), 'Resort API returns 200 success and a valid json response').toBe(200)
 
         const resortResponse = (await getResorts.json()).items
 
@@ -346,21 +365,21 @@ export class SearchResultPage {
         await this.searchNoGuestDoneBtn.click();
     }
 
-    async searchAnywhere(location: string){
+    async searchAnywhere(location: string) {
         await this.searchAnywhereBtn.click();
-        await expect(this.searchWhereToGofield).toBeVisible({timeout: 30000});
+        await expect(this.searchWhereToGofield).toBeVisible({ timeout: 30000 });
         await this.searchWhereToGofield.fill(location);
         await this.searchWhereToGofield.press('Enter');
-        const captitalizedLocation = location.split('/').map(part => 
-            part.split(' ').map(word => 
+        const captitalizedLocation = location.split('/').map(part =>
+            part.split(' ').map(word =>
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ')
         ).join('/');
-        try{
-            await expect(this.searchWhereToGoResult(captitalizedLocation)).toBeVisible({timeout: 3000});
+        try {
+            await expect(this.searchWhereToGoResult(captitalizedLocation)).toBeVisible({ timeout: 3000 });
             await this.searchWhereToGoResult(captitalizedLocation).click();
-        }catch(error){
-            await expect(this.searchWhereToGoAltResult(captitalizedLocation)).toBeVisible({timeout: 3000});
+        } catch (error) {
+            await expect(this.searchWhereToGoAltResult(captitalizedLocation)).toBeVisible({ timeout: 3000 });
             await this.searchWhereToGoAltResult(captitalizedLocation).click();
         }
     }

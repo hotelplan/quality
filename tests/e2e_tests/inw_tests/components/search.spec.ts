@@ -60,7 +60,7 @@ test.describe('Search', async () => {
             })
 
             await test.step(`And: I verify that the Accommodation API response corresponds to accommodation.`, async () => {
-                await searchResultPage.validateAccommodationApiResults()
+                await searchResultPage.validateAccommodationApiResults(product)
             })
 
             await test.step(`And: I verify that the accommodation name displayed in the UI matches the API response.`, async () => {
@@ -76,7 +76,7 @@ test.describe('Search', async () => {
 
             })
             await test.step(`And: I verify that the Resorts API response corresponds to Resort.`, async () => {
-                await searchResultPage.validateResortApiResults()
+                await searchResultPage.validateResortApiResults(product)
             })
 
             await test.step(`And: I verify that the Resort name displayed in the UI matches the API response.`, async () => {
