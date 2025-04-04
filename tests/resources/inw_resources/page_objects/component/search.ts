@@ -9,6 +9,7 @@ export class SearchResultPage {
     readonly page: Page
     readonly searchProductTab: (product: string) => Locator;
     readonly searchBar: Locator
+    readonly criteriaBar: Locator
     readonly searchHolidayBtn: Locator
     readonly searchFldMobile: Locator
     readonly toggleValue: Locator
@@ -46,6 +47,7 @@ export class SearchResultPage {
         this.page = page;
         this.searchProductTab = (product: string) => page.getByRole('button', { name: product, exact: true });
         this.searchBar = page.locator('.c-search-criteria-bar')
+        this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]');
         this.searchHolidayBtn = page.getByRole('button', { name: 'Search holidays' })
         this.searchFldMobile = page.getByRole('button', { name: 'Search..' })
         this.toggleValue = page.locator('input[value="showDest"]')
@@ -58,7 +60,6 @@ export class SearchResultPage {
         this.searchWhereToGofield = page.getByRole('textbox', { name: 'Start typing..' })
         this.searchWhereToGoResult = (location: string) => page.locator('span').filter({ hasText: location });
         this.searchWhereToGoAltResult = (location: string) => page.getByText(location, { exact: true });
-
         this.searchNoGuestsBtn = page.locator('//button[@class="trip-search__option guests"]')
         this.searchNoGuestHeader = page.getByRole('heading', { name: 'Who\'s coming?' })
         this.minusButton = page.getByRole('button', { name: '-', exact: true })
@@ -88,8 +89,17 @@ export class SearchResultPage {
 
     async checkSearchBarAvailability() {
         await expect(this.searchBar, 'Search bar is available').toBeVisible();
-        this.initialBox = await this.searchBar.boundingBox();
-        expect(this.initialBox).not.toBeNull();
+        const hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
+            element.classList.contains('sticky-fixed')
+        );
+
+        const positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
+            window.getComputedStyle(element).position
+        );
+
+        expect(hasStickyFixedClass, 'Search bar is not initially sticky').toBe(false)
+        expect(positionStyle).toBe('relative')
+
     }
 
     async scrollDown() {
@@ -98,9 +108,23 @@ export class SearchResultPage {
     }
 
     async validateSearchBarTobeSticky() {
-        const afterScrollBox = await this.searchBar.boundingBox();
-        expect(afterScrollBox).not.toBeNull();
-        expect(afterScrollBox!.y).toBe(this.initialBox!.y);
+        await expect(this.searchBar, 'Search bar is available').toBeVisible();
+
+        const hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
+            element.classList.contains('sticky-fixed')
+        );
+
+        const positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
+            window.getComputedStyle(element).position
+        );
+
+        const top = await this.criteriaBar.evaluate((element: HTMLElement) =>
+            window.getComputedStyle(element).top
+        );
+
+        expect(hasStickyFixedClass, 'Search bar is sticky').toBe(true)
+        expect(positionStyle).toBe('fixed')
+        expect(top).toBe('0px')
     }
 
     async checkCriteriaBarContent(content: string) {
@@ -167,7 +191,7 @@ export class SearchResultPage {
         }
     }
 
-    async validateAccommodationApiResults(product: string) {
+    async validateAccommodationApiResults(product: string = 'Ski') {
         const currentURL = new URL(this.page.url());
         const params = currentURL.searchParams.toString();
         let apiURL: string = ''
