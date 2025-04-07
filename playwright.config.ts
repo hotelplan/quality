@@ -28,7 +28,7 @@ export default defineConfig({
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: false,
+    headless: true,
     trace: 'on-first-retry',
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.ENV === 'prod'

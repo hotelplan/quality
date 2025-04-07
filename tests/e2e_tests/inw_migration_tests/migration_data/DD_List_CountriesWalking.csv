@@ -1,8 +1,10 @@
 Code,Name,Id,Country,CountryCode,NewCountryGuid,NewRegionGuid,NewResortGuid
 AD,Andorra,f8ea1a50-4d42-420a-b250-eca1cb071d3c,,,f8ea1a50-4d42-420a-b250-eca1cb071d3c,,
 AT,Austria,e6bccc6d-c8d1-43e8-83b0-ce553f9869e8,,,e6bccc6d-c8d1-43e8-83b0-ce553f9869e8,,
+FR,France,686bec33-fe46-4c2a-be5f-977214a6babe,,,686bec33-fe46-4c2a-be5f-977214a6babe,,
 IT,Italy,7ec977cf-1114-4cc8-9ef0-d52b853f5a5f,,,7ec977cf-1114-4cc8-9ef0-d52b853f5a5f,,
-NO,Norway,5ff30118-5d2b-403e-b76c-00b2fa8c66c1,,,8951efa7-69fa-41ab-b922-ebf377668ea6,,
+PT,Madeira,9e12cb18-9014-4bc5-b5b5-15cae8cebcec,,,9e12cb18-9014-4bc5-b5b5-15cae8cebcec,,
+NO,Norway,8951efa7-69fa-41ab-b922-ebf377668ea6,,,8951efa7-69fa-41ab-b922-ebf377668ea6,,
 SI,Slovenia,3bdc97b0-c29c-4143-9d7f-835bdee12831,,,3bdc97b0-c29c-4143-9d7f-835bdee12831,,
 CH,Switzerland,6e202807-1e54-46ab-8633-421c172ab92d,,,6e202807-1e54-46ab-8633-421c172ab92d,,
 TO,Tours & multi-Centres,,,,,,

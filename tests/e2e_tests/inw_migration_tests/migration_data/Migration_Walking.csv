@@ -7,7 +7,7 @@ countryWalking,Walking,home\destinations\madeira,23961,madeira,,,,,False
 countryWalking,Walking,home\destinations\norway,22949,norway,,,,,False
 countryWalking,Walking,home\destinations\slovenia,22532,slovenia,,,,,False
 countryWalking,Walking,home\destinations\switzerland,22267,switzerland,,,,,False
-countryTours,Walking,home\destinations\tours-multi-centres,42110,tours & multi-centres,,,,,False
+
 regionWalking,Walking,home\destinations\austria\austrian-tyrol,1322,austria,1323,austrian tyrol,,,False
 regionWalking,Walking,home\destinations\austria\lake-achensee,1322,austria,22121,lake achensee,,,False
 regionWalking,Walking,home\destinations\austria\the-salzkammergut,1322,austria,22178,the salzkammergut,,,False
@@ -51,6 +51,7 @@ resortWalking,Walking,home\destinations\france\lake-annecy,22554,france,,,FRAN,l
 resortWalking,Walking,home\destinations\france\morzine,22554,france,,,FRMR,morzine,False
 resortWalking,Walking,home\destinations\france\samoens,22554,france,,,FRSA,samoens,False
 resortWalking,Walking,home\destinations\italy\city-breaks\verona,21686,italy,32314,city breaks,ITVR,verona,False
+resortWalking,Walking,home\destinations\italy\lake-como\bellagio,21686,italy,21697,lake como,ITBE,bellagio,False
 resortWalking,Walking,home\destinations\italy\lake-como\lenno,21686,italy,21697,lake como,ITLN,lenno,False
 resortWalking,Walking,home\destinations\italy\lake-como\menaggio,21686,italy,21697,lake como,ITME,menaggio,False
 resortWalking,Walking,home\destinations\italy\lake-garda\bardolino,21686,italy,21744,lake garda,ITBD,bardolino,False
@@ -100,12 +101,7 @@ resortWalking,Walking,home\destinations\switzerland\montreux,22267,switzerland,,
 resortWalking,Walking,home\destinations\switzerland\nendaz,22267,switzerland,,,CHND,nendaz,False
 resortWalking,Walking,home\destinations\switzerland\saas-fee,22267,switzerland,,,CHSA,saas fee,False
 resortWalking,Walking,home\destinations\switzerland\zermatt,22267,switzerland,,,CHZE,zermatt,False
-resortWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-austria,42110,tours & multi-centres,,,ATXX,tours & multi-centres in austria,False
-resortWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-france,42110,tours & multi-centres,,,FRXX,tours & multi-centres in france,False
-resortWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-resortWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-norway,42110,tours & multi-centres,,,NOXX,tours & multi-centres in norway,False
-resortWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-slovenia,42110,tours & multi-centres,,,SIXX,tours & multi-centres in slovenia,False
-resortWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-switzerland,42110,tours & multi-centres,,,CHXX,tours & multi-centres in switzerland,False
+
 accommodationWalking,Walking,home\destinations\andorra\arinsal\apart-hotel-xalet-besoli,64478,andorra,,,ADAR,arinsal,False
 accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-montane,64478,andorra,,,ADAR,arinsal,False
 accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-princesa-parc-excellence,64478,andorra,,,ADAR,arinsal,False
@@ -221,6 +217,7 @@ accommodationWalking,Walking,home\destinations\france\samoens\residence-la-reine
 accommodationWalking,Walking,home\destinations\france\samoens\residence-neige-et-roc,22554,france,,,FRSA,samoens,False
 accommodationWalking,Walking,home\destinations\italy\city-breaks\verona\hotel-italia,21686,italy,32314,city breaks,ITVR,verona,False
 accommodationWalking,Walking,home\destinations\italy\city-breaks\verona\hotel-leon-doro,21686,italy,32314,city breaks,ITVR,verona,False
+accommodationWalking,Walking,home\destinations\italy\lake-como\bellagio\hotel-excelsior-splendide,21686,italy,21697,lake como,ITBE,bellagio,False
 accommodationWalking,Walking,home\destinations\italy\lake-como\lenno\hotel-lenno,21686,italy,21697,lake como,ITLN,lenno,False
 accommodationWalking,Walking,home\destinations\italy\lake-como\menaggio\grand-hotel-menaggio,21686,italy,21697,lake como,ITME,menaggio,False
 accommodationWalking,Walking,home\destinations\italy\lake-como\menaggio\hotel-bellavista,21686,italy,21697,lake como,ITME,menaggio,False
@@ -306,6 +303,7 @@ accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\boutiqu
 accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-aaritz,21686,italy,32188,the dolomites,ITSV,selva,False
 accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-antares,21686,italy,32188,the dolomites,ITSV,selva,False
 accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-mignon,21686,italy,32188,the dolomites,ITSV,selva,False
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-miravalle,21686,italy,32188,the dolomites,ITSV,selva,False
 accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-pozzamanigoni,21686,italy,32188,the dolomites,ITSV,selva,False
 accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-rodella,21686,italy,32188,the dolomites,ITSV,selva,False
 accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-somont,21686,italy,32188,the dolomites,ITSV,selva,False
@@ -397,7 +395,6 @@ accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne\
 accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\weggis\hotel-alexander,22267,switzerland,22404,lake lucerne,CHWE,weggis,False
 accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\weggis\hotel-gerbi,22267,switzerland,22404,lake lucerne,CHWE,weggis,False
 accommodationWalking,Walking,home\destinations\switzerland\montreux\hotel-masson,22267,switzerland,,,CHMT,montreux,False
-accommodationWalking,Walking,home\destinations\switzerland\montreux\hotel-mona,22267,switzerland,,,CHMT,montreux,False
 accommodationWalking,Walking,home\destinations\switzerland\montreux\hotel-rené-capt,22267,switzerland,,,CHMT,montreux,False
 accommodationWalking,Walking,home\destinations\switzerland\nendaz\hotel-nendaz-4-vallees,22267,switzerland,,,CHND,nendaz,False
 accommodationWalking,Walking,home\destinations\switzerland\nendaz\mad-mount-hotel,22267,switzerland,,,CHND,nendaz,False
@@ -412,34 +409,3 @@ accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-butterf
 accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-national,22267,switzerland,,,CHZE,zermatt,False
 accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-schoenegg,22267,switzerland,,,CHZE,zermatt,False
 accommodationWalking,Walking,home\destinations\switzerland\zermatt\le-mirabeau-hotel-spa,22267,switzerland,,,CHZE,zermatt,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-austria\alpbach-and-pertisau,42110,tours & multi-centres,,,ATXX,tours & multi-centres in austria,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-austria\kitzbuhel-and-mayrhofen,42110,tours & multi-centres,,,ATXX,tours & multi-centres in austria,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-austria\kitzbuhel-and-zell-am-see,42110,tours & multi-centres,,,ATXX,tours & multi-centres in austria,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-austria\mayrhofen-and-seefeld,42110,tours & multi-centres,,,ATXX,tours & multi-centres in austria,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-france\iconic-mountains-tour,42110,tours & multi-centres,,,FRXX,tours & multi-centres in france,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-france\lake-annecy-chamonix,42110,tours & multi-centres,,,FRXX,tours & multi-centres in france,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\best-of-liguria,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\dolomites-discovery,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\dolomites-lake-garda,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\highlights-of-lake-garda,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\lake-iseo-lake-garda,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\lake-ledro-lake-iseo,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\madonna-di-campiglio-lake-ledro,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\merano-madonna-di-campiglio,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\montecatini-liguria,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\verona-lake-garda,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\verona-lake-iseo,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\verona-lake-ledro,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-italy\verona-the-dolomites,42110,tours & multi-centres,,,ITXX,tours & multi-centres in italy,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-norway\bergen-balestrand,42110,tours & multi-centres,,,NOXX,tours & multi-centres in norway,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-norway\bergen-flam-or-aurland,42110,tours & multi-centres,,,NOXX,tours & multi-centres in norway,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-norway\bergen-voss,42110,tours & multi-centres,,,NOXX,tours & multi-centres in norway,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-norway\the-best-of-norway,42110,tours & multi-centres,,,NOXX,tours & multi-centres in norway,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-slovenia\discover-the-julian-alps,42110,tours & multi-centres,,,SIXX,tours & multi-centres in slovenia,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-slovenia\lake-bled-and-kitzbuhel,42110,tours & multi-centres,,,SIXX,tours & multi-centres in slovenia,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-slovenia\lake-bled-and-kranjska-gora,42110,tours & multi-centres,,,SIXX,tours & multi-centres in slovenia,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-switzerland\glacier-express,42110,tours & multi-centres,,,CHXX,tours & multi-centres in switzerland,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-switzerland\goldenpass-line,42110,tours & multi-centres,,,CHXX,tours & multi-centres in switzerland,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-switzerland\grindelwald-and-zermatt,42110,tours & multi-centres,,,CHXX,tours & multi-centres in switzerland,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-switzerland\swiss-classic-tour,42110,tours & multi-centres,,,CHXX,tours & multi-centres in switzerland,False
-accommodationWalking,Walking,home\destinations\tours-multi-centres\tours-multi-centres-in-switzerland\zermatt-and-lake-lucerne,42110,tours & multi-centres,,,CHXX,tours & multi-centres in switzerland,False
