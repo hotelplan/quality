@@ -6,7 +6,7 @@ import environmentBaseUrl from '../../../../resources/utils/environmentBaseUrl';
 import exp from 'constants';
 
 export class SearchResultPage {
-    readonly page: Page
+    public page: Page
     readonly searchProductTab: (product: string) => Locator;
     readonly searchBar: Locator
     readonly criteriaBar: Locator
@@ -42,6 +42,7 @@ export class SearchResultPage {
     public resortNamesFromAPI: string[] = [];
     public resortNamesFromUI: string[] = [];
     private request: APIRequestContext;
+
 
     constructor(page: Page, apiContext: APIRequestContext) {
         this.page = page;
@@ -93,14 +94,17 @@ export class SearchResultPage {
 
         if (newPage) {
             const [newPage] = await Promise.all([
-                this.page.context().waitForEvent('page')
+                this.page.context().waitForEvent('page'),
+                this.viewHotelsButtons.first().waitFor({ state: 'visible' }),
+                this.viewHotelsButtons.first().click()
             ]);
             await newPage.waitForLoadState('domcontentloaded')
+            this.page = newPage
 
             await expect(newPage.locator('.c-search-criteria-bar'), 'Search bar is available').toBeVisible();
-            hasStickyFixedClass = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) => {
-                return element.classList.contains('sticky-fixed')
-            });
+            hasStickyFixedClass = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
+                element.classList.contains('sticky-fixed')
+            );
 
             positionStyle = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
                 window.getComputedStyle(element).position
@@ -426,11 +430,6 @@ export class SearchResultPage {
             await expect(this.searchWhereToGoAltResult(captitalizedLocation)).toBeVisible({ timeout: 3000 });
             await this.searchWhereToGoAltResult(captitalizedLocation).click();
         }
-    }
-
-    async chooseAndSelectAccommodation() {
-        await this.viewHotelsButtons.first().waitFor({ state: 'visible' })
-        await this.viewHotelsButtons.first().click()
     }
 
 }
