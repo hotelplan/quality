@@ -87,15 +87,35 @@ export class SearchResultPage {
         await expect(this.page, 'User successfully navigated to Search result page').toHaveURL(/.*search-results/);
     }
 
-    async checkSearchBarAvailability() {
-        await expect(this.searchBar, 'Search bar is available').toBeVisible();
-        const hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
-            element.classList.contains('sticky-fixed')
-        );
+    async checkSearchBarAvailability(newPage: boolean = false) {
+        let hasStickyFixedClass: boolean = false
+        let positionStyle: string = ''
 
-        const positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
-            window.getComputedStyle(element).position
-        );
+        if (newPage) {
+            const [newPage] = await Promise.all([
+                this.page.context().waitForEvent('page')
+            ]);
+            await newPage.waitForLoadState('domcontentloaded')
+
+            await expect(newPage.locator('.c-search-criteria-bar'), 'Search bar is available').toBeVisible();
+            hasStickyFixedClass = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) => {
+                return element.classList.contains('sticky-fixed')
+            });
+
+            positionStyle = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
+                window.getComputedStyle(element).position
+            );
+
+        } else {
+            await expect(this.searchBar, 'Search bar is available').toBeVisible();
+            hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
+                element.classList.contains('sticky-fixed')
+            );
+
+            positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
+                window.getComputedStyle(element).position
+            );
+        }
 
         expect(hasStickyFixedClass, 'Search bar is not initially sticky').toBe(false)
         expect(positionStyle).toBe('relative')
@@ -406,6 +426,11 @@ export class SearchResultPage {
             await expect(this.searchWhereToGoAltResult(captitalizedLocation)).toBeVisible({ timeout: 3000 });
             await this.searchWhereToGoAltResult(captitalizedLocation).click();
         }
+    }
+
+    async chooseAndSelectAccommodation() {
+        await this.viewHotelsButtons.first().waitFor({ state: 'visible' })
+        await this.viewHotelsButtons.first().click()
     }
 
 }
