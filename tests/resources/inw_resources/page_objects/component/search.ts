@@ -1,9 +1,8 @@
 import { type Page, type Locator, expect } from '@playwright/test';
-import { BoundingBox } from '../../utilities/models';
+import { BoundingBox, SearchValues } from '../../utilities/models';
 import { APIRequestContext, APIResponse } from "@playwright/test";
 import tokenConfig from '../../../../resources/utils/tokenConfig';
 import environmentBaseUrl from '../../../../resources/utils/environmentBaseUrl';
-import exp from 'constants';
 
 export class SearchResultPage {
     public page: Page
@@ -34,9 +33,14 @@ export class SearchResultPage {
     readonly searchAccomodationCard: Locator
     readonly searchAccomodationCardImage: Locator
     readonly searchAccomodationViewHotelsBtn: Locator
+    readonly departureValue: Locator
+    readonly arrivalValue: Locator
+    readonly whosComingValue: Locator
+    readonly nightsValue: Locator
     public initialBox: BoundingBox | null = null;
-    public env: string | null = null;
-    public PCMSurl: string | null = null;
+    public searchValues: SearchValues | null = null; 
+    public env: string = process.env.ENV || "qa";
+    public PCMSurl: string | null = environmentBaseUrl[this.env].p_cms;
     public accommodationNamesFromAPI: string[] = [];
     public accommodationNamesFromUI: string[] = [];
     public resortNamesFromAPI: string[] = [];
@@ -46,6 +50,7 @@ export class SearchResultPage {
 
     constructor(page: Page, apiContext: APIRequestContext) {
         this.page = page;
+        this.request = apiContext
         this.searchProductTab = (product: string) => page.getByRole('button', { name: product, exact: true });
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]');
@@ -73,14 +78,10 @@ export class SearchResultPage {
         this.searchAccomodationCard = page.locator('//div[@class="c-search-card c-card c-card-slider"]')
         this.searchAccomodationCardImage = page.locator('//div[@aria-labelledby="accomodation-images"]')
         this.searchAccomodationViewHotelsBtn = page.locator('.c-search-card--resorts-footer > .c-btn')
-        this.request = apiContext
-        this.env = process.env.ENV || "qa";
-        this.PCMSurl = environmentBaseUrl[this.env].p_cms;
-        this.initialBox = null
-        this.accommodationNamesFromAPI = []
-        this.accommodationNamesFromUI = []
-        this.resortNamesFromAPI = []
-        this.resortNamesFromUI = []
+        this.departureValue = page.locator('.departure .option--selected')
+        this.arrivalValue = page.locator('.anywhere-btn')
+        this.whosComingValue = page.locator('.labels')
+        this.nightsValue = page.locator('.nights-btn')
     }
 
     async validateSearchResultPageUrl() {
@@ -430,6 +431,17 @@ export class SearchResultPage {
             await expect(this.searchWhereToGoAltResult(captitalizedLocation)).toBeVisible({ timeout: 3000 });
             await this.searchWhereToGoAltResult(captitalizedLocation).click();
         }
+    }
+
+    async getDefaultSearchValues() {
+        this.searchValues  = {
+            departure: await this.departureValue.textContent(),
+            arrival: await this.arrivalValue.textContent(),
+            whosComing: await this.whosComingValue.textContent(),
+            nights: await this.nightsValue.textContent(),
+        };
+
+        return this.searchValues;
     }
 
 }

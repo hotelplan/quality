@@ -4,3 +4,9 @@ export interface BoundingBox {
     width: number;
     height: number;
 }
+export interface SearchValues {
+    departure: string | null;
+    arrival: string | null;
+    whosComing: string | null;  
+    nights: string | null;  
+}
