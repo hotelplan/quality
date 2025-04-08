@@ -37,14 +37,16 @@ export class SearchResultPage {
     readonly arrivalValue: Locator
     readonly whosComingValue: Locator
     readonly nightsValue: Locator
+    readonly resortSearchBarDetails: Locator
     public initialBox: BoundingBox | null = null;
-    public searchValues: SearchValues | null = null; 
+    public searchValues: SearchValues | null = null;
     public env: string = process.env.ENV || "qa";
     public PCMSurl: string | null = environmentBaseUrl[this.env].p_cms;
     public accommodationNamesFromAPI: string[] = [];
     public accommodationNamesFromUI: string[] = [];
     public resortNamesFromAPI: string[] = [];
     public resortNamesFromUI: string[] = [];
+    public resortSearchBarValues: string[] = [];
     private request: APIRequestContext;
 
 
@@ -82,6 +84,8 @@ export class SearchResultPage {
         this.arrivalValue = page.locator('.anywhere-btn')
         this.whosComingValue = page.locator('.labels')
         this.nightsValue = page.locator('.nights-btn')
+        this.resortSearchBarDetails = page.locator('.c-search-criteria-bar__price-basis > span')
+
     }
 
     async validateSearchResultPageUrl() {
@@ -434,7 +438,7 @@ export class SearchResultPage {
     }
 
     async getDefaultSearchValues() {
-        this.searchValues  = {
+        this.searchValues = {
             departure: await this.departureValue.textContent(),
             arrival: await this.arrivalValue.textContent(),
             whosComing: await this.whosComingValue.textContent(),
@@ -442,6 +446,30 @@ export class SearchResultPage {
         };
 
         return this.searchValues;
+    }
+
+    async validateResortSearchBarDetails() {
+
+        for (let index = 0; index < 3; index++) {
+            let resortSearchBarDetails = await this.resortSearchBarDetails.nth(index).textContent()
+            if (resortSearchBarDetails !== null) {
+                this.resortSearchBarValues.push(resortSearchBarDetails);
+            }
+        }
+
+        const searchValuesList = [
+            `From ${this.searchValues!.departure}`.trim().toLowerCase(),
+            `${this.searchValues!.whosComing}`.trim().toLowerCase(),
+            `Any date (${this.searchValues!.nights})`.trim().toLowerCase(),
+        ];
+
+        const resortSearchValuesNormalized = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
+
+        const allValuesPresent = searchValuesList.every(val =>
+            resortSearchValuesNormalized.includes(val)
+        );
+
+        expect(allValuesPresent, 'All search values are present in the resort search bar').toBe(true);
     }
 
 }
