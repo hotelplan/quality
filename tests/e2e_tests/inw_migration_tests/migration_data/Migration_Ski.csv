@@ -4,6 +4,7 @@ countrySki,Ski,home\ski-holidays\ski-resorts\austria,1226,austria,,,,,False
 countrySki,Ski,home\ski-holidays\ski-resorts\canada,1228,canada,,,,,False
 countrySki,Ski,home\ski-holidays\ski-resorts\france,1227,france,,,,,False
 countrySki,Ski,home\ski-holidays\ski-resorts\italy,22354,italy,,,,,False
+countrySki,Ski,home\ski-holidays\ski-resorts\norway,24338,norway,,,,,False
 countrySki,Ski,home\ski-holidays\ski-resorts\switzerland,22781,switzerland,,,,,False
 regionSki,Ski,home\ski-holidays\ski-resorts\austria\arlberg-ski-area,1226,austria,1235,arlberg ski area,,,False
 regionSki,Ski,home\ski-holidays\ski-resorts\austria\kitzbuhel-alps,1226,austria,21973,kitzbuhel alps,,,False
@@ -83,6 +84,8 @@ resortSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\ortisei
 resortSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\san-cassiano,22354,italy,22355,the dolomites ski area,ITCS,san cassiano,False
 resortSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\selva,22354,italy,22355,the dolomites ski area,ITSV,selva,False
 resortSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\val-di-fassa-canazei-campitello-alba-penia,22354,italy,22355,the dolomites ski area,ITCN,"val di fassa (canazei, campitello, alba & penia)",False
+resortSki,Ski,home\ski-holidays\ski-resorts\norway\myrkdalen,24338,norway,,,NOMK,myrkdalen,False
+resortSki,Ski,home\ski-holidays\ski-resorts\norway\voss,24338,norway,,,NOVO,voss,False
 resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\st.moritz,22781,switzerland,22783,graubunden ski region,CHSM,st. moritz,False
 resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\grindelwald,22781,switzerland,22860,jungfrau ski region,CHGR,grindelwald,False
 resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\murren,22781,switzerland,22860,jungfrau ski region,CHMU,murren,False
@@ -400,7 +403,6 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\hotel-levanna,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\hotel-val-claret-all-inclusive,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\hotel-voulez-vous,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\residence-altaviva,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\residence-boutique-lodge-des-neiges,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\residence-la-ferme-du-val-claret,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\residence-le-taos,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
@@ -515,6 +517,14 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\val-di-fassa-canazei-campitello-alba-penia\hotel-la-perla-canazei,22354,italy,22355,the dolomites ski area,ITCN,"val di fassa (canazei, campitello, alba & penia)",False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\val-di-fassa-canazei-campitello-alba-penia\hotel-medil-campitello,22354,italy,22355,the dolomites ski area,ITCN,"val di fassa (canazei, campitello, alba & penia)",False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\val-di-fassa-canazei-campitello-alba-penia\hotel-piccolo-canazei,22354,italy,22355,the dolomites ski area,ITCN,"val di fassa (canazei, campitello, alba & penia)",False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\myrkdalen\myrkdalen-apartments,24338,norway,,,NOMK,myrkdalen,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\myrkdalen\myrkdalen-hotel,24338,norway,,,NOMK,myrkdalen,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\fleischers-hotel,24338,norway,,,NOVO,voss,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\hotel-elva,24338,norway,,,NOVO,voss,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\hotel-scandic,24338,norway,,,NOVO,voss,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\park-hotel,24338,norway,,,NOVO,voss,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\store-ringheim-hotel,24338,norway,,,NOVO,voss,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\voss-guest-house,24338,norway,,,NOVO,voss,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\st.moritz\hotel-monopol,22781,switzerland,22783,graubunden ski region,CHSM,st. moritz,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\st.moritz\hotel-schweizerhof,22781,switzerland,22783,graubunden ski region,CHSM,st. moritz,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\st.moritz\hotel-steffani,22781,switzerland,22783,graubunden ski region,CHSM,st. moritz,False

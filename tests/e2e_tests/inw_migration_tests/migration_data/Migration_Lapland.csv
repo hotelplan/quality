@@ -1,6 +1,7 @@
 Alias,Product,SourcePath,CountryCode,Country,RegionCode,Region,ResortCode,Resort,Suppress
 countrySki,Lapland,home\lapland-holidays\resorts\lapland-finland,22632,lapland/finland,,,,,False
 resortSki,Lapland,home\lapland-holidays\resorts\lapland-finland\levi,22632,lapland/finland,,,FILV,levi,False
+resortSki,Lapland,home\lapland-holidays\resorts\lapland-finland\pyha,22632,lapland/finland,,,FIPY,pyha,False
 resortSki,Lapland,home\lapland-holidays\resorts\lapland-finland\saariselka,22632,lapland/finland,,,FISK,saariselka,False
 resortSki,Lapland,home\lapland-holidays\resorts\lapland-finland\yllas,22632,lapland/finland,,,FIYL,yllas,False
 accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\levi\break-sokos-hotel,22632,lapland/finland,,,FILV,levi,False
@@ -17,6 +18,8 @@ accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\levi\levi
 accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\levi\levilehto-apartments,22632,lapland/finland,,,FILV,levi,False
 accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\levi\panorama-hotel-and-apartments,22632,lapland/finland,,,FILV,levi,False
 accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\levi\sirius-and-orion-apartments,22632,lapland/finland,,,FILV,levi,False
+accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\pyha\hotel-pyhaetunturi,22632,lapland/finland,,,FIPY,pyha,False
+accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\pyha\pyhae-ski-inn-suites,22632,lapland/finland,,,FIPY,pyha,False
 accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\saariselka\gielas-hotel,22632,lapland/finland,,,FISK,saariselka,False
 accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\saariselka\holiday-club-apartments,22632,lapland/finland,,,FISK,saariselka,False
 accommodationSki,Lapland,home\lapland-holidays\resorts\lapland-finland\saariselka\holiday-club-hotel,22632,lapland/finland,,,FISK,saariselka,False
