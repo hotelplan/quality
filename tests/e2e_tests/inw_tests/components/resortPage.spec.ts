@@ -1,10 +1,12 @@
 import { test } from '../../../resources/inw_resources/page_objects/base/page_base';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
+import { SearchValues } from '../../../resources/inw_resources/utilities/models';
 
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 
-const products = ['Ski'];
+const products = ['Ski', 'Walking', 'Lapland'];
+let defaultSearchValues: SearchValues
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -48,7 +50,7 @@ test.describe('Search', async () => {
             });
 
             await test.step(`And: I get the default values for Number of nights, Number of guests, Departure location and Date`, async () => {
-                await searchResultPage.getDefaultSearchValues()
+                defaultSearchValues = await searchResultPage.getDefaultSearchValues()
             })
 
             await test.step(`And: I search for ${product} holidays`, async () => {
@@ -66,7 +68,7 @@ test.describe('Search', async () => {
 
             await test.step(`When: I check the Number of nights, Number of guests, Departure location and Date
                              Then: I should see correct Number of nights, Number of guests, Departure location and Date displayed on the search bar`, async () => {
-                await resortPage.validateResortSearchBarDetails()
+                await resortPage.validateResortSearchBarDetails(defaultSearchValues)
 
             })
         })

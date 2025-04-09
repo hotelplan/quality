@@ -4,7 +4,7 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 
-const products = ['Ski'];
+const products = ['Ski', 'Walking', 'Lapland'];
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {

@@ -71,7 +71,7 @@ export class ResortPage {
         expect(top).toBe('0px')
     }
 
-    async validateResortSearchBarDetails() {
+    async validateResortSearchBarDetails(searchValues: SearchValues) {
 
         for (let index = 0; index < 3; index++) {
             let resortSearchBarDetails = await this.resortSearchBarDetails.nth(index).textContent()
@@ -81,9 +81,9 @@ export class ResortPage {
         }
 
         const searchValuesList = [
-            `From ${this.searchValues!.departure}`.trim().toLowerCase(),
-            `${this.searchValues!.whosComing}`.trim().toLowerCase(),
-            `Any date (${this.searchValues!.nights})`.trim().toLowerCase(),
+            `From ${searchValues!.departure}`.trim().toLowerCase(),
+            `${searchValues!.whosComing}`.trim().toLowerCase(),
+            `Any date (${searchValues!.nights})`.trim().toLowerCase(),
         ];
 
         const resortSearchValuesNormalized = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
