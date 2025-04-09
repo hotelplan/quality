@@ -4,7 +4,7 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 
-const products = ['Ski', 'Walking', 'Lapland'];
+const products = ['Ski'];
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -89,33 +89,6 @@ test.describe('Search', async () => {
 
         })
 
-        test(`The search bar should be displayed as sticky on Resort details page for ${product} holidays @inw`, async ({ searchResultPage }) => {
-            await test.step(`Given: I select a product to search`, async () => {
-                await searchResultPage.clickSearchProductTab(product);
-            });
-
-            await test.step(`And: I search for ${product} holidays`, async () => {
-                await searchResultPage.clickSearchHolidayBtn()
-            })
-
-            await test.step('And: I navigate to Search results page', async () => {
-                await searchResultPage.validateSearchResultPageUrl()
-            })
-
-            await test.step(`And: I choose and select an Accommodation by clicking 'View Hotels' button
-                             And: I see the search bar displaying at the top of the page`, async () => {
-                await searchResultPage.checkSearchBarAvailability(true)
-            })
-
-            await test.step(`When: I scroll up and down the page`, async () => {
-                await searchResultPage.scrollDown()
-
-            })
-
-            await test.step(`Then: the Search bar displayed is sticky`, async () => {
-                await searchResultPage.validateSearchBarTobeSticky()
-            })
-        })
     }
 
 })

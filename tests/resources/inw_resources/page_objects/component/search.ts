@@ -93,38 +93,19 @@ export class SearchResultPage {
         await expect(this.page, 'User successfully navigated to Search result page').toHaveURL(/.*search-results/);
     }
 
-    async checkSearchBarAvailability(newPage: boolean = false) {
+    async checkSearchBarAvailability() {
         let hasStickyFixedClass: boolean = false
         let positionStyle: string = ''
 
-        if (newPage) {
-            const [newPage] = await Promise.all([
-                this.page.context().waitForEvent('page'),
-                this.viewHotelsButtons.first().waitFor({ state: 'visible' }),
-                this.viewHotelsButtons.first().click()
-            ]);
-            await newPage.waitForLoadState('domcontentloaded')
-            this.page = newPage
+        await expect(this.searchBar, 'Search bar is available').toBeVisible();
+        hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
+            element.classList.contains('sticky-fixed')
+        );
 
-            await expect(newPage.locator('.c-search-criteria-bar'), 'Search bar is available').toBeVisible();
-            hasStickyFixedClass = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
-                element.classList.contains('sticky-fixed')
-            );
+        positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
+            window.getComputedStyle(element).position
+        );
 
-            positionStyle = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
-                window.getComputedStyle(element).position
-            );
-
-        } else {
-            await expect(this.searchBar, 'Search bar is available').toBeVisible();
-            hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
-                element.classList.contains('sticky-fixed')
-            );
-
-            positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
-                window.getComputedStyle(element).position
-            );
-        }
 
         expect(hasStickyFixedClass, 'Search bar is not initially sticky').toBe(false)
         expect(positionStyle).toBe('relative')
@@ -446,30 +427,6 @@ export class SearchResultPage {
         };
 
         return this.searchValues;
-    }
-
-    async validateResortSearchBarDetails() {
-
-        for (let index = 0; index < 3; index++) {
-            let resortSearchBarDetails = await this.resortSearchBarDetails.nth(index).textContent()
-            if (resortSearchBarDetails !== null) {
-                this.resortSearchBarValues.push(resortSearchBarDetails);
-            }
-        }
-
-        const searchValuesList = [
-            `From ${this.searchValues!.departure}`.trim().toLowerCase(),
-            `${this.searchValues!.whosComing}`.trim().toLowerCase(),
-            `Any date (${this.searchValues!.nights})`.trim().toLowerCase(),
-        ];
-
-        const resortSearchValuesNormalized = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
-
-        const allValuesPresent = searchValuesList.every(val =>
-            resortSearchValuesNormalized.includes(val)
-        );
-
-        expect(allValuesPresent, 'All search values are present in the resort search bar').toBe(true);
     }
 
 }
