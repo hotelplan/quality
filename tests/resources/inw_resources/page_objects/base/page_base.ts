@@ -6,7 +6,7 @@ import { PcmsMainPage } from '../p_cms_pages/p_cms_main_page';
 import { CountryPage } from '../country_page';
 import { RegionPage } from '../region_page';
 import { ResortPage } from '../resort_page';
-import { SearchResultPage } from '../component/search'
+import { SearchResultPage } from '../search_result_page'
 
 
 type pages = {

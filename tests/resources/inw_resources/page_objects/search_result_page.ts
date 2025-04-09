@@ -1,8 +1,8 @@
 import { type Page, type Locator, expect } from '@playwright/test';
-import { BoundingBox, SearchValues } from '../../utilities/models';
+import { BoundingBox, SearchValues } from '../utilities/models';
 import { APIRequestContext, APIResponse } from "@playwright/test";
-import tokenConfig from '../../../../resources/utils/tokenConfig';
-import environmentBaseUrl from '../../../../resources/utils/environmentBaseUrl';
+import tokenConfig from '../../utils/tokenConfig';
+import environmentBaseUrl from '../../utils/environmentBaseUrl';
 
 export class SearchResultPage {
     public page: Page
