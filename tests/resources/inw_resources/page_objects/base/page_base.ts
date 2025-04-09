@@ -5,6 +5,7 @@ import { PcmsSignInPage }  from '../p_cms_pages/p_cms_sign_in_page';
 import { PcmsMainPage } from '../p_cms_pages/p_cms_main_page';
 import { CountryPage } from '../country_page';
 import { RegionPage } from '../region_page';
+import { ResortPage } from '../resort_page';
 import { SearchResultPage } from '../component/search'
 
 
@@ -15,6 +16,7 @@ type pages = {
     pcmsMainPage: PcmsMainPage,
     countryPage: CountryPage,
     regionPage: RegionPage,
+    resortPage: ResortPage,
     searchResultPage: SearchResultPage
 }
 
@@ -48,6 +50,9 @@ const testPages = base.extend<pages>({
         let apiContext: APIRequestContext;
         apiContext = await request.newContext();
         await use(new SearchResultPage(page, apiContext));
+    },
+    resortPage: async ({page},use) => {
+        await use(new ResortPage(page));
     },
 
 
