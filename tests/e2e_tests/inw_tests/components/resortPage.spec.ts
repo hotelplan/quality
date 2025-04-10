@@ -7,6 +7,8 @@ const ECMSurl = environmentBaseUrl[env].e_cms;
 
 const products = ['Ski', 'Walking', 'Lapland'];
 let defaultSearchValues: SearchValues
+let updatedSearchValues
+let newPage
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -31,16 +33,16 @@ test.describe('Search', async () => {
 
             await test.step(`And: I choose and select an Accommodation by clicking 'View Hotels' button
                              And: I see the search bar displaying at the top of the page`, async () => {
-                await resortPage.checkResortSearchBarAvailability()
+                newPage = await resortPage.checkResortSearchBarAvailability()
             })
 
             await test.step(`When: I scroll up and down the page`, async () => {
-                await resortPage.scrollDown()
+                await resortPage.scrollDown(newPage)
 
             })
 
             await test.step(`Then: the Search bar displayed is sticky`, async () => {
-                await resortPage.validateSearchBarTobeSticky()
+                await resortPage.validateSearchBarTobeSticky(newPage)
             })
         })
 
@@ -63,12 +65,41 @@ test.describe('Search', async () => {
 
             await test.step(`And: I choose and select an Accommodation by clicking 'View Hotels' button
                              And: I see the search bar displaying at the top of the page`, async () => {
-                await resortPage.checkResortSearchBarAvailability()
+                newPage = await resortPage.checkResortSearchBarAvailability()
             })
 
             await test.step(`When: I check the Number of nights, Number of guests, Departure location and Date
                              Then: I should see correct Number of nights, Number of guests, Departure location and Date displayed on the search bar`, async () => {
-                await resortPage.validateResortSearchBarDetails(defaultSearchValues)
+                await resortPage.validateResortSearchBarDetails(defaultSearchValues, newPage)
+
+            })
+        })
+
+        test(`The search bar should display the updated number of nights, number of guests, departure location, and date on the Resort Details page for ${product} holidays when the details have been updated. @inw`, async ({ searchResultPage, resortPage }) => {
+            await test.step(`Given: I select a product to search`, async () => {
+                await searchResultPage.clickSearchProductTab(product);
+            });
+
+            await test.step(`And: I search for ${product} holidays`, async () => {
+                await searchResultPage.clickSearchHolidayBtn()
+            })
+
+            await test.step('And: I navigate to Search results page', async () => {
+                await searchResultPage.validateSearchResultPageUrl()
+            })
+
+            await test.step(`And: I choose and select an Accommodation by clicking 'View Hotels' button
+                             And: I see the search bar displaying at the top of the page`, async () => {
+                newPage = await resortPage.checkResortSearchBarAvailability()
+            })
+
+            await test.step(`And: I update the number of nights, number of guests, departure location, and date`, async () => {
+                updatedSearchValues = await resortPage.updateResortSearchDetails(newPage)
+            })
+
+            await test.step(`When: I check the Number of nights, Number of guests, Departure location and Date
+                             Then: I should see correct Number of nights, Number of guests, Departure location and Date displayed on the search bar`, async () => {
+                await resortPage.validateResortSearchBarDetails(updatedSearchValues, newPage, true)
 
             })
         })

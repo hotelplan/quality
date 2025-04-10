@@ -196,7 +196,6 @@ export class ResortPage {
             nights: await resortPage.resortSearchNightsValue.textContent(),
         };
 
-        console.log('this.resortSearchValues:: ', this.resortSearchValues)
         await resortPage.confirmDetailsBtn.click()
 
         return this.resortSearchValues;
