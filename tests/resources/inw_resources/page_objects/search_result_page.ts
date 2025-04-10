@@ -84,8 +84,6 @@ export class SearchResultPage {
         this.arrivalValue = page.locator('.anywhere-btn')
         this.whosComingValue = page.locator('.labels')
         this.nightsValue = page.locator('.nights-btn')
-        this.resortSearchBarDetails = page.locator('.c-search-criteria-bar__price-basis > span')
-
     }
 
     async validateSearchResultPageUrl() {

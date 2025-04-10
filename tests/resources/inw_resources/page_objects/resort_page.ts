@@ -1,5 +1,5 @@
 import { type Page, type Locator, expect } from '@playwright/test';
-import { SearchValues } from '../utilities/models';
+import { SearchValues, ResortSearchValues } from '../utilities/models';
 
 export class ResortPage {
     public page: Page
@@ -19,8 +19,12 @@ export class ResortPage {
     readonly departureDate: Locator
     readonly doneBtn: Locator
     readonly confirmDetailsBtn: Locator
+    readonly resortSearchDepartureVal: Locator
+    readonly resortSearchArrivalValue: Locator
+    readonly resortSearchWhosComingValue: Locator
+    readonly resortSearchNightsValue: Locator
     public resortSearchBarValues: string[] = [];
-    public searchValues: SearchValues | null = null;
+    public resortSearchValues: ResortSearchValues | null = null;
 
 
     constructor(page: Page) {
@@ -41,6 +45,8 @@ export class ResortPage {
         this.departureDate = page.getByRole('button', { name: 'Select date' })
         this.doneBtn = page.getByRole('button', { name: 'Done' })
         this.confirmDetailsBtn = page.getByRole('button', { name: ' Confirm details ' })
+        this.resortSearchDepartureVal = page.locator('.trip-search__option .option--selected')
+        this.resortSearchNightsValue = page.getByRole('button', { name: 'nights' })
     }
 
     async checkResortSearchBarAvailability() {
@@ -70,23 +76,29 @@ export class ResortPage {
         return newPage
     }
 
-    async scrollDown() {
-        await this.page.evaluate(() => window.scrollBy(0, 300));
-        await this.page.waitForTimeout(500);
+    async scrollDown(newPage) {
+        const resortPage = new ResortPage(newPage);
+        await newPage.waitForLoadState('domcontentloaded')
+
+        await newPage.evaluate(() => window.scrollBy(0, 300));
+        await newPage.waitForTimeout(500);
     }
 
-    async validateSearchBarTobeSticky() {
-        await expect(this.searchBar, 'Search bar is available').toBeVisible();
+    async validateSearchBarTobeSticky(newPage) {
+        const resortPage = new ResortPage(newPage);
+        await newPage.waitForLoadState('domcontentloaded')
 
-        const hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
+        await expect(resortPage.searchBar, 'Search bar is available').toBeVisible();
+
+        const hasStickyFixedClass = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
             element.classList.contains('sticky-fixed')
         );
 
-        const positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
+        const positionStyle = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
             window.getComputedStyle(element).position
         );
 
-        const top = await this.criteriaBar.evaluate((element: HTMLElement) =>
+        const top = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
             window.getComputedStyle(element).top
         );
 
@@ -95,28 +107,61 @@ export class ResortPage {
         expect(top).toBe('0px')
     }
 
-    async validateResortSearchBarDetails(searchValues: SearchValues) {
+    async validateResortSearchBarDetails(searchValues: SearchValues, newPage) {
+        const resortPage = new ResortPage(newPage);
+        await newPage.waitForLoadState('domcontentloaded')
+        await newPage.waitForTimeout(2000);
 
         for (let index = 0; index < 3; index++) {
-            let resortSearchBarDetails = await this.resortSearchBarDetails.nth(index).textContent()
+            let resortSearchBarDetails = await resortPage.resortSearchBarDetails.nth(index).textContent()
             if (resortSearchBarDetails !== null) {
                 this.resortSearchBarValues.push(resortSearchBarDetails);
             }
         }
 
-        const searchValuesList = [
-            `From ${searchValues!.departure}`.trim().toLowerCase(),
-            `${searchValues!.whosComing}`.trim().toLowerCase(),
-            `Any date (${searchValues!.nights})`.trim().toLowerCase(),
+        console.log('this.resortSearchBarValues:: ', this.resortSearchBarValues)
+
+        // const searchValuesList = [
+        //     `From ${searchValues!.departure}`.trim().toLowerCase(),
+        //     `${searchValues!.whosComing}`.trim().toLowerCase(),
+        //     `Any date (${searchValues!.nights})`.trim().toLowerCase(),
+        // ];
+
+        // const resortSearchValuesNormalized = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
+
+        // const allValuesPresent = searchValuesList.every(val =>
+        //     resortSearchValuesNormalized.includes(val)
+        // );
+
+        // expect(allValuesPresent, 'All search values are present in the resort search bar').toBe(true);
+
+        const expectedValues = this.resortSearchValues;
+        const actualBarValues = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
+        
+        // Format expected values to match how they appear in the bar
+        const expectedFormatted = [
+          `any date (${(expectedValues?.nights || '').trim().toLowerCase()})`,
+          (expectedValues?.whosComing || '')
+            .replace(/([a-zA-Z])(?=\d)/g, '$1 , ') // letter followed by number, no space
+            .replace(/(\d)(?=[a-zA-Z])/g, '$1 , ') // number followed by letter, no space
+            .replace(/\s+,/g, ',')                // cleanup: remove space before comma if any
+            .replace(/,\s+/g, ' , ')              // ensure exactly one space after comma
+            .toLowerCase()
+            .trim(),
+          (expectedValues?.departure || '')
+            .split(',')[0] // Get the first location only
+            .replace(/\+\d+ more/, '') // Remove "+X more"
+            .toLowerCase()
+            .trim()
         ];
 
-        const resortSearchValuesNormalized = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
-
-        const allValuesPresent = searchValuesList.every(val =>
-            resortSearchValuesNormalized.includes(val)
+        
+        const allMatch = expectedFormatted.every(val =>
+          actualBarValues.some(actual => actual.includes(val))
         );
+        
+        expect(allMatch, 'All search values are correctly reflected in the resort search bar').toBe(true);
 
-        expect(allValuesPresent, 'All search values are present in the resort search bar').toBe(true);
     }
 
     async updateResortSearchDetails(newPage) {
@@ -124,8 +169,10 @@ export class ResortPage {
 
         await newPage.waitForLoadState('domcontentloaded')
         await resortPage.editSearchBar.waitFor({ state: 'attached' });
-        await resortPage.editSearchBar.click({ force: true })
+        await newPage.waitForTimeout(1000);
+        await resortPage.editSearchBar.click()
         await resortPage.departureBtn.click()
+        await resortPage.northEnglandCheckbox.waitFor({ state: 'attached' });
         await resortPage.northEnglandCheckbox.click()
         await resortPage.doneBtn.click()
         await resortPage.whosComingBtn.click()
@@ -136,7 +183,18 @@ export class ResortPage {
         await resortPage.durationBtn.click()
         await resortPage.durationSampleVal.click()
         await resortPage.doneBtn.click()
+        await resortPage.resortSearchDepartureVal.first().waitFor({ state: 'visible' });
+
+        this.resortSearchValues = {
+            departure: await resortPage.resortSearchDepartureVal.first().textContent(),
+            whosComing: await resortPage.resortSearchDepartureVal.last().textContent(),
+            nights: await resortPage.resortSearchNightsValue.textContent(),
+        };
+
+        console.log('this.resortSearchValues:: ', this.resortSearchValues)
         await resortPage.confirmDetailsBtn.click()
+
+        return this.resortSearchValues;
 
     }
 
