@@ -107,7 +107,7 @@ export class ResortPage {
         expect(top).toBe('0px')
     }
 
-    async validateResortSearchBarDetails(searchValues: SearchValues, newPage) {
+    async validateResortSearchBarDetails(searchValues: SearchValues, newPage: Page, updatedVal: boolean = false) {
         const resortPage = new ResortPage(newPage);
         await newPage.waitForLoadState('domcontentloaded')
         await newPage.waitForTimeout(2000);
@@ -119,48 +119,53 @@ export class ResortPage {
             }
         }
 
-        console.log('this.resortSearchBarValues:: ', this.resortSearchBarValues)
+        if (updatedVal) {
+            const expectedValues = this.resortSearchValues;
+            const actualBarValues = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
 
-        // const searchValuesList = [
-        //     `From ${searchValues!.departure}`.trim().toLowerCase(),
-        //     `${searchValues!.whosComing}`.trim().toLowerCase(),
-        //     `Any date (${searchValues!.nights})`.trim().toLowerCase(),
-        // ];
+            // Format expected values to match how they appear in the bar
+            const expectedFormatted = [
+                `any date (${(expectedValues?.nights || '').trim().toLowerCase()})`,
+                (expectedValues?.whosComing || '')
+                    .replace(/([a-zA-Z])(?=\d)/g, '$1 , ') // letter followed by number, no space
+                    .replace(/(\d)(?=[a-zA-Z])/g, '$1 , ') // number followed by letter, no space
+                    .replace(/\s+,/g, ',')                // cleanup: remove space before comma if any
+                    .replace(/,\s+/g, ' , ')              // ensure exactly one space after comma
+                    .toLowerCase()
+                    .trim(),
+                (expectedValues?.departure || '')
+                    .split(',')[0] // Get the first location only
+                    .replace(/\+\d+ more/, '') // Remove "+X more"
+                    .toLowerCase()
+                    .trim()
+            ];
 
-        // const resortSearchValuesNormalized = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
 
-        // const allValuesPresent = searchValuesList.every(val =>
-        //     resortSearchValuesNormalized.includes(val)
-        // );
+            const allMatch = expectedFormatted.every(val =>
+                actualBarValues.some(actual => actual.includes(val))
+            );
 
-        // expect(allValuesPresent, 'All search values are present in the resort search bar').toBe(true);
+            expect(allMatch, 'All search values are correctly reflected in the resort search bar').toBe(true);
 
-        const expectedValues = this.resortSearchValues;
-        const actualBarValues = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
-        
-        // Format expected values to match how they appear in the bar
-        const expectedFormatted = [
-          `any date (${(expectedValues?.nights || '').trim().toLowerCase()})`,
-          (expectedValues?.whosComing || '')
-            .replace(/([a-zA-Z])(?=\d)/g, '$1 , ') // letter followed by number, no space
-            .replace(/(\d)(?=[a-zA-Z])/g, '$1 , ') // number followed by letter, no space
-            .replace(/\s+,/g, ',')                // cleanup: remove space before comma if any
-            .replace(/,\s+/g, ' , ')              // ensure exactly one space after comma
-            .toLowerCase()
-            .trim(),
-          (expectedValues?.departure || '')
-            .split(',')[0] // Get the first location only
-            .replace(/\+\d+ more/, '') // Remove "+X more"
-            .toLowerCase()
-            .trim()
-        ];
+        } else {
+            const searchValuesList = [
+                `From ${searchValues!.departure}`.trim().toLowerCase(),
+                `${searchValues!.whosComing}`.trim().toLowerCase(),
+                `Any date (${searchValues!.nights})`.trim().toLowerCase(),
+            ];
 
-        
-        const allMatch = expectedFormatted.every(val =>
-          actualBarValues.some(actual => actual.includes(val))
-        );
-        
-        expect(allMatch, 'All search values are correctly reflected in the resort search bar').toBe(true);
+            const resortSearchValuesNormalized = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
+
+            const allValuesPresent = searchValuesList.every(val =>
+                resortSearchValuesNormalized.includes(val)
+            );
+
+            expect(allValuesPresent, 'All search values are present in the resort search bar').toBe(true);
+        }
+
+
+
+
 
     }
 
