@@ -7,6 +7,18 @@ export class ResortPage {
     readonly searchBar: Locator
     readonly criteriaBar: Locator
     readonly resortSearchBarDetails: Locator
+    readonly editSearchBar: Locator
+    readonly northEnglandCheckbox: Locator
+    readonly departureBtn: Locator
+    readonly whosComingBtn: Locator
+    readonly addAdultBtn: Locator
+    readonly addChildBtn: Locator
+    readonly childOption: Locator
+    readonly durationBtn: Locator
+    readonly durationSampleVal: Locator
+    readonly departureDate: Locator
+    readonly doneBtn: Locator
+    readonly confirmDetailsBtn: Locator
     public resortSearchBarValues: string[] = [];
     public searchValues: SearchValues | null = null;
 
@@ -17,7 +29,18 @@ export class ResortPage {
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]')
         this.resortSearchBarDetails = page.locator('.c-search-criteria-bar__price-basis > span')
-
+        this.editSearchBar = page.getByRole('button', { name: 'Edit' })
+        this.departureBtn = page.getByRole('button', { name: 'Departure location(s) Any' })
+        this.northEnglandCheckbox = page.locator('label').filter({ hasText: 'Any North Of England' })
+        this.whosComingBtn = page.getByRole('button', { name: `Who's coming?` })
+        this.addAdultBtn = page.locator('.number-range').getByRole('button', { name: '+' })
+        this.addChildBtn = page.getByRole('button', { name: 'Add a child' })
+        this.childOption = page.getByRole('option', { name: '1 year old' })
+        this.durationBtn = page.locator('.nights-btn')
+        this.durationSampleVal = page.locator(`//*[@for='3']`)
+        this.departureDate = page.getByRole('button', { name: 'Select date' })
+        this.doneBtn = page.getByRole('button', { name: 'Done' })
+        this.confirmDetailsBtn = page.getByRole('button', { name: ' Confirm details ' })
     }
 
     async checkResortSearchBarAvailability() {
@@ -44,6 +67,7 @@ export class ResortPage {
         expect(hasStickyFixedClass, 'Search bar is not initially sticky').toBe(false)
         expect(positionStyle).toBe('relative')
 
+        return newPage
     }
 
     async scrollDown() {
@@ -93,6 +117,27 @@ export class ResortPage {
         );
 
         expect(allValuesPresent, 'All search values are present in the resort search bar').toBe(true);
+    }
+
+    async updateResortSearchDetails(newPage) {
+        const resortPage = new ResortPage(newPage);
+
+        await newPage.waitForLoadState('domcontentloaded')
+        await resortPage.editSearchBar.waitFor({ state: 'attached' });
+        await resortPage.editSearchBar.click({ force: true })
+        await resortPage.departureBtn.click()
+        await resortPage.northEnglandCheckbox.click()
+        await resortPage.doneBtn.click()
+        await resortPage.whosComingBtn.click()
+        await resortPage.addAdultBtn.click()
+        await resortPage.addChildBtn.click()
+        await resortPage.childOption.click()
+        await resortPage.doneBtn.click()
+        await resortPage.durationBtn.click()
+        await resortPage.durationSampleVal.click()
+        await resortPage.doneBtn.click()
+        await resortPage.confirmDetailsBtn.click()
+
     }
 
 }
