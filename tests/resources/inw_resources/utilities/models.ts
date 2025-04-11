@@ -12,6 +12,7 @@ export interface SearchValues {
 }
 
 export interface ResortSearchValues {
+    departureDate: string | null;
     departure: string | null;
     whosComing: string | null;
     nights: string | null;

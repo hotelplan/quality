@@ -17,12 +17,15 @@ export class ResortPage {
     readonly durationBtn: Locator
     readonly durationSampleVal: Locator
     readonly departureDate: Locator
+    readonly departureDateVal: Locator
     readonly doneBtn: Locator
     readonly confirmDetailsBtn: Locator
     readonly resortSearchDepartureVal: Locator
     readonly resortSearchArrivalValue: Locator
     readonly resortSearchWhosComingValue: Locator
     readonly resortSearchNightsValue: Locator
+    readonly flexibleDateLink: Locator
+    readonly flexibleDateOption: Locator
     public resortSearchBarValues: string[] = [];
     public resortSearchValues: ResortSearchValues | null = null;
 
@@ -39,14 +42,17 @@ export class ResortPage {
         this.whosComingBtn = page.getByRole('button', { name: `Who's coming?` })
         this.addAdultBtn = page.locator('.number-range').getByRole('button', { name: '+' })
         this.addChildBtn = page.getByRole('button', { name: 'Add a child' })
-        this.childOption = page.getByRole('option', { name: '1 year old' })
+        this.childOption = page.locator('//*[@id="childSelectList"] //li').nth(1)
         this.durationBtn = page.locator('.nights-btn')
         this.durationSampleVal = page.locator(`//*[@for='3']`)
         this.departureDate = page.getByRole('button', { name: 'Select date' })
+        this.departureDateVal = page.locator('.calendar-btn')
         this.doneBtn = page.getByRole('button', { name: 'Done' })
         this.confirmDetailsBtn = page.getByRole('button', { name: ' Confirm details ' })
         this.resortSearchDepartureVal = page.locator('.trip-search__option .option--selected')
         this.resortSearchNightsValue = page.getByRole('button', { name: 'nights' })
+        this.flexibleDateLink = page.getByRole('link', { name: 'Flexible dates' })
+        this.flexibleDateOption = page.locator('.exactdate-list >li').nth(1)
     }
 
     async checkResortSearchBarAvailability() {
@@ -125,7 +131,7 @@ export class ResortPage {
 
             // Format expected values to match how they appear in the bar
             const expectedFormatted = [
-                `any date (${(expectedValues?.nights || '').trim().toLowerCase()})`,
+                `${expectedValues?.departureDate} (${(expectedValues?.nights || '').trim()})`.toLowerCase(),
                 (expectedValues?.whosComing || '')
                     .replace(/([a-zA-Z])(?=\d)/g, '$1 , ') // letter followed by number, no space
                     .replace(/(\d)(?=[a-zA-Z])/g, '$1 , ') // number followed by letter, no space
@@ -139,7 +145,6 @@ export class ResortPage {
                     .toLowerCase()
                     .trim()
             ];
-
 
             const allMatch = expectedFormatted.every(val =>
                 actualBarValues.some(actual => actual.includes(val))
@@ -188,9 +193,15 @@ export class ResortPage {
         await resortPage.durationBtn.click()
         await resortPage.durationSampleVal.click()
         await resortPage.doneBtn.click()
+        await resortPage.departureDate.click()
+        await resortPage.flexibleDateLink.click()
+        await resortPage.flexibleDateOption.click()
+        await resortPage.doneBtn.click()
+
         await resortPage.resortSearchDepartureVal.first().waitFor({ state: 'visible' });
 
         this.resortSearchValues = {
+            departureDate: await resortPage.departureDateVal.textContent(),
             departure: await resortPage.resortSearchDepartureVal.first().textContent(),
             whosComing: await resortPage.resortSearchDepartureVal.last().textContent(),
             nights: await resortPage.resortSearchNightsValue.textContent(),
