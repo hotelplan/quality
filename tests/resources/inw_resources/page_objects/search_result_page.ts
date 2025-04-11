@@ -416,7 +416,7 @@ export class SearchResultPage {
         }
     }
 
-    async getDefaultSearchValues() {
+    async getInitialSearchValues() {
         this.searchValues = {
             departure: await this.departureValue.textContent(),
             arrival: await this.arrivalValue.textContent(),

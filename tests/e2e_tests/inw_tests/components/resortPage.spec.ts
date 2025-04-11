@@ -6,7 +6,7 @@ const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 
 const products = ['Ski', 'Walking', 'Lapland'];
-let defaultSearchValues: SearchValues
+let initialSearchValues: SearchValues
 let updatedSearchValues
 let newPage
 
@@ -51,8 +51,12 @@ test.describe('Search', async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
 
+            await test.step(`And: I set guests to 0`, async () => {
+                await searchResultPage.setNumberOfGuests(0);
+            });
+
             await test.step(`And: I get the default values for Number of nights, Number of guests, Departure location and Date`, async () => {
-                defaultSearchValues = await searchResultPage.getDefaultSearchValues()
+                initialSearchValues = await searchResultPage.getInitialSearchValues()
             })
 
             await test.step(`And: I search for ${product} holidays`, async () => {
@@ -70,7 +74,7 @@ test.describe('Search', async () => {
 
             await test.step(`When: I check the Number of nights, Number of guests, Departure location and Date
                              Then: I should see correct Number of nights, Number of guests, Departure location and Date displayed on the search bar`, async () => {
-                await resortPage.validateResortSearchBarDetails(defaultSearchValues, newPage)
+                await resortPage.validateResortSearchBarDetails(initialSearchValues, newPage)
 
             })
         })

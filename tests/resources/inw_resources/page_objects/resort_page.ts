@@ -150,7 +150,7 @@ export class ResortPage {
         } else {
             const searchValuesList = [
                 `From ${searchValues!.departure}`.trim().toLowerCase(),
-                `${searchValues!.whosComing}`.trim().toLowerCase(),
+                `Any guest`.trim().toLowerCase(),
                 `Any date (${searchValues!.nights})`.trim().toLowerCase(),
             ];
 
