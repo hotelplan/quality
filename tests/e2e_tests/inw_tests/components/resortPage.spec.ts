@@ -98,7 +98,7 @@ test.describe('Search', async () => {
             })
 
             await test.step(`And: The price should display the cheapest Holiday price. `, async () => {
-                await resortPage.validateResortPrice(newPage)
+                await resortPage.validateResortPrice(newPage, product)
 
             })
 

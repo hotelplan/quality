@@ -28,6 +28,7 @@ export class ResortPage {
     readonly flexibleDateLink: Locator
     readonly flexibleDateOption: Locator
     readonly resortPriceValue: Locator
+    readonly resortPriceValueWithoutPromo: Locator
     public resortSearchBarValues: string[] = [];
     public resortSearchValues: ResortSearchValues | null = null;
     public sphinxUrl: string | null = environmentBaseUrl.sphinx.dev;
@@ -59,6 +60,7 @@ export class ResortPage {
         this.flexibleDateLink = page.getByRole('link', { name: 'Flexible dates' })
         this.flexibleDateOption = page.locator('.exactdate-list >li').nth(1)
         this.resortPriceValue = page.locator('.c-search-criteria-bar__price-promo >div >span').nth(1)
+        this.resortPriceValueWithoutPromo = page.locator('.c-search-criteria-bar__price >span').nth(1)
     }
 
     async checkResortSearchBarAvailability() {
@@ -215,24 +217,43 @@ export class ResortPage {
 
     }
 
-    async validateResortPrice(newPage) {
+    async validateResortPrice(newPage, product) {
         const resortPage = new ResortPage(newPage, this.request);
         const currentURL = new URL(newPage.url());
         const propertyCodeVal = currentURL.searchParams.get("propertyCode");
+        let priceFromUi
+        let apiURL: string = ''
 
-        const getPrices = await this.request.get(
-            `${this.sphinxUrl}//ING/GBINA%7CGBINN%7CGBIND/prices/departure-dates?propertyCode=${propertyCodeVal}`
-        );
+        await newPage.waitForLoadState('domcontentloaded')
+
+        if (product === 'Ski') {
+            apiURL = `${this.sphinxUrl}//ING/GBINA%7CGBINN%7CGBIND/prices/departure-dates?propertyCode=${propertyCodeVal}`
+        } else if (product === 'Walking') {
+            apiURL = `${this.sphinxUrl}//ING/GBINB/prices/departure-dates?propertyCode=${propertyCodeVal}`
+
+        } else if (product === 'Lapland') {
+            apiURL = `${this.sphinxUrl}//ING/GBINA%7CGBINS/prices/departure-dates?propertyCode=${propertyCodeVal}`
+
+        }
+        const getPrices = await this.request.get(apiURL);
 
         expect(getPrices.status(), 'Departure date API returns 200 success and a valid json response').toBe(200);
 
         const jsonRes = await getPrices.json();
         const cheapestPrice = Math.min(...jsonRes.items.map((item: any) => item.bestPrice));
 
-        await newPage.waitForLoadState('domcontentloaded')
-        const priceFromUi = await resortPage.resortPriceValue.textContent()
+        if (await resortPage.resortPriceValue.count() > 0) {
+            await resortPage.resortPriceValue.waitFor({ state: 'visible' });
+            priceFromUi = await resortPage.resortPriceValue.textContent();
+        } else if (await resortPage.resortPriceValueWithoutPromo.count() > 0) {
+            await resortPage.resortPriceValueWithoutPromo.waitFor({ state: 'visible' });
+            await newPage.waitForTimeout(2000);
+            priceFromUi = await resortPage.resortPriceValueWithoutPromo.textContent();
+        } else {
+            throw new Error('Price element is not found or has no text content.');
+        }
+        
         const uiPriceNumber = parseFloat(priceFromUi!.replace(/[^0-9.]/g, ''));
-
         expect(uiPriceNumber).toBe(cheapestPrice);
     }
 
