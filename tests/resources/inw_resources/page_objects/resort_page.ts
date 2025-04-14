@@ -1,5 +1,6 @@
-import { type Page, type Locator, expect } from '@playwright/test';
+import { type Page, type Locator, expect, APIRequestContext, APIResponse } from '@playwright/test';
 import { SearchValues, ResortSearchValues } from '../utilities/models';
+import environmentBaseUrl from '../../utils/environmentBaseUrl';
 
 export class ResortPage {
     public page: Page
@@ -26,12 +27,16 @@ export class ResortPage {
     readonly resortSearchNightsValue: Locator
     readonly flexibleDateLink: Locator
     readonly flexibleDateOption: Locator
+    readonly resortPriceValue: Locator
     public resortSearchBarValues: string[] = [];
     public resortSearchValues: ResortSearchValues | null = null;
+    public sphinxUrl: string | null = environmentBaseUrl.sphinx.dev;
+    private request: APIRequestContext;
 
 
-    constructor(page: Page) {
+    constructor(page: Page, apiContext: APIRequestContext) {
         this.page = page;
+        this.request = apiContext
         this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View hotels' })
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]')
@@ -53,6 +58,7 @@ export class ResortPage {
         this.resortSearchNightsValue = page.getByRole('button', { name: 'nights' })
         this.flexibleDateLink = page.getByRole('link', { name: 'Flexible dates' })
         this.flexibleDateOption = page.locator('.exactdate-list >li').nth(1)
+        this.resortPriceValue = page.locator('.c-search-criteria-bar__price-promo >div >span').nth(1)
     }
 
     async checkResortSearchBarAvailability() {
@@ -83,7 +89,7 @@ export class ResortPage {
     }
 
     async scrollDown(newPage) {
-        const resortPage = new ResortPage(newPage);
+        const resortPage = new ResortPage(newPage, this.request);
         await newPage.waitForLoadState('domcontentloaded')
 
         await newPage.evaluate(() => window.scrollBy(0, 300));
@@ -91,7 +97,7 @@ export class ResortPage {
     }
 
     async validateSearchBarTobeSticky(newPage) {
-        const resortPage = new ResortPage(newPage);
+        const resortPage = new ResortPage(newPage, this.request);
         await newPage.waitForLoadState('domcontentloaded')
 
         await expect(resortPage.searchBar, 'Search bar is available').toBeVisible();
@@ -114,7 +120,7 @@ export class ResortPage {
     }
 
     async validateResortSearchBarDetails(searchValues: SearchValues, newPage: Page, updatedVal: boolean = false) {
-        const resortPage = new ResortPage(newPage);
+        const resortPage = new ResortPage(newPage, this.request);
         await newPage.waitForLoadState('domcontentloaded')
         await newPage.waitForTimeout(2000);
 
@@ -168,14 +174,10 @@ export class ResortPage {
             expect(allValuesPresent, 'All search values are present in the resort search bar').toBe(true);
         }
 
-
-
-
-
     }
 
-    async updateResortSearchDetails(newPage) {
-        const resortPage = new ResortPage(newPage);
+    async updateResortSearchDetails(newPage: Page) {
+        const resortPage = new ResortPage(newPage, this.request);
 
         await newPage.waitForLoadState('domcontentloaded')
         await resortPage.editSearchBar.waitFor({ state: 'attached' });
@@ -211,6 +213,27 @@ export class ResortPage {
 
         return this.resortSearchValues;
 
+    }
+
+    async validateResortPrice(newPage) {
+        const resortPage = new ResortPage(newPage, this.request);
+        const currentURL = new URL(newPage.url());
+        const propertyCodeVal = currentURL.searchParams.get("propertyCode");
+
+        const getPrices = await this.request.get(
+            `${this.sphinxUrl}//ING/GBINA%7CGBINN%7CGBIND/prices/departure-dates?propertyCode=${propertyCodeVal}`
+        );
+
+        expect(getPrices.status(), 'Departure date API returns 200 success and a valid json response').toBe(200);
+
+        const jsonRes = await getPrices.json();
+        const cheapestPrice = Math.min(...jsonRes.items.map((item: any) => item.bestPrice));
+
+        await newPage.waitForLoadState('domcontentloaded')
+        const priceFromUi = await resortPage.resortPriceValue.textContent()
+        const uiPriceNumber = parseFloat(priceFromUi!.replace(/[^0-9.]/g, ''));
+
+        expect(uiPriceNumber).toBe(cheapestPrice);
     }
 
 }

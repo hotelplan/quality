@@ -26,4 +26,7 @@ export default{
         e_cms:'https://inghamsv2-ecms.hotelplan.co.uk',
         p_cms:'https://inghamsv2-pcms.hotelplan.co.uk',
     },
+    sphinx:{
+        dev: 'https://sphinx-api-v2.dev.hotelplan.co.uk'
+    }
 };

@@ -97,6 +97,11 @@ test.describe('Search', async () => {
                 newPage = await resortPage.checkResortSearchBarAvailability()
             })
 
+            await test.step(`And: The price should display the cheapest Holiday price. `, async () => {
+                await resortPage.validateResortPrice(newPage)
+
+            })
+
             await test.step(`And: I update the number of nights, number of guests, departure location, and date`, async () => {
                 updatedSearchValues = await resortPage.updateResortSearchDetails(newPage)
             })

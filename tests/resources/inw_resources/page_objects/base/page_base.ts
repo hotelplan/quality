@@ -20,6 +20,7 @@ type pages = {
     searchResultPage: SearchResultPage
 }
 
+let apiContext: APIRequestContext;
 
 const testPages = base.extend<pages>({
     
@@ -47,12 +48,12 @@ const testPages = base.extend<pages>({
         await use(new RegionPage(page));
     },
     searchResultPage: async ({page},use) => {
-        let apiContext: APIRequestContext;
         apiContext = await request.newContext();
         await use(new SearchResultPage(page, apiContext));
     },
     resortPage: async ({page},use) => {
-        await use(new ResortPage(page));
+        apiContext = await request.newContext();
+        await use(new ResortPage(page, apiContext));
     },
 
 

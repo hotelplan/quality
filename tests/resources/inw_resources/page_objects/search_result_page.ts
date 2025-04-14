@@ -1,6 +1,5 @@
-import { type Page, type Locator, expect } from '@playwright/test';
+import { type Page, type Locator, expect, APIRequestContext, APIResponse } from '@playwright/test';
 import { BoundingBox, SearchValues } from '../utilities/models';
-import { APIRequestContext, APIResponse } from "@playwright/test";
 import tokenConfig from '../../utils/tokenConfig';
 import environmentBaseUrl from '../../utils/environmentBaseUrl';
 
