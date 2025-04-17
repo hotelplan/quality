@@ -1,12 +1,10 @@
-import { type Page, type Locator, expect } from '@playwright/test';
-import { BoundingBox } from '../../utilities/models';
-import { APIRequestContext, APIResponse } from "@playwright/test";
-import tokenConfig from '../../../../resources/utils/tokenConfig';
-import environmentBaseUrl from '../../../../resources/utils/environmentBaseUrl';
-import exp from 'constants';
+import { type Page, type Locator, expect, APIRequestContext, APIResponse } from '@playwright/test';
+import { BoundingBox, SearchValues } from '../utilities/models';
+import tokenConfig from '../../utils/tokenConfig';
+import environmentBaseUrl from '../../utils/environmentBaseUrl';
 
 export class SearchResultPage {
-    readonly page: Page
+    public page: Page
     readonly searchProductTab: (product: string) => Locator;
     readonly searchBar: Locator
     readonly criteriaBar: Locator
@@ -34,17 +32,26 @@ export class SearchResultPage {
     readonly searchAccomodationCard: Locator
     readonly searchAccomodationCardImage: Locator
     readonly searchAccomodationViewHotelsBtn: Locator
+    readonly departureValue: Locator
+    readonly arrivalValue: Locator
+    readonly whosComingValue: Locator
+    readonly nightsValue: Locator
+    readonly resortSearchBarDetails: Locator
     public initialBox: BoundingBox | null = null;
-    public env: string | null = null;
-    public PCMSurl: string | null = null;
+    public searchValues: SearchValues | null = null;
+    public env: string = process.env.ENV || "qa";
+    public PCMSurl: string | null = environmentBaseUrl[this.env].p_cms;
     public accommodationNamesFromAPI: string[] = [];
     public accommodationNamesFromUI: string[] = [];
     public resortNamesFromAPI: string[] = [];
     public resortNamesFromUI: string[] = [];
+    public resortSearchBarValues: string[] = [];
     private request: APIRequestContext;
+
 
     constructor(page: Page, apiContext: APIRequestContext) {
         this.page = page;
+        this.request = apiContext
         this.searchProductTab = (product: string) => page.getByRole('button', { name: product, exact: true });
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]');
@@ -72,14 +79,10 @@ export class SearchResultPage {
         this.searchAccomodationCard = page.locator('//div[@class="c-search-card c-card c-card-slider"]')
         this.searchAccomodationCardImage = page.locator('//div[@aria-labelledby="accomodation-images"]')
         this.searchAccomodationViewHotelsBtn = page.locator('.c-search-card--resorts-footer > .c-btn')
-        this.request = apiContext
-        this.env = process.env.ENV || "qa";
-        this.PCMSurl = environmentBaseUrl[this.env].p_cms;
-        this.initialBox = null
-        this.accommodationNamesFromAPI = []
-        this.accommodationNamesFromUI = []
-        this.resortNamesFromAPI = []
-        this.resortNamesFromUI = []
+        this.departureValue = page.locator('.departure .option--selected')
+        this.arrivalValue = page.locator('.anywhere-btn')
+        this.whosComingValue = page.locator('.labels')
+        this.nightsValue = page.locator('.nights-btn')
     }
 
     async validateSearchResultPageUrl() {
@@ -88,14 +91,18 @@ export class SearchResultPage {
     }
 
     async checkSearchBarAvailability() {
+        let hasStickyFixedClass: boolean = false
+        let positionStyle: string = ''
+
         await expect(this.searchBar, 'Search bar is available').toBeVisible();
-        const hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
+        hasStickyFixedClass = await this.criteriaBar.evaluate((element: HTMLElement) =>
             element.classList.contains('sticky-fixed')
         );
 
-        const positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
+        positionStyle = await this.criteriaBar.evaluate((element: HTMLElement) =>
             window.getComputedStyle(element).position
         );
+
 
         expect(hasStickyFixedClass, 'Search bar is not initially sticky').toBe(false)
         expect(positionStyle).toBe('relative')
@@ -406,6 +413,17 @@ export class SearchResultPage {
             await expect(this.searchWhereToGoAltResult(captitalizedLocation)).toBeVisible({ timeout: 3000 });
             await this.searchWhereToGoAltResult(captitalizedLocation).click();
         }
+    }
+
+    async getInitialSearchValues() {
+        this.searchValues = {
+            departure: await this.departureValue.textContent(),
+            arrival: await this.arrivalValue.textContent(),
+            whosComing: await this.whosComingValue.textContent(),
+            nights: await this.nightsValue.textContent(),
+        };
+
+        return this.searchValues;
     }
 
 }
