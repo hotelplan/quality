@@ -54,7 +54,9 @@ test.describe('Headline', async () => {
             newPage = await sharedSteps.clickPageLink()
         });
 
-        await test.step(`Then: I should see the Headline displayed on the Generic Content Page`, async () => {
+        await test.step(`And: I redirect the Generic Content page
+                         Then: I should see the Headline displayed on the Generic Content Page`, async () => {
+            await sharedSteps.validatePageUrl(newPage)
             await headlineComponent.validateHeadlineAvailability(newPage)
         });
 

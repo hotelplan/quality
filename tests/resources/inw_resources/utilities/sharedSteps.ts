@@ -14,6 +14,7 @@ export class SharedSteps {
     readonly publishNotification: Locator
     readonly infoTab: Locator
     readonly pageLink: Locator
+    readonly genericContentPage: string
 
     constructor(page: Page) {
         this.page = page;
@@ -29,12 +30,13 @@ export class SharedSteps {
         this.infoTab = page.locator('[data-element="sub-view-umbInfo"]')
         this.pageLink = page.locator('[icon="icon-out"]')
         this.publishNotification = page.locator('.umb-notifications__notifications > li')
+        this.genericContentPage = 'vi anne ski components'
     }
 
     async searchAndSelectGenericContentPage() {
         await this.globalSearch.waitFor({ state: 'visible' })
         await this.globalSearch.click()
-        await this.globalSearchInput.fill('vi anne ski components')
+        await this.globalSearchInput.fill(this.genericContentPage)
         await this.globalSearchInput.press('Enter')
         await expect(this.globalSearchFirstResult).toBeVisible()
         await this.globalSearchFirstResult.click()
@@ -85,6 +87,11 @@ export class SharedSteps {
         await newPage.bringToFront()
 
         return newPage
+    }
+
+    async validatePageUrl(newPage) {
+        const formattedUrlPart = this.genericContentPage.replace(/\s+/g, '-').toLowerCase();
+        await expect(newPage).toHaveURL(new RegExp(`.*${formattedUrlPart}`));
     }
 }
 
