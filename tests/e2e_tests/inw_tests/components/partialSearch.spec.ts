@@ -89,11 +89,18 @@ test.describe('Partial Search', async () => {
         test(`The broad search proceeds with default values and location for ${product} holidays @inw`, async ({ searchResultPage}) => {
             test.setTimeout(120000);
             await test.step(`Given: I select a product to search`, async () => {
-                await searchResultPage.clickSearchProductTab('Lapland');
+                await searchResultPage.clickSearchProductTab(product);
             });
 
             await test.step(`And: I input search location`, async () => {
-                await searchResultPage.searchAnywhere('France');
+                if(product === 'Ski') {
+                    await searchResultPage.searchAnywhere('France');
+                }
+                else if(product === 'Walking') {
+                    await searchResultPage.searchAnywhere('Tuscany');
+                } else if(product === 'Lapland') {
+                    await searchResultPage.searchAnywhere('Levi');
+                }
             });
             
             await test.step(`And: I search for holidays`, async () => {
