@@ -1,4 +1,4 @@
-import { test, expect } from '../../../resources/explore_resources/fixtures/page_fixtures';
+import { test } from '../../../resources/explore_resources/fixtures/page_fixtures';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
@@ -18,22 +18,22 @@ test.afterEach(async ({ page }) => {
     await page.close();
 });
 test.describe(`Search without filters`, () => {
-    test(`Search all via homepage`, async ({ page, tripsearch}) => {
+    test(`Search all via homepage`, async ({ tripsearch }) => {
         await tripsearch.searchFunction();
     });
-    test(`Search all via trip search modal`, async ({ page, homesearch}) => {
+    test(`Search all via trip search modal`, async ({ homesearch }) => {
         await homesearch.searchFunction();
     });
 });
 for (const {query_type, destination, trip_type, monthyear} of search_datacsv) {
     test.describe(`Homepage Filter: ${query_type}`, () => {
-        test(`Search and verify filters on Homepage for (${destination}, ${trip_type}, ${monthyear})`, async ({ page, homesearch }) => {
+        test(`Search and verify filters on Homepage for (${destination}, ${trip_type}, ${monthyear})`, async ({ homesearch }) => {
             await homesearch.randomSearch(query_type, destination, trip_type, monthyear);
         });
     });
 
     test.describe(`Trip Search Modal: ${query_type}`, () => {
-        test(`Search and verify filters on Trip Search for (${destination}, ${trip_type}, ${monthyear})`, async ({ page, tripsearch }) => {
+        test(`Search and verify filters on Trip Search for (${destination}, ${trip_type}, ${monthyear})`, async ({ tripsearch }) => {
             await tripsearch.tripsearchModal(query_type, destination, trip_type, monthyear);
         });
     });

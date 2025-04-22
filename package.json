@@ -10,15 +10,24 @@
     "report:generate:single": "npx allure generate --single-file allure-results --clean",
     "report:open:cmd": ".\\run-allure.cmd",
     "report:generate:single:cmd": ".\\run-allure-single-file-report.cmd",
-    "test:debug": "npx playwright test --debug"
+    "test:debug": "npx playwright test --debug",
+    "check:lint:errors": "npx eslint --config eslint.config.mjs .",
+    "fix:lint": "npx eslint --config eslint.config.mjs . --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^9.23.0",
     "@playwright/test": "^1.51.1",
     "@types/node": "^20.12.12",
-    "allure-playwright": "^3.2.0"
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "allure-playwright": "^3.2.0",
+    "eslint": "^9.23.0",
+    "eslint-plugin-playwright": "^2.2.0",
+    "globals": "^16.0.0",
+    "typescript-eslint": "^8.28.0"
   },
   "dependencies": {
     "allure-commandline": "^2.33.0",

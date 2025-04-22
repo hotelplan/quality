@@ -1,4 +1,4 @@
-import { test, expect } from '../../../resources/inw_resources/page_objects/base/page_base';
+import { test } from '../../../resources/inw_resources/page_objects/base/page_base';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
@@ -9,7 +9,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const env = process.env.ENV || "qa";
-const InghamsUrl = environmentBaseUrl[env].inghams;
 const ECMSurl = environmentBaseUrl[env].e_cms;
 const PCMSurl = environmentBaseUrl[env].p_cms;
 
@@ -24,10 +23,6 @@ const SkiCountryData = SkiDatacsv.filter(row => row['Alias'].includes('country')
 //test.beforeEach(async ({ page }) => {
     
 //});
-  
-test.afterEach(async ({ page },testInfo) => {
-  //await page.close();
-});
   
 /*test.afterAll(async ({ page }) => {
   

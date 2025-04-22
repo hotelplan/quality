@@ -1,7 +1,7 @@
-import { expect } from '@playwright/test';
+import { expect, APIRequestContext } from '@playwright/test';
 
 
-async function Check_LaplandCountryCode(apiContext:any, baseUrl: string, CountryCode: string) {
+async function Check_LaplandCountryCode(apiContext: APIRequestContext, baseUrl: string, CountryCode: string) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=countryCode%3A${CountryCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -42,7 +42,7 @@ async function Check_LaplandCountryCode(apiContext:any, baseUrl: string, Country
 }
 
 
-async function Check_LaplandRegionCode(apiContext:any, baseUrl: string, RegionCode: string, ConfigData: any) {
+async function Check_LaplandRegionCode(apiContext: APIRequestContext, baseUrl: string, RegionCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -95,11 +95,11 @@ async function Check_LaplandRegionCode(apiContext:any, baseUrl: string, RegionCo
     expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('regionReferredContent');
-    expect(content.properties.regionReferredContent).not.toBeNull
+    expect(content.properties.regionReferredContent).not.toBeNull()
 }
 
 
-async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCode: string, ConfigData: any) {
+async function Check_LaplandResortCode(apiContext: APIRequestContext, baseUrl: string, ResortCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Alapland&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -161,7 +161,7 @@ async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCo
     expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
-    expect(content.properties.travelSummary).not.toBeNull
+    expect(content.properties.travelSummary).not.toBeNull()
 
     expect(content.properties).toHaveProperty('travelDetails');
 
@@ -169,7 +169,7 @@ async function Check_LaplandResortCode(apiContext:any, baseUrl: string, ResortCo
 }
 
 
-async function Check_LaplandAccommodation(apiContext:any, baseUrl: string, Accommodation: string, ConfigData: any) {
+async function Check_LaplandAccommodation(apiContext: APIRequestContext, baseUrl: string, Accommodation: string ) {
     
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=contentType%3AaccommodationLapland&filter=name%3A*${Accommodation}*&skip=0&take=10&fields=properties%5B%24all%5D`);
     //const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=contentType%3AaccommodationLapland&skip=0&take=10&fields=properties%5B%24all%5D`);
@@ -190,7 +190,7 @@ async function Check_LaplandAccommodation(apiContext:any, baseUrl: string, Accom
 }
 
 
-async function Check_SantaCountryCode(apiContext:any, baseUrl: string, CountryCode: string) {
+async function Check_SantaCountryCode(apiContext: APIRequestContext, baseUrl: string, CountryCode: string) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=countryCode%3A${CountryCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -231,7 +231,7 @@ async function Check_SantaCountryCode(apiContext:any, baseUrl: string, CountryCo
 }
 
 
-async function Check_SantaRegionCode(apiContext:any, baseUrl: string, RegionCode: string, ConfigData: any) {
+async function Check_SantaRegionCode(apiContext: APIRequestContext, baseUrl: string, RegionCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -284,11 +284,11 @@ async function Check_SantaRegionCode(apiContext:any, baseUrl: string, RegionCode
     expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('regionReferredContent');
-    expect(content.properties.regionReferredContent).not.toBeNull
+    expect(content.properties.regionReferredContent).not.toBeNull()
 }
 
 
-async function Check_SantaResortCode(apiContext:any, baseUrl: string, ResortCode: string, ConfigData: any) {
+async function Check_SantaResortCode(apiContext: APIRequestContext, baseUrl: string, ResortCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Asanta&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -349,7 +349,7 @@ async function Check_SantaResortCode(apiContext:any, baseUrl: string, ResortCode
     expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
-    expect(content.properties.travelSummary).not.toBeNull
+    expect(content.properties.travelSummary).not.toBeNull()
 
     expect(content.properties).toHaveProperty('travelDetails');
 
@@ -357,7 +357,7 @@ async function Check_SantaResortCode(apiContext:any, baseUrl: string, ResortCode
 }
 
 
-async function Check_SkiCountryCode(apiContext:any, baseUrl: string, CountryCode: string) {
+async function Check_SkiCountryCode(apiContext: APIRequestContext, baseUrl: string, CountryCode: string) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=countryCode%3A${CountryCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -399,7 +399,7 @@ async function Check_SkiCountryCode(apiContext:any, baseUrl: string, CountryCode
 }
 
 
-async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: string, ConfigData: any) {
+async function Check_SkiRegionCode(apiContext: APIRequestContext, baseUrl: string, RegionCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -461,7 +461,7 @@ async function Check_SkiRegionCode(apiContext:any, baseUrl: string, RegionCode: 
 }
 
 
-async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: string, ConfigData: any) {
+async function Check_SkiResortCode(apiContext: APIRequestContext, baseUrl: string, ResortCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Aski&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -522,7 +522,7 @@ async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: 
     //expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
-    expect(content.properties.travelSummary).not.toBeNull
+    expect(content.properties.travelSummary).not.toBeNull()
 
     expect(content.properties).toHaveProperty('travelDetails');
 
@@ -530,7 +530,7 @@ async function Check_SkiResortCode(apiContext:any, baseUrl: string, ResortCode: 
 }
 
 
-async function Check_WalkingCountryCode(apiContext:any, baseUrl: string, CountryCode: string) {
+async function Check_WalkingCountryCode(apiContext: APIRequestContext, baseUrl: string, CountryCode: string) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=countryCode%3A${CountryCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -571,7 +571,7 @@ async function Check_WalkingCountryCode(apiContext:any, baseUrl: string, Country
 }
 
 
-async function Check_WalkingRegionCode(apiContext:any, baseUrl: string, RegionCode: string, ConfigData: any) {
+async function Check_WalkingRegionCode(apiContext: APIRequestContext, baseUrl: string, RegionCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=regionCode%3A${RegionCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -630,7 +630,7 @@ async function Check_WalkingRegionCode(apiContext:any, baseUrl: string, RegionCo
 }
 
 
-async function Check_WalkingResortCode(apiContext:any, baseUrl: string, ResortCode: string, ConfigData: any) {
+async function Check_WalkingResortCode(apiContext: APIRequestContext, baseUrl: string, ResortCode: string, ConfigData: any) {
     const response = await apiContext['get'](`${baseUrl}/umbraco/delivery/api/v2/content?filter=product%3Awalking&filter=resortCode%3A${ResortCode}&skip=0&take=10&fields=properties%5B%24all%5D`);
         
     const responseBody = await response.json();
@@ -689,7 +689,7 @@ async function Check_WalkingResortCode(apiContext:any, baseUrl: string, ResortCo
     //expect(JSON.stringify(ConfigData)).toContain(content.properties.longitude.toString());
 
     expect(content.properties).toHaveProperty('travelSummary');
-    expect(content.properties.travelSummary).not.toBeNull
+    expect(content.properties.travelSummary).not.toBeNull()
 
     expect(content.properties).toHaveProperty('travelDetails');
 
