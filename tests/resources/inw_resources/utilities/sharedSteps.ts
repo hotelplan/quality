@@ -30,7 +30,8 @@ export class SharedSteps {
         this.infoTab = page.locator('[data-element="sub-view-umbInfo"]')
         this.pageLink = page.locator('[icon="icon-out"]')
         this.publishNotification = page.locator('.umb-notifications__notifications > li')
-        this.genericContentPage = 'vi anne ski components'
+        //The location of the Generic Content Page name can be placed in a separate file.
+        this.genericContentPage = 'Automation SKI Components'
     }
 
     async searchAndSelectGenericContentPage() {
