@@ -85,5 +85,43 @@ test.describe('Partial Search', async () => {
                 await searchResultPage.checkAccomodationPageCriteriaBar(page2, 'From Any departure location');
             });
         });
+
+        test(`The broad search proceeds with default values and location for ${product} holidays @inw`, async ({ searchResultPage}) => {
+            test.setTimeout(120000);
+            await test.step(`Given: I select a product to search`, async () => {
+                await searchResultPage.clickSearchProductTab(product);
+            });
+
+            await test.step(`And: I input search location`, async () => {
+                if(product === 'Ski') {
+                    await searchResultPage.searchAnywhere('France');
+                }
+                else if(product === 'Walking') {
+                    await searchResultPage.searchAnywhere('Tuscany');
+                } else if(product === 'Lapland') {
+                    await searchResultPage.searchAnywhere('Levi');
+                }
+            });
+            
+            await test.step(`And: I search for holidays`, async () => {
+                await searchResultPage.clickSearchHolidayBtn();
+            });
+
+            await test.step('And: I navigate to Search results page', async () => {
+                await searchResultPage.validateSearchResultPageUrl();
+            });
+
+            await test.step('And: I check the Search results criteria', async () => {
+                await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
+                await searchResultPage.checkCriteriaBarContent('2 adults');
+                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+            });
+
+            await test.step('When : I check Accomodation cards search results', async () => {
+                await searchResultPage.countAccommodationCards();
+            });
+        });
+
+        //default and departure location
     }
 });
