@@ -1,4 +1,4 @@
-import { test, expect } from '../../../resources/inw_resources/page_objects/base/page_base';
+import { test } from '../../../resources/inw_resources/page_objects/base/page_base';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
 import path from 'path';
@@ -9,7 +9,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const env = process.env.ENV || "qa";
-const InghamsUrl = environmentBaseUrl[env].inghams;
 const ECMSurl = environmentBaseUrl[env].e_cms;
 const PCMSurl = environmentBaseUrl[env].p_cms;
 
@@ -25,10 +24,6 @@ const SantaBreaksCountryData = SantaBreaksDatacsv.filter(row => row['Alias'].inc
     
 //});
   
-test.afterEach(async ({ page },testInfo) => {
-  //await page.close();
-});
-  
 /*test.afterAll(async ({ page }) => {
   
 });*/
@@ -39,7 +34,7 @@ for(const SantaBreaksCountrydata of SantaBreaksCountryData){
   test.describe(`SantaBreaks Country Page (${SantaBreaksCountrydata.SourcePath})`, () => {
     test.describe.configure({mode: "serial"});
 
-    test(`Header-Footer Test SantaBreaks Country Page (${SantaBreaksCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({page, ecmsSignInpage, ecmsMainPage, countryPage}) => {
+    test(`Header-Footer Test SantaBreaks Country Page (${SantaBreaksCountrydata.SourcePath})`, {tag: ['@regression'],}, async ({ page, ecmsSignInpage, ecmsMainPage }) => {
       test.setTimeout(180000);
 
       const target = SantaBreaksCountrydata.SourcePath.split('\\').pop()

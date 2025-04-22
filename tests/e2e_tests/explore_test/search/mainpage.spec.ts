@@ -1,4 +1,4 @@
-import { test, expect } from '../../../resources/explore_resources/fixtures/page_fixtures';
+import { test } from '../../../resources/explore_resources/fixtures/page_fixtures';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 import {parse} from 'csv-parse/sync';
 import fs from 'fs';
@@ -23,7 +23,7 @@ test.afterEach(async ({ page }) => {
 });
 for (const {active, link_type, secondary_link, filtersearch, primary_link, expected_url} of filter_destinations) {
     test.describe(`Header > Destinations links > ${primary_link}`, () => {
-        test(`Go to (${link_type} > ${primary_link} > ${secondary_link})`, async ({ page, headerlink }) => {
+        test(`Go to (${link_type} > ${primary_link} > ${secondary_link})`, async ({ headerlink }) => {
             const url = enGBurl + expected_url;
             await headerlink.headerLink(active,filtersearch,link_type,primary_link,secondary_link,url);
             await headerlink.destinationlink_checker(link_type,primary_link,secondary_link);
@@ -32,7 +32,7 @@ for (const {active, link_type, secondary_link, filtersearch, primary_link, expec
 }
 for (const {active, link_type, secondary_link, filtersearch, primary_link, expected_url} of filter_experiences) {
     test.describe(`Header > Experiences links > ${primary_link}`, () => {
-        test(`Go to (${link_type} > ${primary_link} > ${secondary_link})`, async ({ page, headerlink }) => {
+        test(`Go to (${link_type} > ${primary_link} > ${secondary_link})`, async ({ headerlink }) => {
             const url = enGBurl + expected_url;
             await headerlink.headerLink(active,filtersearch,link_type,primary_link,secondary_link,url);
         });
@@ -40,7 +40,7 @@ for (const {active, link_type, secondary_link, filtersearch, primary_link, expec
 }
 for (const {active, link_type, secondary_link, filtersearch, primary_link, expected_url} of filter_about) {
     test.describe(`Header > About links > ${primary_link}`, () => {
-        test(`Go to (${link_type} > ${primary_link} > ${secondary_link})`, async ({ page, headerlink }) => {
+        test(`Go to (${link_type} > ${primary_link} > ${secondary_link})`, async ({ headerlink }) => {
             const url = enGBurl + expected_url;
             await headerlink.headerLink(active,filtersearch,link_type,primary_link,secondary_link,url);
         });
@@ -48,8 +48,8 @@ for (const {active, link_type, secondary_link, filtersearch, primary_link, expec
 }
 for (const {link_type, primary_link, expected_url} of filter_footer) {
     test.describe(`Footer links`, () => {
-        test(`Go to (${link_type} > ${primary_link})`, async ({ page, headerlink }) => {
-            const url = enGBurl + expected_url;
+        test(`Go to (${link_type} > ${primary_link})`, async ({ headerlink }) => {
+            // const url = enGBurl + expected_url;
             await headerlink.footerLink(primary_link);
         });
     });

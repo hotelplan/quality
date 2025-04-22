@@ -385,7 +385,7 @@ export class RegionPage{
     async Region_Hero_Banner_Checker(media: string, layout?: string, vertical?: string, horizontal?: string) {
         
         const mediaName = media.toLowerCase();
-        const layoutname = layout?.toLowerCase();
+        // const layoutname = layout?.toLowerCase();
         const verticalname = vertical?.toLowerCase();
         const horizontalname = horizontal?.toLowerCase();
         
@@ -445,7 +445,7 @@ export class RegionPage{
         const allElements = await RegionAccordion.locator('*').elementHandles();
 
         for (const element of allElements) {
-            const tagName = await element.evaluate(el => (el as Element).tagName);
+            // const tagName = await element.evaluate(el => (el as Element).tagName);
             const attributes = await element.evaluate(el => Array.from((el as Element).attributes).map(attr => ({ name: attr.name, value: attr.value })));
             for (const attribute of attributes) {
                 if (attribute.value.includes('Bamboo 1283976')) {
@@ -458,7 +458,7 @@ export class RegionPage{
 
 
         for (const element of allElements) {
-            const tagName = await element.evaluate(el => (el as Element).tagName);
+            // const tagName = await element.evaluate(el => (el as Element).tagName);
             const attributes = await element.evaluate(el => Array.from((el as Element).attributes).map(attr => ({ name: attr.name, value: attr.value })));
             for (const attribute of attributes) {
                 if (attribute.value.includes('291A0817')) {
@@ -471,7 +471,7 @@ export class RegionPage{
 
         
         for (const element of allElements) {
-            const tagName = await element.evaluate(el => (el as Element).tagName);
+            // const tagName = await element.evaluate(el => (el as Element).tagName);
             const attributes = await element.evaluate(el => Array.from((el as Element).attributes).map(attr => ({ name: attr.name, value: attr.value })));
             for (const attribute of attributes) {
                 if (attribute.value.includes('Test Inghams Ski Adobestock 232841876')) {

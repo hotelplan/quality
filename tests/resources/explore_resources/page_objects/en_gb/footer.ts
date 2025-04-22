@@ -1,5 +1,5 @@
-import { type Page, type Locator, expect } from '@playwright/test';
-import { link } from 'node:fs/promises';
+import { type Page, type Locator } from '@playwright/test';
+// import { link } from 'node:fs/promises';
 
 export class Footerpage {
     //variables
@@ -13,7 +13,7 @@ export class Footerpage {
     }
 
     //methods
-    async footerLink(primary_link: string, url: string){
+    async footerLink(primary_link: string ){
         await this.footer_link(primary_link).waitFor({ state: 'visible', timeout: 15000 });
         await this.footer_link(primary_link).hover();
         await this.footer_link(primary_link).click();
