@@ -28,7 +28,7 @@ export default defineConfig({
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: false,
+    headless: true,
     trace: 'on-first-retry',
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.ENV === 'prod'
@@ -36,6 +36,11 @@ export default defineConfig({
       : process.env.ENV === 'stg'
         ? baseEnvUrl.stg.inghams
         : baseEnvUrl.qa.inghams
+  },
+  timeout: 120000,
+  expect: {
+
+    timeout: 60000
   },
 
   /* Configure projects for major browsers */
@@ -53,28 +58,45 @@ export default defineConfig({
         screenshot: 'on',
         video: 'retain-on-failure',
         trace: 'retain-on-failure',
-        viewport: { width: 1920, height: 1080 }
+        //viewport: { width: 1920, height: 1080 }
       },
 
     },
 
     {
       name: 'Safari',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    /* Test against mobile viewports. */
-    {
-       name: 'Mobile_Chrome',
-       use: { ...devices['Pixel 5'],
+      use: {
+        ...devices['Desktop Safari'],
         screenshot: 'on',
         video: 'retain-on-failure',
         trace: 'retain-on-failure',
-        },
+      },
+    },
+
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+        screenshot: 'on',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure',
+      },
+    },
+
+    /* Test against mobile viewports. */
+
+    {
+      name: 'Mobile_Chrome',
+      use: {
+        ...devices['Pixel 5'],
+        screenshot: 'on',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure',
+      },
     },
     {
-       name: 'Mobile_Safari',
-       use: { ...devices['iPhone 12'] },
+      name: 'Mobile_Safari',
+      use: { ...devices['iPhone 12'] },
     },
 
     /* Test against specific tags. */

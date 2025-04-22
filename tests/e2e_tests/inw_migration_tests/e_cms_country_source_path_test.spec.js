@@ -15,10 +15,10 @@ const HOMEpath = environmentBaseUrl[env].e_cms;
 const ERRORpath = `${HOMEpath}/error-500`;
 
 // Helper function to read URLs from the CSV file
-const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Lapland.csv')), {columns: true, skip_empty_lines: true});
-const SantaDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_SantasBreaks.csv')), {columns: true, skip_empty_lines: true});
-const SkiDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Ski.csv')), {columns: true, skip_empty_lines: true});
-const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'uat_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
+const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_Lapland.csv')), {columns: true, skip_empty_lines: true});
+const SantaDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_SantasBreaks.csv')), {columns: true, skip_empty_lines: true});
+const SkiDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_Ski.csv')), {columns: true, skip_empty_lines: true});
+const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
 
 test.describe.configure({retries: 2, timeout: 60000,})
 // Define the test suite
