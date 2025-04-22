@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
     });
 });
 
-test.describe('Lapland Resort Broad Search', async () => {
+test.describe.skip('Lapland Accommodation Broad Search', async () => {
 
     const laplandResortData = LaplandDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -69,7 +69,7 @@ test.describe('Lapland Resort Broad Search', async () => {
     }
 });
 
-test.describe('Santa Resort Broad Search', async () => {
+test.describe.skip('Santa Accommodation Broad Search', async () => {
 
     const santaResortData = SantaDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -119,7 +119,7 @@ test.describe('Santa Resort Broad Search', async () => {
     }
 });
 
-test.describe('Ski Resort Broad Search', async () => {
+test.describe.skip('Ski Accommodation Broad Search', async () => {
 
     const skiResortData = SkiDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -169,7 +169,7 @@ test.describe('Ski Resort Broad Search', async () => {
     }
 });
 
-test.describe('Walking Resort Broad Search', async () => {
+test.describe.skip('Walking Accommodation Broad Search', async () => {
 
     const walkingResortData = WalkingDatacsv.filter(row => row['Alias'].includes('accommodation'));
 

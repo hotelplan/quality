@@ -58,8 +58,9 @@ export class SearchResultPage {
         this.resortCard = page.locator('.c-search-card .content .c-header-h3')
         this.searchAnywhereBtn = page.getByRole('button', { name: 'Anywhere' })
         this.searchWhereToGofield = page.getByRole('textbox', { name: 'Start typing..' })
-        this.searchWhereToGoResult = (location: string) => page.locator('span').filter({ hasText: location });
-        this.searchWhereToGoAltResult = (location: string) => page.getByText(location, { exact: true });
+        //this.searchWhereToGoResult = (location: string) => page.getByText(location, { exact: true });
+        this.searchWhereToGoResult = (location: string) => page.locator(`//ul[@class="filter-results u-list-style-none"]//div[normalize-space(text())="${location}"]`);
+        this.searchWhereToGoAltResult = (location: string) => page.locator('span').filter({ hasText: location });
         this.searchNoGuestsBtn = page.locator('//button[@class="trip-search__option guests"]')
         this.searchNoGuestHeader = page.getByRole('heading', { name: 'Who\'s coming?' })
         this.minusButton = page.getByRole('button', { name: '-', exact: true })
