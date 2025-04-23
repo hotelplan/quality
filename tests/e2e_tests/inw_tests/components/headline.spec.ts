@@ -55,7 +55,7 @@ test.describe('Headline', async () => {
         });
 
         await test.step(`And: I redirect the Generic Content page
-                         Then: I should see the Headline displayed on the Generic Content Page`, async () => {
+                         Then: I should see the Headline displayed on the Generic Content Page with correct size and alignment`, async () => {
             await sharedSteps.validatePageUrl(newPage)
             await headlineComponent.validateHeadlineAvailability(newPage)
         });
