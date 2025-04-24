@@ -16,16 +16,24 @@ export class HeadlineComponent {
         this.headlineDropdowns = page.locator('select[name="dropDownList"]')
     }
 
-    async fillOutHeadlineDetails(){
+    async fillOutHeadlineDetails(component: string = 'none') {
         const sizeRandomIndex = Math.floor(Math.random() * 5) + 1;
         const alignmentRandomIndex = Math.floor(Math.random() * 3) + 1;
 
-        await this.headlineTextFld.waitFor({ state: 'visible' })
-        await this.headlineTextFld.fill(this.headlineText)
+        if (component == 'accordion') {
+            const headlineTextFldUnderAccordion = this.page.getByLabel('Text')
+            await headlineTextFldUnderAccordion.waitFor({ state: 'visible' })
+            await headlineTextFldUnderAccordion.fill(this.headlineText)
+        } else {
+            await this.headlineTextFld.waitFor({ state: 'visible' })
+            await this.headlineTextFld.fill(this.headlineText)
+        }
+
         await this.headlineDropdowns.nth(2).click()
         this.size = await this.headlineDropdowns.nth(2).selectOption({ index: sizeRandomIndex })
         await this.headlineDropdowns.nth(3).click()
         this.alignment = await this.headlineDropdowns.nth(3).selectOption({ index: alignmentRandomIndex })
+
     }
 
     async validateHeadlineAvailability(newPage) {
@@ -35,7 +43,7 @@ export class HeadlineComponent {
 
         const expectedSizeTag = this.size[0].replace(/.*string:(\w+).*/, '$1')
         const expectedAlignment = this.alignment[0].replace(/.*string:(\w+).*/, '$1').toLowerCase();
-        const actualTagName = await headlineId.evaluate(node => node.tagName)       
+        const actualTagName = await headlineId.evaluate(node => node.tagName)
         const actualTextAlign = await headlineId.evaluate(node => window.getComputedStyle(node).textAlign)
 
         expect(actualTagName).toBe(expectedSizeTag);
