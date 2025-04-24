@@ -8,6 +8,7 @@ import { RegionPage } from '../region_page';
 import { ResortPage } from '../resort_page';
 import { SearchResultPage } from '../search_result_page'
 import { HeadlineComponent } from '../component/headline';
+import { AccordionComponent } from '../component/accordion';
 import { SharedSteps } from '../../utilities/sharedSteps';
 
 
@@ -22,6 +23,7 @@ type pages = {
     resortPage: ResortPage,
     searchResultPage: SearchResultPage
     headlineComponent: HeadlineComponent
+    accordionComponent: AccordionComponent
     sharedSteps: SharedSteps
 }
 
@@ -62,6 +64,9 @@ const testPages = base.extend<pages>({
     },
     headlineComponent: async ({page},use) => {
         await use(new HeadlineComponent(page));
+    },
+    accordionComponent: async ({page},use) => {
+        await use(new AccordionComponent(page));
     },
     sharedSteps: async ({page},use) => {
         await use(new SharedSteps(page));
