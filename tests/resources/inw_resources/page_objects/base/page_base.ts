@@ -7,6 +7,9 @@ import { CountryPage } from '../country_page';
 import { RegionPage } from '../region_page';
 import { ResortPage } from '../resort_page';
 import { SearchResultPage } from '../search_result_page'
+import { HeadlineComponent } from '../component/headline';
+import { SharedSteps } from '../../utilities/sharedSteps';
+
 
 
 type pages = {
@@ -18,6 +21,8 @@ type pages = {
     regionPage: RegionPage,
     resortPage: ResortPage,
     searchResultPage: SearchResultPage
+    headlineComponent: HeadlineComponent
+    sharedSteps: SharedSteps
 }
 
 let apiContext: APIRequestContext;
@@ -54,6 +59,12 @@ const testPages = base.extend<pages>({
     resortPage: async ({page},use) => {
         apiContext = await request.newContext();
         await use(new ResortPage(page, apiContext));
+    },
+    headlineComponent: async ({page},use) => {
+        await use(new HeadlineComponent(page));
+    },
+    sharedSteps: async ({page},use) => {
+        await use(new SharedSteps(page));
     },
 
 
