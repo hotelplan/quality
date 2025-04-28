@@ -36,17 +36,18 @@ test.describe('Accordion', async () => {
             await sharedSteps.selectComponent()
 
         });
-
-        await test.step(`And: I click the Add Accordion Item button`, async () => {
-            await accordionComponent.clickAddAccordionItemBtn()
-        });
-
-        await test.step(`And: I input Accordion Title`, async () => {
-            await accordionComponent.inputAccordionTitle()
-
-        });
         // creates 4 accordions
         for (let i = 0; i <= 3; i++) {
+
+            await test.step(`And: I click the Add Accordion Item button`, async () => {
+                await accordionComponent.clickAddAccordionItemBtn()
+            });
+
+            await test.step(`And: I input Accordion Title`, async () => {
+                await accordionComponent.inputAccordionTitle()
+
+            });
+
             await test.step(`And: I click Add content button
                              And: I choose and select Headline component for the accordion entry.`, async () => {
                 await accordionComponent.clickAddContentBtn()
@@ -55,11 +56,13 @@ test.describe('Accordion', async () => {
                 await headlineComponent.fillOutHeadlineDetails('accordion')
                 await accordionComponent.clickCreateAccordionEntryBtn()
             });
-        }
 
-        await test.step(`And: I click 'Create' button for Accordion Item`, async () => {
-            await accordionComponent.clickCreateAccordionItemBtn()
-        });
+
+            await test.step(`And: I click 'Create' button for Accordion Item`, async () => {
+                await accordionComponent.clickCreateAccordionItemBtn()
+            });
+
+        }
 
         await test.step(`And: I click 'Create' button for Accordion component
                          And: I click 'Save and publish' button`, async () => {
