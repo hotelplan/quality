@@ -25,8 +25,9 @@ export class AccordionComponent {
     }
 
     async inputAccordionTitle(){
+        const uniqueAccordionTitle = `${faker.word.adjective()} ${faker.word.noun()} Accordion Title ${faker.number.int({ min: 50, max: 1000 })}`
         await this.accordionTitleFld.waitFor({ state: 'visible' })
-        await this.accordionTitleFld.fill(this.accordionTitle)
+        await this.accordionTitleFld.fill(uniqueAccordionTitle)
     }
 
     async clickAddContentBtn() {
@@ -41,6 +42,10 @@ export class AccordionComponent {
     async clickCreateAccordionItemBtn(){
         const createAccordionItemBtn = this.page.locator('.btn-primary').nth(1)
         await createAccordionItemBtn.click()
+    }
+
+    async validateAccordionAvailability(){
+
     }
 }
 
