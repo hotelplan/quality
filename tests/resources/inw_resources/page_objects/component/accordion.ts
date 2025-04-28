@@ -28,6 +28,8 @@ export class AccordionComponent {
         const uniqueAccordionTitle = `${faker.word.adjective()} ${faker.word.noun()} Accordion Title ${faker.number.int({ min: 50, max: 1000 })}`
         await this.accordionTitleFld.waitFor({ state: 'visible' })
         await this.accordionTitleFld.fill(uniqueAccordionTitle)
+        
+        return uniqueAccordionTitle
     }
 
     async clickAddContentBtn() {

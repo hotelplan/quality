@@ -3,6 +3,10 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
+const accordionTitleArr: string[] = [];
+const headlineTitleArr: string[] = [];
+let accordionTitle: string
+let headlineTitle
 let newPage
 
 test.beforeEach(async ({ page }) => {
@@ -44,7 +48,8 @@ test.describe('Accordion', async () => {
             });
 
             await test.step(`And: I input Accordion Title`, async () => {
-                await accordionComponent.inputAccordionTitle()
+                accordionTitle = await accordionComponent.inputAccordionTitle()
+                accordionTitleArr.push(accordionTitle)
 
             });
 
@@ -53,7 +58,8 @@ test.describe('Accordion', async () => {
                 await accordionComponent.clickAddContentBtn()
                 await sharedSteps.searchComponent('Headline')
                 await sharedSteps.selectComponent()
-                await headlineComponent.fillOutHeadlineDetails('accordion')
+                headlineTitle = await headlineComponent.fillOutHeadlineDetails('accordion')
+                headlineTitleArr.push(headlineTitle)
                 await accordionComponent.clickCreateAccordionEntryBtn()
             });
 
