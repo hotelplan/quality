@@ -19,11 +19,12 @@ export class HeadlineComponent {
     async fillOutHeadlineDetails(component: string = 'none') {
         const sizeRandomIndex = Math.floor(Math.random() * 5) + 1;
         const alignmentRandomIndex = Math.floor(Math.random() * 3) + 1;
+        const headlineForAccordionEntry = `${faker.word.adjective()} ${faker.word.noun()} Automation Headline ${faker.number.int({ min: 50, max: 1000 })}`
 
         if (component == 'accordion') {
             const headlineTextFldUnderAccordion = this.page.getByLabel('Text')
             await headlineTextFldUnderAccordion.waitFor({ state: 'visible' })
-            await headlineTextFldUnderAccordion.fill(this.headlineText)
+            await headlineTextFldUnderAccordion.fill(headlineForAccordionEntry)
         } else {
             await this.headlineTextFld.waitFor({ state: 'visible' })
             await this.headlineTextFld.fill(this.headlineText)

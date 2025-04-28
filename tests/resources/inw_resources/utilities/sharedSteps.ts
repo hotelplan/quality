@@ -76,7 +76,7 @@ export class SharedSteps {
         await this.saveAndPublishBtn.waitFor({ state: 'visible' })
         await this.saveAndPublishBtn.click()
         await this.publishNotification.waitFor({ state: 'visible' })
-        
+
         await expect(this.publishNotification).toHaveCount(1)
     }
 

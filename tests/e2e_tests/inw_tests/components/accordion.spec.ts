@@ -63,20 +63,20 @@ test.describe('Accordion', async () => {
 
         await test.step(`And: I click 'Create' button for Accordion component
                          And: I click 'Save and publish' button`, async () => {
-            await sharedSteps.clickCreateBtn()
+            await sharedSteps.clickCreateBtn(1)
             await sharedSteps.clickSaveAndPublishBtn()
         });
 
-        // await test.step(`When: I click 'Info' tab
-        //                  And: click the link to the page`, async () => {
-        //     await sharedSteps.clickInfoTab()
-        //     newPage = await sharedSteps.clickPageLink()
-        // });
+        await test.step(`When: I click 'Info' tab
+                         And: click the link to the page`, async () => {
+            await sharedSteps.clickInfoTab()
+            newPage = await sharedSteps.clickPageLink()
+        });
 
         // await test.step(`And: I redirect the Generic Content page
-        //                  Then: I should see the Accordion displayed on the Generic Content Page with correct size and alignment`, async () => {
+        //                  Then: I should see the Accordion displayed on the Generic Content Page with details`, async () => {
         //     await sharedSteps.validatePageUrl(newPage)
-        //     await headlineComponent.validateHeadlineAvailability(newPage)
+        //     await accordionComponent.validateAccordionAvailability()
         // });
 
     })
