@@ -7,7 +7,7 @@ export class AccordionComponent {
     readonly accordionTitle: string
     readonly addAccordionItemBtn: Locator
     readonly addContentBtn: Locator
-    readonly createAccordionBtn: Locator
+    readonly createAccordionIEntryBtn: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -15,7 +15,7 @@ export class AccordionComponent {
         this.accordionTitle = `${faker.word.adjective()} ${faker.word.noun()} Accordion Title ${faker.number.int({ min: 50, max: 1000 })}`
         this.addAccordionItemBtn = page.getByRole('button', { name: 'Add Accordion Item' })
         this.addContentBtn = page.getByRole('button', { name: 'Add content' }).nth(1)
-        this.createAccordionBtn = page.locator('.btn-primary').last()
+        this.createAccordionIEntryBtn = page.locator('.btn-primary').last()
 
     }
 
@@ -34,8 +34,13 @@ export class AccordionComponent {
 
     }
 
+    async clickCreateAccordionEntryBtn(){
+        await this.createAccordionIEntryBtn.click()
+    }
+
     async clickCreateAccordionItemBtn(){
-        await this.createAccordionBtn.click()
+        const createAccordionItemBtn = this.page.locator('.btn-primary').nth(1)
+        await createAccordionItemBtn.click()
     }
 }
 
