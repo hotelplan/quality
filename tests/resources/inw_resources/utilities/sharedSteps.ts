@@ -61,9 +61,16 @@ export class SharedSteps {
         await this.componentRes.click()
     }
 
-    async clickCreateBtn() {
-        await this.createComponentBtn.waitFor({ state: 'visible' })
-        await this.createComponentBtn.click()
+    async clickCreateBtn(locator: number = 0) {
+        if (locator == 1) {
+            //for some reason, the locator .btn primary is not working so we need to use nth(0) to select
+            const createComponentBtnOtherLocator = this.page.locator('.btn-primary').nth(0)
+            await createComponentBtnOtherLocator.click()
+        } else {
+            await this.createComponentBtn.waitFor({ state: 'visible' })
+            await this.createComponentBtn.click()
+        }
+
     }
     async clickSaveAndPublishBtn() {
         await this.saveAndPublishBtn.waitFor({ state: 'visible' })
