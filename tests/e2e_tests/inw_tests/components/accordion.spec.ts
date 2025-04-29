@@ -17,7 +17,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Accordion', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test.only(`An ECMS user creates an Accordion component and views it on the General Content page @inw`, async ({ accordionComponent, headlineComponent, sharedSteps }) => {
+    test(`An ECMS user creates an Accordion component and views it on the General Content page @inw`, async ({ accordionComponent, headlineComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectGenericContentPage()
         });
@@ -82,11 +82,11 @@ test.describe('Accordion', async () => {
             newPage = await sharedSteps.clickPageLink()
         });
 
-        // await test.step(`And: I redirect the Generic Content page
-        //                  Then: I should see the Accordion displayed on the Generic Content Page with details`, async () => {
-        //     await sharedSteps.validatePageUrl(newPage)
-        //     await accordionComponent.validateAccordionAvailability()
-        // });
+        await test.step(`And: I redirect the Generic Content page
+                         Then: I should see the Accordion displayed on the Generic Content Page with details`, async () => {
+            await sharedSteps.validatePageUrl(newPage)
+            await accordionComponent.validateAccordionAvailability(newPage, accordionTitleArr, headlineTitleArr)
+        });
 
     })
 

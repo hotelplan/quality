@@ -35,7 +35,7 @@ export class HeadlineComponent {
         await this.headlineDropdowns.nth(3).click()
         this.alignment = await this.headlineDropdowns.nth(3).selectOption({ index: alignmentRandomIndex })
 
-        if(component == 'accordion'){
+        if (component == 'accordion') {
             return uniqueHeadlineForAccordionEntry
         }
 

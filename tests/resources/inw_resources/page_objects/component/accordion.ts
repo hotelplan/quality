@@ -19,16 +19,16 @@ export class AccordionComponent {
 
     }
 
-    async clickAddAccordionItemBtn(){
+    async clickAddAccordionItemBtn() {
         await this.addAccordionItemBtn.waitFor({ state: 'visible' })
         await this.addAccordionItemBtn.click()
     }
 
-    async inputAccordionTitle(){
+    async inputAccordionTitle() {
         const uniqueAccordionTitle = `${faker.word.adjective()} ${faker.word.noun()} Accordion Title ${faker.number.int({ min: 50, max: 1000 })}`
         await this.accordionTitleFld.waitFor({ state: 'visible' })
         await this.accordionTitleFld.fill(uniqueAccordionTitle)
-        
+
         return uniqueAccordionTitle
     }
 
@@ -37,18 +37,30 @@ export class AccordionComponent {
 
     }
 
-    async clickCreateAccordionEntryBtn(){
+    async clickCreateAccordionEntryBtn() {
         await this.createAccordionIEntryBtn.click()
     }
 
-    async clickCreateAccordionItemBtn(){
+    async clickCreateAccordionItemBtn() {
         const createAccordionItemBtn = this.page.locator('.btn-primary').nth(1)
         await createAccordionItemBtn.click()
     }
 
-    async validateAccordionAvailability(){
+    async validateAccordionAvailability(newPage, accordionTitles, headlineTitles) {
+        for(const accordionTitle of accordionTitles){
+            await expect(newPage.locator('body')).toContainText(accordionTitle);
+        }
+
+        for(const accordionTitle of accordionTitles){
+            await newPage.getByText(accordionTitle).click()
+        }
+
+        for(const headlineTitle of headlineTitles){
+            await expect(newPage.locator('body')).toContainText(headlineTitle);
+        }
 
     }
+
 }
 
 export default AccordionComponent
