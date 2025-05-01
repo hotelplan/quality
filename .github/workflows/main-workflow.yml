@@ -46,6 +46,7 @@ on:
         - Smoke
         - Regression
         - Migration
+        - Accommodation
 
   repository_dispatch:
     types: [deploy]
@@ -94,6 +95,11 @@ jobs:
           npx playwright test --grep /@regression/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Migration" ]; then
           npx playwright test --grep /@migration/ --project=Chromium
+        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Accommodation" ]; then
+          npx playwright test --grep /@accom/ --project=Chromium
+        else
+          echo "No matching scope found. Please check the input."
+          exit 1
         fi
 
     - name: Test Report Generation

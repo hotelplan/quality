@@ -112,6 +112,14 @@ export default defineConfig({
       name: 'UAT',
       grep: /@uat/,
     },
+    {
+      name: 'Migration',
+      grep: /@migration/,
+    },
+    {
+      name: 'Accommodation',
+      grep: /@accom/,
+    }
   ],
 
   /* Run your local dev server before starting the tests */

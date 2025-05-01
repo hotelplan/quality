@@ -3,6 +3,11 @@ export default{
         prefix:'',
         suffix:''
     },
+    dev:{
+        inghams:'https://inghamsv2-ecms.dev.hotelplan.co.uk',
+        e_cms:'https://inghamsv2-ecms.dev.hotelplan.co.uk',
+        p_cms:'https://inghamsv2-pcms.dev.hotelplan.co.uk',
+    },
     qa:{
         inghams:'https://inghams-v2.qa.hotelplan.co.uk',
         e_cms:'https://inghamsv2-ecms.qa.hotelplan.co.uk',
