@@ -3,6 +3,7 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
+let newPage
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -41,22 +42,22 @@ test.describe('Accordion', async () => {
 
         });
 
-        // await test.step(`And: I click 'Create' button for CTA button component
-        //                  And: I click 'Save and publish' button`, async () => {
-        //     await sharedSteps.clickCreateBtn()
-        //     await sharedSteps.clickSaveAndPublishBtn()
-        // });
+        await test.step(`And: I click 'Create' button for CTA button component
+                         And: I click 'Save and publish' button`, async () => {
+            await sharedSteps.clickCreateBtn()
+            await sharedSteps.clickSaveAndPublishBtn()
+        });
 
-        // await test.step(`When: I click 'Info' tab
-        //                  And: click the link to the page`, async () => {
-        //     await sharedSteps.clickInfoTab()
-        //     newPage = await sharedSteps.clickPageLink()
-        // });
+        await test.step(`When: I click 'Info' tab
+                         And: click the link to the page`, async () => {
+            await sharedSteps.clickInfoTab()
+            newPage = await sharedSteps.clickPageLink()
+        });
 
-        // await test.step(`And: I redirect the Generic Content page
-        //                  Then: I should see the CTA button displayed on the Generic Content Page with details`, async () => {
-        //     await sharedSteps.validatePageUrl(newPage)
-        // });
+        await test.step(`And: I redirect the Generic Content page
+                         Then: I should see the CTA button displayed on the Generic Content Page with details`, async () => {
+            await sharedSteps.validatePageUrl(newPage)
+        });
 
     })
 
