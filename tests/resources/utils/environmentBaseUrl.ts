@@ -28,5 +28,8 @@ export default{
     },
     sphinx:{
         dev: 'https://sphinx-api-v2.dev.hotelplan.co.uk'
+    },
+    googleLink:{
+       testLink: 'https://www.google.com/'
     }
 };
