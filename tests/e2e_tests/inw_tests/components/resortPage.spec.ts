@@ -31,7 +31,7 @@ test.describe('Search', async () => {
                 await searchResultPage.validateSearchResultPageUrl()
             })
 
-            await test.step(`And: I choose and select an Accommodation by clicking 'View Hotels' button
+            await test.step(`And: I choose and select an Accommodation by clicking 'View details' button
                              And: I see the search bar displaying at the top of the page`, async () => {
                 newPage = await resortPage.checkResortSearchBarAvailability()
             })
@@ -67,7 +67,7 @@ test.describe('Search', async () => {
                 await searchResultPage.validateSearchResultPageUrl()
             })
 
-            await test.step(`And: I choose and select an Accommodation by clicking 'View Hotels' button
+            await test.step(`And: I choose and select an Accommodation by clicking 'View details' button
                              And: I see the search bar displaying at the top of the page`, async () => {
                 newPage = await resortPage.checkResortSearchBarAvailability()
             })
@@ -92,7 +92,7 @@ test.describe('Search', async () => {
                 await searchResultPage.validateSearchResultPageUrl()
             })
 
-            await test.step(`And: I choose and select an Accommodation by clicking 'View Hotels' button
+            await test.step(`And: I choose and select an Accommodation by clicking 'View details' button
                              And: I see the search bar displaying at the top of the page`, async () => {
                 newPage = await resortPage.checkResortSearchBarAvailability()
             })

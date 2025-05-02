@@ -67,7 +67,7 @@ test.describe('Search', async () => {
                 await searchResultPage.validateAccommodationResponseAgainstUIDisplay()
             })
 
-            await test.step(`And: I see that the 'View Hotels' button is displayed on each card.`, async () => {
+            await test.step(`And: I see that the 'View details' button is displayed on each card.`, async () => {
                 await searchResultPage.validateViewHotelsButtonAvailability()
             })
 

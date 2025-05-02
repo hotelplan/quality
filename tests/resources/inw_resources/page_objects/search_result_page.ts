@@ -60,7 +60,7 @@ export class SearchResultPage {
         this.toggleValue = page.locator('input[value="showDest"]')
         this.toggleSwitch = page.locator('.c-toggle-switch')
         this.accommodationCard = page.locator('.c-search-card--resorts .c-search-card .c-header-h3')
-        this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View hotels' })
+        this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View details' })
         this.viewAccommodationsButtons = page.locator('.c-search-card .c-search-card__footer').getByRole('button', { name: 'View accommodation(s)' })
         this.resortCard = page.locator('.c-search-card .content .c-header-h3')
         this.searchAnywhereBtn = page.getByRole('button', { name: 'Anywhere' })
@@ -259,7 +259,7 @@ export class SearchResultPage {
         let viewHotelsBtnCount = await this.viewHotelsButtons.count()
 
         for (let index = 0; index < viewHotelsBtnCount; index++) {
-            expect(await this.viewHotelsButtons.nth(index).textContent(), `View Hotels button is available on card: ${index + 1}`).toBe('View Hotels')
+            expect(await this.viewHotelsButtons.nth(index).textContent(), `View details button is available on card: ${index + 1}`).toBe('View details')
         }
     }
 
