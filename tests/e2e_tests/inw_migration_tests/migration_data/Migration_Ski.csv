@@ -19,6 +19,7 @@ regionSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area,1
 regionSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area,22354,italy,56325,aosta valley ski area,,,False
 regionSki,Ski,home\ski-holidays\ski-resorts\italy\milky-way-ski-area,22354,italy,22388,milky way ski area,,,False
 regionSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area,22354,italy,22355,the dolomites ski area,,,False
+regionSki,Ski,home\ski-holidays\ski-resorts\switzerland\four-valleys,22781,switzerland,68109,four valleys,,,False
 regionSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region,22781,switzerland,22783,graubunden ski region,,,False
 regionSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region,22781,switzerland,22860,jungfrau ski region,,,False
 resortSki,Ski,home\ski-holidays\ski-resorts\andorra\arinsal,1327,andorra,,,ADAR,arinsal,False
@@ -56,6 +57,7 @@ resortSki,Ski,home\ski-holidays\ski-resorts\france\chamonix,1227,france,,,FRCH,c
 resortSki,Ski,home\ski-holidays\ski-resorts\france\flaine,1227,france,,,FRFL,flaine,False
 resortSki,Ski,home\ski-holidays\ski-resorts\france\la-clusaz,1227,france,,,FRCL,la clusaz,False
 resortSki,Ski,home\ski-holidays\ski-resorts\france\la-rosière,1227,france,,,FRRO,la rosière,False
+resortSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes,1227,france,,,FRDA,les 2 alpes,False
 resortSki,Ski,home\ski-holidays\ski-resorts\france\milky-way-ski-area\montgenèvre,1227,france,23360,milky way ski area,FRMT,montgenèvre,False
 resortSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\la-plagne,1227,france,1265,paradiski ski area,FRLA,la plagne,False
 resortSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\les-arcs,1227,france,1265,paradiski ski area,FRAR,les arcs,False
@@ -84,12 +86,18 @@ resortSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\ortisei
 resortSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\san-cassiano,22354,italy,22355,the dolomites ski area,ITCS,san cassiano,False
 resortSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\selva,22354,italy,22355,the dolomites ski area,ITSV,selva,False
 resortSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\val-di-fassa-canazei-campitello-alba-penia,22354,italy,22355,the dolomites ski area,ITCN,"val di fassa (canazei, campitello, alba & penia)",False
+resortSki,Ski,home\ski-holidays\ski-resorts\norway\geilo,24338,norway,,,NOGE,geilo,False
 resortSki,Ski,home\ski-holidays\ski-resorts\norway\myrkdalen,24338,norway,,,NOMK,myrkdalen,False
 resortSki,Ski,home\ski-holidays\ski-resorts\norway\voss,24338,norway,,,NOVO,voss,False
+resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\engelberg,22781,switzerland,,,CHCH,engelberg,False
+resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\four-valleys\nendaz,22781,switzerland,68109,four valleys,CHND0000,nendaz,False
+resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\davos,22781,switzerland,22783,graubunden ski region,CHDV,davos,False
+resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\klosters,22781,switzerland,22783,graubunden ski region,CHKL,klosters,False
 resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\st.moritz,22781,switzerland,22783,graubunden ski region,CHSM,st. moritz,False
 resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\grindelwald,22781,switzerland,22860,jungfrau ski region,CHGR,grindelwald,False
 resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\murren,22781,switzerland,22860,jungfrau ski region,CHMU,murren,False
 resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
+resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\saas-fee,22781,switzerland,,,CHSA,saas fee,False
 resortSki,Ski,home\ski-holidays\ski-resorts\switzerland\zermatt,22781,switzerland,,,CHZE,zermatt,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\andorra\arinsal\hotel-del-pui,1327,andorra,,,ADAR,arinsal,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\andorra\arinsal\hotel-magic-massana,1327,andorra,,,ADAR,arinsal,False
@@ -138,7 +146,6 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\ischgl\hotel-binta,12
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\ischgl\hotel-brigitte,1226,austria,,,ATIS,ischgl,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\ischgl\hotel-jagerhof,1226,austria,,,ATIS,ischgl,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\ischgl\hotel-solaria,1226,austria,,,ATIS,ischgl,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\ischgl\hotel-val-sinestra,1226,austria,,,ATIS,ischgl,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\kitzbuhel-alps\kitzbuhel\aktivhotel-schweizerhof,1226,austria,21973,kitzbuhel alps,ATKZ,kitzbuhel,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\kitzbuhel-alps\kitzbuhel\hotel-kaiserhof,1226,austria,21973,kitzbuhel alps,ATKZ,kitzbuhel,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\kitzbuhel-alps\kitzbuhel\hotel-resch,1226,austria,21973,kitzbuhel alps,ATKZ,kitzbuhel,False
@@ -147,13 +154,13 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\kitzbuhel-alps\kitzbu
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\kitzbuhel-alps\st.johann-in-tirol\cooee-alpin-hotel,1226,austria,21973,kitzbuhel alps,ATJO,st. johann in tirol,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\kitzbuhel-alps\st.johann-in-tirol\sporthotel-austria,1226,austria,21973,kitzbuhel alps,ATJO,st. johann in tirol,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\alpenhotel-kramerwirt,1226,austria,,,ATMA,mayrhofen,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\alpenhotel-ramsauerhof,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\elisabeth-hotel,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\foersterhaus-zum-kramerwirt,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\garni-almhof,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\garni-kumbichlhof,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\hotel-berghof,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\hotel-strass,1226,austria,,,ATMA,mayrhofen,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\hotel-strolz,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\hotel-sylvana,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\neuhaus-zillertal-resort,1226,austria,,,ATMA,mayrhofen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\mayrhofen\pension-kassnerhof,1226,austria,,,ATMA,mayrhofen,False
@@ -183,7 +190,6 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\seefeld\hotel-schonru
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\seefeld\hotel-seefelderhof,1226,austria,,,ATSE,seefeld,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\seefeld\post-seefeld-hotel-spa,1226,austria,,,ATSE,seefeld,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hinterglemm-leogang-fieberbrunn\hinterglemm\gardenhotel-theresia,1226,austria,22751,skicircus saalbach hinterglemm leogang fieberbrunn,ATHI,hinterglemm,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hinterglemm-leogang-fieberbrunn\hinterglemm\hotel-alpin-juwel,1226,austria,22751,skicircus saalbach hinterglemm leogang fieberbrunn,ATHI,hinterglemm,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hinterglemm-leogang-fieberbrunn\hinterglemm\hotel-alpine-palace,1226,austria,22751,skicircus saalbach hinterglemm leogang fieberbrunn,ATHI,hinterglemm,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hinterglemm-leogang-fieberbrunn\hinterglemm\hotel-glemmtalerhof,1226,austria,22751,skicircus saalbach hinterglemm leogang fieberbrunn,ATHI,hinterglemm,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hinterglemm-leogang-fieberbrunn\saalbach\hotel-bauer,1226,austria,22751,skicircus saalbach hinterglemm leogang fieberbrunn,ATSA,saalbach,False
@@ -193,7 +199,6 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hi
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hinterglemm-leogang-fieberbrunn\saalbach\hotel-saalbacher-hof,1226,austria,22751,skicircus saalbach hinterglemm leogang fieberbrunn,ATSA,saalbach,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hinterglemm-leogang-fieberbrunn\saalbach\pension-riedlsperger,1226,austria,22751,skicircus saalbach hinterglemm leogang fieberbrunn,ATSA,saalbach,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skicircus-saalbach-hinterglemm-leogang-fieberbrunn\saalbach\valsaa-alpinresort,1226,austria,22751,skicircus saalbach hinterglemm leogang fieberbrunn,ATSA,saalbach,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skiwelt-wilder-kaiser-brixental-area\ellmau\aparthotel-landhof,1226,austria,24027,skiwelt wilder kaiser-brixental area,ATEL,ellmau,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skiwelt-wilder-kaiser-brixental-area\ellmau\hotel-flora,1226,austria,24027,skiwelt wilder kaiser-brixental area,ATEL,ellmau,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skiwelt-wilder-kaiser-brixental-area\ellmau\hotel-hochfilzer,1226,austria,24027,skiwelt wilder kaiser-brixental area,ATEL,ellmau,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\austria\skiwelt-wilder-kaiser-brixental-area\soll\hotel-alpenpanorama,1226,austria,24027,skiwelt wilder kaiser-brixental area,ATSO,soll,False
@@ -243,11 +248,10 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\blackcomb-spr
 accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\crystal-lodge-suites,1228,canada,,,CAWH,whistler,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\delta-whistler-village-suites,1228,canada,,,CAWH,whistler,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\fairmont-chateau-whistler,1228,canada,,,CAWH,whistler,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\hilton-whistler-resort-spa,1228,canada,,,CAWH,whistler,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\hotel-pinnacle-whistler-village,1228,canada,,,CAWH,whistler,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\listel-hotel,1228,canada,,,CAWH,whistler,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\pan-pacific-whistler-mountainside,1228,canada,,,CAWH,whistler,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\canada\whistler\pan-pacific-whistler-village-centre,1228,canada,,,CAWH,whistler,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\alpe-dhuez\chalet-etoile-de-neige,1227,france,,,FRAD,alpe d'huez,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\alpe-dhuez\chalet-la-breche,1227,france,,,FRAD,alpe d'huez,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\alpe-dhuez\chalet-secret-de-neige,1227,france,,,FRAD,alpe d'huez,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\alpe-dhuez\cristal-de-lalpe-apartments,1227,france,,,FRAD,alpe d'huez,False
@@ -270,7 +274,6 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\france\chamonix\hotel-les-aig
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\chamonix\hotel-lykke,1227,france,,,FRCH,chamonix,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\chamonix\hotel-pointe-isabelle,1227,france,,,FRCH,chamonix,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\chamonix\hotel-richemond,1227,france,,,FRCH,chamonix,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\france\chamonix\la-folie-douce-hotel,1227,france,,,FRCH,chamonix,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\chamonix\residence-cristal-de-jade,1227,france,,,FRCH,chamonix,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\chamonix\residence-elena,1227,france,,,FRCH,chamonix,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\chamonix\residence-la-riviere-apartments,1227,france,,,FRCH,chamonix,False
@@ -298,6 +301,16 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\france\la-rosière\hotel-ily,
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\la-rosière\les-cimes-blanches-apartments,1227,france,,,FRRO,la rosière,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\la-rosière\lodge-hemera-apartments,1227,france,,,FRRO,la rosière,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\la-rosière\residence-alpen-lodge,1227,france,,,FRRO,la rosière,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\hotel-base-camp-lodge,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\hotel-chalet-mounier,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\hotel-ibiza,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\hotel-le-panorama,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\hotel-les-cretes,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\hotel-serre-palas,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\lours-blanc-apartments,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\residence-les-clarines,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\residence-neige-et-soleil,1227,france,,,FRDA,les 2 alpes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\les-2-alpes\village-club-du-soleil,1227,france,,,FRDA,les 2 alpes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\milky-way-ski-area\montgenèvre\hameau-des-airelles-apartments,1227,france,23360,milky way ski area,FRMT,montgenèvre,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\milky-way-ski-area\montgenèvre\hotel-anova,1227,france,23360,milky way ski area,FRMT,montgenèvre,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\milky-way-ski-area\montgenèvre\hotel-chalet-blanc,1227,france,23360,milky way ski area,FRMT,montgenèvre,False
@@ -321,6 +334,7 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\la-
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\la-plagne\residence-manaka,1227,france,1265,paradiski ski area,FRLA,la plagne,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\la-plagne\residence-w2050,1227,france,1265,paradiski ski area,FRLA,la plagne,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\la-plagne\sun-valley-apartments,1227,france,1265,paradiski ski area,FRLA,la plagne,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\les-arcs\alpages-de-chantel-apartments-arc-1800,1227,france,1265,paradiski ski area,FRAR,les arcs,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\les-arcs\altezza-hotel-and-spa-arc-1800,1227,france,1265,paradiski ski area,FRAR,les arcs,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\les-arcs\arc-1950-le-village-apartments,1227,france,1265,paradiski ski area,FRAR,les arcs,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\paradiski-ski-area\les-arcs\chalet-altitude-apartments,1227,france,1265,paradiski ski area,FRAR,les arcs,False
@@ -363,6 +377,7 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\les-menuires\residence-les-clarines,1227,france,1266,three valleys ski area,FRLM,les menuires,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\meribel\chalet-lancolie,1227,france,1266,three valleys ski area,FRME,meribel,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\meribel\chalet-le-cedre-blanc,1227,france,1266,three valleys ski area,FRME,meribel,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\meribel\chalet-oxalys,1227,france,1266,three valleys ski area,FRME,meribel,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\meribel\hotel-la-chaudanne,1227,france,1266,three valleys ski area,FRME,meribel,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\meribel\hotel-le-mottaret,1227,france,1266,three valleys ski area,FRME,meribel,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\meribel\hotel-les-grangettes,1227,france,1266,three valleys ski area,FRME,meribel,False
@@ -382,7 +397,6 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\val-thorens\hotel-les-arolles,1227,france,1266,three valleys ski area,FRVT,val thorens,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\val-thorens\hotel-les-trois-vallees,1227,france,1266,three valleys ski area,FRVT,val thorens,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\val-thorens\le-tikal-apartments,1227,france,1266,three valleys ski area,FRVT,val thorens,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\val-thorens\machu-pichu-apartments,1227,france,1266,three valleys ski area,FRVT,val thorens,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\val-thorens\residence-cheval-blanc-apartments,1227,france,1266,three valleys ski area,FRVT,val thorens,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\val-thorens\residence-hameau-de-kashmir,1227,france,1266,three valleys ski area,FRVT,val thorens,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\three-valleys-ski-area\val-thorens\residence-hermine,1227,france,1266,three valleys ski area,FRVT,val thorens,False
@@ -403,6 +417,7 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\hotel-levanna,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\hotel-val-claret-all-inclusive,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\hotel-voulez-vous,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\residence-altaviva,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\residence-boutique-lodge-des-neiges,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\residence-la-ferme-du-val-claret,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\tignes\residence-le-taos,1227,france,1250,tignes-val d’isere ski area,FRTI,tignes,False
@@ -422,6 +437,7 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\val-disere\les-chalets-du-jardin-alpin,1227,france,1250,tignes-val d’isere ski area,FRVD,val d'isere,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\val-disere\residence-chalet-izia,1227,france,1250,tignes-val d’isere ski area,FRVD,val d'isere,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\val-disere\residence-chalet-skadi,1227,france,1250,tignes-val d’isere ski area,FRVD,val d'isere,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\val-disere\residence-les-balcons-de-bellevarde,1227,france,1250,tignes-val d’isere ski area,FRVD,val d'isere,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\france\tignes-val-d-isere-ski-area\val-disere\victoria-lodge,1227,france,1250,tignes-val d’isere ski area,FRVD,val d'isere,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\cervinia\art-hotel-grandes-murailles-valtournenche,22354,italy,56325,aosta valley ski area,ITCE,cervinia,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\cervinia\base-camp-apartments-cervinia,22354,italy,56325,aosta valley ski area,ITCE,cervinia,False
@@ -436,7 +452,6 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\c
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\champoluc\hotel-au-charmant-petit-lac,22354,italy,56325,aosta valley ski area,ITCH,champoluc,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\champoluc\hotel-castor,22354,italy,56325,aosta valley ski area,ITCH,champoluc,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\champoluc\hotel-de-champoluc,22354,italy,56325,aosta valley ski area,ITCH,champoluc,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\champoluc\hotel-le-rocher,22354,italy,56325,aosta valley ski area,ITCH,champoluc,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\gressoney\hotel-chalet-du-lys,22354,italy,56325,aosta valley ski area,ITGE,gressoney,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\gressoney\hotel-dufour,22354,italy,56325,aosta valley ski area,ITGE,gressoney,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\aosta-valley-ski-area\gressoney\hotel-lo-scoiattolo,22354,italy,56325,aosta valley ski area,ITGE,gressoney,False
@@ -517,6 +532,10 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\val-di-fassa-canazei-campitello-alba-penia\hotel-la-perla-canazei,22354,italy,22355,the dolomites ski area,ITCN,"val di fassa (canazei, campitello, alba & penia)",False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\val-di-fassa-canazei-campitello-alba-penia\hotel-medil-campitello,22354,italy,22355,the dolomites ski area,ITCN,"val di fassa (canazei, campitello, alba & penia)",False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\italy\the-dolomites-ski-area\val-di-fassa-canazei-campitello-alba-penia\hotel-piccolo-canazei,22354,italy,22355,the dolomites ski area,ITCN,"val di fassa (canazei, campitello, alba & penia)",False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\geilo\highland-lodge-apartments,24338,norway,,,NOGE,geilo,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\geilo\highland-lodge-hotel,24338,norway,,,NOGE,geilo,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\geilo\hotel-bardoela-apartments-cabins,24338,norway,,,NOGE,geilo,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\geilo\ustedalen-hotel,24338,norway,,,NOGE,geilo,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\myrkdalen\myrkdalen-apartments,24338,norway,,,NOMK,myrkdalen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\myrkdalen\myrkdalen-hotel,24338,norway,,,NOMK,myrkdalen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\fleischers-hotel,24338,norway,,,NOVO,voss,False
@@ -525,6 +544,15 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\hotel-scandic,243
 accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\park-hotel,24338,norway,,,NOVO,voss,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\store-ringheim-hotel,24338,norway,,,NOVO,voss,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\norway\voss\voss-guest-house,24338,norway,,,NOVO,voss,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\engelberg\hotel-terrace,22781,switzerland,,,CHCH,engelberg,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\engelberg\titlis-resort,22781,switzerland,,,CHCH,engelberg,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\four-valleys\nendaz\hotel-nendaz-4-vallées-spa,22781,switzerland,68109,four valleys,CHND0000,nendaz,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\four-valleys\nendaz\mad-mount-hotel,22781,switzerland,68109,four valleys,CHND0000,nendaz,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\davos\hotel-central-sport,22781,switzerland,22783,graubunden ski region,CHDV,davos,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\davos\hotel-hilton-garden-inn-davos,22781,switzerland,22783,graubunden ski region,CHDV,davos,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\davos\hotel-seehof,22781,switzerland,22783,graubunden ski region,CHDV,davos,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\klosters\hotel-silvretta-park,22781,switzerland,22783,graubunden ski region,CHKL,klosters,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\klosters\hotel-sport,22781,switzerland,22783,graubunden ski region,CHKL,klosters,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\st.moritz\hotel-monopol,22781,switzerland,22783,graubunden ski region,CHSM,st. moritz,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\st.moritz\hotel-schweizerhof,22781,switzerland,22783,graubunden ski region,CHSM,st. moritz,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\graubunden-ski-region\st.moritz\hotel-steffani,22781,switzerland,22783,graubunden ski region,CHSM,st. moritz,False
@@ -537,7 +565,7 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-regi
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\grindelwald\romantik-hotel-schweizerhof,22781,switzerland,22860,jungfrau ski region,CHGR,grindelwald,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\murren\hotel-eiger,22781,switzerland,22860,jungfrau ski region,CHMU,murren,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\beausite-park-hotel-and-spa,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
-accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\braunbaer-hotel-spa,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\braunbar-hotel-spa,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\grand-hotel-belvedere,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\hotel-alpenrose,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\hotel-caprice,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
@@ -545,6 +573,12 @@ accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-regi
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\hotel-resort-victoria-lauberhorn,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\hotel-silberhorn,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\jungfrau-ski-region\wengen\residence-bernerhof-apartments,22781,switzerland,22860,jungfrau ski region,CHWG,wengen,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\saas-fee\allalin-apartments,22781,switzerland,,,CHSA,saas fee,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\saas-fee\hotel-allalin,22781,switzerland,,,CHSA,saas fee,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\saas-fee\hotel-bristol,22781,switzerland,,,CHSA,saas fee,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\saas-fee\hotel-park,22781,switzerland,,,CHSA,saas fee,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\saas-fee\revier-mountain-lodge,22781,switzerland,,,CHSA,saas fee,False
+accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\saas-fee\walliserhof-grand-hotel-spa,22781,switzerland,,,CHSA,saas fee,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\zermatt\aparthotel-naco,22781,switzerland,,,CHZE,zermatt,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\zermatt\hotel-alex,22781,switzerland,,,CHZE,zermatt,False
 accommodationSki,Ski,home\ski-holidays\ski-resorts\switzerland\zermatt\hotel-butterfly,22781,switzerland,,,CHZE,zermatt,False
