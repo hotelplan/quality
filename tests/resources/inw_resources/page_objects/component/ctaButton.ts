@@ -13,6 +13,8 @@ export class CTAButtonComponent {
     readonly iconPickerItem: Locator
     readonly createCTAButtonBtn: Locator
     public theme: string
+    public ctaButtonTitle: string
+    public iconName: string | null
 
     constructor(page: Page) {
         this.page = page;
@@ -25,6 +27,7 @@ export class CTAButtonComponent {
         this.iconPickerBtn = page.locator('[data-element="sortable-thumbnails"]')
         this.iconPickerItem = page.locator('.umb-iconpicker-item')
         this.createCTAButtonBtn = page.locator('.btn-primary')
+        this.ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
 
     }
     async setupCtaButton() {
@@ -38,7 +41,7 @@ export class CTAButtonComponent {
         await this.urlPickerBtn.click()
         await this.linkField.waitFor({ state: 'visible' })
         await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
-        await this.linkTitleFld.fill(faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 }))
+        await this.linkTitleFld.fill(this.ctaButtonTitle)
         await this.urlPickerSubmitBtn.click()
         await this.iconPickerBtn.click()
         await expect(this.iconPickerItem.nth(0)).toBeVisible()
@@ -46,6 +49,16 @@ export class CTAButtonComponent {
         const iconPickerItemCount = await this.iconPickerItem.count()
         const iconItemIndex = Math.floor(Math.random() * iconPickerItemCount)
         await this.iconPickerItem.nth(iconItemIndex).click()
+        this.iconName = await this.iconPickerItem.nth(iconItemIndex).getAttribute('title')
+
+    }
+
+    async validateCtaButtonAvailability(newPage) {
+        await expect(newPage.locator('body')).toContainText(this.ctaButtonTitle);
+        await expect(newPage.locator(`a[title="${this.ctaButtonTitle}"]`)).toBeVisible()
+        await expect(newPage.locator(`a[title="${this.ctaButtonTitle}"]`)).toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)
+        await expect(newPage.locator(`a[title="${this.ctaButtonTitle}"] [aria-labelledby='${this.iconName}']`)).toBeVisible()
+
     }
 
 }

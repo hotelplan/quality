@@ -57,6 +57,7 @@ test.describe('Accordion', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the CTA button displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
+            await ctaButtonComponent.validateCtaButtonAvailability(newPage)
         });
 
     })
