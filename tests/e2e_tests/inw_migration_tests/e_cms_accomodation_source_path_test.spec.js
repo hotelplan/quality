@@ -22,7 +22,7 @@ const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_dat
 
 test.describe.configure({timeout: 60000,})
 // Define the test suite
-test.describe('Lapland Accommodation Source Path', {tag: '@migration'}, () => {
+test.describe('Lapland Accommodation Source Path', {tag: ['@migration','@accom']}, () => {
 
   const filteredData = LaplandDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -30,9 +30,9 @@ test.describe('Lapland Accommodation Source Path', {tag: '@migration'}, () => {
     test(`Lapland (${laplandData.Country}) test: ${laplandData.SourcePath}`, async ({ page }) => {
 
       const sourcePath = laplandData.SourcePath.replace("home", "");
-      const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
-      const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
-      const sourcePathmod = sourceURLmod.replace(/st\./g,"st-");
+      //const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
+      //const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
+      const sourcePathmod = sourcePath.replace(/st\./g,"st-");
       const FullURL = HOMEpath + sourcePathmod;
       // Open the URL
       const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
@@ -47,7 +47,7 @@ test.describe('Lapland Accommodation Source Path', {tag: '@migration'}, () => {
 });
 
 
-test.describe('Santa Accommodation Source Path', {tag: '@migration'}, () => {
+test.describe('Santa Accommodation Source Path', {tag: ['@migration','@accom']}, () => {
   
   const filteredData = SantaDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -55,9 +55,9 @@ test.describe('Santa Accommodation Source Path', {tag: '@migration'}, () => {
     test(`Santa Breaks (${santasData.Country}) test: ${santasData.SourcePath}`, async ({ page }) => {
   
       const sourcePath = santasData.SourcePath.replace("home", "");
-      const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
-      const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
-      const sourcePathmod = sourceURLmod.replace(/st\./g,"st-");
+      //const sourceURL = sourcePath.replace(/lapland-/g,"lapland");
+      //const sourceURLmod = sourceURL.replace("laplandholidays","lapland-holidays");
+      const sourcePathmod = sourcePath.replace(/st\./g,"st-");
       const FullURL = HOMEpath + sourcePathmod;
       // Open the URL
       const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
@@ -73,7 +73,7 @@ test.describe('Santa Accommodation Source Path', {tag: '@migration'}, () => {
 });
 
 
-test.describe('Ski Accommodation Source Path', {tag: '@migration'}, () => {
+test.describe('Ski Accommodation Source Path', {tag: ['@migration','@accom']}, () => {
 
   const filteredData = SkiDatacsv.filter(row => row['Alias'].includes('accommodation'));
 
@@ -81,8 +81,8 @@ test.describe('Ski Accommodation Source Path', {tag: '@migration'}, () => {
     test(`Ski (${skiData.Country}) test: ${skiData.SourcePath}`, async ({ page }) => {
 
       const sourcePath = skiData.SourcePath.replace("home", "");
-      const sourceURL = sourcePath.replace("ski-resorts","resorts");
-      const sourcePathmod = sourceURL.replace(/st\./g,"st-");
+      //const sourceURL = sourcePath.replace("ski-resorts","resorts");
+      const sourcePathmod = sourcePath.replace(/st\./g,"st-");
       const FullURL = HOMEpath + sourcePathmod;
       // Open the URL
       const response = await page.goto(FullURL, { waitUntil: 'domcontentloaded' });
@@ -97,7 +97,7 @@ test.describe('Ski Accommodation Source Path', {tag: '@migration'}, () => {
 });
 
 
-test.describe('Walking Accommodation Source Path', {tag: '@migration'}, () => {
+test.describe('Walking Accommodation Source Path', {tag: ['@migration','@accom']}, () => {
 
   const filteredData = WalkingDatacsv.filter(row => row['Alias'].includes('accommodation'));
 

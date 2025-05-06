@@ -1,411 +1,405 @@
 Alias,Product,SourcePath,CountryCode,Country,RegionCode,Region,ResortCode,Resort,Suppress
-countryWalking,Walking,home\destinations\andorra,64478,andorra,,,,,False
-countryWalking,Walking,home\destinations\austria,1322,austria,,,,,False
-countryWalking,Walking,home\destinations\france,22554,france,,,,,False
-countryWalking,Walking,home\destinations\italy,21686,italy,,,,,False
-countryWalking,Walking,home\destinations\madeira,23961,madeira,,,,,False
-countryWalking,Walking,home\destinations\norway,22949,norway,,,,,False
-countryWalking,Walking,home\destinations\slovenia,22532,slovenia,,,,,False
-countryWalking,Walking,home\destinations\switzerland,22267,switzerland,,,,,False
-
-regionWalking,Walking,home\destinations\austria\austrian-tyrol,1322,austria,1323,austrian tyrol,,,False
-regionWalking,Walking,home\destinations\austria\lake-achensee,1322,austria,22121,lake achensee,,,False
-regionWalking,Walking,home\destinations\austria\the-salzkammergut,1322,austria,22178,the salzkammergut,,,False
-regionWalking,Walking,home\destinations\austria\the-wildschonau-valley,1322,austria,22156,the wildschonau valley,,,False
-regionWalking,Walking,home\destinations\italy\city-breaks,21686,italy,32314,city breaks,,,False
-regionWalking,Walking,home\destinations\italy\lake-como,21686,italy,21697,lake como,,,False
-regionWalking,Walking,home\destinations\italy\lake-garda,21686,italy,21744,lake garda,,,False
-regionWalking,Walking,home\destinations\italy\lake-maggiore,21686,italy,22060,lake maggiore,,,False
-regionWalking,Walking,home\destinations\italy\liguria,21686,italy,29168,liguria,,,False
-regionWalking,Walking,home\destinations\italy\the-dolomites,21686,italy,32188,the dolomites,,,False
-regionWalking,Walking,home\destinations\italy\tuscany,21686,italy,29213,tuscany,,,False
-regionWalking,Walking,home\destinations\switzerland\bernese-oberland,22267,switzerland,22270,bernese oberland,,,False
-regionWalking,Walking,home\destinations\switzerland\graubunden-region,22267,switzerland,22374,graubunden region,,,False
-regionWalking,Walking,home\destinations\switzerland\lake-lucerne,22267,switzerland,22404,lake lucerne,,,False
-resortWalking,Walking,home\destinations\andorra\arinsal,64478,andorra,,,ADAR,arinsal,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach,1322,austria,1323,austrian tyrol,ATAL,alpbach,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\ellmau,1322,austria,1323,austrian tyrol,ATEL,ellmau,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\ischgl,1322,austria,1323,austrian tyrol,ATIS,ischgl,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\neustift,1322,austria,1323,austrian tyrol,ATNE,neustift,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl,1322,austria,1323,austrian tyrol,ATOG,obergurgl,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld,1322,austria,1323,austrian tyrol,ATSE,seefeld,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\soll,1322,austria,1323,austrian tyrol,ATSO,soll,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton,1322,austria,1323,austrian tyrol,ATAN,st. anton,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\st.johann,1322,austria,1323,austrian tyrol,ATJO,st. johann,False
-resortWalking,Walking,home\destinations\austria\austrian-tyrol\westendorf,1322,austria,1323,austrian tyrol,ATWE,westendorf,False
-resortWalking,Walking,home\destinations\austria\filzmoos,1322,austria,,,ATFL,filzmoos,False
-resortWalking,Walking,home\destinations\austria\lake-achensee\pertisau,1322,austria,22121,lake achensee,ATPE,pertisau,False
-resortWalking,Walking,home\destinations\austria\lech,1322,austria,,,ATLE,lech,False
-resortWalking,Walking,home\destinations\austria\saalbach-hinterglemm,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,False
-resortWalking,Walking,home\destinations\austria\salzburg,1322,austria,,,ATSL,salzburg,False
-resortWalking,Walking,home\destinations\austria\the-salzkammergut\fuschl-am-see,1322,austria,22178,the salzkammergut,ATFU,fuschl am see,False
-resortWalking,Walking,home\destinations\austria\the-salzkammergut\st.gilgen,1322,austria,22178,the salzkammergut,ATGI,st. gilgen,False
-resortWalking,Walking,home\destinations\austria\the-wildschonau-valley\oberau,1322,austria,22156,the wildschonau valley,ATOB,oberau,False
-resortWalking,Walking,home\destinations\austria\vienna,1322,austria,,,ATVI,vienna,False
-resortWalking,Walking,home\destinations\austria\zell-am-see,1322,austria,,,ATZA,zell am see,False
-resortWalking,Walking,home\destinations\france\chamonix,22554,france,,,FRCH,chamonix,False
-resortWalking,Walking,home\destinations\france\la-clusaz,22554,france,,,FRCL,la clusaz,False
-resortWalking,Walking,home\destinations\france\lake-annecy,22554,france,,,FRAN,lake annecy,False
-resortWalking,Walking,home\destinations\france\morzine,22554,france,,,FRMR,morzine,False
-resortWalking,Walking,home\destinations\france\samoens,22554,france,,,FRSA,samoens,False
-resortWalking,Walking,home\destinations\italy\city-breaks\verona,21686,italy,32314,city breaks,ITVR,verona,False
-resortWalking,Walking,home\destinations\italy\lake-como\bellagio,21686,italy,21697,lake como,ITBE,bellagio,False
-resortWalking,Walking,home\destinations\italy\lake-como\lenno,21686,italy,21697,lake como,ITLN,lenno,False
-resortWalking,Walking,home\destinations\italy\lake-como\menaggio,21686,italy,21697,lake como,ITME,menaggio,False
-resortWalking,Walking,home\destinations\italy\lake-garda\bardolino,21686,italy,21744,lake garda,ITBD,bardolino,False
-resortWalking,Walking,home\destinations\italy\lake-garda\garda,21686,italy,21744,lake garda,ITGA,garda,False
-resortWalking,Walking,home\destinations\italy\lake-garda\limone,21686,italy,21744,lake garda,ITLI,limone,False
-resortWalking,Walking,home\destinations\italy\lake-garda\malcesine,21686,italy,21744,lake garda,ITMA,malcesine,False
-resortWalking,Walking,home\destinations\italy\lake-garda\riva,21686,italy,21744,lake garda,ITRI,riva,False
-resortWalking,Walking,home\destinations\italy\lake-garda\sirmione,21686,italy,21744,lake garda,ITSI,sirmione,False
-resortWalking,Walking,home\destinations\italy\lake-iseo,21686,italy,,,ITIS,lake iseo,False
-resortWalking,Walking,home\destinations\italy\lake-ledro,21686,italy,,,ITLE,lake ledro,False
-resortWalking,Walking,home\destinations\italy\lake-maggiore\baveno,21686,italy,22060,lake maggiore,ITBA,baveno,False
-resortWalking,Walking,home\destinations\italy\lake-maggiore\stresa,21686,italy,22060,lake maggiore,ITST,stresa,False
-resortWalking,Walking,home\destinations\italy\liguria\cinque-terre,21686,italy,29168,liguria,ITLR0000,cinque terre,False
-resortWalking,Walking,home\destinations\italy\liguria\portofino,21686,italy,29168,liguria,ITLR,portofino,False
-resortWalking,Walking,home\destinations\italy\the-dolomites\canazei,21686,italy,32188,the dolomites,ITCA,canazei,False
-resortWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,False
-resortWalking,Walking,home\destinations\italy\the-dolomites\kronplatz,21686,italy,32188,the dolomites,ITKR,kronplatz,False
-resortWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,False
-resortWalking,Walking,home\destinations\italy\the-dolomites\merano,21686,italy,32188,the dolomites,ITMR,merano,False
-resortWalking,Walking,home\destinations\italy\the-dolomites\ortisei,21686,italy,32188,the dolomites,ITOT,ortisei,False
-resortWalking,Walking,home\destinations\italy\the-dolomites\san-cassiano,21686,italy,32188,the dolomites,ITCS,san cassiano,False
-resortWalking,Walking,home\destinations\italy\the-dolomites\selva,21686,italy,32188,the dolomites,ITSV,selva,False
-resortWalking,Walking,home\destinations\italy\tuscany\montecatini,21686,italy,29213,tuscany,ITMT,montecatini,False
-resortWalking,Walking,home\destinations\madeira\canico,23961,madeira,,,PTCN,canico,False
-resortWalking,Walking,home\destinations\madeira\funchal,23961,madeira,,,PTFN,funchal,False
-resortWalking,Walking,home\destinations\norway\balestrand,22949,norway,,,NOBA,balestrand,False
-resortWalking,Walking,home\destinations\norway\bergen,22949,norway,,,NOBE,bergen,False
-resortWalking,Walking,home\destinations\norway\flam-aurland,22949,norway,,,NOFL,flam & aurland,False
-resortWalking,Walking,home\destinations\norway\voss,22949,norway,,,NOVO,voss,False
-resortWalking,Walking,home\destinations\slovenia\bovec,22532,slovenia,,,SIBV,bovec,False
-resortWalking,Walking,home\destinations\slovenia\kranjska-gora,22532,slovenia,,,SIKR,kranjska gora,False
-resortWalking,Walking,home\destinations\slovenia\lake-bled,22532,slovenia,,,SIBL,lake bled,False
-resortWalking,Walking,home\destinations\slovenia\lake-bohinj,22532,slovenia,,,SIBO,lake bohinj,False
-resortWalking,Walking,home\destinations\slovenia\ljubljana,22532,slovenia,,,SILJ,ljubljana,False
-resortWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,False
-resortWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken,22267,switzerland,22270,bernese oberland,CHIN,interlaken,False
-resortWalking,Walking,home\destinations\switzerland\bernese-oberland\kandersteg,22267,switzerland,22270,bernese oberland,CHKA,kandersteg,False
-resortWalking,Walking,home\destinations\switzerland\bernese-oberland\murren,22267,switzerland,22270,bernese oberland,CHMU,murren,False
-resortWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen,22267,switzerland,22270,bernese oberland,CHWG,wengen,False
-resortWalking,Walking,home\destinations\switzerland\bernese-oberland\wilderswil,22267,switzerland,22270,bernese oberland,CHWI,wilderswil,False
-resortWalking,Walking,home\destinations\switzerland\graubunden-region\davos,22267,switzerland,22374,graubunden region,CHDV,davos,False
-resortWalking,Walking,home\destinations\switzerland\graubunden-region\klosters,22267,switzerland,22374,graubunden region,CHKL,klosters,False
-resortWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne,22267,switzerland,22404,lake lucerne,CHLC,lucerne,False
-resortWalking,Walking,home\destinations\switzerland\lake-lucerne\weggis,22267,switzerland,22404,lake lucerne,CHWE,weggis,False
-resortWalking,Walking,home\destinations\switzerland\meiringen,22267,switzerland,,,CHME,meiringen,False
-resortWalking,Walking,home\destinations\switzerland\montreux,22267,switzerland,,,CHMT,montreux,False
-resortWalking,Walking,home\destinations\switzerland\nendaz,22267,switzerland,,,CHND,nendaz,False
-resortWalking,Walking,home\destinations\switzerland\saas-fee,22267,switzerland,,,CHSA,saas fee,False
-resortWalking,Walking,home\destinations\switzerland\zermatt,22267,switzerland,,,CHZE,zermatt,False
-
-accommodationWalking,Walking,home\destinations\andorra\arinsal\apart-hotel-xalet-besoli,64478,andorra,,,ADAR,arinsal,False
-accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-montane,64478,andorra,,,ADAR,arinsal,False
-accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-princesa-parc-excellence,64478,andorra,,,ADAR,arinsal,False
-accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-princesa-parc-spa,64478,andorra,,,ADAR,arinsal,False
-accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-sant-gothard,64478,andorra,,,ADAR,arinsal,False
-accommodationWalking,Walking,home\destinations\andorra\arinsal\xalet-verdu,64478,andorra,,,ADAR,arinsal,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\haus-edelweiss,1322,austria,1323,austrian tyrol,ATAL,alpbach,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\haus-edelweiss-apartments,1322,austria,1323,austrian tyrol,ATAL,alpbach,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\hotel-alphof,1322,austria,1323,austrian tyrol,ATAL,alpbach,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\hotel-boeglerhof,1322,austria,1323,austrian tyrol,ATAL,alpbach,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\hotel-zur-post,1322,austria,1323,austrian tyrol,ATAL,alpbach,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\spa-resort-alpbacherhof,1322,austria,1323,austrian tyrol,ATAL,alpbach,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ellmau\flora-the-small-garden-hotel,1322,austria,1323,austrian tyrol,ATEL,ellmau,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ellmau\hotel-der-baer,1322,austria,1323,austrian tyrol,ATEL,ellmau,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ellmau\hotel-hochfilzer,1322,austria,1323,austrian tyrol,ATEL,ellmau,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ischgl\hotel-jaegerhof,1322,austria,1323,austrian tyrol,ATIS,ischgl,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ischgl\hotel-post,1322,austria,1323,austrian tyrol,ATIS,ischgl,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\aktivhotel-schweizerhof,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\hotel-kaiserhof,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\hotel-resch,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\hotel-tiefenbrunner,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\q-hotel-maria-theresia,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\alpenhotel-kramerwirt,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\elisabeth-hotel,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\foersterhaus-zum-kramerwirt,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\hotel-berghof,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\hotel-strass,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\neuhaus-zillertal-resort,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\pension-nordstern,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\sporthotel-strass,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\zillertalerhof-alpine-hideaway,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\neustift\alpenhotel-fernau,1322,austria,1323,austrian tyrol,ATNE,neustift,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\neustift\alpenhotel-tirolerhof,1322,austria,1323,austrian tyrol,ATNE,neustift,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\neustift\hotel-der-stubaierhof,1322,austria,1323,austrian tyrol,ATNE,neustift,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\neustift\hotel-sonnhof,1322,austria,1323,austrian tyrol,ATNE,neustift,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\gourmet-wine-hotel-austria,1322,austria,1323,austrian tyrol,ATOG,obergurgl,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-alpenland,1322,austria,1323,austrian tyrol,ATOG,obergurgl,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-alpina-deluxe-resort,1322,austria,1323,austrian tyrol,ATOG,obergurgl,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-bellevue,1322,austria,1323,austrian tyrol,ATOG,obergurgl,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-edelweiss-gurgl,1322,austria,1323,austrian tyrol,ATOG,obergurgl,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-olympia,1322,austria,1323,austrian tyrol,ATOG,obergurgl,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\alpenpark-resort,1322,austria,1323,austrian tyrol,ATSE,seefeld,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\bergresort-seefeld,1322,austria,1323,austrian tyrol,ATSE,seefeld,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\das-kaltschmid-familotel-tirol,1322,austria,1323,austrian tyrol,ATSE,seefeld,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\hotel-schoenruh,1322,austria,1323,austrian tyrol,ATSE,seefeld,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\hotel-seefelderhof,1322,austria,1323,austrian tyrol,ATSE,seefeld,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\post-hotel-seefeld-spa,1322,austria,1323,austrian tyrol,ATSE,seefeld,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\soll\hotel-eggerwirt,1322,austria,1323,austrian tyrol,ATSO,soll,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\soll\hotel-tyrol,1322,austria,1323,austrian tyrol,ATSO,soll,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\hotel-alte-post,1322,austria,1323,austrian tyrol,ATAN,st. anton,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\hotel-arlberg,1322,austria,1323,austrian tyrol,ATAN,st. anton,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\hotel-nassereinerhof,1322,austria,1323,austrian tyrol,ATAN,st. anton,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\hotel-post,1322,austria,1323,austrian tyrol,ATAN,st. anton,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\ullrhaus,1322,austria,1323,austrian tyrol,ATAN,st. anton,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.johann\cooee-alpin-hotel,1322,austria,1323,austrian tyrol,ATJO,st. johann,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.johann\sporthotel-austria,1322,austria,1323,austrian tyrol,ATJO,st. johann,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\westendorf\hotel-briem,1322,austria,1323,austrian tyrol,ATWE,westendorf,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\westendorf\hotel-jakobwirt,1322,austria,1323,austrian tyrol,ATWE,westendorf,False
-accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\westendorf\vitalhotel-schermer,1322,austria,1323,austrian tyrol,ATWE,westendorf,False
-accommodationWalking,Walking,home\destinations\austria\filzmoos\hotel-alpenkrone,1322,austria,,,ATFL,filzmoos,False
-accommodationWalking,Walking,home\destinations\austria\filzmoos\hotel-hammerhof,1322,austria,,,ATFL,filzmoos,False
-accommodationWalking,Walking,home\destinations\austria\filzmoos\hotel-hanneshof,1322,austria,,,ATFL,filzmoos,False
-accommodationWalking,Walking,home\destinations\austria\filzmoos\hotel-unterhof,1322,austria,,,ATFL,filzmoos,False
-accommodationWalking,Walking,home\destinations\austria\lake-achensee\pertisau\hotel-das-pfandler,1322,austria,22121,lake achensee,ATPE,pertisau,False
-accommodationWalking,Walking,home\destinations\austria\lech\hotel-austria,1322,austria,,,ATLE,lech,False
-accommodationWalking,Walking,home\destinations\austria\lech\hotel-der-berghof,1322,austria,,,ATLE,lech,False
-accommodationWalking,Walking,home\destinations\austria\lech\hotel-gotthard,1322,austria,,,ATLE,lech,False
-accommodationWalking,Walking,home\destinations\austria\lech\hotel-haldenhof,1322,austria,,,ATLE,lech,False
-accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\gardenhotel-theresia-hinterglemm,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,False
-accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-alpin-juwel-hinterglemm,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,False
-accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-glemmtalerhof-hinterglemm,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,False
-accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-panthera-saalbach,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,False
-accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-saalbacher-hof-saalbach,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,False
-accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-sonne-saalbach,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,False
-accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\valsaa-alpinresort-saalbach,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,False
-accommodationWalking,Walking,home\destinations\austria\salzburg\arte-hotel-salzburg,1322,austria,,,ATSL,salzburg,False
-accommodationWalking,Walking,home\destinations\austria\the-salzkammergut\fuschl-am-see\hotel-seerose,1322,austria,22178,the salzkammergut,ATFU,fuschl am see,False
-accommodationWalking,Walking,home\destinations\austria\the-salzkammergut\st.gilgen\hotel-hollweger,1322,austria,22178,the salzkammergut,ATGI,st. gilgen,False
-accommodationWalking,Walking,home\destinations\austria\the-wildschonau-valley\oberau\hotel-tirolerhof,1322,austria,22156,the wildschonau valley,ATOB,oberau,False
-accommodationWalking,Walking,home\destinations\austria\vienna\hotel-kaiserhof,1322,austria,,,ATVI,vienna,False
-accommodationWalking,Walking,home\destinations\austria\vienna\hotel-post,1322,austria,,,ATVI,vienna,False
-accommodationWalking,Walking,home\destinations\austria\zell-am-see\fish-inn-zell,1322,austria,,,ATZA,zell am see,False
-accommodationWalking,Walking,home\destinations\austria\zell-am-see\hotel-berner,1322,austria,,,ATZA,zell am see,False
-accommodationWalking,Walking,home\destinations\austria\zell-am-see\hotel-gruener-baum,1322,austria,,,ATZA,zell am see,False
-accommodationWalking,Walking,home\destinations\austria\zell-am-see\hotel-salzburgerhof,1322,austria,,,ATZA,zell am see,False
-accommodationWalking,Walking,home\destinations\austria\zell-am-see\hotel-tirolerhof,1322,austria,,,ATZA,zell am see,False
-accommodationWalking,Walking,home\destinations\austria\zell-am-see\romantik-hotel,1322,austria,,,ATZA,zell am see,False
-accommodationWalking,Walking,home\destinations\france\chamonix\chalet-hotel-le-prieure-and-spa,22554,france,,,FRCH,chamonix,False
-accommodationWalking,Walking,home\destinations\france\chamonix\cristal-de-jade-residence,22554,france,,,FRCH,chamonix,False
-accommodationWalking,Walking,home\destinations\france\chamonix\hotel-alpina,22554,france,,,FRCH,chamonix,False
-accommodationWalking,Walking,home\destinations\france\chamonix\hotel-heliopic,22554,france,,,FRCH,chamonix,False
-accommodationWalking,Walking,home\destinations\france\chamonix\hotel-le-morgane,22554,france,,,FRCH,chamonix,False
-accommodationWalking,Walking,home\destinations\france\chamonix\hotel-les-aiglons,22554,france,,,FRCH,chamonix,False
-accommodationWalking,Walking,home\destinations\france\chamonix\hotel-lykke,22554,france,,,FRCH,chamonix,False
-accommodationWalking,Walking,home\destinations\france\chamonix\hotel-pointe-isabelle,22554,france,,,FRCH,chamonix,False
-accommodationWalking,Walking,home\destinations\france\la-clusaz\hotel-alpen-roc,22554,france,,,FRCL,la clusaz,False
-accommodationWalking,Walking,home\destinations\france\la-clusaz\hotel-christiania,22554,france,,,FRCL,la clusaz,False
-accommodationWalking,Walking,home\destinations\france\la-clusaz\residence-les-cimes,22554,france,,,FRCL,la clusaz,False
-accommodationWalking,Walking,home\destinations\france\la-clusaz\residence-les-grandes-alpes,22554,france,,,FRCL,la clusaz,False
-accommodationWalking,Walking,home\destinations\france\lake-annecy\hotel-le-cottage,22554,france,,,FRAN,lake annecy,False
-accommodationWalking,Walking,home\destinations\france\lake-annecy\hotel-le-pelican,22554,france,,,FRAN,lake annecy,False
-accommodationWalking,Walking,home\destinations\france\lake-annecy\hotel-pavillon-des-fleurs,22554,france,,,FRAN,lake annecy,False
-accommodationWalking,Walking,home\destinations\france\lake-annecy\villa-caroline,22554,france,,,FRAN,lake annecy,False
-accommodationWalking,Walking,home\destinations\france\morzine\chalet-matine-apartments,22554,france,,,FRMR,morzine,False
-accommodationWalking,Walking,home\destinations\france\morzine\hotel-champs-fleuris,22554,france,,,FRMR,morzine,False
-accommodationWalking,Walking,home\destinations\france\morzine\hotel-la-clef-des-champs,22554,france,,,FRMR,morzine,False
-accommodationWalking,Walking,home\destinations\france\morzine\hotel-le-cret,22554,france,,,FRMR,morzine,False
-accommodationWalking,Walking,home\destinations\france\samoens\hotel-neige-et-roc,22554,france,,,FRSA,samoens,False
-accommodationWalking,Walking,home\destinations\france\samoens\hotel-spa-suites-dalexane,22554,france,,,FRSA,samoens,False
-accommodationWalking,Walking,home\destinations\france\samoens\residence-alexane,22554,france,,,FRSA,samoens,False
-accommodationWalking,Walking,home\destinations\france\samoens\residence-boutique-les-chalets-de-layssia,22554,france,,,FRSA,samoens,False
-accommodationWalking,Walking,home\destinations\france\samoens\residence-la-reine-des-pres,22554,france,,,FRSA,samoens,False
-accommodationWalking,Walking,home\destinations\france\samoens\residence-neige-et-roc,22554,france,,,FRSA,samoens,False
-accommodationWalking,Walking,home\destinations\italy\city-breaks\verona\hotel-italia,21686,italy,32314,city breaks,ITVR,verona,False
-accommodationWalking,Walking,home\destinations\italy\city-breaks\verona\hotel-leon-doro,21686,italy,32314,city breaks,ITVR,verona,False
-accommodationWalking,Walking,home\destinations\italy\lake-como\bellagio\hotel-excelsior-splendide,21686,italy,21697,lake como,ITBE,bellagio,False
-accommodationWalking,Walking,home\destinations\italy\lake-como\lenno\hotel-lenno,21686,italy,21697,lake como,ITLN,lenno,False
-accommodationWalking,Walking,home\destinations\italy\lake-como\menaggio\grand-hotel-menaggio,21686,italy,21697,lake como,ITME,menaggio,False
-accommodationWalking,Walking,home\destinations\italy\lake-como\menaggio\hotel-bellavista,21686,italy,21697,lake como,ITME,menaggio,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\bardolino\aqualux-hotel-spa-suite-terme,21686,italy,21744,lake garda,ITBD,bardolino,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\bardolino\hotel-bologna,21686,italy,21744,lake garda,ITBD,bardolino,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\bardolino\palace-hotel-san-pietro,21686,italy,21744,lake garda,ITBD,bardolino,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\bardolino\parc-hotel-gritti,21686,italy,21744,lake garda,ITBD,bardolino,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\garda\hotel-bisesti,21686,italy,21744,lake garda,ITGA,garda,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\garda\hotel-garden,21686,italy,21744,lake garda,ITGA,garda,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\garda\hotel-palme,21686,italy,21744,lake garda,ITGA,garda,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\garda\hotel-villa-madrina,21686,italy,21744,lake garda,ITGA,garda,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-alexander,21686,italy,21744,lake garda,ITLI,limone,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-allazzurro,21686,italy,21744,lake garda,ITLI,limone,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-cristina,21686,italy,21744,lake garda,ITLI,limone,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-royal-village,21686,italy,21744,lake garda,ITLI,limone,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-san-pietro,21686,italy,21744,lake garda,ITLI,limone,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\villa-la-gardenia-oleandra,21686,italy,21744,lake garda,ITLI,limone,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-antonella,21686,italy,21744,lake garda,ITMA,malcesine,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-bellevue-san-lorenzo,21686,italy,21744,lake garda,ITMA,malcesine,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-cristallo,21686,italy,21744,lake garda,ITMA,malcesine,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-excelsior-bay,21686,italy,21744,lake garda,ITMA,malcesine,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-malcesine,21686,italy,21744,lake garda,ITMA,malcesine,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-maximilian,21686,italy,21744,lake garda,ITMA,malcesine,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-antico-borgo,21686,italy,21744,lake garda,ITRI,riva,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-du-lac-et-du-parc,21686,italy,21744,lake garda,ITRI,riva,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-europa-skypool-panorama,21686,italy,21744,lake garda,ITRI,riva,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-gabry,21686,italy,21744,lake garda,ITRI,riva,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-sole-relax-panorama,21686,italy,21744,lake garda,ITRI,riva,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\sirmione\hotel-catullo,21686,italy,21744,lake garda,ITSI,sirmione,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\sirmione\hotel-continental-wellness-spa,21686,italy,21744,lake garda,ITSI,sirmione,False
-accommodationWalking,Walking,home\destinations\italy\lake-garda\sirmione\hotel-miramar,21686,italy,21744,lake garda,ITSI,sirmione,False
-accommodationWalking,Walking,home\destinations\italy\lake-iseo\hotel-ambra,21686,italy,,,ITIS,lake iseo,False
-accommodationWalking,Walking,home\destinations\italy\lake-iseo\hotel-araba-fenice,21686,italy,,,ITIS,lake iseo,False
-accommodationWalking,Walking,home\destinations\italy\lake-iseo\hotel-iseolago,21686,italy,,,ITIS,lake iseo,False
-accommodationWalking,Walking,home\destinations\italy\lake-iseo\hotel-rosa,21686,italy,,,ITIS,lake iseo,False
-accommodationWalking,Walking,home\destinations\italy\lake-ledro\hotel-garden,21686,italy,,,ITLE,lake ledro,False
-accommodationWalking,Walking,home\destinations\italy\lake-ledro\hotel-mezzolago,21686,italy,,,ITLE,lake ledro,False
-accommodationWalking,Walking,home\destinations\italy\lake-maggiore\baveno\hotel-beau-rivage,21686,italy,22060,lake maggiore,ITBA,baveno,False
-accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-astoria,21686,italy,22060,lake maggiore,ITST,stresa,False
-accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-la-palma,21686,italy,22060,lake maggiore,ITST,stresa,False
-accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-milan-au-lac,21686,italy,22060,lake maggiore,ITST,stresa,False
-accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-regina-palace,21686,italy,22060,lake maggiore,ITST,stresa,False
-accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-royal,21686,italy,22060,lake maggiore,ITST,stresa,False
-accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\sempione-boutique-hotel,21686,italy,22060,lake maggiore,ITST,stresa,False
-accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\villa-e-palazzo-aminta,21686,italy,22060,lake maggiore,ITST,stresa,False
-accommodationWalking,Walking,home\destinations\italy\liguria\cinque-terre\cristallo-park-hotel,21686,italy,29168,liguria,ITLR0000,cinque terre,False
-accommodationWalking,Walking,home\destinations\italy\liguria\cinque-terre\hotel-byron,21686,italy,29168,liguria,ITLR0000,cinque terre,False
-accommodationWalking,Walking,home\destinations\italy\liguria\cinque-terre\hotel-cinque-terre,21686,italy,29168,liguria,ITLR0000,cinque terre,False
-accommodationWalking,Walking,home\destinations\italy\liguria\cinque-terre\hotel-palme,21686,italy,29168,liguria,ITLR0000,cinque terre,False
-accommodationWalking,Walking,home\destinations\italy\liguria\portofino\grand-hotel-bristol-spa-resort,21686,italy,29168,liguria,ITLR,portofino,False
-accommodationWalking,Walking,home\destinations\italy\liguria\portofino\hotel-excelsior-palace,21686,italy,29168,liguria,ITLR,portofino,False
-accommodationWalking,Walking,home\destinations\italy\liguria\portofino\hotel-jolanda,21686,italy,29168,liguria,ITLR,portofino,False
-accommodationWalking,Walking,home\destinations\italy\liguria\portofino\hotel-miramare-spa,21686,italy,29168,liguria,ITLR,portofino,False
-accommodationWalking,Walking,home\destinations\italy\liguria\portofino\hotel-regina-elena,21686,italy,29168,liguria,ITLR,portofino,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-albolina,21686,italy,32188,the dolomites,ITCA,canazei,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-cesa-tyrol,21686,italy,32188,the dolomites,ITCA,canazei,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-cristallo,21686,italy,32188,the dolomites,ITCA,canazei,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-dolomiti,21686,italy,32188,the dolomites,ITCA,canazei,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-la-perla,21686,italy,32188,the dolomites,ITCA,canazei,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-medil,21686,italy,32188,the dolomites,ITCA,canazei,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\hotel-col-alto,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\hotel-la-plaza,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\hotel-la-villa,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\hotel-mezdi,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\pension-angelo,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\sporthotel-panorama,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\kronplatz\hotel-mareo,21686,italy,32188,the dolomites,ITKR,kronplatz,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\kronplatz\hotel-monte-paraccia,21686,italy,32188,the dolomites,ITKR,kronplatz,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\kronplatz\hotel-monte-sella,21686,italy,32188,the dolomites,ITKR,kronplatz,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\kronplatz\hotel-teresa,21686,italy,32188,the dolomites,ITKR,kronplatz,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio\hotel-betulla,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio\hotel-cristal-palace,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio\hotel-ideal,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio\hotel-spinale,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\merano\hotel-adria,21686,italy,32188,the dolomites,ITMR,merano,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\merano\hotel-meranerhof,21686,italy,32188,the dolomites,ITMR,merano,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\merano\hotel-salgart,21686,italy,32188,the dolomites,ITMR,merano,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\merano\park-hotel-mignon,21686,italy,32188,the dolomites,ITMR,merano,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\ortisei\adler-spa-resort-dolomiti,21686,italy,32188,the dolomites,ITOT,ortisei,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\san-cassiano\hotel-diamant,21686,italy,32188,the dolomites,ITCS,san cassiano,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\san-cassiano\hotel-la-stua,21686,italy,32188,the dolomites,ITCS,san cassiano,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\boutique-hotel-pralong,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-aaritz,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-antares,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-mignon,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-miravalle,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-pozzamanigoni,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-rodella,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-somont,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-stella,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\mountain-home-garni-villa-anna,21686,italy,32188,the dolomites,ITSV,selva,False
-accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\grand-hotel-croce-di-malta,21686,italy,29213,tuscany,ITMT,montecatini,False
-accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\grand-hotel-francia-quirinale,21686,italy,29213,tuscany,ITMT,montecatini,False
-accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\grand-hotel-plaza,21686,italy,29213,tuscany,ITMT,montecatini,False
-accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\grand-hotel-vittoria,21686,italy,29213,tuscany,ITMT,montecatini,False
-accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\hotel-ambasciatori-palace,21686,italy,29213,tuscany,ITMT,montecatini,False
-accommodationWalking,Walking,home\destinations\madeira\canico\hotel-sentido-galomar,23961,madeira,,,PTCN,canico,False
-accommodationWalking,Walking,home\destinations\madeira\canico\hotel-sentido-galosol,23961,madeira,,,PTCN,canico,False
-accommodationWalking,Walking,home\destinations\madeira\canico\quinta-splendida,23961,madeira,,,PTCN,canico,False
-accommodationWalking,Walking,home\destinations\madeira\canico\vila-gale-santa-cruz,23961,madeira,,,PTCN,canico,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\casa-velha-do-palheiro,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\enotel-magnolia,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\golden-residence-hotel,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\hotel-porto-mare,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\melia-madeira-mare-resort-spa,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\pestana-grand-premium-ocean-resort,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\pestana-miramar,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\suite-hotel-eden-mar,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\the-cliff-bay,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\the-views-baia,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\the-views-monumental,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\madeira\funchal\vila-baleira,23961,madeira,,,PTFN,funchal,False
-accommodationWalking,Walking,home\destinations\norway\balestrand\kviknes-hotel,22949,norway,,,NOBA,balestrand,False
-accommodationWalking,Walking,home\destinations\norway\bergen\clarion-collection-hotel-havnekontoret,22949,norway,,,NOBE,bergen,False
-accommodationWalking,Walking,home\destinations\norway\bergen\comfort-hotel-bergen,22949,norway,,,NOBE,bergen,False
-accommodationWalking,Walking,home\destinations\norway\bergen\hotel-oleana,22949,norway,,,NOBE,bergen,False
-accommodationWalking,Walking,home\destinations\norway\bergen\magic-hotel-kloverhuset,22949,norway,,,NOBE,bergen,False
-accommodationWalking,Walking,home\destinations\norway\bergen\magic-hotel-solheimsviken,22949,norway,,,NOBE,bergen,False
-accommodationWalking,Walking,home\destinations\norway\bergen\thon-hotel-bristol-bergen,22949,norway,,,NOBE,bergen,False
-accommodationWalking,Walking,home\destinations\norway\bergen\thon-hotel-orion,22949,norway,,,NOBE,bergen,False
-accommodationWalking,Walking,home\destinations\norway\bergen\thon-hotel-rosenkrantz-bergen,22949,norway,,,NOBE,bergen,False
-accommodationWalking,Walking,home\destinations\norway\flam-aurland\fretheim-hotel,22949,norway,,,NOFL,flam & aurland,False
-accommodationWalking,Walking,home\destinations\norway\flam-aurland\heimly-guesthouse,22949,norway,,,NOFL,flam & aurland,False
-accommodationWalking,Walking,home\destinations\norway\flam-aurland\hotel-aurlandsfjord,22949,norway,,,NOFL,flam & aurland,False
-accommodationWalking,Walking,home\destinations\norway\voss\fleischers-hotel,22949,norway,,,NOVO,voss,False
-accommodationWalking,Walking,home\destinations\slovenia\bovec\hotel-alp,22532,slovenia,,,SIBV,bovec,False
-accommodationWalking,Walking,home\destinations\slovenia\bovec\hotel-mangart,22532,slovenia,,,SIBV,bovec,False
-accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\hotel-kompas,22532,slovenia,,,SIKR,kranjska gora,False
-accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\hotel-miklic,22532,slovenia,,,SIKR,kranjska gora,False
-accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\hotel-ramada-resort,22532,slovenia,,,SIKR,kranjska gora,False
-accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\hotel-spik,22532,slovenia,,,SIKR,kranjska gora,False
-accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\ramada-hotel-suites,22532,slovenia,,,SIKR,kranjska gora,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bled\garni-hotel-berc,22532,slovenia,,,SIBL,lake bled,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bled\garni-hotel-savica,22532,slovenia,,,SIBL,lake bled,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bled\grand-hotel-toplice,22532,slovenia,,,SIBL,lake bled,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bled\hotel-astoria,22532,slovenia,,,SIBL,lake bled,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bled\hotel-park,22532,slovenia,,,SIBL,lake bled,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bled\hotel-ribno,22532,slovenia,,,SIBL,lake bled,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bled\hotel-rikli-balance,22532,slovenia,,,SIBL,lake bled,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bohinj\bohinj-eco-hotel,22532,slovenia,,,SIBO,lake bohinj,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bohinj\hotel-bohinj,22532,slovenia,,,SIBO,lake bohinj,False
-accommodationWalking,Walking,home\destinations\slovenia\lake-bohinj\hotel-jezero,22532,slovenia,,,SIBO,lake bohinj,False
-accommodationWalking,Walking,home\destinations\slovenia\ljubljana\hotel-cubo,22532,slovenia,,,SILJ,ljubljana,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\derby-swiss-quality-hotel,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\eiger-mountain-soul-resort,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\hotel-belvedere,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\hotel-sunstar-grindelwald,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\jungfrau-lodge-bed-breakfast,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\romantik-hotel-schweizerhof,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\grand-hotel-beau-rivage,22267,switzerland,22270,bernese oberland,CHIN,interlaken,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\hotel-metropole,22267,switzerland,22270,bernese oberland,CHIN,interlaken,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\hotel-seiler-au-lac,22267,switzerland,22270,bernese oberland,CHIN,interlaken,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\hotel-stella,22267,switzerland,22270,bernese oberland,CHIN,interlaken,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\seehotel-boenigen,22267,switzerland,22270,bernese oberland,CHIN,interlaken,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\kandersteg\hotel-bernerhof,22267,switzerland,22270,bernese oberland,CHKA,kandersteg,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\kandersteg\seilers-vintage-hotel-alfa-soleil,22267,switzerland,22270,bernese oberland,CHKA,kandersteg,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\kandersteg\waldhotel-doldenhorn,22267,switzerland,22270,bernese oberland,CHKA,kandersteg,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\murren\hotel-eiger,22267,switzerland,22270,bernese oberland,CHMU,murren,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\beausite-park-hotel-and-spa,22267,switzerland,22270,bernese oberland,CHWG,wengen,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\braunbaer-hotel,22267,switzerland,22270,bernese oberland,CHWG,wengen,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\grand-hotel-belvedere,22267,switzerland,22270,bernese oberland,CHWG,wengen,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\hotel-alpenrose,22267,switzerland,22270,bernese oberland,CHWG,wengen,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\hotel-falken,22267,switzerland,22270,bernese oberland,CHWG,wengen,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\hotel-silberhorn,22267,switzerland,22270,bernese oberland,CHWG,wengen,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\victoria-lauberhorn,22267,switzerland,22270,bernese oberland,CHWG,wengen,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wilderswil\hotel-alpenblick,22267,switzerland,22270,bernese oberland,CHWI,wilderswil,False
-accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wilderswil\hotel-baeren,22267,switzerland,22270,bernese oberland,CHWI,wilderswil,False
-accommodationWalking,Walking,home\destinations\switzerland\graubunden-region\davos\hotel-hilton-garden-inn,22267,switzerland,22374,graubunden region,CHDV,davos,False
-accommodationWalking,Walking,home\destinations\switzerland\graubunden-region\davos\hotel-seehof,22267,switzerland,22374,graubunden region,CHDV,davos,False
-accommodationWalking,Walking,home\destinations\switzerland\graubunden-region\klosters\hotel-silvretta-park,22267,switzerland,22374,graubunden region,CHKL,klosters,False
-accommodationWalking,Walking,home\destinations\switzerland\graubunden-region\klosters\hotel-sport,22267,switzerland,22374,graubunden region,CHKL,klosters,False
-accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne\hotel-waldstaetterhof,22267,switzerland,22404,lake lucerne,CHLC,lucerne,False
-accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne\hotel-wilden-mann,22267,switzerland,22404,lake lucerne,CHLC,lucerne,False
-accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne\montana-art-deco-hotel,22267,switzerland,22404,lake lucerne,CHLC,lucerne,False
-accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\weggis\hotel-alexander,22267,switzerland,22404,lake lucerne,CHWE,weggis,False
-accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\weggis\hotel-gerbi,22267,switzerland,22404,lake lucerne,CHWE,weggis,False
-accommodationWalking,Walking,home\destinations\switzerland\montreux\hotel-masson,22267,switzerland,,,CHMT,montreux,False
-accommodationWalking,Walking,home\destinations\switzerland\montreux\hotel-rené-capt,22267,switzerland,,,CHMT,montreux,False
-accommodationWalking,Walking,home\destinations\switzerland\nendaz\hotel-nendaz-4-vallees,22267,switzerland,,,CHND,nendaz,False
-accommodationWalking,Walking,home\destinations\switzerland\nendaz\mad-mount-hotel,22267,switzerland,,,CHND,nendaz,False
-accommodationWalking,Walking,home\destinations\switzerland\saas-fee\allalin-apartments-self-catering,22267,switzerland,,,CHSA,saas fee,False
-accommodationWalking,Walking,home\destinations\switzerland\saas-fee\hotel-allalin,22267,switzerland,,,CHSA,saas fee,False
-accommodationWalking,Walking,home\destinations\switzerland\saas-fee\park-hotel,22267,switzerland,,,CHSA,saas fee,False
-accommodationWalking,Walking,home\destinations\switzerland\saas-fee\revier-mountain-lodge,22267,switzerland,,,CHSA,saas fee,False
-accommodationWalking,Walking,home\destinations\switzerland\saas-fee\walliserhof-grand-hotel-spa,22267,switzerland,,,CHSA,saas fee,False
-accommodationWalking,Walking,home\destinations\switzerland\zermatt\aparthotel-naco,22267,switzerland,,,CHZE,zermatt,False
-accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-alex,22267,switzerland,,,CHZE,zermatt,False
-accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-butterfly,22267,switzerland,,,CHZE,zermatt,False
-accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-national,22267,switzerland,,,CHZE,zermatt,False
-accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-schoenegg,22267,switzerland,,,CHZE,zermatt,False
-accommodationWalking,Walking,home\destinations\switzerland\zermatt\le-mirabeau-hotel-spa,22267,switzerland,,,CHZE,zermatt,False
+countryWalking,Walking,home\destinations\andorra,64478,andorra,,,,,FALSE
+countryWalking,Walking,home\destinations\austria,1322,austria,,,,,FALSE
+countryWalking,Walking,home\destinations\france,22554,france,,,,,FALSE
+countryWalking,Walking,home\destinations\italy,21686,italy,,,,,FALSE
+countryWalking,Walking,home\destinations\madeira,23961,madeira,,,,,FALSE
+countryWalking,Walking,home\destinations\norway,22949,norway,,,,,FALSE
+countryWalking,Walking,home\destinations\slovenia,22532,slovenia,,,,,FALSE
+countryWalking,Walking,home\destinations\switzerland,22267,switzerland,,,,,FALSE
+regionWalking,Walking,home\destinations\austria\austrian-tyrol,1322,austria,1323,austrian tyrol,,,FALSE
+regionWalking,Walking,home\destinations\austria\lake-achensee,1322,austria,22121,lake achensee,,,FALSE
+regionWalking,Walking,home\destinations\austria\the-salzkammergut,1322,austria,22178,the salzkammergut,,,FALSE
+regionWalking,Walking,home\destinations\austria\the-wildschonau-valley,1322,austria,22156,the wildschonau valley,,,FALSE
+regionWalking,Walking,home\destinations\italy\city-breaks,21686,italy,32314,city breaks,,,FALSE
+regionWalking,Walking,home\destinations\italy\lake-como,21686,italy,21697,lake como,,,FALSE
+regionWalking,Walking,home\destinations\italy\lake-garda,21686,italy,21744,lake garda,,,FALSE
+regionWalking,Walking,home\destinations\italy\lake-maggiore,21686,italy,22060,lake maggiore,,,FALSE
+regionWalking,Walking,home\destinations\italy\liguria,21686,italy,29168,liguria,,,FALSE
+regionWalking,Walking,home\destinations\italy\the-dolomites,21686,italy,32188,the dolomites,,,FALSE
+regionWalking,Walking,home\destinations\italy\tuscany,21686,italy,29213,tuscany,,,FALSE
+regionWalking,Walking,home\destinations\switzerland\bernese-oberland,22267,switzerland,22270,bernese oberland,,,FALSE
+regionWalking,Walking,home\destinations\switzerland\graubunden-region,22267,switzerland,22374,graubunden region,,,FALSE
+regionWalking,Walking,home\destinations\switzerland\lake-lucerne,22267,switzerland,22404,lake lucerne,,,FALSE
+resortWalking,Walking,home\destinations\andorra\arinsal,64478,andorra,,,ADAR,arinsal,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach,1322,austria,1323,austrian tyrol,ATAL,alpbach,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\ellmau,1322,austria,1323,austrian tyrol,ATEL,ellmau,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\ischgl,1322,austria,1323,austrian tyrol,ATIS,ischgl,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\neustift,1322,austria,1323,austrian tyrol,ATNE,neustift,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl,1322,austria,1323,austrian tyrol,ATOG,obergurgl,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld,1322,austria,1323,austrian tyrol,ATSE,seefeld,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\soll,1322,austria,1323,austrian tyrol,ATSO,soll,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton,1322,austria,1323,austrian tyrol,ATAN,st. anton,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\st.johann,1322,austria,1323,austrian tyrol,ATJO,st. johann,FALSE
+resortWalking,Walking,home\destinations\austria\austrian-tyrol\westendorf,1322,austria,1323,austrian tyrol,ATWE,westendorf,FALSE
+resortWalking,Walking,home\destinations\austria\filzmoos,1322,austria,,,ATFL,filzmoos,FALSE
+resortWalking,Walking,home\destinations\austria\lake-achensee\pertisau,1322,austria,22121,lake achensee,ATPE,pertisau,FALSE
+resortWalking,Walking,home\destinations\austria\lech,1322,austria,,,ATLE,lech,FALSE
+resortWalking,Walking,home\destinations\austria\saalbach-hinterglemm,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,FALSE
+resortWalking,Walking,home\destinations\austria\salzburg,1322,austria,,,ATSL,salzburg,FALSE
+resortWalking,Walking,home\destinations\austria\the-salzkammergut\fuschl-am-see,1322,austria,22178,the salzkammergut,ATFU,fuschl am see,FALSE
+resortWalking,Walking,home\destinations\austria\the-salzkammergut\st.gilgen,1322,austria,22178,the salzkammergut,ATGI,st. gilgen,FALSE
+resortWalking,Walking,home\destinations\austria\the-wildschonau-valley\oberau,1322,austria,22156,the wildschonau valley,ATOB,oberau,FALSE
+resortWalking,Walking,home\destinations\austria\vienna,1322,austria,,,ATVI,vienna,FALSE
+resortWalking,Walking,home\destinations\austria\zell-am-see,1322,austria,,,ATZA,zell am see,FALSE
+resortWalking,Walking,home\destinations\france\chamonix,22554,france,,,FRCH,chamonix,FALSE
+resortWalking,Walking,home\destinations\france\la-clusaz,22554,france,,,FRCL,la clusaz,FALSE
+resortWalking,Walking,home\destinations\france\lake-annecy,22554,france,,,FRAN,lake annecy,FALSE
+resortWalking,Walking,home\destinations\france\morzine,22554,france,,,FRMR,morzine,FALSE
+resortWalking,Walking,home\destinations\france\samoens,22554,france,,,FRSA,samoens,FALSE
+resortWalking,Walking,home\destinations\italy\city-breaks\verona,21686,italy,32314,city breaks,ITVR,verona,FALSE
+resortWalking,Walking,home\destinations\italy\lake-como\bellagio,21686,italy,21697,lake como,ITBE,bellagio,FALSE
+resortWalking,Walking,home\destinations\italy\lake-como\lenno,21686,italy,21697,lake como,ITLN,lenno,FALSE
+resortWalking,Walking,home\destinations\italy\lake-como\menaggio,21686,italy,21697,lake como,ITME,menaggio,FALSE
+resortWalking,Walking,home\destinations\italy\lake-garda\bardolino,21686,italy,21744,lake garda,ITBD,bardolino,FALSE
+resortWalking,Walking,home\destinations\italy\lake-garda\garda,21686,italy,21744,lake garda,ITGA,garda,FALSE
+resortWalking,Walking,home\destinations\italy\lake-garda\limone,21686,italy,21744,lake garda,ITLI,limone,FALSE
+resortWalking,Walking,home\destinations\italy\lake-garda\malcesine,21686,italy,21744,lake garda,ITMA,malcesine,FALSE
+resortWalking,Walking,home\destinations\italy\lake-garda\riva,21686,italy,21744,lake garda,ITRI,riva,FALSE
+resortWalking,Walking,home\destinations\italy\lake-garda\sirmione,21686,italy,21744,lake garda,ITSI,sirmione,FALSE
+resortWalking,Walking,home\destinations\italy\lake-ledro,21686,italy,,,ITLE,lake ledro,FALSE
+resortWalking,Walking,home\destinations\italy\lake-maggiore\baveno,21686,italy,22060,lake maggiore,ITBA,baveno,FALSE
+resortWalking,Walking,home\destinations\italy\lake-maggiore\stresa,21686,italy,22060,lake maggiore,ITST,stresa,FALSE
+resortWalking,Walking,home\destinations\italy\liguria\cinque-terre,21686,italy,29168,liguria,ITLR0000,cinque terre,FALSE
+resortWalking,Walking,home\destinations\italy\liguria\portofino,21686,italy,29168,liguria,ITLR,portofino,FALSE
+resortWalking,Walking,home\destinations\italy\the-dolomites\canazei,21686,italy,32188,the dolomites,ITCA,canazei,FALSE
+resortWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,FALSE
+resortWalking,Walking,home\destinations\italy\the-dolomites\kronplatz,21686,italy,32188,the dolomites,ITKR,kronplatz,FALSE
+resortWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,FALSE
+resortWalking,Walking,home\destinations\italy\the-dolomites\merano,21686,italy,32188,the dolomites,ITMR,merano,FALSE
+resortWalking,Walking,home\destinations\italy\the-dolomites\ortisei,21686,italy,32188,the dolomites,ITOT,ortisei,FALSE
+resortWalking,Walking,home\destinations\italy\the-dolomites\san-cassiano,21686,italy,32188,the dolomites,ITCS,san cassiano,FALSE
+resortWalking,Walking,home\destinations\italy\the-dolomites\selva,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+resortWalking,Walking,home\destinations\italy\tuscany\montecatini,21686,italy,29213,tuscany,ITMT,montecatini,FALSE
+resortWalking,Walking,home\destinations\madeira\canico,23961,madeira,,,PTCN,canico,FALSE
+resortWalking,Walking,home\destinations\madeira\funchal,23961,madeira,,,PTFN,funchal,FALSE
+resortWalking,Walking,home\destinations\norway\balestrand,22949,norway,,,NOBA,balestrand,FALSE
+resortWalking,Walking,home\destinations\norway\bergen,22949,norway,,,NOBE,bergen,FALSE
+resortWalking,Walking,home\destinations\norway\flam-aurland,22949,norway,,,NOFL,flam & aurland,FALSE
+resortWalking,Walking,home\destinations\norway\voss,22949,norway,,,NOVO,voss,FALSE
+resortWalking,Walking,home\destinations\slovenia\bovec,22532,slovenia,,,SIBV,bovec,FALSE
+resortWalking,Walking,home\destinations\slovenia\kranjska-gora,22532,slovenia,,,SIKR,kranjska gora,FALSE
+resortWalking,Walking,home\destinations\slovenia\lake-bled,22532,slovenia,,,SIBL,lake bled,FALSE
+resortWalking,Walking,home\destinations\slovenia\lake-bohinj,22532,slovenia,,,SIBO,lake bohinj,FALSE
+resortWalking,Walking,home\destinations\slovenia\ljubljana,22532,slovenia,,,SILJ,ljubljana,FALSE
+resortWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,FALSE
+resortWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken,22267,switzerland,22270,bernese oberland,CHIN,interlaken,FALSE
+resortWalking,Walking,home\destinations\switzerland\bernese-oberland\kandersteg,22267,switzerland,22270,bernese oberland,CHKA,kandersteg,FALSE
+resortWalking,Walking,home\destinations\switzerland\bernese-oberland\murren,22267,switzerland,22270,bernese oberland,CHMU,murren,FALSE
+resortWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen,22267,switzerland,22270,bernese oberland,CHWG,wengen,FALSE
+resortWalking,Walking,home\destinations\switzerland\bernese-oberland\wilderswil,22267,switzerland,22270,bernese oberland,CHWI,wilderswil,FALSE
+resortWalking,Walking,home\destinations\switzerland\graubunden-region\davos,22267,switzerland,22374,graubunden region,CHDV,davos,FALSE
+resortWalking,Walking,home\destinations\switzerland\graubunden-region\klosters,22267,switzerland,22374,graubunden region,CHKL,klosters,FALSE
+resortWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne,22267,switzerland,22404,lake lucerne,CHLC,lucerne,FALSE
+resortWalking,Walking,home\destinations\switzerland\lake-lucerne\weggis,22267,switzerland,22404,lake lucerne,CHWE,weggis,FALSE
+resortWalking,Walking,home\destinations\switzerland\meiringen,22267,switzerland,,,CHME,meiringen,FALSE
+resortWalking,Walking,home\destinations\switzerland\montreux,22267,switzerland,,,CHMT,montreux,FALSE
+resortWalking,Walking,home\destinations\switzerland\nendaz,22267,switzerland,,,CHND,nendaz,FALSE
+resortWalking,Walking,home\destinations\switzerland\saas-fee,22267,switzerland,,,CHSA,saas fee,FALSE
+resortWalking,Walking,home\destinations\switzerland\zermatt,22267,switzerland,,,CHZE,zermatt,FALSE
+accommodationWalking,Walking,home\destinations\andorra\arinsal\apart-hotel-xalet-besoli,64478,andorra,,,ADAR,arinsal,FALSE
+accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-montane,64478,andorra,,,ADAR,arinsal,FALSE
+accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-princesa-parc-excellence,64478,andorra,,,ADAR,arinsal,FALSE
+accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-princesa-parc-spa,64478,andorra,,,ADAR,arinsal,FALSE
+accommodationWalking,Walking,home\destinations\andorra\arinsal\hotel-sant-gothard,64478,andorra,,,ADAR,arinsal,FALSE
+accommodationWalking,Walking,home\destinations\andorra\arinsal\xalet-verdu,64478,andorra,,,ADAR,arinsal,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\haus-edelweiss,1322,austria,1323,austrian tyrol,ATAL,alpbach,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\haus-edelweiss-apartments,1322,austria,1323,austrian tyrol,ATAL,alpbach,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\hotel-alphof,1322,austria,1323,austrian tyrol,ATAL,alpbach,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\hotel-böglerhof,1322,austria,1323,austrian tyrol,ATAL,alpbach,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\hotel-zur-post,1322,austria,1323,austrian tyrol,ATAL,alpbach,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\alpbach\spa-resort-alpbacherhof,1322,austria,1323,austrian tyrol,ATAL,alpbach,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ellmau\flora-the-small-garden-hotel,1322,austria,1323,austrian tyrol,ATEL,ellmau,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ellmau\hotel-der-bar,1322,austria,1323,austrian tyrol,ATEL,ellmau,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ellmau\hotel-hochfilzer,1322,austria,1323,austrian tyrol,ATEL,ellmau,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ischgl\hotel-jagerhof,1322,austria,1323,austrian tyrol,ATIS,ischgl,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\ischgl\hotel-post,1322,austria,1323,austrian tyrol,ATIS,ischgl,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\aktivhotel-schweizerhof,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\hotel-kaiserhof,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\hotel-resch,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\hotel-tiefenbrunner,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\kitzbuhel\q-hotel-maria-theresia,1322,austria,1323,austrian tyrol,ATKZ,kitzbuhel,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\alpenhotel-kramerwirt,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\elisabeth-hotel,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\foersterhaus-zum-kramerwirt,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\hotel-berghof,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\hotel-strass,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\neuhaus-zillertal-resort,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\pension-nordstern,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\sporthotel-strass,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\mayrhofen\zillertalerhof-alpine-hideaway,1322,austria,1323,austrian tyrol,ATMA,mayrhofen,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\neustift\alpenhotel-fernau,1322,austria,1323,austrian tyrol,ATNE,neustift,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\neustift\alpenhotel-tirolerhof,1322,austria,1323,austrian tyrol,ATNE,neustift,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\neustift\hotel-der-stubaierhof,1322,austria,1323,austrian tyrol,ATNE,neustift,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\neustift\hotel-sonnhof,1322,austria,1323,austrian tyrol,ATNE,neustift,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\gourmet-wine-hotel-austria,1322,austria,1323,austrian tyrol,ATOG,obergurgl,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-alpenland,1322,austria,1323,austrian tyrol,ATOG,obergurgl,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-alpina-deluxe-resort,1322,austria,1323,austrian tyrol,ATOG,obergurgl,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-bellevue,1322,austria,1323,austrian tyrol,ATOG,obergurgl,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-edelweiss-gurgl,1322,austria,1323,austrian tyrol,ATOG,obergurgl,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\obergurgl\hotel-olympia,1322,austria,1323,austrian tyrol,ATOG,obergurgl,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\alpenpark-resort,1322,austria,1323,austrian tyrol,ATSE,seefeld,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\bergresort-seefeld,1322,austria,1323,austrian tyrol,ATSE,seefeld,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\das-kaltschmid-familotel-tirol,1322,austria,1323,austrian tyrol,ATSE,seefeld,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\hotel-schonruh,1322,austria,1323,austrian tyrol,ATSE,seefeld,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\hotel-seefelderhof,1322,austria,1323,austrian tyrol,ATSE,seefeld,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\seefeld\post-hotel-seefeld-spa,1322,austria,1323,austrian tyrol,ATSE,seefeld,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\soll\hotel-eggerwirt,1322,austria,1323,austrian tyrol,ATSO,soll,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\soll\hotel-tyrol,1322,austria,1323,austrian tyrol,ATSO,soll,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\hotel-alte-post,1322,austria,1323,austrian tyrol,ATAN,st. anton,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\hotel-arlberg,1322,austria,1323,austrian tyrol,ATAN,st. anton,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\hotel-nassereinerhof,1322,austria,1323,austrian tyrol,ATAN,st. anton,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\hotel-post,1322,austria,1323,austrian tyrol,ATAN,st. anton,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.anton\ullrhaus,1322,austria,1323,austrian tyrol,ATAN,st. anton,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.johann\cooee-alpin-hotel,1322,austria,1323,austrian tyrol,ATJO,st. johann,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\st.johann\sporthotel-austria,1322,austria,1323,austrian tyrol,ATJO,st. johann,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\westendorf\hotel-briem,1322,austria,1323,austrian tyrol,ATWE,westendorf,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\westendorf\hotel-jakobwirt,1322,austria,1323,austrian tyrol,ATWE,westendorf,FALSE
+accommodationWalking,Walking,home\destinations\austria\austrian-tyrol\westendorf\vitalhotel-schermer,1322,austria,1323,austrian tyrol,ATWE,westendorf,FALSE
+accommodationWalking,Walking,home\destinations\austria\filzmoos\hotel-alpenkrone,1322,austria,,,ATFL,filzmoos,FALSE
+accommodationWalking,Walking,home\destinations\austria\filzmoos\hotel-hammerhof,1322,austria,,,ATFL,filzmoos,FALSE
+accommodationWalking,Walking,home\destinations\austria\filzmoos\hotel-hanneshof,1322,austria,,,ATFL,filzmoos,FALSE
+accommodationWalking,Walking,home\destinations\austria\filzmoos\hotel-unterhof,1322,austria,,,ATFL,filzmoos,FALSE
+accommodationWalking,Walking,home\destinations\austria\lake-achensee\pertisau\hotel-das-pfandler,1322,austria,22121,lake achensee,ATPE,pertisau,FALSE
+accommodationWalking,Walking,home\destinations\austria\lech\hotel-austria,1322,austria,,,ATLE,lech,FALSE
+accommodationWalking,Walking,home\destinations\austria\lech\hotel-der-berghof,1322,austria,,,ATLE,lech,FALSE
+accommodationWalking,Walking,home\destinations\austria\lech\hotel-gotthard,1322,austria,,,ATLE,lech,FALSE
+accommodationWalking,Walking,home\destinations\austria\lech\hotel-haldenhof,1322,austria,,,ATLE,lech,FALSE
+accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\gardenhotel-theresia-hinterglemm,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,FALSE
+accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-alpin-juwel-hinterglemm,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,FALSE
+accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-glemmtalerhof-hinterglemm,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,FALSE
+accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-panthera-saalbach,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,FALSE
+accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-saalbacher-hof-saalbach,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,FALSE
+accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\hotel-sonne-saalbach,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,FALSE
+accommodationWalking,Walking,home\destinations\austria\saalbach-hinterglemm\valsaa-alpinresort-saalbach,1322,austria,,,ATSA/ATHI,saalbach & hinterglemm,FALSE
+accommodationWalking,Walking,home\destinations\austria\salzburg\arte-hotel-salzburg,1322,austria,,,ATSL,salzburg,FALSE
+accommodationWalking,Walking,home\destinations\austria\the-salzkammergut\fuschl-am-see\hotel-seerose,1322,austria,22178,the salzkammergut,ATFU,fuschl am see,FALSE
+accommodationWalking,Walking,home\destinations\austria\the-salzkammergut\st.gilgen\hotel-hollweger,1322,austria,22178,the salzkammergut,ATGI,st. gilgen,FALSE
+accommodationWalking,Walking,home\destinations\austria\the-wildschonau-valley\oberau\hotel-tirolerhof,1322,austria,22156,the wildschonau valley,ATOB,oberau,FALSE
+accommodationWalking,Walking,home\destinations\austria\vienna\hotel-kaiserhof,1322,austria,,,ATVI,vienna,FALSE
+accommodationWalking,Walking,home\destinations\austria\vienna\hotel-post,1322,austria,,,ATVI,vienna,FALSE
+accommodationWalking,Walking,home\destinations\austria\zell-am-see\fish-inn-zell,1322,austria,,,ATZA,zell am see,FALSE
+accommodationWalking,Walking,home\destinations\austria\zell-am-see\hotel-berner,1322,austria,,,ATZA,zell am see,FALSE
+accommodationWalking,Walking,home\destinations\austria\zell-am-see\hotel-gruener-baum,1322,austria,,,ATZA,zell am see,FALSE
+accommodationWalking,Walking,home\destinations\austria\zell-am-see\hotel-salzburgerhof,1322,austria,,,ATZA,zell am see,FALSE
+accommodationWalking,Walking,home\destinations\austria\zell-am-see\hotel-tirolerhof,1322,austria,,,ATZA,zell am see,FALSE
+accommodationWalking,Walking,home\destinations\austria\zell-am-see\romantik-hotel,1322,austria,,,ATZA,zell am see,FALSE
+accommodationWalking,Walking,home\destinations\france\chamonix\chalet-hotel-le-prieure-and-spa,22554,france,,,FRCH,chamonix,FALSE
+accommodationWalking,Walking,home\destinations\france\chamonix\cristal-de-jade-residence,22554,france,,,FRCH,chamonix,FALSE
+accommodationWalking,Walking,home\destinations\france\chamonix\hotel-alpina,22554,france,,,FRCH,chamonix,FALSE
+accommodationWalking,Walking,home\destinations\france\chamonix\hotel-heliopic,22554,france,,,FRCH,chamonix,FALSE
+accommodationWalking,Walking,home\destinations\france\chamonix\hotel-le-morgane,22554,france,,,FRCH,chamonix,FALSE
+accommodationWalking,Walking,home\destinations\france\chamonix\hotel-les-aiglons,22554,france,,,FRCH,chamonix,FALSE
+accommodationWalking,Walking,home\destinations\france\chamonix\hotel-lykke,22554,france,,,FRCH,chamonix,FALSE
+accommodationWalking,Walking,home\destinations\france\chamonix\hotel-pointe-isabelle,22554,france,,,FRCH,chamonix,FALSE
+accommodationWalking,Walking,home\destinations\france\la-clusaz\hotel-alpen-roc,22554,france,,,FRCL,la clusaz,FALSE
+accommodationWalking,Walking,home\destinations\france\la-clusaz\hotel-beauregard,22554,france,,,FRCL,la clusaz,FALSE
+accommodationWalking,Walking,home\destinations\france\la-clusaz\hotel-christiania,22554,france,,,FRCL,la clusaz,FALSE
+accommodationWalking,Walking,home\destinations\france\la-clusaz\residence-les-cimes,22554,france,,,FRCL,la clusaz,FALSE
+accommodationWalking,Walking,home\destinations\france\la-clusaz\residence-les-grandes-alpes,22554,france,,,FRCL,la clusaz,FALSE
+accommodationWalking,Walking,home\destinations\france\lake-annecy\hotel-le-cottage,22554,france,,,FRAN,lake annecy,FALSE
+accommodationWalking,Walking,home\destinations\france\lake-annecy\hotel-le-pelican,22554,france,,,FRAN,lake annecy,FALSE
+accommodationWalking,Walking,home\destinations\france\lake-annecy\hotel-pavillon-des-fleurs,22554,france,,,FRAN,lake annecy,FALSE
+accommodationWalking,Walking,home\destinations\france\lake-annecy\villa-caroline,22554,france,,,FRAN,lake annecy,FALSE
+accommodationWalking,Walking,home\destinations\france\morzine\chalet-matine-apartments,22554,france,,,FRMR,morzine,FALSE
+accommodationWalking,Walking,home\destinations\france\morzine\hotel-champs-fleuris,22554,france,,,FRMR,morzine,FALSE
+accommodationWalking,Walking,home\destinations\france\morzine\hotel-la-clef-des-champs,22554,france,,,FRMR,morzine,FALSE
+accommodationWalking,Walking,home\destinations\france\morzine\hotel-le-cret,22554,france,,,FRMR,morzine,FALSE
+accommodationWalking,Walking,home\destinations\france\samoens\hotel-neige-et-roc,22554,france,,,FRSA,samoens,FALSE
+accommodationWalking,Walking,home\destinations\france\samoens\hotel-spa-suites-dalexane,22554,france,,,FRSA,samoens,FALSE
+accommodationWalking,Walking,home\destinations\france\samoens\residence-alexane,22554,france,,,FRSA,samoens,FALSE
+accommodationWalking,Walking,home\destinations\france\samoens\residence-boutique-les-chalets-de-layssia,22554,france,,,FRSA,samoens,FALSE
+accommodationWalking,Walking,home\destinations\france\samoens\residence-la-reine-des-pres,22554,france,,,FRSA,samoens,FALSE
+accommodationWalking,Walking,home\destinations\france\samoens\residence-neige-et-roc,22554,france,,,FRSA,samoens,FALSE
+accommodationWalking,Walking,home\destinations\italy\city-breaks\verona\hotel-italia,21686,italy,32314,city breaks,ITVR,verona,FALSE
+accommodationWalking,Walking,home\destinations\italy\city-breaks\verona\hotel-leon-doro,21686,italy,32314,city breaks,ITVR,verona,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-como\bellagio\hotel-excelsior-splendide,21686,italy,21697,lake como,ITBE,bellagio,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-como\lenno\hotel-lenno,21686,italy,21697,lake como,ITLN,lenno,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-como\menaggio\grand-hotel-menaggio,21686,italy,21697,lake como,ITME,menaggio,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-como\menaggio\hotel-bellavista,21686,italy,21697,lake como,ITME,menaggio,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\bardolino\aqualux-hotel-spa-suite-terme,21686,italy,21744,lake garda,ITBD,bardolino,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\bardolino\hotel-bologna,21686,italy,21744,lake garda,ITBD,bardolino,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\bardolino\palace-hotel-san-pietro,21686,italy,21744,lake garda,ITBD,bardolino,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\bardolino\parc-hotel-gritti,21686,italy,21744,lake garda,ITBD,bardolino,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\garda\hotel-bisesti,21686,italy,21744,lake garda,ITGA,garda,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\garda\hotel-garden,21686,italy,21744,lake garda,ITGA,garda,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\garda\hotel-palme,21686,italy,21744,lake garda,ITGA,garda,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\garda\hotel-villa-madrina,21686,italy,21744,lake garda,ITGA,garda,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-alexander,21686,italy,21744,lake garda,ITLI,limone,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-allazzurro,21686,italy,21744,lake garda,ITLI,limone,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-cristina,21686,italy,21744,lake garda,ITLI,limone,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-royal-village,21686,italy,21744,lake garda,ITLI,limone,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\hotel-san-pietro,21686,italy,21744,lake garda,ITLI,limone,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\limone\villa-la-gardenia-oleandra,21686,italy,21744,lake garda,ITLI,limone,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-antonella,21686,italy,21744,lake garda,ITMA,malcesine,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-bellevue-san-lorenzo,21686,italy,21744,lake garda,ITMA,malcesine,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-cristallo,21686,italy,21744,lake garda,ITMA,malcesine,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-excelsior-bay,21686,italy,21744,lake garda,ITMA,malcesine,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-malcesine,21686,italy,21744,lake garda,ITMA,malcesine,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\malcesine\hotel-maximilian,21686,italy,21744,lake garda,ITMA,malcesine,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-antico-borgo,21686,italy,21744,lake garda,ITRI,riva,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-du-lac-et-du-parc,21686,italy,21744,lake garda,ITRI,riva,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-europa-skypool-panorama,21686,italy,21744,lake garda,ITRI,riva,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-gabry,21686,italy,21744,lake garda,ITRI,riva,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\riva\hotel-sole-relax-panorama,21686,italy,21744,lake garda,ITRI,riva,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\sirmione\hotel-catullo,21686,italy,21744,lake garda,ITSI,sirmione,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\sirmione\hotel-continental-wellness-spa,21686,italy,21744,lake garda,ITSI,sirmione,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-garda\sirmione\hotel-miramar,21686,italy,21744,lake garda,ITSI,sirmione,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-ledro\hotel-garden,21686,italy,,,ITLE,lake ledro,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-ledro\hotel-mezzolago,21686,italy,,,ITLE,lake ledro,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-maggiore\baveno\hotel-beau-rivage,21686,italy,22060,lake maggiore,ITBA,baveno,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-astoria,21686,italy,22060,lake maggiore,ITST,stresa,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-la-palma,21686,italy,22060,lake maggiore,ITST,stresa,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-milan-au-lac,21686,italy,22060,lake maggiore,ITST,stresa,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-regina-palace,21686,italy,22060,lake maggiore,ITST,stresa,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\hotel-royal,21686,italy,22060,lake maggiore,ITST,stresa,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\sempione-boutique-hotel,21686,italy,22060,lake maggiore,ITST,stresa,FALSE
+accommodationWalking,Walking,home\destinations\italy\lake-maggiore\stresa\villa-e-palazzo-aminta,21686,italy,22060,lake maggiore,ITST,stresa,FALSE
+accommodationWalking,Walking,home\destinations\italy\liguria\cinque-terre\cristallo-park-hotel,21686,italy,29168,liguria,ITLR0000,cinque terre,FALSE
+accommodationWalking,Walking,home\destinations\italy\liguria\cinque-terre\hotel-byron,21686,italy,29168,liguria,ITLR0000,cinque terre,FALSE
+accommodationWalking,Walking,home\destinations\italy\liguria\cinque-terre\hotel-cinque-terre,21686,italy,29168,liguria,ITLR0000,cinque terre,FALSE
+accommodationWalking,Walking,home\destinations\italy\liguria\cinque-terre\hotel-palme,21686,italy,29168,liguria,ITLR0000,cinque terre,FALSE
+accommodationWalking,Walking,home\destinations\italy\liguria\portofino\hotel-excelsior-palace,21686,italy,29168,liguria,ITLR,portofino,FALSE
+accommodationWalking,Walking,home\destinations\italy\liguria\portofino\hotel-jolanda,21686,italy,29168,liguria,ITLR,portofino,FALSE
+accommodationWalking,Walking,home\destinations\italy\liguria\portofino\hotel-miramare-spa,21686,italy,29168,liguria,ITLR,portofino,FALSE
+accommodationWalking,Walking,home\destinations\italy\liguria\portofino\hotel-regina-elena,21686,italy,29168,liguria,ITLR,portofino,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-albolina,21686,italy,32188,the dolomites,ITCA,canazei,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-cesa-tyrol,21686,italy,32188,the dolomites,ITCA,canazei,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-cristallo,21686,italy,32188,the dolomites,ITCA,canazei,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-dolomiti,21686,italy,32188,the dolomites,ITCA,canazei,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-la-perla,21686,italy,32188,the dolomites,ITCA,canazei,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\canazei\hotel-medil,21686,italy,32188,the dolomites,ITCA,canazei,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\hotel-col-alto,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\hotel-la-plaza,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\hotel-la-villa,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\hotel-mezdi,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\pension-angelo,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\corvara-colfosco\sporthotel-panorama,21686,italy,32188,the dolomites,ITCV,corvara & colfosco,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\kronplatz\hotel-mareo,21686,italy,32188,the dolomites,ITKR,kronplatz,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\kronplatz\hotel-monte-paraccia,21686,italy,32188,the dolomites,ITKR,kronplatz,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\kronplatz\hotel-monte-sella,21686,italy,32188,the dolomites,ITKR,kronplatz,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\kronplatz\hotel-teresa,21686,italy,32188,the dolomites,ITKR,kronplatz,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio\hotel-betulla,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio\hotel-cristal-palace,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio\hotel-ideal,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\madonna-di-campiglio\hotel-spinale,21686,italy,32188,the dolomites,ITMC,madonna di campiglio,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\merano\hotel-adria,21686,italy,32188,the dolomites,ITMR,merano,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\merano\hotel-meranerhof,21686,italy,32188,the dolomites,ITMR,merano,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\merano\hotel-salgart,21686,italy,32188,the dolomites,ITMR,merano,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\merano\park-hotel-mignon,21686,italy,32188,the dolomites,ITMR,merano,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\ortisei\adler-spa-resort-dolomiti,21686,italy,32188,the dolomites,ITOT,ortisei,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\san-cassiano\hotel-diamant,21686,italy,32188,the dolomites,ITCS,san cassiano,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\san-cassiano\hotel-la-stua,21686,italy,32188,the dolomites,ITCS,san cassiano,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\boutique-hotel-pralong,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-aaritz,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-antares,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-mignon,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-miravalle,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-pozzamanigoni,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-rodella,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-somont,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\hotel-stella,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\the-dolomites\selva\mountain-home-garni-villa-anna,21686,italy,32188,the dolomites,ITSV,selva,FALSE
+accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\grand-hotel-croce-di-malta,21686,italy,29213,tuscany,ITMT,montecatini,FALSE
+accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\grand-hotel-francia-quirinale,21686,italy,29213,tuscany,ITMT,montecatini,FALSE
+accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\grand-hotel-plaza,21686,italy,29213,tuscany,ITMT,montecatini,FALSE
+accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\grand-hotel-vittoria,21686,italy,29213,tuscany,ITMT,montecatini,FALSE
+accommodationWalking,Walking,home\destinations\italy\tuscany\montecatini\hotel-ambasciatori-palace,21686,italy,29213,tuscany,ITMT,montecatini,FALSE
+accommodationWalking,Walking,home\destinations\madeira\canico\hotel-sentido-galomar,23961,madeira,,,PTCN,canico,FALSE
+accommodationWalking,Walking,home\destinations\madeira\canico\hotel-sentido-galosol,23961,madeira,,,PTCN,canico,FALSE
+accommodationWalking,Walking,home\destinations\madeira\canico\quinta-splendida,23961,madeira,,,PTCN,canico,FALSE
+accommodationWalking,Walking,home\destinations\madeira\canico\vila-gale-santa-cruz,23961,madeira,,,PTCN,canico,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\casa-velha-do-palheiro,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\enotel-magnolia,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\golden-residence-hotel,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\hotel-porto-mare,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\melia-madeira-mare-resort-spa,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\pestana-grand-premium-ocean-resort,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\pestana-miramar,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\suite-hotel-eden-mar,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\the-cliff-bay,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\the-views-baia,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\the-views-monumental,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\madeira\funchal\vila-baleira,23961,madeira,,,PTFN,funchal,FALSE
+accommodationWalking,Walking,home\destinations\norway\balestrand\kviknes-hotel,22949,norway,,,NOBA,balestrand,FALSE
+accommodationWalking,Walking,home\destinations\norway\bergen\clarion-collection-hotel-havnekontoret,22949,norway,,,NOBE,bergen,FALSE
+accommodationWalking,Walking,home\destinations\norway\bergen\comfort-hotel-bergen,22949,norway,,,NOBE,bergen,FALSE
+accommodationWalking,Walking,home\destinations\norway\bergen\hotel-oleana,22949,norway,,,NOBE,bergen,FALSE
+accommodationWalking,Walking,home\destinations\norway\bergen\magic-hotel-kloverhuset,22949,norway,,,NOBE,bergen,FALSE
+accommodationWalking,Walking,home\destinations\norway\bergen\magic-hotel-solheimsviken,22949,norway,,,NOBE,bergen,FALSE
+accommodationWalking,Walking,home\destinations\norway\bergen\thon-hotel-bristol-bergen,22949,norway,,,NOBE,bergen,FALSE
+accommodationWalking,Walking,home\destinations\norway\bergen\thon-hotel-orion,22949,norway,,,NOBE,bergen,FALSE
+accommodationWalking,Walking,home\destinations\norway\bergen\thon-hotel-rosenkrantz-bergen,22949,norway,,,NOBE,bergen,FALSE
+accommodationWalking,Walking,home\destinations\norway\flam-aurland\fretheim-hotel,22949,norway,,,NOFL,flam & aurland,FALSE
+accommodationWalking,Walking,home\destinations\norway\flam-aurland\heimly-guesthouse,22949,norway,,,NOFL,flam & aurland,FALSE
+accommodationWalking,Walking,home\destinations\norway\flam-aurland\hotel-aurlandsfjord,22949,norway,,,NOFL,flam & aurland,FALSE
+accommodationWalking,Walking,home\destinations\norway\voss\fleischers-hotel,22949,norway,,,NOVO,voss,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\bovec\hotel-alp,22532,slovenia,,,SIBV,bovec,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\bovec\hotel-mangart,22532,slovenia,,,SIBV,bovec,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\hotel-kompas,22532,slovenia,,,SIKR,kranjska gora,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\hotel-miklic,22532,slovenia,,,SIKR,kranjska gora,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\hotel-ramada-resort,22532,slovenia,,,SIKR,kranjska gora,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\hotel-spik,22532,slovenia,,,SIKR,kranjska gora,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\kranjska-gora\ramada-hotel-suites,22532,slovenia,,,SIKR,kranjska gora,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bled\garni-hotel-berc,22532,slovenia,,,SIBL,lake bled,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bled\garni-hotel-savica,22532,slovenia,,,SIBL,lake bled,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bled\grand-hotel-toplice,22532,slovenia,,,SIBL,lake bled,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bled\hotel-astoria,22532,slovenia,,,SIBL,lake bled,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bled\hotel-park,22532,slovenia,,,SIBL,lake bled,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bled\hotel-ribno,22532,slovenia,,,SIBL,lake bled,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bled\hotel-rikli-balance,22532,slovenia,,,SIBL,lake bled,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bohinj\bohinj-eco-hotel,22532,slovenia,,,SIBO,lake bohinj,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bohinj\hotel-bohinj,22532,slovenia,,,SIBO,lake bohinj,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\lake-bohinj\hotel-jezero,22532,slovenia,,,SIBO,lake bohinj,FALSE
+accommodationWalking,Walking,home\destinations\slovenia\ljubljana\hotel-cubo,22532,slovenia,,,SILJ,ljubljana,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\derby-swiss-quality-hotel,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\eiger-mountain-soul-resort,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\hotel-belvedere,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\hotel-sunstar-grindelwald,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\jungfrau-lodge-bed-breakfast,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\grindelwald\romantik-hotel-schweizerhof,22267,switzerland,22270,bernese oberland,CHGR,grindelwald,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\grand-hotel-beau-rivage,22267,switzerland,22270,bernese oberland,CHIN,interlaken,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\hotel-metropole,22267,switzerland,22270,bernese oberland,CHIN,interlaken,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\hotel-seiler-au-lac,22267,switzerland,22270,bernese oberland,CHIN,interlaken,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\hotel-stella,22267,switzerland,22270,bernese oberland,CHIN,interlaken,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\interlaken\seehotel-bönigen,22267,switzerland,22270,bernese oberland,CHIN,interlaken,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\kandersteg\hotel-bernerhof,22267,switzerland,22270,bernese oberland,CHKA,kandersteg,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\kandersteg\seilers-vintage-hotel-alfa-soleil,22267,switzerland,22270,bernese oberland,CHKA,kandersteg,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\kandersteg\waldhotel-doldenhorn,22267,switzerland,22270,bernese oberland,CHKA,kandersteg,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\murren\hotel-eiger,22267,switzerland,22270,bernese oberland,CHMU,murren,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\beausite-park-hotel-and-spa,22267,switzerland,22270,bernese oberland,CHWG,wengen,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\braunbaer-hotel,22267,switzerland,22270,bernese oberland,CHWG,wengen,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\grand-hotel-belvedere,22267,switzerland,22270,bernese oberland,CHWG,wengen,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\hotel-alpenrose,22267,switzerland,22270,bernese oberland,CHWG,wengen,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\hotel-falken,22267,switzerland,22270,bernese oberland,CHWG,wengen,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\hotel-silberhorn,22267,switzerland,22270,bernese oberland,CHWG,wengen,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wengen\victoria-lauberhorn,22267,switzerland,22270,bernese oberland,CHWG,wengen,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wilderswil\hotel-alpenblick,22267,switzerland,22270,bernese oberland,CHWI,wilderswil,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\bernese-oberland\wilderswil\hotel-baren,22267,switzerland,22270,bernese oberland,CHWI,wilderswil,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\graubunden-region\davos\hotel-hilton-garden-inn,22267,switzerland,22374,graubunden region,CHDV,davos,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\graubunden-region\davos\hotel-seehof,22267,switzerland,22374,graubunden region,CHDV,davos,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\graubunden-region\klosters\hotel-silvretta-park,22267,switzerland,22374,graubunden region,CHKL,klosters,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\graubunden-region\klosters\hotel-sport,22267,switzerland,22374,graubunden region,CHKL,klosters,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne\hotel-waldstatterhof,22267,switzerland,22404,lake lucerne,CHLC,lucerne,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne\hotel-wilden-mann,22267,switzerland,22404,lake lucerne,CHLC,lucerne,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\lucerne\montana-art-deco-hotel,22267,switzerland,22404,lake lucerne,CHLC,lucerne,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\weggis\hotel-alexander,22267,switzerland,22404,lake lucerne,CHWE,weggis,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\lake-lucerne\weggis\hotel-gerbi,22267,switzerland,22404,lake lucerne,CHWE,weggis,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\montreux\hotel-masson,22267,switzerland,,,CHMT,montreux,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\montreux\hotel-mona,22267,switzerland,,,CHMT,montreux,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\montreux\hotel-rené-capt,22267,switzerland,,,CHMT,montreux,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\nendaz\hotel-nendaz-4-vallees,22267,switzerland,,,CHND,nendaz,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\nendaz\mad-mount-hotel,22267,switzerland,,,CHND,nendaz,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\saas-fee\allalin-apartments-self-catering,22267,switzerland,,,CHSA,saas fee,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\saas-fee\hotel-allalin,22267,switzerland,,,CHSA,saas fee,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\saas-fee\park-hotel,22267,switzerland,,,CHSA,saas fee,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\saas-fee\revier-mountain-lodge,22267,switzerland,,,CHSA,saas fee,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\saas-fee\walliserhof-grand-hotel-spa,22267,switzerland,,,CHSA,saas fee,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\zermatt\aparthotel-naco,22267,switzerland,,,CHZE,zermatt,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-alex,22267,switzerland,,,CHZE,zermatt,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-butterfly,22267,switzerland,,,CHZE,zermatt,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-national,22267,switzerland,,,CHZE,zermatt,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\zermatt\hotel-schonegg,22267,switzerland,,,CHZE,zermatt,FALSE
+accommodationWalking,Walking,home\destinations\switzerland\zermatt\le-mirabeau-hotel-spa,22267,switzerland,,,CHZE,zermatt,FALSE

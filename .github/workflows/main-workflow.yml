@@ -37,6 +37,7 @@ on:
         options:
         - qa
         - stg
+        - prod
       scope:
         description: 'Test Scope'
         required: true
@@ -46,6 +47,7 @@ on:
         - Smoke
         - Regression
         - Migration
+        - Accommodation
 
   repository_dispatch:
     types: [deploy]
@@ -76,17 +78,6 @@ jobs:
         PCMS_USERNAME: ${{ secrets.PCMS_USERNAME_QA }}
         PCMS_PASSWORD: ${{ secrets.PCMS_PASSWORD_QA }}
       run: |  
-        if [ "${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" == "qa" ]; then
-          export ECMS_USERNAME=${{ secrets.ECMS_USERNAME_QA }}
-          export ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_QA }}
-          export PCMS_USERNAME=${{ secrets.PCMS_USERNAME_QA }}
-          export PCMS_PASSWORD=${{ secrets.PCMS_PASSWORD_QA }}
-        elif [ "${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}" == "stg" ]; then
-          export ECMS_USERNAME=${{ secrets.ECMS_USERNAME_STG }}
-          export ECMS_PASSWORD=${{ secrets.ECMS_PASSWORD_STG }}
-          export PCMS_USERNAME=${{ secrets.PCMS_USERNAME_STG }}
-          export PCMS_PASSWORD=${{ secrets.PCMS_PASSWORD_STG }}
-        fi
 
         if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Smoke" ]; then
           npx playwright test --grep /@smoke/ --project=Chromium
@@ -94,6 +85,11 @@ jobs:
           npx playwright test --grep /@regression/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Migration" ]; then
           npx playwright test --grep /@migration/ --project=Chromium
+        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Accommodation" ]; then
+          npx playwright test --grep /@accom/ --project=Chromium
+        else
+          echo "No matching scope found. Please check the input."
+          exit 1
         fi
 
     - name: Test Report Generation
