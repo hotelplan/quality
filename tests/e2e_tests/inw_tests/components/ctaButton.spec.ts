@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
     })
 })
 
-test.describe('Accordion', async () => {
+test.describe('CTA Button', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
     test(`An ECMS user creates a CTA button component and views it on the General Content page @inw`, async ({ ctaButtonComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
