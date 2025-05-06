@@ -59,6 +59,9 @@ export class CTAButtonComponent {
         await expect(newPage.locator(`a[title="${this.ctaButtonTitle}"]`)).toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)
         await expect(newPage.locator(`a[title="${this.ctaButtonTitle}"] [aria-labelledby='${this.iconName}']`)).toBeVisible()
 
+        expect(await newPage.locator(`a[title="${this.ctaButtonTitle}"]`).evaluate(node => window.getComputedStyle(node.parentElement!).justifyContent)).toBe('end')
+        expect(await newPage.locator(`a[title="${this.ctaButtonTitle}"]`).evaluate(node => node.className.includes('c-btn--secondary'))).toBeTruthy()
+
     }
 
 }
