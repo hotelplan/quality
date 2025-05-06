@@ -38,7 +38,7 @@ export class ResortPage {
     constructor(page: Page, apiContext: APIRequestContext) {
         this.page = page;
         this.request = apiContext
-        this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View hotels' })
+        this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View details' })
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]')
         this.resortSearchBarDetails = page.locator('.c-search-criteria-bar__price-basis > span')
