@@ -61,19 +61,19 @@ export class CTAButtonComponent {
         await expect(newPage.locator(`a[title="${this.ctaButtonTitle}"]`), "CTA Button title is available on the page").toBeVisible()
         await expect(newPage.locator(`a[title="${this.ctaButtonTitle}"]`), "CTA Button link is correct").toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)
         await expect(newPage.locator(`a[title="${this.ctaButtonTitle}"] [aria-labelledby='${this.iconName}']`), "CTA Button icon is correct").toBeVisible()
-        const className = await newPage.locator(`a[title="${this.ctaButtonTitle}"]`).evaluate(node => node.className)
-        expect(className.includes(expectedCTABtnTheme), "CTA button theme is correct").toBeTruthy()
+        const actualCTABtnClassName = await newPage.locator(`a[title="${this.ctaButtonTitle}"]`).evaluate(node => node.className)
+        expect(actualCTABtnClassName.includes(expectedCTABtnTheme), "CTA button theme is correct").toBeTruthy()
 
-        if (this.ctaBtnHorizontalposition[0].split(':')[1] == 'right') {
+        if (expectedCTABtnTheme == 'right') {
             expect(await newPage.locator(`a[title="${this.ctaButtonTitle}"]`).evaluate(node => window.getComputedStyle(node.parentElement!).justifyContent), "CTA button is correctly positioned on the right").toBe('end')
 
-        } else if (this.ctaBtnHorizontalposition[0].split(':')[1] == 'center') {
+        } else if (expectedCTABtnTheme == 'center') {
             expect(await newPage.locator(`a[title="${this.ctaButtonTitle}"]`).evaluate(node => window.getComputedStyle(node.parentElement!).justifyContent), "CTA button is correctly positioned on the center").toBe('center')
 
-        } else if (this.ctaBtnHorizontalposition[0].split(':')[1] == 'left') {
+        } else if (expectedCTABtnTheme == 'left') {
             expect(await newPage.locator(`a[title="${this.ctaButtonTitle}"]`).evaluate(node => window.getComputedStyle(node.parentElement!).justifyContent), "CTA button is correctly positioned on the left").toBe('start')
 
-        } else if (this.ctaBtnHorizontalposition[0].split(':')[1] == 'full') {
+        } else if (expectedCTABtnTheme == 'full') {
             expect(await newPage.locator(`a[title="${this.ctaButtonTitle}"]`).evaluate(node => window.getComputedStyle(node.parentElement!).display), "CTA button is correctly set to full width").toBe('block')
 
         }
