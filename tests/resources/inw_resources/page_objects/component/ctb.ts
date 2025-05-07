@@ -36,7 +36,13 @@ export class CTBComponent {
     }
 
     async validateCtaButtonAvailability(newPage) {
+        const ctbLayout = this.selectedLayout[0].split(':')[1]
+        await expect(newPage.locator('body')).toContainText(this.ctaButtonTitle);
+        if (ctbLayout === 'Standard') {
+            await expect(newPage.locator('body')).toContainText(this.ctbDescriptionText);
 
+        }
+        await expect(newPage.locator('body')).toContainText(this.ctaPhoneNumber);
     }
 
 }
