@@ -10,6 +10,7 @@ import { SearchResultPage } from '../search_result_page'
 import { HeadlineComponent } from '../component/headline';
 import { AccordionComponent } from '../component/accordion';
 import { CTAButtonComponent } from '../component/ctaButton';
+import { CTBComponent } from '../component/ctb';
 import { SharedSteps } from '../../utilities/sharedSteps';
 
 
@@ -26,6 +27,7 @@ type pages = {
     headlineComponent: HeadlineComponent
     accordionComponent: AccordionComponent
     ctaButtonComponent: CTAButtonComponent
+    ctbComponent: CTBComponent
     sharedSteps: SharedSteps
 }
 
@@ -72,6 +74,9 @@ const testPages = base.extend<pages>({
     },
     ctaButtonComponent: async ({page},use) => {
         await use(new CTAButtonComponent(page));
+    },
+    ctbComponent: async ({page},use) => {
+        await use(new CTBComponent(page));
     },
     sharedSteps: async ({page},use) => {
         await use(new SharedSteps(page));
