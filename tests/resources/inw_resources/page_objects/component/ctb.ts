@@ -1,5 +1,4 @@
 import { type Page, type Locator, expect } from '@playwright/test';
-import environmentBaseUrl from '../../../utils/environmentBaseUrl';
 import { faker } from '@faker-js/faker';
 
 export class CTBComponent {
@@ -38,11 +37,21 @@ export class CTBComponent {
     async validateCtaButtonAvailability(newPage) {
         const ctbLayout = this.selectedLayout[0].split(':')[1]
         await expect(newPage.locator('body')).toContainText(this.ctaButtonTitle);
+
         if (ctbLayout === 'Standard') {
             await expect(newPage.locator('body')).toContainText(this.ctbDescriptionText);
+            const actualCtbLayout = await newPage.getByText(`${this.ctaButtonTitle}`).evaluate(node => node.className)
+            expect(actualCtbLayout.includes('standard'), "CTB Layout is correct").toBeTruthy()
 
+        } else if (ctbLayout === 'Compact') {
+            const actualCtbLayout = await newPage.getByText(`${this.ctaButtonTitle}`).evaluate(node => node.className)
+            expect(actualCtbLayout.includes('mini'), "CTB Layout is correct").toBeTruthy()
         }
+
         await expect(newPage.locator('body')).toContainText(this.ctaPhoneNumber);
+        const actualCtbPhoneIcon = await newPage.getByText(`${this.ctaPhoneNumber}`).evaluate(node => node.parentElement?.previousElementSibling?.classList.value)
+        expect(actualCtbPhoneIcon?.includes('icon-phone-outlined'), "CTB Phone icon is correct").toBeTruthy()
+
     }
 
 }

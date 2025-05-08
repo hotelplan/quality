@@ -7,13 +7,13 @@ let newPage
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
-        await page.goto('https://localhost:7040' + '/umbraco#/content')
+        await page.goto(ECMSurl + '/umbraco#/content')
     })
 })
 
-test.describe('CTA Button', async () => {
+test.describe('Call to Book', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test.only(`An ECMS user creates a CTB component and views it on the General Content page @inw`, async ({ ctbComponent, sharedSteps }) => {
+    test(`An ECMS user creates a CTB component and views it on the General Content page @inw`, async ({ ctbComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectGenericContentPage()
         });
