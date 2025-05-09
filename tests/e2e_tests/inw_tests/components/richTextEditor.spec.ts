@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Rich Text Editor', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a CTA button component and views it on the General Content page @inw`, async ({ ctaButtonComponent, sharedSteps }) => {
+    test(`An ECMS user creates a RTE component and views it on the General Content page @inw`, async ({ rteComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectGenericContentPage()
         });
@@ -27,22 +27,22 @@ test.describe('Rich Text Editor', async () => {
 
         });
 
-        await test.step(`And: I search for the CTA button component`, async () => {
-            await sharedSteps.searchComponent('CTA button')
+        await test.step(`And: I search for the RTE component`, async () => {
+            await sharedSteps.searchComponent('Rich Text Editor')
 
         });
 
-        await test.step(`And: I click the CTA button component`, async () => {
+        await test.step(`And: I click the RTE component`, async () => {
             await sharedSteps.selectComponent()
 
         });
 
-        await test.step(`And: I setup a CTA button component`, async () => {
-            await ctaButtonComponent.setupCtaButton()
+        await test.step(`And: I setup a RTE component`, async () => {
+            await rteComponent.setupRTE()
 
         });
 
-        await test.step(`And: I click 'Create' button for CTA button component
+        await test.step(`And: I click 'Create' button for RTE component
                          And: I click 'Save and publish' button`, async () => {
             await sharedSteps.clickCreateBtn()
             await sharedSteps.clickSaveAndPublishBtn()
@@ -55,9 +55,9 @@ test.describe('Rich Text Editor', async () => {
         });
 
         await test.step(`And: I redirect the Generic Content page
-                         Then: I should see the CTA button displayed on the Generic Content Page with details`, async () => {
+                         Then: I should see the RTE displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await ctaButtonComponent.validateCtaButtonAvailability(newPage)
+            await rteComponent.validateRTE(newPage)
         });
 
     })

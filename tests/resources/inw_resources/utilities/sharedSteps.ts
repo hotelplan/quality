@@ -16,6 +16,7 @@ export class SharedSteps {
     readonly pageLink: Locator
     readonly genericContentPage: string
 
+
     constructor(page: Page) {
         this.page = page;
         this.globalSearch = page.locator(`//*[@data-element='global-search']`);
@@ -42,6 +43,7 @@ export class SharedSteps {
         await expect(this.globalSearchFirstResult).toBeVisible()
         await this.globalSearchFirstResult.click()
     }
+
     async clickContentTab() {
         await this.contentTab.waitFor({ state: 'visible' })
         await this.contentTab.click()

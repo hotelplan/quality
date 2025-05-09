@@ -6,7 +6,6 @@ export class EcmsSignInPage{
     readonly ECMS_SignIn_Email_Field: Locator;
     readonly ECMS_SignIn_Password_Field: Locator;
     readonly ECMS_SignIn_Login_Button: Locator;
-
     readonly ECMS_Start_Tour_Button: Locator;
     readonly ECMS_Close_Tour_Button: Locator;
     readonly ECMS_Welcome_Heading: Locator;
@@ -19,7 +18,7 @@ export class EcmsSignInPage{
         this.ECMS_SignIn_Login_Button = page.getByLabel('Login');
 
         this.ECMS_Start_Tour_Button = page.getByRole('button', { name: 'Start tour' })
-        this.ECMS_Close_Tour_Button = page.getByRole('button', { name: 'Close', exact: true })
+        this.ECMS_Close_Tour_Button = page.getByRole('button', { name: 'Don\'t show this tour again' })
         this.ECMS_Welcome_Heading = page.getByRole('heading', { name: 'Welcome to Umbraco' })
 
     }
@@ -35,10 +34,7 @@ export class EcmsSignInPage{
         await this.ECMS_SignIn_Login_Button.hover();
         await this.ECMS_SignIn_Login_Button.click();
 
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForLoadState('load');
-
-        await this.page.waitForTimeout(15000);
+        await this.page.waitForLoadState('networkidle');
 
         if(await this.ECMS_Start_Tour_Button.isVisible()){
             await this.ECMS_Close_Tour_Button.waitFor({state: 'visible', timeout: 10000});

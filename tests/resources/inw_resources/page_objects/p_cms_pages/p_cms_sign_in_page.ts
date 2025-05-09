@@ -19,7 +19,7 @@ export class PcmsSignInPage{
         this.PCMS_SignIn_Login_Button = page.getByLabel('Login');
 
         this.PCMS_Start_Tour_Button = page.getByRole('button', { name: 'Start tour' })
-        this.PCMS_Close_Tour_Button = page.getByRole('button', { name: 'Close', exact: true })
+        this.PCMS_Close_Tour_Button = page.getByRole('button', { name: 'Don\'t show this tour again' })
         this.PCMS_Welcome_Heading = page.getByRole('heading', { name: 'Welcome to Umbraco' })
 
     }
@@ -35,8 +35,7 @@ export class PcmsSignInPage{
         await this.PCMS_SignIn_Login_Button.hover();
         await this.PCMS_SignIn_Login_Button.click();
 
-        await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForLoadState('load');
+        await this.page.waitForLoadState('networkidle');
 
         if(await this.PCMS_Start_Tour_Button.isVisible()){
             await this.PCMS_Close_Tour_Button.waitFor({state: 'visible', timeout: 10000});
