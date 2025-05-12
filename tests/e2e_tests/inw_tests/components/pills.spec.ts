@@ -37,8 +37,26 @@ test.describe('Pills', async () => {
 
         });
 
-        await test.step(`And: I setup a Pills component`, async () => {
-            await pillsComponent.setupPillsComponent()
+        await test.step(`And: I select Pill Link Style`, async () => {
+            await pillsComponent.selectPillLinkStyle()
+        });
+
+        await test.step(`And: I fill out Pill title`, async () => {
+            await pillsComponent.fillOutPillTitle()
+
+        });
+
+        await test.step(`And: I select Pill Link`, async () => {
+            await pillsComponent.addPillLink()
+        });
+
+        await test.step(`And: I add a CTA button`, async () => {
+            await pillsComponent.addCTAbutton()
+        });
+
+        await test.step(`And: I fill out Pill Description`, async () => {
+            await pillsComponent.fillOutPillDescription()
+
         });
 
         await test.step(`And: I click 'Create' button for Pills component
