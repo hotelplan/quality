@@ -22,6 +22,8 @@ export class PillsComponent {
     public pillTitleText: string
     public pillDescriptionText: string
     public pillLinkTitle: string
+    public ctaButtonLinkTitle: string
+    public selectedPillStyle: string[]
 
     constructor(page: Page) {
         this.page = page;
@@ -39,7 +41,8 @@ export class PillsComponent {
         this.linkField = page.locator('#urlLinkPicker')
         this.pillTitleText = faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Automation ' + faker.number.int({ min: 50, max: 1000 })
         this.pillDescriptionText = faker.lorem.paragraph()
-        this.pillLinkTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Link Automation ' + faker.number.int({ min: 50, max: 1000 })
+        this.pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
+        this.ctaButtonLinkTitle = faker.word.noun() + ' Button ' + faker.number.int({ min: 50, max: 1000 })
 
     }
 
@@ -47,7 +50,7 @@ export class PillsComponent {
         const randomIndex = Math.floor(Math.random() * 2) + 1;
 
         await this.pillLinkStyle.waitFor({ state: 'visible' })
-        await this.pillLinkStyle.selectOption({ index: randomIndex })
+        this.selectedPillStyle = await this.pillLinkStyle.selectOption({ index: randomIndex })
     }
 
     async fillOutPillTitle() {
@@ -73,11 +76,10 @@ export class PillsComponent {
     }
 
     async addCTAbutton() {
-        const ctaButtonLinkTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Link Automation ' + faker.number.int({ min: 50, max: 1000 })
         await this.pillCtaBtn.click()
         await this.linkField.waitFor({ state: 'visible' })
         await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
-        await this.linkTitleFld.fill(ctaButtonLinkTitle)
+        await this.linkTitleFld.fill(this.ctaButtonLinkTitle)
         await this.urlPickerSubmitBtn.click()
     }
 
@@ -85,7 +87,28 @@ export class PillsComponent {
         await this.pillDescription.fill(this.pillDescriptionText)
     }
 
-    async validatePillAvailability(page) {
+    async validatePillAvailability(newPage = this.page) {
+        const pillStyle = this.selectedPillStyle[0].split(':')[1]
+
+        await expect(newPage.locator('body')).toContainText(this.pillTitleText);
+        await expect(newPage.locator('body')).toContainText(this.pillDescriptionText);
+        await expect(newPage.locator('body')).toContainText(this.pillLinkTitle);
+        await expect(newPage.locator('body')).toContainText(this.ctaButtonLinkTitle);
+
+        if (pillStyle === 'Rectangle') {
+            const actualPillStyle = await newPage.getByText(`${this.pillLinkTitle}`).evaluate(node => node.parentElement?.parentElement?.className)
+            expect(actualPillStyle?.includes('c-catblock'), "Pill Style is correct").toBeTruthy()
+
+        } else if (pillStyle === 'Rounded') {
+            const actualPillStyle = await newPage.getByText(`${this.pillLinkTitle}`).evaluate(node => node.parentElement?.parentElement?.className)
+            expect(actualPillStyle?.includes('c-oval-badges'), "Pill Style is correct").toBeTruthy()
+        }
+
+        const actualPillIcon = await newPage.getByText(`${this.pillLinkTitle}`).evaluate(node => node.firstElementChild?.classList.value)
+        expect(actualPillIcon?.includes(this.iconName!), "Pill Style is correct").toBeTruthy()
+
+        await expect(newPage.getByText(`${this.pillLinkTitle}`), "CTA Button link is correct").toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)
+        await expect(newPage.locator(`a[title="${this.ctaButtonLinkTitle}"]`), "CTA Button link is correct").toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)
 
     }
 }

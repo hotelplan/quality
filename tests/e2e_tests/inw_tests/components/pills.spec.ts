@@ -7,13 +7,13 @@ let newPage
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
-        await page.goto('https://localhost:7040' + '/umbraco#/content')
+        await page.goto(ECMSurl + '/umbraco#/content')
     })
 })
 
 test.describe('Pills', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test.only(`An ECMS user creates a CTB component and views it on the General Content page @inw`, async ({ pillsComponent, sharedSteps }) => {
+    test(`An ECMS user creates a Pill component and views it on the General Content page @inw`, async ({ pillsComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectGenericContentPage()
         });
@@ -74,7 +74,8 @@ test.describe('Pills', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            // await pillsComponent.validatePillAvailability(newPage)
+            await pillsComponent.validatePillAvailability(newPage)
+            
         });
 
     })
