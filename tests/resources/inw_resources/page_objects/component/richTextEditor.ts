@@ -13,7 +13,7 @@ export class RTEComponent {
         this.page = page;
         this.rteFrame = page.frameLocator('[title="Rich Text Area"]');
         this.rteParagraph = this.rteFrame.locator('[id ="tinymce"]');
-        this.mainSiteContent = (context : any) => context.locator('//main[@class="site-content"]');
+        this.mainSiteContent = (context : any) => context.locator('body');
     }
     async setupRTE() {
         console.log("Random:", this.randomText)
