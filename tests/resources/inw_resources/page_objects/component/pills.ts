@@ -16,9 +16,12 @@ export class PillsComponent {
     readonly linkField: Locator
     readonly linkTitleFld: Locator
     readonly urlPickerSubmitBtn: Locator
+    readonly linkPicker: Locator
 
     public iconName: string | null
-
+    public pillTitleText: string
+    public pillDescriptionText: string
+    public pillLinkTitle: string
 
     constructor(page: Page) {
         this.page = page;
@@ -31,17 +34,28 @@ export class PillsComponent {
         this.linkTitleFld = page.locator('#nodeNameLinkPicker')
         this.urlPickerSubmitBtn = page.locator('.btn-success').last()
         this.pillLinkSubmitBtn = page.locator('.btn-primary').last()
-        this.pillCtaBtn = page.locator('button[ng-click="openLinkPicker()"]')
+        this.pillCtaBtn = page.getByRole('button', { name: 'View All CTA Button: Add url' })
+        this.linkPicker = page.locator('button[ng-click="openLinkPicker()"]').nth(1)
         this.linkField = page.locator('#urlLinkPicker')
+        this.pillTitleText = faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Automation ' + faker.number.int({ min: 50, max: 1000 })
+        this.pillDescriptionText = faker.lorem.paragraph()
+        this.pillLinkTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Link Automation ' + faker.number.int({ min: 50, max: 1000 })
 
     }
 
-    async setupPillsComponent() {
+    async selectPillLinkStyle() {
         const randomIndex = Math.floor(Math.random() * 2) + 1;
 
         await this.pillLinkStyle.waitFor({ state: 'visible' })
         await this.pillLinkStyle.selectOption({ index: randomIndex })
-        await this.pillTitle.fill(faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Automation ' + faker.number.int({ min: 50, max: 1000 }))
+    }
+
+    async fillOutPillTitle() {
+        await this.pillTitle.fill(this.pillTitleText)
+
+    }
+
+    async addPillLink() {
         await this.pillLink.click()
         await this.pillLinkIcon.click()
         await expect(this.iconPickerItem.nth(0)).toBeVisible()
@@ -50,13 +64,25 @@ export class PillsComponent {
         const iconItemIndex = Math.floor(Math.random() * iconPickerItemCount)
         this.iconName = await this.iconPickerItem.nth(iconItemIndex).locator('a').getAttribute('title')
         await this.iconPickerItem.nth(iconItemIndex).click()
-        await this.pillCtaBtn.nth(1).click()
+        await this.linkPicker.click()
+        await this.linkField.waitFor({ state: 'visible' })
         await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
-        await this.linkTitleFld.fill(faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Link Automation ' + faker.number.int({ min: 50, max: 1000 }))
+        await this.linkTitleFld.fill(this.pillLinkTitle)
         await this.urlPickerSubmitBtn.click()
         await this.pillLinkSubmitBtn.click()
-        await this.pillDescription.fill(faker.lorem.paragraph())
+    }
 
+    async addCTAbutton() {
+        const ctaButtonLinkTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Link Automation ' + faker.number.int({ min: 50, max: 1000 })
+        await this.pillCtaBtn.click()
+        await this.linkField.waitFor({ state: 'visible' })
+        await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
+        await this.linkTitleFld.fill(ctaButtonLinkTitle)
+        await this.urlPickerSubmitBtn.click()
+    }
+
+    async fillOutPillDescription() {
+        await this.pillDescription.fill(this.pillDescriptionText)
     }
 
     async validatePillAvailability(page) {
