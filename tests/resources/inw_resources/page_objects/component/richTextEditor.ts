@@ -13,7 +13,7 @@ export class RTEComponent {
         this.page = page;
         this.rteFrame = page.frameLocator('[title="Rich Text Area"]');
         this.rteParagraph = this.rteFrame.locator('[id ="tinymce"]');
-        this.mainSiteContent = (context: any) => context.locator('//main[@class="site-content"]');
+        this.mainSiteContent = (context: any) => context.locator('body');
     }
     async setupRTE() {
         await expect(this.rteParagraph).toBeVisible({ timeout: 10000 })
@@ -21,7 +21,7 @@ export class RTEComponent {
     }
 
     async validateRTE(newPage) {
-        await expect(newPage.locator('body'), "RTE text is available on the page").toContainText(this.randomText);
+        await expect(this.mainSiteContent(newPage), "RTE text is available on the page").toContainText(this.randomText);
     }
 
 }
