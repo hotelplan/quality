@@ -13,7 +13,7 @@ export class RTEComponent {
         this.page = page;
         this.rteFrame = page.frameLocator('[title="Rich Text Area"]');
         this.rteParagraph = this.rteFrame.locator('[id ="tinymce"]');
-        this.mainSiteContent = (context: any) => context.locator('body');
+        this.mainSiteContent = (context : any) => context.locator('body');
     }
     async setupRTE() {
         await expect(this.rteParagraph).toBeVisible({ timeout: 10000 })
