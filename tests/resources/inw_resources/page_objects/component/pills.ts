@@ -87,7 +87,7 @@ export class PillsComponent {
         await this.pillDescription.fill(this.pillDescriptionText)
     }
 
-    async validatePillAvailability(newPage = this.page) {
+    async validatePillAvailability(newPage) {
         const pillStyle = this.selectedPillStyle[0].split(':')[1]
 
         await expect(newPage.locator('body')).toContainText(this.pillTitleText);
