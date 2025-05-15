@@ -12,6 +12,7 @@ import { AccordionComponent } from '../component/accordion';
 import { CTAButtonComponent } from '../component/ctaButton';
 import { RTEComponent } from '../component/richTextEditor';
 import { CTBComponent } from '../component/ctb';
+import { ImageCarouselComponent } from '../component/imageCarousel';
 import { SharedSteps } from '../../utilities/sharedSteps';
 
 
@@ -30,6 +31,7 @@ type pages = {
     ctaButtonComponent: CTAButtonComponent
     rteComponent: RTEComponent
     ctbComponent: CTBComponent
+    imageCarouselComponent: ImageCarouselComponent
     sharedSteps: SharedSteps
 }
 
@@ -82,6 +84,9 @@ const testPages = base.extend<pages>({
     },
     ctbComponent: async ({page},use) => {
         await use(new CTBComponent(page));
+    },
+    imageCarouselComponent: async ({page},use) => {
+        await use(new ImageCarouselComponent(page));
     },
     sharedSteps: async ({page},use) => {
         await use(new SharedSteps(page));
