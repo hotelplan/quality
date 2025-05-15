@@ -16,9 +16,7 @@ export class GoodToKnowComponent {
     readonly submitGoodToKnowItem: Locator
     public goodToKnowTitleText: string = faker.word.adjective() + ' ' + faker.word.noun() + ' Automation ' + faker.number.int({ min: 50, max: 1000 })
     public goodToKnowDescriptionText: string = faker.lorem.paragraph()
-
     public iconName: string | null
-
 
     constructor(page: Page) {
         this.page = page;
@@ -82,7 +80,9 @@ export class GoodToKnowComponent {
     }
 
     async validateGoodToKnowAvailability(newPage) {
-        await this.page.pause()
+        await expect(newPage.locator('body')).toContainText(this.goodToKnowTitleText);
+        await expect(newPage.locator('body')).toContainText(this.goodToKnowDescriptionText);
+
     }
 }
 

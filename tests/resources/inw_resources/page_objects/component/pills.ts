@@ -89,11 +89,11 @@ export class PillsComponent {
 
     async validatePillAvailability(newPage) {
         const pillStyle = this.selectedPillStyle[0].split(':')[1]
+        const expectedText = [this.pillTitleText, this.pillDescriptionText, this.pillLinkTitle, this.ctaButtonLinkTitle]
 
-        await expect(newPage.locator('body')).toContainText(this.pillTitleText);
-        await expect(newPage.locator('body')).toContainText(this.pillDescriptionText);
-        await expect(newPage.locator('body')).toContainText(this.pillLinkTitle);
-        await expect(newPage.locator('body')).toContainText(this.ctaButtonLinkTitle);
+        for (const text of expectedText) {
+            await expect(newPage.locator('body')).toContainText(text);
+        }
 
         if (pillStyle === 'Rectangle') {
             const actualPillStyle = await newPage.getByText(`${this.pillLinkTitle}`).evaluate(node => node.parentElement?.parentElement?.className)

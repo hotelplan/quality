@@ -51,16 +51,16 @@ test.describe('Good to know', async () => {
                 await goodToKnowComponent.clickGoodToKnowItemBtn()
             });
 
-            await test.step(`And: I select a Good-to-know item icon`, async () => {
-                await goodToKnowComponent.selectGoodToKnowItemIcon()
-            });
-
             await test.step(`And: I fill out Good-to-know item title`, async () => {
                 await goodToKnowComponent.fillOutGoodToKnowItemTitle()
             });
 
             await test.step(`And: I fill out Good-to-know item description`, async () => {
                 await goodToKnowComponent.fillOutGoodToKnowItemDescription()
+            });
+
+            await test.step(`And: I select a Good-to-know item icon`, async () => {
+                await goodToKnowComponent.selectGoodToKnowItemIcon()
             });
 
             await test.step(`And: I fill out Good-to-know item link`, async () => {
