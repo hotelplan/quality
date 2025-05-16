@@ -53,17 +53,23 @@ export class GoodToKnowComponent {
         const iconItemIndex = Math.floor(Math.random() * iconPickerItemCount)
         this.iconName = await this.iconPickerItem.nth(iconItemIndex).locator('a').getAttribute('title')
         await this.iconPickerItem.nth(iconItemIndex).click()
+
+        return this.iconName
     }
 
     async fillOutGoodToKnowItemTitle() {
         const goodToKnowItemTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Title ' + faker.number.int({ min: 50, max: 1000 })
         await this.goodToKnowTitle.nth(1).waitFor({ state: 'visible' })
         await this.goodToKnowTitle.nth(1).fill(goodToKnowItemTitle)
+
+        return goodToKnowItemTitle
     }
 
     async fillOutGoodToKnowItemDescription() {
         const goodToKnowItemDescription = faker.word.adjective() + ' ' + faker.word.noun() + ' Item Description Automation ' + faker.number.int({ min: 50, max: 1000 })
         await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
+
+        return goodToKnowItemDescription
     }
 
     async fillOutGoodToKnowItemLink() {
@@ -73,16 +79,31 @@ export class GoodToKnowComponent {
         await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
         await this.linkTitleFld.fill(goodToKnowLinkTitle)
         await this.urlPickerSubmitBtn.click()
+
+        return goodToKnowLinkTitle
     }
 
     async clickSubmitGoodToKnowItem() {
         await this.submitGoodToKnowItem.click()
     }
 
-    async validateGoodToKnowAvailability(newPage) {
+    async validateGoodToKnowAvailability(newPage = this.page, goodToKnowDetails) {
         await expect(newPage.locator('body')).toContainText(this.goodToKnowTitleText);
         await expect(newPage.locator('body')).toContainText(this.goodToKnowDescriptionText);
 
+        for (const goodToKnowItem of goodToKnowDetails) {
+            const actualIcon = await newPage.getByText(goodToKnowItem.title).evaluate(node => node.parentElement?.previousElementSibling?.classList.value)
+            const actualTitleAlignment = await newPage.getByText(goodToKnowItem.title).evaluate(node => node.className)
+            const actualDescription = await newPage.getByText(goodToKnowItem.description).evaluate(node => node.parentElement?.className)
+            const actualLink = await newPage.getByText(goodToKnowItem.link).evaluate(node => node.parentElement?.getAttribute('href'))
+
+
+            expect(actualIcon?.includes(goodToKnowItem.icon), "Good to know Icon is correct").toBeTruthy()
+            expect(actualTitleAlignment?.includes('center'), "Good to know Title Alignment is correct").toBeTruthy()
+            expect(actualDescription?.includes('center'), "Good to know Description Alignment is correct").toBeTruthy()
+            expect(actualLink?.includes(environmentBaseUrl.googleLink.testLink), "Good to know Link is correct").toBeTruthy()
+
+        }
     }
 }
 

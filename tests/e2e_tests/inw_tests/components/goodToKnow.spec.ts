@@ -1,8 +1,16 @@
 import { test } from '../../../resources/inw_resources/page_objects/base/page_base';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
+import { type GoodToKnowItem } from '../../../resources/inw_resources/utilities/models';
 
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
+const goodToKnowItems: GoodToKnowItem[] = []
+let goodToKnowItem: GoodToKnowItem = {
+    icon: null,
+    title: null,
+    description: null,
+    link: null
+}
 let newPage
 
 test.beforeEach(async ({ page }) => {
@@ -52,24 +60,26 @@ test.describe('Good to know', async () => {
             });
 
             await test.step(`And: I fill out Good-to-know item title`, async () => {
-                await goodToKnowComponent.fillOutGoodToKnowItemTitle()
+                goodToKnowItem.title = await goodToKnowComponent.fillOutGoodToKnowItemTitle()
             });
 
             await test.step(`And: I fill out Good-to-know item description`, async () => {
-                await goodToKnowComponent.fillOutGoodToKnowItemDescription()
+                goodToKnowItem.description = await goodToKnowComponent.fillOutGoodToKnowItemDescription()
             });
 
             await test.step(`And: I select a Good-to-know item icon`, async () => {
-                await goodToKnowComponent.selectGoodToKnowItemIcon()
+                goodToKnowItem.icon = await goodToKnowComponent.selectGoodToKnowItemIcon()
             });
 
             await test.step(`And: I fill out Good-to-know item link`, async () => {
-                await goodToKnowComponent.fillOutGoodToKnowItemLink()
+                goodToKnowItem.link = await goodToKnowComponent.fillOutGoodToKnowItemLink()
             });
 
             await test.step(`And: I click 'Create' button for Good-to-know item`, async () => {
                 await goodToKnowComponent.clickSubmitGoodToKnowItem()
             });
+
+            goodToKnowItems.push(goodToKnowItem)
         }
 
         await test.step(`And: I click 'Create' button for Good-to-know component
@@ -87,7 +97,7 @@ test.describe('Good to know', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await goodToKnowComponent.validateGoodToKnowAvailability(newPage)
+            await goodToKnowComponent.validateGoodToKnowAvailability(newPage, goodToKnowItems)
 
         });
 
