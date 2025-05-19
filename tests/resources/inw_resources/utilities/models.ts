@@ -17,3 +17,10 @@ export interface ResortSearchValues {
     whosComing: string | null;
     nights: string | null;
 }
+
+export type GoodToKnowItem = {
+    icon: string | null;
+    title: string | null;
+    description: string | null;
+    link: string | null;
+};

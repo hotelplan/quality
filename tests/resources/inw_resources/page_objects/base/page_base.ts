@@ -1,7 +1,7 @@
 import { test as base, request, APIRequestContext } from '@playwright/test';
-import { EcmsSignInPage }  from '../e_cms_pages/e_cms_sign_in_page';
+import { EcmsSignInPage } from '../e_cms_pages/e_cms_sign_in_page';
 import { EcmsMainPage } from '../e_cms_pages/e_cms_main_page';
-import { PcmsSignInPage }  from '../p_cms_pages/p_cms_sign_in_page';
+import { PcmsSignInPage } from '../p_cms_pages/p_cms_sign_in_page';
 import { PcmsMainPage } from '../p_cms_pages/p_cms_main_page';
 import { CountryPage } from '../country_page';
 import { RegionPage } from '../region_page';
@@ -13,6 +13,8 @@ import { CTAButtonComponent } from '../component/ctaButton';
 import { RTEComponent } from '../component/richTextEditor';
 import { CTBComponent } from '../component/ctb';
 import { ImageCarouselComponent } from '../component/imageCarousel';
+import { PillsComponent } from '../component/pills';
+import { GoodToKnowComponent } from '../component/goodToKnow';
 import { SharedSteps } from '../../utilities/sharedSteps';
 
 
@@ -32,63 +34,71 @@ type pages = {
     rteComponent: RTEComponent
     ctbComponent: CTBComponent
     imageCarouselComponent: ImageCarouselComponent
+    pillsComponent: PillsComponent
+    goodToKnowComponent: GoodToKnowComponent
     sharedSteps: SharedSteps
 }
 
 let apiContext: APIRequestContext;
 
 const testPages = base.extend<pages>({
-    
-    ecmsSignInpage: async ({page},use) => {
+
+    ecmsSignInpage: async ({ page }, use) => {
         await use(new EcmsSignInPage(page));
     },
 
-    ecmsMainPage: async ({page},use) => {
+    ecmsMainPage: async ({ page }, use) => {
         await use(new EcmsMainPage(page));
     },
 
-    pcmsSignInpage: async ({page},use) => {
+    pcmsSignInpage: async ({ page }, use) => {
         await use(new PcmsSignInPage(page));
     },
 
-    pcmsMainPage: async ({page},use) => {
+    pcmsMainPage: async ({ page }, use) => {
         await use(new PcmsMainPage(page));
     },
 
-    countryPage: async ({page},use) => {
+    countryPage: async ({ page }, use) => {
         await use(new CountryPage(page));
     },
 
-    regionPage: async ({page},use) => {
+    regionPage: async ({ page }, use) => {
         await use(new RegionPage(page));
     },
-    searchResultPage: async ({page},use) => {
+    searchResultPage: async ({ page }, use) => {
         apiContext = await request.newContext();
         await use(new SearchResultPage(page, apiContext));
     },
-    resortPage: async ({page},use) => {
+    resortPage: async ({ page }, use) => {
         apiContext = await request.newContext();
         await use(new ResortPage(page, apiContext));
     },
-    headlineComponent: async ({page},use) => {
+    headlineComponent: async ({ page }, use) => {
         await use(new HeadlineComponent(page));
     },
-    accordionComponent: async ({page},use) => {
+    accordionComponent: async ({ page }, use) => {
         await use(new AccordionComponent(page));
     },
-    ctaButtonComponent: async ({page},use) => {
+    ctaButtonComponent: async ({ page }, use) => {
         await use(new CTAButtonComponent(page));
     },
-    rteComponent: async ({page},use) => {
+    rteComponent: async ({ page }, use) => {
         await use(new RTEComponent(page));
     },
-    ctbComponent: async ({page},use) => {
+    ctbComponent: async ({ page }, use) => {
         await use(new CTBComponent(page));
     },
     imageCarouselComponent: async ({page},use) => {
         await use(new ImageCarouselComponent(page));
     },
-    sharedSteps: async ({page},use) => {
+    pillsComponent: async ({ page }, use) => {
+        await use(new PillsComponent(page));
+    },
+    goodToKnowComponent: async ({ page }, use) => {
+        await use(new GoodToKnowComponent(page));
+    },
+    sharedSteps: async ({ page }, use) => {
         await use(new SharedSteps(page));
     },
 
