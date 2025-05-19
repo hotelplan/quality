@@ -37,8 +37,23 @@ test.describe('Call to Book', async () => {
 
         });
 
-        await test.step(`And: I setup a CTB component`, async () => {
-            await ctbComponent.setupCtB()
+        await test.step(`And: I fill out CTB Title`, async () => {
+            await ctbComponent.fillOutCTBTitle()
+
+        });
+
+        await test.step(`And: I fill out CTB Phone number`, async () => {
+            await ctbComponent.fillOutCTBPhoneNumber()
+
+        });
+
+        await test.step(`And: I select CTB Layout`, async () => {
+            await ctbComponent.selectCTBLayout()
+
+        });
+
+        await test.step(`And: I fill out CTB Description`, async () => {
+            await ctbComponent.fillOutCTBDescription()
 
         });
 

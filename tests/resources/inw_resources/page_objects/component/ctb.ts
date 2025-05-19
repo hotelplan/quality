@@ -23,15 +23,24 @@ export class CTBComponent {
         this.ctbDescriptionText = faker.lorem.paragraph()
     }
 
-    async setupCtB() {
-        const layoutRandomIndex = Math.floor(Math.random() * 2) + 1;
-
+    async fillOutCTBTitle() {
         await this.ctbTitle.waitFor({ state: 'visible' })
         await this.ctbTitle.fill(this.ctaButtonTitle)
+    }
+
+    async fillOutCTBPhoneNumber() {
         await this.ctbPhoneNumer.fill(this.ctaPhoneNumber)
+    }
+
+    async selectCTBLayout() {
+        const layoutRandomIndex = Math.floor(Math.random() * 2) + 1;
         await this.ctbLayout.click()
         this.selectedLayout = await this.ctbLayout.selectOption({ index: layoutRandomIndex })
+    }
+
+    async fillOutCTBDescription() {
         await this.ctbDescription.fill(this.ctbDescriptionText)
+
     }
 
     async validateCtaButtonAvailability(newPage) {
