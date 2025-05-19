@@ -4,6 +4,20 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 let newPage
+let testPageName
+
+
+test.beforeAll(async ({ page, sharedSteps }) => {
+    await test.step('Given: I navigate to home page', async () => {
+        await page.goto(ECMSurl + '/umbraco#/content')
+    });
+
+    await test.step(`Then: Create a Generic Content page`, async () => {
+        testPageName = await sharedSteps.createGenericContentPage()
+        await sharedSteps.clickSaveAndPublishBtn()
+    });
+
+});
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -11,11 +25,27 @@ test.beforeEach(async ({ page }) => {
     })
 })
 
+test.afterAll(async ({ page, sharedSteps }) => {
+    await test.step('Given: I navigate to home page', async () => {
+        await page.goto(ECMSurl + '/umbraco#/content')
+    });
+
+    await test.step(`And: I select a Generic Content page`, async () => {
+        await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
+    });
+
+    await test.step(`Then: Delete a Generic Content page`, async () => {
+        await sharedSteps.deleteGenericContentPage(testPageName)
+        await sharedSteps.clickSaveAndPublishBtn()
+    });
+
+});
+
 test.describe('Image Carousel', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
     test(`An ECMS user creates a Image Carousel component and views it on the General Content page @inw`, async ({ rteComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
-            await sharedSteps.searchAndSelectGenericContentPage()
+            await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });
 
         await test.step(`And: I click 'Content' tab`, async () => {
