@@ -172,7 +172,7 @@ export class SharedSteps {
 
             return ctaButtonTitle
         } else if (component == 'Pill CTA Button') {
-            const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
+            const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Button ' + faker.number.int({ min: 50, max: 1000 })
 
             await this.page.getByRole('button', { name: 'View All CTA Button: Add url' }).click()
             await this.linkField.waitFor({ state: 'visible' })
