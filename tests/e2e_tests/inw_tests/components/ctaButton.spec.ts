@@ -37,9 +37,21 @@ test.describe('CTA Button', async () => {
 
         });
 
-        await test.step(`And: I setup a CTA button component`, async () => {
-            await ctaButtonComponent.setupCtaButton()
+        await test.step(`And: I select CTA button Theme`, async () => {
+            await ctaButtonComponent.selectCTAButtonTheme()
+        });
 
+
+        await test.step(`And: I select CTA button Position`, async () => {
+            await ctaButtonComponent.selectCTAButtonPosition()
+        });
+
+        await test.step(`And: I select Cta button Link`, async () => {
+            await ctaButtonComponent.selectCTAButtonLink()
+        });
+
+        await test.step(`And: I select CTA button Icon`, async () => {
+            await ctaButtonComponent.selectCtaButtonIcon()
         });
 
         await test.step(`And: I click 'Create' button for CTA button component

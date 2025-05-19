@@ -32,19 +32,29 @@ export class CTAButtonComponent {
         this.ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
 
     }
-    async setupCtaButton() {
-        const themeRandomIndex = Math.floor(Math.random() * 3);
-        const positionHorizontalRandomIndex = Math.floor(Math.random() * 4);
 
+    async selectCTAButtonTheme() {
+        const themeRandomIndex = Math.floor(Math.random() * 3);
         await this.themeDropdown.click()
         this.ctaBtnTheme = await this.themeDropdown.selectOption({ index: themeRandomIndex })
+    }
+
+    async selectCTAButtonPosition() {
+        const positionHorizontalRandomIndex = Math.floor(Math.random() * 4);
+
         await this.positionHorizontalDropdown.click()
         this.ctaBtnHorizontalposition = await this.positionHorizontalDropdown.selectOption({ index: positionHorizontalRandomIndex })
+    }
+
+    async selectCTAButtonLink() {
         await this.urlPickerBtn.click()
         await this.linkField.waitFor({ state: 'visible' })
         await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
         await this.linkTitleFld.fill(this.ctaButtonTitle)
         await this.urlPickerSubmitBtn.click()
+    }
+
+    async selectCtaButtonIcon() {
         await this.iconPickerBtn.click()
         await expect(this.iconPickerItem.nth(0)).toBeVisible()
 
