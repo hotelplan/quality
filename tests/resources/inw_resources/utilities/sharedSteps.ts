@@ -145,12 +145,14 @@ export class SharedSteps {
         if (component == 'Good to know item') {
             const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
 
-            await  this.page.locator('button[ng-click="openLinkPicker()"]').click()
+            await this.page.locator('button[ng-click="openLinkPicker()"]').click()
             await this.linkField.waitFor({ state: 'visible' })
             await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
             await this.linkTitleFld.fill(goodToKnowLinkTitle)
             await this.urlPickerSubmitBtn.click()
+            
             return goodToKnowLinkTitle
+
         } else if (component == 'Pills') {
             const pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
             await this.page.locator('button[ng-click="openLinkPicker()"]').nth(1).click()

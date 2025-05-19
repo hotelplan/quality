@@ -24,3 +24,8 @@ export type GoodToKnowItem = {
     description: string | null;
     link: string | null;
 };
+
+export type CtaButtonProperty = {
+    icon: string | null;
+    title: string | null;
+};
