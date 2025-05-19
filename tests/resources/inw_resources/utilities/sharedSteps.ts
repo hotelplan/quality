@@ -41,6 +41,7 @@ export class SharedSteps {
         this.infoTab = page.locator('[data-element="sub-view-umbInfo"]')
         this.pageLink = page.locator('[icon="icon-out"]')
         this.publishNotification = page.locator('.umb-notifications__notifications > li')
+        this.rteFrame = page.frameLocator('[title="Rich Text Area"]');
         this.rteParagraph = this.rteFrame.locator('#tinymce');
         this.urlPickerBtn = page.getByRole('button', { name: 'Url Picker: Add url' })
         this.linkField = page.locator('#urlLinkPicker')
@@ -127,7 +128,7 @@ export class SharedSteps {
         //Rich text content is initialized here to meet test cases that require unique input.
         const richTextContent = faker.lorem.paragraph()
 
-        if (component = 'Good to know item') {
+        if (component == 'Good to know item') {
             const goodToKnowItemDescription = faker.word.adjective() + ' ' + faker.word.noun() + ' Item Description Automation ' + faker.number.int({ min: 50, max: 1000 })
             await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
             return goodToKnowItemDescription
@@ -152,7 +153,7 @@ export class SharedSteps {
             return goodToKnowLinkTitle
         } else if (component == 'Pills') {
             const pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
-            await this.urlPickerBtn.click()
+            await this.page.locator('button[ng-click="openLinkPicker()"]').nth(1).click()
             await this.linkField.waitFor({ state: 'visible' })
             await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
             await this.linkTitleFld.fill(pillLinkTitle)
@@ -163,7 +164,6 @@ export class SharedSteps {
 
         } else if (component == 'CTA Button') {
             const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
-
             await this.urlPickerBtn.click()
             await this.linkField.waitFor({ state: 'visible' })
             await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
@@ -171,6 +171,14 @@ export class SharedSteps {
             await this.urlPickerSubmitBtn.click()
 
             return ctaButtonTitle
+        } else if (component == 'Pill CTA Button') {
+            const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
+
+            this.page.getByRole('button', { name: 'View All CTA Button: Add url' }).click()
+            await this.linkField.waitFor({ state: 'visible' })
+            await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
+            await this.linkTitleFld.fill(ctaButtonTitle)
+            await this.urlPickerSubmitBtn.click()
         }
 
         return '';

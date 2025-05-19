@@ -62,7 +62,7 @@ test.describe('Pills', async () => {
         });
 
         await test.step(`And: I add a CTA button`, async () => {
-            ctaButtonLinkTitle = await sharedSteps.pickComponentLink('CTA Button')
+            ctaButtonLinkTitle = await sharedSteps.pickComponentLink('Pill CTA Button')
         });
 
         await test.step(`And: I fill out the Pill Description Rich text editor`, async () => {
