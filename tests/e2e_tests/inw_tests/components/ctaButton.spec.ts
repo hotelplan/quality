@@ -4,6 +4,7 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 let newPage
+let ctaButtonTitle
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -47,7 +48,7 @@ test.describe('CTA Button', async () => {
         });
 
         await test.step(`And: I select Cta button Link`, async () => {
-            await ctaButtonComponent.selectCTAButtonLink()
+            ctaButtonTitle = await sharedSteps.pickComponentLink('CTA Button')
         });
 
         await test.step(`And: I select CTA button Icon`, async () => {
@@ -69,7 +70,7 @@ test.describe('CTA Button', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the CTA button displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await ctaButtonComponent.validateCtaButtonAvailability(newPage)
+            await ctaButtonComponent.validateCtaButtonAvailability(newPage, ctaButtonTitle)
         });
 
     })

@@ -5,6 +5,8 @@ const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 let newPage
 let rteContent
+let pillLinkTitle
+let ctaButtonLinkTitle
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -44,15 +46,22 @@ test.describe('Pills', async () => {
 
         await test.step(`And: I fill out Pill title`, async () => {
             await pillsComponent.fillOutPillTitle()
-
         });
 
-        await test.step(`And: I select Pill Link`, async () => {
+        await test.step(`And: I click Pill Link button`, async () => {
+            await pillsComponent.clickAddPillLinkBtn()
+        });
+
+        await test.step(`And: I select Pill Icon`, async () => {
             await pillsComponent.addPillLink()
         });
 
+        await test.step(`And: I select Pill Link`, async () => {
+            pillLinkTitle = await sharedSteps.pickComponentLink('Pills')
+        });
+
         await test.step(`And: I add a CTA button`, async () => {
-            await pillsComponent.addCTAbutton()
+            ctaButtonLinkTitle = await sharedSteps.pickComponentLink('CTA Button')
         });
 
         await test.step(`And: I fill out the Pill Description Rich text editor`, async () => {
@@ -74,7 +83,7 @@ test.describe('Pills', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await pillsComponent.validatePillAvailability(newPage, rteContent)
+            await pillsComponent.validatePillAvailability(newPage, rteContent, pillLinkTitle, ctaButtonLinkTitle)
 
         });
 

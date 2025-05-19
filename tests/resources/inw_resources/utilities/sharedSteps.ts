@@ -1,4 +1,5 @@
 import { type Page, type Locator, expect, FrameLocator } from '@playwright/test';
+import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 import { faker } from '@faker-js/faker';
 
 export class SharedSteps {
@@ -18,6 +19,11 @@ export class SharedSteps {
     readonly genericContentPage: string
     readonly rteFrame: FrameLocator
     readonly rteParagraph: Locator
+    readonly urlPickerBtn: Locator
+    readonly linkField: Locator
+    readonly linkTitleFld: Locator
+    readonly urlPickerSubmitBtn: Locator
+    readonly pillLinkSubmitBtn: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -34,6 +40,13 @@ export class SharedSteps {
         this.pageLink = page.locator('[icon="icon-out"]')
         this.publishNotification = page.locator('.umb-notifications__notifications > li')
         this.rteParagraph = this.rteFrame.locator('#tinymce');
+        this.urlPickerBtn = page.getByRole('button', { name: 'Url Picker: Add url' })
+        this.linkField = page.locator('#urlLinkPicker')
+        this.linkTitleFld = page.locator('#nodeNameLinkPicker')
+        this.urlPickerSubmitBtn = page.locator('.btn-success').last()
+        this.pillLinkSubmitBtn = page.locator('.btn-primary').last()
+
+
         //The location of the Generic Content Page name can be placed in a separate file.
         this.genericContentPage = 'Automation SKI Components'
     }
@@ -122,6 +135,42 @@ export class SharedSteps {
             return richTextContent
 
         }
+    }
+
+    async pickComponentLink(component: string = 'common') {
+        if (component == 'Good to know item') {
+            const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
+
+            await this.urlPickerBtn.click()
+            await this.linkField.waitFor({ state: 'visible' })
+            await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
+            await this.linkTitleFld.fill(goodToKnowLinkTitle)
+            await this.urlPickerSubmitBtn.click()
+            return goodToKnowLinkTitle
+        } else if (component == 'Pills') {
+            const pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
+            await this.urlPickerBtn.click()
+            await this.linkField.waitFor({ state: 'visible' })
+            await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
+            await this.linkTitleFld.fill(pillLinkTitle)
+            await this.urlPickerSubmitBtn.click()
+            await this.pillLinkSubmitBtn.click()
+
+            return pillLinkTitle
+
+        } else if (component == 'CTA Button') {
+            const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
+            
+            await this.urlPickerBtn.click()
+            await this.linkField.waitFor({ state: 'visible' })
+            await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
+            await this.linkTitleFld.fill(ctaButtonTitle)
+            await this.urlPickerSubmitBtn.click()
+
+            return ctaButtonTitle
+        }
+
+        return '';
     }
 }
 
