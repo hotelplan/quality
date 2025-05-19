@@ -145,7 +145,7 @@ export class SharedSteps {
         if (component == 'Good to know item') {
             const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
 
-            await this.urlPickerBtn.click()
+            await  this.page.locator('button[ng-click="openLinkPicker()"]').click()
             await this.linkField.waitFor({ state: 'visible' })
             await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
             await this.linkTitleFld.fill(goodToKnowLinkTitle)
@@ -174,7 +174,7 @@ export class SharedSteps {
         } else if (component == 'Pill CTA Button') {
             const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
 
-            this.page.getByRole('button', { name: 'View All CTA Button: Add url' }).click()
+            await this.page.getByRole('button', { name: 'View All CTA Button: Add url' }).click()
             await this.linkField.waitFor({ state: 'visible' })
             await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
             await this.linkTitleFld.fill(ctaButtonTitle)
