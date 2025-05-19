@@ -86,7 +86,7 @@ test.describe('Image Carousel', async () => {
 
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Image Carousel displayed on the Generic Content Page with details`, async () => {
-            await sharedSteps.validatePageUrl(newPage)
+            await sharedSteps.validateNewPageUrl(newPage)
             //await rteComponent.validateRTE(newPage)
         });
 

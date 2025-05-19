@@ -22,6 +22,7 @@ export class SharedSteps {
     readonly genericContentPageName: Locator
     readonly actionsButton: Locator
     readonly deleteButton: (pageName: string) => Locator
+    readonly deleteConfirmation: Locator
     readonly okButton: Locator
 
 
@@ -47,6 +48,7 @@ export class SharedSteps {
         this.genericContentPageName = page.getByRole('textbox', { name: 'Generic Content Page Name' })
         this.actionsButton = page.getByRole('button', { name: 'Actions' });
         this.deleteButton = (pageName: string) => page.getByRole('button', { name: `Delete ${pageName}` })
+        this.deleteConfirmation = page.locator('//localize[text()="was deleted"]')
         this.okButton = page.getByRole('button', { name: 'OK' })
     }
 
@@ -68,6 +70,7 @@ export class SharedSteps {
         await this.deleteButton(pageName).click()
         await this.okButton.waitFor({ state: 'visible' })
         await this.okButton.click()
+        await this.deleteConfirmation.waitFor({ state: 'visible' })
         await this.okButton.waitFor({ state: 'visible' })
         await this.okButton.click()
     }
@@ -147,6 +150,11 @@ export class SharedSteps {
 
     async validatePageUrl(newPage) {
         const formattedUrlPart = this.genericContentPage.replace(/\s+/g, '-').toLowerCase();
+        await expect(newPage).toHaveURL(new RegExp(`.*${formattedUrlPart}`));
+    }
+
+    async validateNewPageUrl(newPage) {
+        const formattedUrlPart = this.newGenericContentPage.replace(/\s+/g, '-').toLowerCase();
         await expect(newPage).toHaveURL(new RegExp(`.*${formattedUrlPart}`));
     }
 }
