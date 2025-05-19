@@ -26,6 +26,8 @@ export class SharedSteps {
     readonly pillLinkSubmitBtn: Locator
     readonly iconPickerBtn: Locator
     readonly iconPickerItem: Locator
+    readonly linkPickerBtn: Locator
+    readonly pillCtabutton: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -44,13 +46,14 @@ export class SharedSteps {
         this.rteFrame = page.frameLocator('[title="Rich Text Area"]');
         this.rteParagraph = this.rteFrame.locator('#tinymce');
         this.urlPickerBtn = page.getByRole('button', { name: 'Url Picker: Add url' })
+        this.linkPickerBtn = page.locator('button[ng-click="openLinkPicker()"]')
         this.linkField = page.locator('#urlLinkPicker')
         this.linkTitleFld = page.locator('#nodeNameLinkPicker')
         this.urlPickerSubmitBtn = page.locator('.btn-success').last()
         this.pillLinkSubmitBtn = page.locator('.btn-primary').last()
         this.iconPickerBtn = page.locator('[data-element="sortable-thumbnails"]')
         this.iconPickerItem = page.locator('.umb-iconpicker-item')
-
+        this.pillCtabutton = page.getByRole('button', { name: 'View All CTA Button: Add url' })
         //The location of the Generic Content Page name can be placed in a separate file.
         this.genericContentPage = 'Automation SKI Components'
     }
@@ -141,25 +144,25 @@ export class SharedSteps {
         }
     }
 
+    async fillOutGoogleLink(title: string) {
+        await this.linkField.waitFor({ state: 'visible' })
+        await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
+        await this.linkTitleFld.fill(title)
+        await this.urlPickerSubmitBtn.click()
+    }
+
     async pickComponentLink(component: string = 'common') {
         if (component == 'Good to know item') {
             const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
+            await this.linkPickerBtn.click()
+            await this.fillOutGoogleLink(goodToKnowLinkTitle)
 
-            await this.page.locator('button[ng-click="openLinkPicker()"]').click()
-            await this.linkField.waitFor({ state: 'visible' })
-            await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
-            await this.linkTitleFld.fill(goodToKnowLinkTitle)
-            await this.urlPickerSubmitBtn.click()
-            
             return goodToKnowLinkTitle
 
         } else if (component == 'Pills') {
             const pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
-            await this.page.locator('button[ng-click="openLinkPicker()"]').nth(1).click()
-            await this.linkField.waitFor({ state: 'visible' })
-            await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
-            await this.linkTitleFld.fill(pillLinkTitle)
-            await this.urlPickerSubmitBtn.click()
+            await this.linkPickerBtn.nth(1).click()
+            await this.fillOutGoogleLink(pillLinkTitle)
             await this.pillLinkSubmitBtn.click()
 
             return pillLinkTitle
@@ -167,22 +170,17 @@ export class SharedSteps {
         } else if (component == 'CTA Button') {
             const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
             await this.urlPickerBtn.click()
-            await this.linkField.waitFor({ state: 'visible' })
-            await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
-            await this.linkTitleFld.fill(ctaButtonTitle)
-            await this.urlPickerSubmitBtn.click()
+            await this.fillOutGoogleLink(ctaButtonTitle)
 
             return ctaButtonTitle
+
         } else if (component == 'Pill CTA Button') {
-            const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Button ' + faker.number.int({ min: 50, max: 1000 })
+            const pillCtaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Button ' + faker.number.int({ min: 50, max: 1000 })
 
-            await this.page.getByRole('button', { name: 'View All CTA Button: Add url' }).click()
-            await this.linkField.waitFor({ state: 'visible' })
-            await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
-            await this.linkTitleFld.fill(ctaButtonTitle)
-            await this.urlPickerSubmitBtn.click()
+            await this.pillCtabutton.click()
+            await this.fillOutGoogleLink(pillCtaButtonTitle)
 
-            return ctaButtonTitle
+            return pillCtaButtonTitle
         }
 
         return '';
