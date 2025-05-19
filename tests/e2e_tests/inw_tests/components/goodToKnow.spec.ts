@@ -15,7 +15,7 @@ let newPage
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
-        await page.goto('https://localhost:7040' + '/umbraco#/content')
+        await page.goto(ECMSurl + '/umbraco#/content')
     })
 })
 
