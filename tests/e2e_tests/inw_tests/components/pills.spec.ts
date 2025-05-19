@@ -1,13 +1,17 @@
 import { test } from '../../../resources/inw_resources/page_objects/base/page_base';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
+import { type PillsProperty } from '../../../resources/inw_resources/utilities/models';
 
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
+let pillProperty: PillsProperty = {
+    rteContent: null,
+    linkTitle: null,
+    link: null,
+    ctaButtonLinkTitle: null,
+    icon: null
+} 
 let newPage
-let rteContent
-let pillLinkTitle
-let ctaButtonLinkTitle
-let selectedIcon
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -54,19 +58,19 @@ test.describe('Pills', async () => {
         });
 
         await test.step(`And: I select Pill Icon`, async () => {
-            selectedIcon = await sharedSteps.selectComponentIcon()
+            pillProperty.icon = await sharedSteps.selectComponentIcon()
         });
 
         await test.step(`And: I select Pill Link`, async () => {
-            pillLinkTitle = await sharedSteps.pickComponentLink('Pills')
+            pillProperty.linkTitle = await sharedSteps.pickComponentLink('Pills')
         });
 
         await test.step(`And: I add a CTA button`, async () => {
-            ctaButtonLinkTitle = await sharedSteps.pickComponentLink('Pill CTA Button')
+            pillProperty.ctaButtonLinkTitle = await sharedSteps.pickComponentLink('Pill CTA Button')
         });
 
         await test.step(`And: I fill out the Pill Description Rich text editor`, async () => {
-            rteContent = await sharedSteps.fillOutRTETextEditor()
+            pillProperty.rteContent = await sharedSteps.fillOutRTETextEditor()
         });
 
         await test.step(`And: I click 'Create' button for Pills component
@@ -84,7 +88,7 @@ test.describe('Pills', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await pillsComponent.validatePillAvailability(newPage, rteContent, pillLinkTitle, ctaButtonLinkTitle, selectedIcon)
+            await pillsComponent.validatePillAvailability(newPage, pillProperty)
 
         });
 

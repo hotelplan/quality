@@ -181,6 +181,8 @@ export class SharedSteps {
             await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
             await this.linkTitleFld.fill(ctaButtonTitle)
             await this.urlPickerSubmitBtn.click()
+
+            return ctaButtonTitle
         }
 
         return '';
