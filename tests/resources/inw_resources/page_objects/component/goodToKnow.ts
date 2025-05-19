@@ -5,7 +5,6 @@ import { faker } from '@faker-js/faker';
 export class GoodToKnowComponent {
     readonly page: Page
     readonly goodToKnowTitle: Locator
-    readonly goodToKnowDescription: Locator
     readonly goodToKnowItemBtn: Locator
     readonly iconPickerItem: Locator
     readonly linkPicker: Locator
@@ -21,7 +20,6 @@ export class GoodToKnowComponent {
     constructor(page: Page) {
         this.page = page;
         this.goodToKnowTitle = page.locator('#title')
-        this.goodToKnowDescription = page.locator('iframe').contentFrame().locator('#tinymce');
         this.goodToKnowItemBtn = page.locator('#button_iconText')
         this.iconPickerItem = page.locator('.umb-iconpicker-item')
         this.linkPicker = page.locator('button[ng-click="openLinkPicker()"]')
@@ -35,11 +33,6 @@ export class GoodToKnowComponent {
     async fillOutGoodToKnowTitle() {
         await this.goodToKnowTitle.waitFor({ state: 'visible' })
         await this.goodToKnowTitle.fill(this.goodToKnowTitleText)
-    }
-
-    async fillOutGoodToKnowDescription() {
-        await this.goodToKnowDescription.waitFor({ state: 'visible' })
-        await this.goodToKnowDescription.fill(this.goodToKnowDescriptionText)
     }
 
     async clickGoodToKnowItemBtn() {
@@ -65,13 +58,6 @@ export class GoodToKnowComponent {
         return goodToKnowItemTitle
     }
 
-    async fillOutGoodToKnowItemDescription() {
-        const goodToKnowItemDescription = faker.word.adjective() + ' ' + faker.word.noun() + ' Item Description Automation ' + faker.number.int({ min: 50, max: 1000 })
-        await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
-
-        return goodToKnowItemDescription
-    }
-
     async fillOutGoodToKnowItemLink() {
         const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
         await this.linkPicker.click()
@@ -87,9 +73,9 @@ export class GoodToKnowComponent {
         await this.submitGoodToKnowItem.click()
     }
 
-    async validateGoodToKnowAvailability(newPage = this.page, goodToKnowDetails) {
+    async validateGoodToKnowAvailability(newPage = this.page, goodToKnowDetails, rteContent) {
         await expect(newPage.locator('body')).toContainText(this.goodToKnowTitleText);
-        await expect(newPage.locator('body')).toContainText(this.goodToKnowDescriptionText);
+        await expect(newPage.locator('body')).toContainText(rteContent);
 
         for (const goodToKnowItem of goodToKnowDetails) {
             const actualIcon = await newPage.getByText(goodToKnowItem.title).evaluate(node => node.parentElement?.previousElementSibling?.classList.value)

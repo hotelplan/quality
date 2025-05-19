@@ -1,4 +1,5 @@
-import { type Page, type Locator, expect } from '@playwright/test';
+import { type Page, type Locator, expect, FrameLocator } from '@playwright/test';
+import { faker } from '@faker-js/faker';
 
 export class SharedSteps {
     readonly page: Page
@@ -15,7 +16,8 @@ export class SharedSteps {
     readonly infoTab: Locator
     readonly pageLink: Locator
     readonly genericContentPage: string
-
+    readonly rteFrame: FrameLocator
+    readonly rteParagraph: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -31,6 +33,7 @@ export class SharedSteps {
         this.infoTab = page.locator('[data-element="sub-view-umbInfo"]')
         this.pageLink = page.locator('[icon="icon-out"]')
         this.publishNotification = page.locator('.umb-notifications__notifications > li')
+        this.rteParagraph = this.rteFrame.locator('#tinymce');
         //The location of the Generic Content Page name can be placed in a separate file.
         this.genericContentPage = 'Automation SKI Components'
     }
@@ -102,6 +105,23 @@ export class SharedSteps {
     async validatePageUrl(newPage) {
         const formattedUrlPart = this.genericContentPage.replace(/\s+/g, '-').toLowerCase();
         await expect(newPage).toHaveURL(new RegExp(`.*${formattedUrlPart}`));
+    }
+
+    async fillOutRTETextEditor(component: string = 'common') {
+        //Rich text content is initialized here to meet test cases that require unique input.
+        const richTextContent = faker.lorem.paragraph()
+
+        if (component = 'Good to know item') {
+            const goodToKnowItemDescription = faker.word.adjective() + ' ' + faker.word.noun() + ' Item Description Automation ' + faker.number.int({ min: 50, max: 1000 })
+            await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
+            return goodToKnowItemDescription
+        } else {
+            await this.rteParagraph.waitFor({ state: 'visible' })
+            await this.rteParagraph.fill(richTextContent);
+
+            return richTextContent
+
+        }
     }
 }
 

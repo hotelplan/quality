@@ -4,6 +4,7 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 let newPage
+let rteContent
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -54,9 +55,8 @@ test.describe('Pills', async () => {
             await pillsComponent.addCTAbutton()
         });
 
-        await test.step(`And: I fill out Pill Description`, async () => {
-            await pillsComponent.fillOutPillDescription()
-
+        await test.step(`And: I fill out the Pill Description Rich text editor`, async () => {
+            rteContent = await sharedSteps.fillOutRTETextEditor()
         });
 
         await test.step(`And: I click 'Create' button for Pills component
@@ -74,8 +74,8 @@ test.describe('Pills', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await pillsComponent.validatePillAvailability(newPage)
-            
+            await pillsComponent.validatePillAvailability(newPage, rteContent)
+
         });
 
     })

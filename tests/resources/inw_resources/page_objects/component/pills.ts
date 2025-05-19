@@ -6,7 +6,6 @@ export class PillsComponent {
     readonly page: Page
     readonly pillLinkStyle: Locator
     readonly pillTitle: Locator
-    readonly pillDescription: Locator
     readonly pillLink: Locator
     readonly pillLinkIcon: Locator
     readonly iconPickerItem: Locator
@@ -20,7 +19,6 @@ export class PillsComponent {
 
     public iconName: string | null
     public pillTitleText: string
-    public pillDescriptionText: string
     public pillLinkTitle: string
     public ctaButtonLinkTitle: string
     public selectedPillStyle: string[]
@@ -29,7 +27,6 @@ export class PillsComponent {
         this.page = page;
         this.pillLinkStyle = page.locator('select[name="dropDownList"]').nth(2)
         this.pillTitle = page.locator('#title')
-        this.pillDescription = page.locator('iframe').contentFrame().locator('#tinymce');
         this.pillLink = page.locator('#button_links')
         this.pillLinkIcon = page.locator('.add-link')
         this.iconPickerItem = page.locator('.umb-iconpicker-item')
@@ -40,7 +37,6 @@ export class PillsComponent {
         this.linkPicker = page.locator('button[ng-click="openLinkPicker()"]').nth(1)
         this.linkField = page.locator('#urlLinkPicker')
         this.pillTitleText = faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Automation ' + faker.number.int({ min: 50, max: 1000 })
-        this.pillDescriptionText = faker.lorem.paragraph()
         this.pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
         this.ctaButtonLinkTitle = faker.word.noun() + ' Button ' + faker.number.int({ min: 50, max: 1000 })
 
@@ -83,13 +79,9 @@ export class PillsComponent {
         await this.urlPickerSubmitBtn.click()
     }
 
-    async fillOutPillDescription() {
-        await this.pillDescription.fill(this.pillDescriptionText)
-    }
-
-    async validatePillAvailability(newPage) {
+    async validatePillAvailability(newPage, rteContent) {
         const pillStyle = this.selectedPillStyle[0].split(':')[1]
-        const expectedText = [this.pillTitleText, this.pillDescriptionText, this.pillLinkTitle, this.ctaButtonLinkTitle]
+        const expectedText = [this.pillTitleText, rteContent, this.pillLinkTitle, this.ctaButtonLinkTitle]
 
         for (const text of expectedText) {
             await expect(newPage.locator('body')).toContainText(text);

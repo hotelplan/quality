@@ -6,10 +6,8 @@ export class CTBComponent {
     readonly ctbTitle: Locator
     readonly ctbPhoneNumer: Locator
     readonly ctbLayout: Locator
-    readonly ctbDescription: Locator
     public ctaButtonTitle: string
     public ctaPhoneNumber: string
-    public ctbDescriptionText: string
     public selectedLayout: string[]
 
     constructor(page: Page) {
@@ -17,10 +15,8 @@ export class CTBComponent {
         this.ctbTitle = page.locator('#title')
         this.ctbPhoneNumer = page.locator('#phoneNumber')
         this.ctbLayout = page.locator('select[name="dropDownList"]').nth(2)
-        this.ctbDescription = page.locator('iframe').contentFrame().locator('#tinymce');
         this.ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTB Automation ' + faker.number.int({ min: 50, max: 1000 })
         this.ctaPhoneNumber = faker.phone.number({ style: 'national' })
-        this.ctbDescriptionText = faker.lorem.paragraph()
     }
 
     async fillOutCTBTitle() {
@@ -38,17 +34,12 @@ export class CTBComponent {
         this.selectedLayout = await this.ctbLayout.selectOption({ index: layoutRandomIndex })
     }
 
-    async fillOutCTBDescription() {
-        await this.ctbDescription.fill(this.ctbDescriptionText)
-
-    }
-
-    async validateCtaButtonAvailability(newPage) {
+    async validateCtaButtonAvailability(newPage, rteContent) {
         const ctbLayout = this.selectedLayout[0].split(':')[1]
         await expect(newPage.locator('body')).toContainText(this.ctaButtonTitle);
 
         if (ctbLayout === 'Standard') {
-            await expect(newPage.locator('body')).toContainText(this.ctbDescriptionText);
+            await expect(newPage.locator('body')).toContainText(rteContent);
             const actualCtbLayout = await newPage.getByText(`${this.ctaButtonTitle}`).evaluate(node => node.className)
             expect(actualCtbLayout.includes('standard'), "CTB Layout is correct").toBeTruthy()
 
