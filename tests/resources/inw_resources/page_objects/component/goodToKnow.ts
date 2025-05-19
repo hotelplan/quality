@@ -39,17 +39,6 @@ export class GoodToKnowComponent {
         await this.goodToKnowItemBtn.click()
     }
 
-    async selectGoodToKnowItemIcon() {
-        await this.iconPickerBtn.click()
-        await expect(this.iconPickerItem.nth(0)).toBeVisible()
-        const iconPickerItemCount = await this.iconPickerItem.count()
-        const iconItemIndex = Math.floor(Math.random() * iconPickerItemCount)
-        this.iconName = await this.iconPickerItem.nth(iconItemIndex).locator('a').getAttribute('title')
-        await this.iconPickerItem.nth(iconItemIndex).click()
-
-        return this.iconName
-    }
-
     async fillOutGoodToKnowItemTitle() {
         const goodToKnowItemTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Title ' + faker.number.int({ min: 50, max: 1000 })
         await this.goodToKnowTitle.nth(1).waitFor({ state: 'visible' })

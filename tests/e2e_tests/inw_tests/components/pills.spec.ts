@@ -7,6 +7,7 @@ let newPage
 let rteContent
 let pillLinkTitle
 let ctaButtonLinkTitle
+let selectedIcon
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -53,7 +54,7 @@ test.describe('Pills', async () => {
         });
 
         await test.step(`And: I select Pill Icon`, async () => {
-            await pillsComponent.addPillLink()
+            selectedIcon = await sharedSteps.selectComponentIcon()
         });
 
         await test.step(`And: I select Pill Link`, async () => {
@@ -83,7 +84,7 @@ test.describe('Pills', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await pillsComponent.validatePillAvailability(newPage, rteContent, pillLinkTitle, ctaButtonLinkTitle)
+            await pillsComponent.validatePillAvailability(newPage, rteContent, pillLinkTitle, ctaButtonLinkTitle, selectedIcon)
 
         });
 

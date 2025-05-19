@@ -36,23 +36,12 @@ export class CTAButtonComponent {
         this.ctaBtnHorizontalposition = await this.positionHorizontalDropdown.selectOption({ index: positionHorizontalRandomIndex })
     }
 
-    async selectCtaButtonIcon() {
-        await this.iconPickerBtn.click()
-        await expect(this.iconPickerItem.nth(0)).toBeVisible()
-
-        const iconPickerItemCount = await this.iconPickerItem.count()
-        const iconItemIndex = Math.floor(Math.random() * iconPickerItemCount)
-        this.iconName = await this.iconPickerItem.nth(iconItemIndex).locator('a').getAttribute('title')
-        await this.iconPickerItem.nth(iconItemIndex).click()
-
-    }
-
-    async validateCtaButtonAvailability(newPage, ctaButtonTitle) {
+    async validateCtaButtonAvailability(newPage, ctaButtonTitle, selectedIcon) {
         const expectedCTABtnTheme = this.ctaBtnTheme[0].split(':')[1]
         await expect(newPage.locator('body'), "CTA Button title text is available on the page").toContainText(ctaButtonTitle);
         await expect(newPage.locator(`a[title="${ctaButtonTitle}"]`), "CTA Button title is available on the page").toBeVisible()
         await expect(newPage.locator(`a[title="${ctaButtonTitle}"]`), "CTA Button link is correct").toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)
-        await expect(newPage.locator(`a[title="${ctaButtonTitle}"] [aria-labelledby='${this.iconName}']`), "CTA Button icon is correct").toBeVisible()
+        await expect(newPage.locator(`a[title="${ctaButtonTitle}"] [aria-labelledby='${selectedIcon}']`), "CTA Button icon is correct").toBeVisible()
         const actualCTABtnClassName = await newPage.locator(`a[title="${ctaButtonTitle}"]`).evaluate(node => node.className)
         expect(actualCTABtnClassName.includes(expectedCTABtnTheme), "CTA button theme is correct").toBeTruthy()
 

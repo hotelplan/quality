@@ -5,6 +5,7 @@ const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 let newPage
 let ctaButtonTitle
+let selectedIcon
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -52,7 +53,7 @@ test.describe('CTA Button', async () => {
         });
 
         await test.step(`And: I select CTA button Icon`, async () => {
-            await ctaButtonComponent.selectCtaButtonIcon()
+            selectedIcon = await sharedSteps.selectComponentIcon()
         });
 
         await test.step(`And: I click 'Create' button for CTA button component
@@ -70,7 +71,7 @@ test.describe('CTA Button', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the CTA button displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await ctaButtonComponent.validateCtaButtonAvailability(newPage, ctaButtonTitle)
+            await ctaButtonComponent.validateCtaButtonAvailability(newPage, ctaButtonTitle, selectedIcon)
         });
 
     })

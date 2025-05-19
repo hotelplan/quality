@@ -70,7 +70,7 @@ test.describe('Good to know', async () => {
             });
 
             await test.step(`And: I select a Good-to-know item icon`, async () => {
-                goodToKnowItem.icon = await goodToKnowComponent.selectGoodToKnowItemIcon()
+                goodToKnowItem.icon = await sharedSteps.selectComponentIcon()
             });
 
             await test.step(`And: I fill out Good-to-know item link`, async () => {

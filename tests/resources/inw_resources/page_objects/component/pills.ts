@@ -80,7 +80,7 @@ export class PillsComponent {
     //     await this.urlPickerSubmitBtn.click()
     // }
 
-    async validatePillAvailability(newPage, rteContent, pillLinkTitle, ctaButtonLinkTitle) {
+    async validatePillAvailability(newPage, rteContent, pillLinkTitle, ctaButtonLinkTitle, selectedIcon) {
         const pillStyle = this.selectedPillStyle[0].split(':')[1]
         const expectedText = [this.pillTitleText, rteContent, pillLinkTitle, ctaButtonLinkTitle]
 
@@ -98,7 +98,7 @@ export class PillsComponent {
         }
 
         const actualPillIcon = await newPage.getByText(`${pillLinkTitle}`).evaluate(node => node.firstElementChild?.classList.value)
-        expect(actualPillIcon?.includes(this.iconName!), "Pill Style is correct").toBeTruthy()
+        expect(actualPillIcon?.includes(selectedIcon), "Pill Style is correct").toBeTruthy()
 
         await expect(newPage.getByText(`${pillLinkTitle}`), "CTA Button link is correct").toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)
         await expect(newPage.locator(`a[title="${ctaButtonLinkTitle}"]`), "CTA Button link is correct").toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)

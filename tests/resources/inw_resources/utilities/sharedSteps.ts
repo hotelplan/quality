@@ -24,6 +24,8 @@ export class SharedSteps {
     readonly linkTitleFld: Locator
     readonly urlPickerSubmitBtn: Locator
     readonly pillLinkSubmitBtn: Locator
+    readonly iconPickerBtn: Locator
+    readonly iconPickerItem: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -45,7 +47,8 @@ export class SharedSteps {
         this.linkTitleFld = page.locator('#nodeNameLinkPicker')
         this.urlPickerSubmitBtn = page.locator('.btn-success').last()
         this.pillLinkSubmitBtn = page.locator('.btn-primary').last()
-
+        this.iconPickerBtn = page.locator('[data-element="sortable-thumbnails"]')
+        this.iconPickerItem = page.locator('.umb-iconpicker-item')
 
         //The location of the Generic Content Page name can be placed in a separate file.
         this.genericContentPage = 'Automation SKI Components'
@@ -160,7 +163,7 @@ export class SharedSteps {
 
         } else if (component == 'CTA Button') {
             const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
-            
+
             await this.urlPickerBtn.click()
             await this.linkField.waitFor({ state: 'visible' })
             await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
@@ -171,6 +174,18 @@ export class SharedSteps {
         }
 
         return '';
+    }
+
+    async selectComponentIcon() {
+        await this.iconPickerBtn.click()
+        await expect(this.iconPickerItem.nth(0)).toBeVisible()
+
+        const iconPickerItemCount = await this.iconPickerItem.count()
+        const iconItemIndex = Math.floor(Math.random() * iconPickerItemCount)
+        const iconName = await this.iconPickerItem.nth(iconItemIndex).locator('a').getAttribute('title')
+        await this.iconPickerItem.nth(iconItemIndex).click()
+
+        return iconName
     }
 }
 
