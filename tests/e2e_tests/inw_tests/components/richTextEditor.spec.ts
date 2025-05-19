@@ -37,8 +37,8 @@ test.describe('Rich Text Editor', async () => {
 
         });
 
-        await test.step(`And: I setup a RTE component`, async () => {
-            await rteComponent.setupRTE()
+        await test.step(`And: I fill out the RTE text editor`, async () => {
+            await rteComponent.fillOutRTETextEditor()
 
         });
 

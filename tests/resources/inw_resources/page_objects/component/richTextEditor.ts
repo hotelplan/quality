@@ -15,8 +15,8 @@ export class RTEComponent {
         this.rteParagraph = this.rteFrame.locator('[id ="tinymce"]');
         this.mainSiteContent = (context : any) => context.locator('body');
     }
-    async setupRTE() {
-        await expect(this.rteParagraph).toBeVisible({ timeout: 10000 })
+    async fillOutRTETextEditor() {
+        await expect(this.rteParagraph).toBeVisible()
         await this.rteParagraph.fill(this.randomText);
     }
 
