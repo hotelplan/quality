@@ -4,6 +4,7 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 let newPage
+let rteContent
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -38,7 +39,7 @@ test.describe('Rich Text Editor', async () => {
         });
 
         await test.step(`And: I fill out the RTE text editor`, async () => {
-            await sharedSteps.fillOutRTETextEditor()
+            rteContent = await sharedSteps.fillOutRTETextEditor()
         });
 
         await test.step(`And: I click 'Create' button for RTE component
@@ -56,7 +57,7 @@ test.describe('Rich Text Editor', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the RTE displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await rteComponent.validateRTE(newPage)
+            await rteComponent.validateRTE(newPage, rteContent)
         });
 
     })
