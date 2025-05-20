@@ -24,3 +24,16 @@ export type GoodToKnowItem = {
     description: string | null;
     link: string | null;
 };
+
+export type CtaButtonProperty = {
+    icon: string | null;
+    title: string | null;
+};
+
+export type PillsProperty = {
+    rteContent: string | null;
+    linkTitle: string | null;
+    link: string | null;
+    ctaButtonLinkTitle: string | null;
+    icon: string | null;
+}

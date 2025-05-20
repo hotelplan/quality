@@ -12,6 +12,8 @@ let goodToKnowItem: GoodToKnowItem = {
     link: null
 }
 let newPage
+let rteContent
+
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -49,8 +51,8 @@ test.describe('Good to know', async () => {
             await goodToKnowComponent.fillOutGoodToKnowTitle()
         });
 
-        await test.step(`And: I fill out Good-to-know Description`, async () => {
-            await goodToKnowComponent.fillOutGoodToKnowDescription()
+        await test.step(`And: I fill out the Good-to-know Description Rich text editor`, async () => {
+            rteContent = await sharedSteps.fillOutRTETextEditor()
         });
 
         // Creates 6 Good-to-know items
@@ -64,15 +66,16 @@ test.describe('Good to know', async () => {
             });
 
             await test.step(`And: I fill out Good-to-know item description`, async () => {
-                goodToKnowItem.description = await goodToKnowComponent.fillOutGoodToKnowItemDescription()
+                goodToKnowItem.description = await sharedSteps.fillOutRTETextEditor('Good to know item')
             });
 
             await test.step(`And: I select a Good-to-know item icon`, async () => {
-                goodToKnowItem.icon = await goodToKnowComponent.selectGoodToKnowItemIcon()
+                goodToKnowItem.icon = await sharedSteps.selectComponentIcon()
             });
 
             await test.step(`And: I fill out Good-to-know item link`, async () => {
-                goodToKnowItem.link = await goodToKnowComponent.fillOutGoodToKnowItemLink()
+                goodToKnowItem.link = await sharedSteps.pickComponentLink('Good to know item')
+
             });
 
             await test.step(`And: I click 'Create' button for Good-to-know item`, async () => {
@@ -97,7 +100,7 @@ test.describe('Good to know', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await goodToKnowComponent.validateGoodToKnowAvailability(newPage, goodToKnowItems)
+            await goodToKnowComponent.validateGoodToKnowAvailability(newPage, goodToKnowItems, rteContent)
 
         });
 

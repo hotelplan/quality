@@ -1,8 +1,14 @@
 import { test } from '../../../resources/inw_resources/page_objects/base/page_base';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
+import { type CtaButtonProperty } from '../../../resources/inw_resources/utilities/models';
 
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
+let ctaButtonProperty: CtaButtonProperty = {
+    icon: null,
+    title: null,
+}
+
 let newPage
 
 test.beforeEach(async ({ page }) => {
@@ -37,9 +43,20 @@ test.describe('CTA Button', async () => {
 
         });
 
-        await test.step(`And: I setup a CTA button component`, async () => {
-            await ctaButtonComponent.setupCtaButton()
+        await test.step(`And: I select CTA button Theme`, async () => {
+            await ctaButtonComponent.selectCTAButtonTheme()
+        });
 
+        await test.step(`And: I select CTA button Position`, async () => {
+            await ctaButtonComponent.selectCTAButtonPosition()
+        });
+
+        await test.step(`And: I select Cta button Link`, async () => {
+            ctaButtonProperty.title = await sharedSteps.pickComponentLink('CTA Button')
+        });
+
+        await test.step(`And: I select CTA button Icon`, async () => {
+            ctaButtonProperty.icon = await sharedSteps.selectComponentIcon()
         });
 
         await test.step(`And: I click 'Create' button for CTA button component
@@ -57,7 +74,7 @@ test.describe('CTA Button', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the CTA button displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await ctaButtonComponent.validateCtaButtonAvailability(newPage)
+            await ctaButtonComponent.validateCtaButtonAvailability(newPage, ctaButtonProperty)
         });
 
     })

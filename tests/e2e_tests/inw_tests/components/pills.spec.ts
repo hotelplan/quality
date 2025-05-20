@@ -1,8 +1,16 @@
 import { test } from '../../../resources/inw_resources/page_objects/base/page_base';
 import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
+import { type PillsProperty } from '../../../resources/inw_resources/utilities/models';
 
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
+let pillProperty: PillsProperty = {
+    rteContent: null,
+    linkTitle: null,
+    link: null,
+    ctaButtonLinkTitle: null,
+    icon: null
+} 
 let newPage
 
 test.beforeEach(async ({ page }) => {
@@ -43,20 +51,26 @@ test.describe('Pills', async () => {
 
         await test.step(`And: I fill out Pill title`, async () => {
             await pillsComponent.fillOutPillTitle()
+        });
 
+        await test.step(`And: I click Pill Link button`, async () => {
+            await pillsComponent.clickAddPillLinkBtn()
+        });
+
+        await test.step(`And: I select Pill Icon`, async () => {
+            pillProperty.icon = await sharedSteps.selectComponentIcon()
         });
 
         await test.step(`And: I select Pill Link`, async () => {
-            await pillsComponent.addPillLink()
+            pillProperty.linkTitle = await sharedSteps.pickComponentLink('Pills')
         });
 
         await test.step(`And: I add a CTA button`, async () => {
-            await pillsComponent.addCTAbutton()
+            pillProperty.ctaButtonLinkTitle = await sharedSteps.pickComponentLink('Pill CTA Button')
         });
 
-        await test.step(`And: I fill out Pill Description`, async () => {
-            await pillsComponent.fillOutPillDescription()
-
+        await test.step(`And: I fill out the Pill Description Rich text editor`, async () => {
+            pillProperty.rteContent = await sharedSteps.fillOutRTETextEditor()
         });
 
         await test.step(`And: I click 'Create' button for Pills component
@@ -74,8 +88,8 @@ test.describe('Pills', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await pillsComponent.validatePillAvailability(newPage)
-            
+            await pillsComponent.validatePillAvailability(newPage, pillProperty)
+
         });
 
     })

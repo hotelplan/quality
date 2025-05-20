@@ -1,4 +1,5 @@
-import { type Page, type Locator, expect } from '@playwright/test';
+import { type Page, type Locator, expect, FrameLocator } from '@playwright/test';
+import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 import { faker } from '@faker-js/faker';
 
 export class SharedSteps {
@@ -16,6 +17,17 @@ export class SharedSteps {
     readonly infoTab: Locator
     readonly pageLink: Locator
     readonly genericContentPage: string
+    readonly rteFrame: FrameLocator
+    readonly rteParagraph: Locator
+    readonly urlPickerBtn: Locator
+    readonly linkField: Locator
+    readonly linkTitleFld: Locator
+    readonly urlPickerSubmitBtn: Locator
+    readonly pillLinkSubmitBtn: Locator
+    readonly iconPickerBtn: Locator
+    readonly iconPickerItem: Locator
+    readonly linkPickerBtn: Locator
+    readonly pillCtabutton: Locator
     readonly newGenericContentPage: string
     readonly homeMenu: Locator
     readonly genericContentPageButton: Locator
@@ -40,6 +52,17 @@ export class SharedSteps {
         this.infoTab = page.locator('[data-element="sub-view-umbInfo"]')
         this.pageLink = page.locator('[icon="icon-out"]')
         this.publishNotification = page.locator('.umb-notifications__notifications > li')
+        this.rteFrame = page.frameLocator('[title="Rich Text Area"]');
+        this.rteParagraph = this.rteFrame.locator('#tinymce');
+        this.urlPickerBtn = page.getByRole('button', { name: 'Url Picker: Add url' })
+        this.linkPickerBtn = page.locator('button[ng-click="openLinkPicker()"]')
+        this.linkField = page.locator('#urlLinkPicker')
+        this.linkTitleFld = page.locator('#nodeNameLinkPicker')
+        this.urlPickerSubmitBtn = page.locator('.btn-success').last()
+        this.pillLinkSubmitBtn = page.locator('.btn-primary').last()
+        this.iconPickerBtn = page.locator('[data-element="sortable-thumbnails"]')
+        this.iconPickerItem = page.locator('.umb-iconpicker-item')
+        this.pillCtabutton = page.getByRole('button', { name: 'View All CTA Button: Add url' })
         //The location of the Generic Content Page name can be placed in a separate file.
         this.genericContentPage = 'Automation SKI Components'
         this.newGenericContentPage = 'Automation Test Page'
@@ -153,10 +176,82 @@ export class SharedSteps {
         await expect(newPage).toHaveURL(new RegExp(`.*${formattedUrlPart}`));
     }
 
+    async fillOutRTETextEditor(component: string = 'common') {
+        //Rich text content is initialized here to meet test cases that require unique input.
+        const richTextContent = faker.lorem.paragraph()
+
+        if (component == 'Good to know item') {
+            const goodToKnowItemDescription = faker.word.adjective() + ' ' + faker.word.noun() + ' Item Description Automation ' + faker.number.int({ min: 50, max: 1000 })
+            await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
+            return goodToKnowItemDescription
+        } else {
+            await this.rteParagraph.waitFor({ state: 'visible' })
+            await this.rteParagraph.click()
+            await this.rteParagraph.fill(richTextContent);
+
+            return richTextContent
+
+        }
+    }
+
+    async fillOutGoogleLink(title: string) {
+        await this.linkField.waitFor({ state: 'visible' })
+        await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
+        await this.linkTitleFld.fill(title)
+        await this.urlPickerSubmitBtn.click()
+    }
+
+    async pickComponentLink(component: string = 'common') {
+        if (component == 'Good to know item') {
+            const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
+            await this.linkPickerBtn.click()
+            await this.fillOutGoogleLink(goodToKnowLinkTitle)
+
+            return goodToKnowLinkTitle
+
+        } else if (component == 'Pills') {
+            const pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
+            await this.linkPickerBtn.nth(1).click()
+            await this.fillOutGoogleLink(pillLinkTitle)
+            await this.pillLinkSubmitBtn.click()
+
+            return pillLinkTitle
+
+        } else if (component == 'CTA Button') {
+            const ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTA Button Automation ' + faker.number.int({ min: 50, max: 1000 })
+            await this.urlPickerBtn.click()
+            await this.fillOutGoogleLink(ctaButtonTitle)
+
+            return ctaButtonTitle
+
+        } else if (component == 'Pill CTA Button') {
+            const pillCtaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' Button ' + faker.number.int({ min: 50, max: 1000 })
+
+            await this.pillCtabutton.click()
+            await this.fillOutGoogleLink(pillCtaButtonTitle)
+
+            return pillCtaButtonTitle
+        }
+
+        return '';
+    }
+
+    async selectComponentIcon() {
+        await this.iconPickerBtn.click()
+        await expect(this.iconPickerItem.nth(0)).toBeVisible()
+
+        const iconPickerItemCount = await this.iconPickerItem.count()
+        const iconItemIndex = Math.floor(Math.random() * iconPickerItemCount)
+        const iconName = await this.iconPickerItem.nth(iconItemIndex).locator('a').getAttribute('title')
+        await this.iconPickerItem.nth(iconItemIndex).click()
+
+        return iconName
+    }
     async validateNewPageUrl(newPage) {
         const formattedUrlPart = this.newGenericContentPage.replace(/\s+/g, '-').toLowerCase();
         await expect(newPage).toHaveURL(new RegExp(`.*${formattedUrlPart}`));
     }
+
 }
 
 export default SharedSteps

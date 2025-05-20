@@ -4,6 +4,7 @@ import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
 const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 let newPage
+let rteContent
 
 test.beforeEach(async ({ page }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -37,9 +38,23 @@ test.describe('Call to Book', async () => {
 
         });
 
-        await test.step(`And: I setup a CTB component`, async () => {
-            await ctbComponent.setupCtB()
+        await test.step(`And: I fill out CTB Title`, async () => {
+            await ctbComponent.fillOutCTBTitle()
 
+        });
+
+        await test.step(`And: I fill out CTB Phone number`, async () => {
+            await ctbComponent.fillOutCTBPhoneNumber()
+
+        });
+
+        await test.step(`And: I select CTB Layout`, async () => {
+            await ctbComponent.selectCTBLayout()
+
+        });
+
+        await test.step(`And: I fill out the CTB Rich text editor`, async () => {
+            rteContent = await sharedSteps.fillOutRTETextEditor()
         });
 
         await test.step(`And: I click 'Create' button for CTB component
@@ -57,7 +72,7 @@ test.describe('Call to Book', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the CTB displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validatePageUrl(newPage)
-            await ctbComponent.validateCtaButtonAvailability(newPage)
+            await ctbComponent.validateCtaButtonAvailability(newPage, rteContent)
         });
 
     })
