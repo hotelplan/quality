@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
-  await page.getByRole('textbox', { name: 'Property alias:' }).click();
-  await page.getByRole('textbox', { name: 'Property alias:' }).fill('Image Carousel Test');
+
   await page.getByRole('button', { name: 'Add Image Carousel Item' }).click();
   await page.getByRole('link', { name: 'Select Image Or Video' }).click();
   await page.getByRole('button', { name: 'Upload' }).click();

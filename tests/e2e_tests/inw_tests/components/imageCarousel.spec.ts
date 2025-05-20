@@ -7,25 +7,22 @@ let newPage
 let testPageName
 
 
-test.beforeAll(async ({ page, sharedSteps }) => {
+test.beforeEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/umbraco#/content')
-    });
+    })
 
-    await test.step(`Then: Create a Generic Content page`, async () => {
+    await test.step(`When: Create a Generic Content page`, async () => {
         testPageName = await sharedSteps.createGenericContentPage()
         await sharedSteps.clickSaveAndPublishBtn()
     });
 
-});
-
-test.beforeEach(async ({ page }) => {
-    await test.step('Given: I navigate to home page', async () => {
+    await test.step('Then: I navigate back to home page', async () => {
         await page.goto(ECMSurl + '/umbraco#/content')
     })
 })
 
-test.afterAll(async ({ page, sharedSteps }) => {
+test.afterEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/umbraco#/content')
     });
@@ -40,6 +37,7 @@ test.afterAll(async ({ page, sharedSteps }) => {
     });
 
 });
+
 
 test.describe('Image Carousel', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
