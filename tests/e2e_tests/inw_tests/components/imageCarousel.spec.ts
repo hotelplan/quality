@@ -7,25 +7,22 @@ let newPage
 let testPageName
 
 
-test.beforeAll(async ({ page, sharedSteps }) => {
+test.beforeEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/umbraco#/content')
-    });
+    })
 
-    await test.step(`Then: Create a Generic Content page`, async () => {
+    await test.step(`When: Create a Generic Content page`, async () => {
         testPageName = await sharedSteps.createGenericContentPage()
         await sharedSteps.clickSaveAndPublishBtn()
     });
 
-});
-
-test.beforeEach(async ({ page }) => {
-    await test.step('Given: I navigate to home page', async () => {
+    await test.step('Then: I navigate back to home page', async () => {
         await page.goto(ECMSurl + '/umbraco#/content')
     })
 })
 
-test.afterAll(async ({ page, sharedSteps }) => {
+test.afterEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/umbraco#/content')
     });
@@ -41,9 +38,10 @@ test.afterAll(async ({ page, sharedSteps }) => {
 
 });
 
+
 test.describe('Image Carousel', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a Image Carousel component and views it on the General Content page @inw`, async ({ rteComponent, sharedSteps }) => {
+    test(`An ECMS user creates a Image Carousel component and views it on the General Content page @inw`, async ({ imageCarouselComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });
@@ -68,7 +66,7 @@ test.describe('Image Carousel', async () => {
         });
 
         await test.step(`And: I setup a Image Carousel component`, async () => {
-            //await rteComponent.setupRTE()
+            await imageCarouselComponent.setupImageCarousel()
 
         });
 
@@ -87,7 +85,7 @@ test.describe('Image Carousel', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Image Carousel displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validateNewPageUrl(newPage)
-            //await rteComponent.validateRTE(newPage)
+            await imageCarouselComponent.validateImageCarousel(newPage)
         });
 
     })
