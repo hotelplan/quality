@@ -43,7 +43,7 @@ test.afterAll(async ({ page, sharedSteps }) => {
 
 test.describe('Image Carousel', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a Image Carousel component and views it on the General Content page @inw`, async ({ rteComponent, sharedSteps }) => {
+    test(`An ECMS user creates a Image Carousel component and views it on the General Content page @inw`, async ({ imageCarouselComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });
@@ -68,7 +68,7 @@ test.describe('Image Carousel', async () => {
         });
 
         await test.step(`And: I setup a Image Carousel component`, async () => {
-            //await rteComponent.setupRTE()
+            await imageCarouselComponent.setupImageCarousel()
 
         });
 
@@ -87,7 +87,7 @@ test.describe('Image Carousel', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Image Carousel displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validateNewPageUrl(newPage)
-            //await rteComponent.validateRTE(newPage)
+            await imageCarouselComponent.validateImageCarousel(newPage)
         });
 
     })
