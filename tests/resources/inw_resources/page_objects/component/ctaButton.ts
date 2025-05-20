@@ -5,11 +5,6 @@ export class CTAButtonComponent {
     readonly page: Page
     readonly themeDropdown: Locator
     readonly positionHorizontalDropdown: Locator
-    readonly iconPickerBtn: Locator
-    readonly iconPickerItem: Locator
-    readonly createCTAButtonBtn: Locator
-    public theme: string
-    public iconName: string | null
     public ctaBtnTheme: string[]
     public ctaBtnHorizontalposition: string[]
 
@@ -17,10 +12,6 @@ export class CTAButtonComponent {
         this.page = page;
         this.themeDropdown = page.locator('#theme')
         this.positionHorizontalDropdown = page.locator('#positionHorizontal')
-        this.iconPickerBtn = page.locator('[data-element="sortable-thumbnails"]')
-        this.iconPickerItem = page.locator('.umb-iconpicker-item')
-        this.createCTAButtonBtn = page.locator('.btn-primary')
-
     }
 
     async selectCTAButtonTheme() {

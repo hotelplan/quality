@@ -7,19 +7,7 @@ export class PillsComponent {
     readonly pillLinkStyle: Locator
     readonly pillTitle: Locator
     readonly pillLink: Locator
-    readonly pillLinkIcon: Locator
-    readonly iconPickerItem: Locator
-    readonly pillCtaBtn: Locator
-    readonly pillLinkSubmitBtn: Locator
-    readonly pillSubmitBtn: Locator
-    readonly linkField: Locator
-    readonly linkTitleFld: Locator
-    readonly urlPickerSubmitBtn: Locator
-    readonly linkPicker: Locator
-
-    public iconName: string | null
     public pillTitleText: string
-    public pillLinkTitle: string
     public selectedPillStyle: string[]
 
     constructor(page: Page) {
@@ -27,14 +15,6 @@ export class PillsComponent {
         this.pillLinkStyle = page.locator('select[name="dropDownList"]').nth(2)
         this.pillTitle = page.locator('#title')
         this.pillLink = page.locator('#button_links')
-        this.pillLinkIcon = page.locator('.add-link')
-        this.iconPickerItem = page.locator('.umb-iconpicker-item')
-        this.linkTitleFld = page.locator('#nodeNameLinkPicker')
-        this.urlPickerSubmitBtn = page.locator('.btn-success').last()
-        this.pillLinkSubmitBtn = page.locator('.btn-primary').last()
-        this.pillCtaBtn = page.getByRole('button', { name: 'View All CTA Button: Add url' })
-        this.linkPicker = page.locator('button[ng-click="openLinkPicker()"]').nth(1)
-        this.linkField = page.locator('#urlLinkPicker')
         this.pillTitleText = faker.word.adjective() + ' ' + faker.word.noun() + ' Pills Automation ' + faker.number.int({ min: 50, max: 1000 })
     }
 
@@ -53,16 +33,6 @@ export class PillsComponent {
     async clickAddPillLinkBtn() {
         await this.pillLink.click()
 
-    }
-
-    async addPillLink() {
-        await this.pillLinkIcon.click()
-        await expect(this.iconPickerItem.nth(0)).toBeVisible()
-
-        const iconPickerItemCount = await this.iconPickerItem.count()
-        const iconItemIndex = Math.floor(Math.random() * iconPickerItemCount)
-        this.iconName = await this.iconPickerItem.nth(iconItemIndex).locator('a').getAttribute('title')
-        await this.iconPickerItem.nth(iconItemIndex).click()
     }
 
     async validatePillAvailability(newPage, pillProperty) {

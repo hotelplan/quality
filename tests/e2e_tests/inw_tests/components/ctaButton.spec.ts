@@ -47,7 +47,6 @@ test.describe('CTA Button', async () => {
             await ctaButtonComponent.selectCTAButtonTheme()
         });
 
-
         await test.step(`And: I select CTA button Position`, async () => {
             await ctaButtonComponent.selectCTAButtonPosition()
         });

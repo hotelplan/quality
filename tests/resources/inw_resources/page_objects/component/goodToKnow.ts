@@ -6,28 +6,14 @@ export class GoodToKnowComponent {
     readonly page: Page
     readonly goodToKnowTitle: Locator
     readonly goodToKnowItemBtn: Locator
-    readonly iconPickerItem: Locator
-    readonly linkPicker: Locator
-    readonly linkField: Locator
-    readonly linkTitleFld: Locator
-    readonly urlPickerSubmitBtn: Locator
-    readonly iconPickerBtn: Locator
     readonly submitGoodToKnowItem: Locator
     public goodToKnowTitleText: string = faker.word.adjective() + ' ' + faker.word.noun() + ' Automation ' + faker.number.int({ min: 50, max: 1000 })
-    public goodToKnowDescriptionText: string = faker.lorem.paragraph()
-    public iconName: string | null
 
     constructor(page: Page) {
         this.page = page;
         this.goodToKnowTitle = page.locator('#title')
         this.goodToKnowItemBtn = page.locator('#button_iconText')
-        this.iconPickerItem = page.locator('.umb-iconpicker-item')
-        this.linkPicker = page.locator('button[ng-click="openLinkPicker()"]')
-        this.linkField = page.locator('#urlLinkPicker')
-        this.linkTitleFld = page.locator('#nodeNameLinkPicker')
-        this.urlPickerSubmitBtn = page.locator('.btn-success').last()
         this.submitGoodToKnowItem = page.locator('.btn-primary').last()
-        this.iconPickerBtn = page.locator('.add-link')
     }
 
     async fillOutGoodToKnowTitle() {
@@ -45,17 +31,6 @@ export class GoodToKnowComponent {
         await this.goodToKnowTitle.nth(1).fill(goodToKnowItemTitle)
 
         return goodToKnowItemTitle
-    }
-
-    async fillOutGoodToKnowItemLink() {
-        const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
-        await this.linkPicker.click()
-        await this.linkField.waitFor({ state: 'visible' })
-        await this.linkField.fill(environmentBaseUrl.googleLink.testLink)
-        await this.linkTitleFld.fill(goodToKnowLinkTitle)
-        await this.urlPickerSubmitBtn.click()
-
-        return goodToKnowLinkTitle
     }
 
     async clickSubmitGoodToKnowItem() {
