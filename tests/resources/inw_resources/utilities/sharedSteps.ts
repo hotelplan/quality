@@ -76,7 +76,7 @@ export class SharedSteps {
     }
 
     async createGenericContentPage() {
-        const pageName = this.newGenericContentPage + faker.number.int({ min: 1, max: 1000 })
+        const pageName = this.newGenericContentPage +' '+ crypto.randomUUID().slice(0, 8);
         await this.homeMenu.waitFor({ state: 'visible' })
         await this.homeMenu.click()
         await this.genericContentPageButton.waitFor({ state: 'visible' })
