@@ -152,6 +152,7 @@ export class SharedSteps {
         await this.publishNotification.waitFor({ state: 'visible' })
 
         await expect(this.publishNotification).toHaveCount(1)
+        await expect(this.publishNotification).toHaveCount(0)
     }
 
     async clickInfoTab() {
@@ -182,13 +183,14 @@ export class SharedSteps {
 
         if (component == 'Good to know item') {
             const goodToKnowItemDescription = faker.word.adjective() + ' ' + faker.word.noun() + ' Item Description Automation ' + faker.number.int({ min: 50, max: 1000 })
+            await this.page.waitForLoadState('networkidle')
             await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
             return goodToKnowItemDescription
         } else {
+            await this.page.waitForLoadState('networkidle')
             await this.rteParagraph.waitFor({ state: 'visible' })
             await this.rteParagraph.click()
             await this.rteParagraph.fill(richTextContent);
-
             return richTextContent
 
         }

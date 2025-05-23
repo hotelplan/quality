@@ -5,13 +5,13 @@ export default{
     },
     dev:{
         inghams:'https://inghamsv2-ecms.dev.hotelplan.co.uk',
-        e_cms:'https://inghamsv2-ecms.dev.hotelplan.co.uk',
-        p_cms:'https://inghamsv2-pcms.dev.hotelplan.co.uk',
+        e_cms:'https://admin-inghamsv2-ecms.dev.hotelplan.co.uk',
+        p_cms:'https://admin-inghamsv2-pcms.dev.hotelplan.co.uk',
     },
     qa:{
-        inghams:'https://inghams-v2.qa.hotelplan.co.uk',
-        e_cms:'https://inghamsv2-ecms.qa.hotelplan.co.uk',
-        p_cms:'https://inghamsv2-pcms.qa.hotelplan.co.uk',
+        inghams:'https://inghamsv2-ecms.qa.hotelplan.co.uk',
+        e_cms:'https://admin-inghamsv2-ecms.qa.hotelplan.co.uk',
+        p_cms:'https://admin-inghamsv2-pcms.qa.hotelplan.co.uk',
 
         en_gb:'https://dev-feature.explore.co.uk/',
         en_us:'https://www.exploreworldwide.com/',

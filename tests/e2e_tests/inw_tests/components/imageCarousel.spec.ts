@@ -72,7 +72,7 @@ test.describe('Image Carousel', async () => {
 
         await test.step(`And: I click 'Create' button for Image Carousel component
                          And: I click 'Save and publish' button`, async () => {
-            await sharedSteps.clickCreateBtn()
+            await sharedSteps.clickCreateBtn(1)
             await sharedSteps.clickSaveAndPublishBtn()
         });
 

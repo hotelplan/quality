@@ -1,11 +1,11 @@
 import { type Page, type Locator, expect } from '@playwright/test';
-import * as Media from '../../data/media.json';
+import * as Media from '../data/media.json';
 
 export class EcmsMainPage{
     //variables
     readonly page: Page;
     readonly ECMS_Main_Expansion_Arrow: (target: string) => Locator;
-    readonly ECMS_Main_Target_Page: (target: string) => Locator;
+    //readonly ECMS_Main_Target_Page: (target: string) => Locator;
     readonly ECMS_Main_Secondary_Resort_Arrow: Locator;
 
     readonly ECMS_Main_Content_Fields: Locator;
@@ -65,7 +65,7 @@ export class EcmsMainPage{
     constructor(page: Page) {
         this.page = page;
         this.ECMS_Main_Expansion_Arrow = (target: string) => page.locator(`//a[text()="${target}"]//preceding-sibling::button`);
-        this.ECMS_Main_Target_Page = (target: string) => page.locator(`//a[text()="${target}"]`);
+        //this.ECMS_Main_Target_Page = (target: string) => page.locator(`//a[text()="${target}"]`);
         this.ECMS_Main_Secondary_Resort_Arrow = page.getByRole('button', { name: 'Expand child items for Resorts' }).nth(1);
 
         this.ECMS_Main_Content_Fields = page.getByLabel('Content Fields');
@@ -200,13 +200,13 @@ export class EcmsMainPage{
     }
 
     
-    async ECMS_Select_Target_Page(target: string){
+    /*async ECMS_Select_Target_Page(target: string){
         await this.ECMS_Main_Target_Page(target).waitFor({ state: 'visible', timeout: 10000 });
         await this.ECMS_Main_Target_Page(target).hover();
         await this.ECMS_Main_Target_Page(target).click();
 
         await expect(this.ECMS_Main_Content_Fields).toBeVisible({timeout: 30000});
-    }
+    }*/
 
 
     async ECMS_Click_Save_And_Publish(){
