@@ -12,18 +12,44 @@ let pillProperty: PillsProperty = {
     icon: null
 } 
 let newPage
+let testPageName
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/umbraco#/content')
     })
+
+    await test.step(`When: Create a Generic Content page`, async () => {
+        testPageName = await sharedSteps.createGenericContentPage()
+        await sharedSteps.clickSaveAndPublishBtn()
+    });
+
+    await test.step('Then: I navigate back to home page', async () => {
+        await page.goto(ECMSurl + '/umbraco#/content')
+    })
 })
+
+test.afterEach(async ({ page, sharedSteps }) => {
+    await test.step('Given: I navigate to home page', async () => {
+        await page.goto(ECMSurl  + '/umbraco#/content')
+    });
+
+    await test.step(`And: I select a Generic Content page`, async () => {
+        await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
+    });
+
+    await test.step(`Then: Delete a Generic Content page`, async () => {
+        await sharedSteps.deleteGenericContentPage(testPageName)
+        await sharedSteps.clickSaveAndPublishBtn()
+    });
+
+});
 
 test.describe('Pills', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
     test(`An ECMS user creates a Pill component and views it on the General Content page @inw`, async ({ pillsComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
-            await sharedSteps.searchAndSelectGenericContentPage()
+            await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });
 
         await test.step(`And: I click 'Content' tab`, async () => {
@@ -87,7 +113,7 @@ test.describe('Pills', async () => {
 
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Pills displayed on the Generic Content Page with details`, async () => {
-            await sharedSteps.validatePageUrl(newPage)
+            await sharedSteps.validateNewPageUrl(newPage)
             await pillsComponent.validatePillAvailability(newPage, pillProperty)
 
         });
