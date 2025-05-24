@@ -15,6 +15,7 @@ import { CTBComponent } from '../component/ctb';
 import { ImageCarouselComponent } from '../component/imageCarousel';
 import { PillsComponent } from '../component/pills';
 import { GoodToKnowComponent } from '../component/goodToKnow';
+import { GreyBoxComponent } from '../component/greyBox';
 import { SharedSteps } from '../../utilities/sharedSteps';
 
 
@@ -36,6 +37,7 @@ type pages = {
     imageCarouselComponent: ImageCarouselComponent
     pillsComponent: PillsComponent
     goodToKnowComponent: GoodToKnowComponent
+    greyBoxComponent: GreyBoxComponent
     sharedSteps: SharedSteps
 }
 
@@ -97,6 +99,9 @@ const testPages = base.extend<pages>({
     },
     goodToKnowComponent: async ({ page }, use) => {
         await use(new GoodToKnowComponent(page));
+    },
+    greyBoxComponent: async ({ page }, use) => {
+        await use(new GreyBoxComponent(page));
     },
     sharedSteps: async ({ page }, use) => {
         await use(new SharedSteps(page));
