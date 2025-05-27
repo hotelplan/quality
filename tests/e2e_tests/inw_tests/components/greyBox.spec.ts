@@ -39,9 +39,9 @@ test.afterEach(async ({ page, sharedSteps }) => {
 });
 
 
-test.describe('Image Carousel', async () => {
+test.describe('Grey Box', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a Image Carousel component and views it on the General Content page @inw`, async ({ imageCarouselComponent, sharedSteps }) => {
+    test(`An ECMS user creates a Grey Box component and views it on the General Content page @inw`, async ({ greyBoxComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });
@@ -55,22 +55,21 @@ test.describe('Image Carousel', async () => {
 
         });
 
-        await test.step(`And: I search for the Image Carousel component`, async () => {
-            await sharedSteps.searchComponent('Image Carousel')
+        await test.step(`And: I search for the Grey Box component`, async () => {
+            await sharedSteps.searchComponent('Grey Box')
 
         });
 
-        await test.step(`And: I click the Image Carousel component`, async () => {
+        await test.step(`And: I click the Grey Box component`, async () => {
             await sharedSteps.selectComponent()
 
         });
 
-        await test.step(`And: I setup a Image Carousel component`, async () => {
-            await imageCarouselComponent.setupImageCarousel()
-
+        await test.step(`And: I setup a Grey Box component`, async () => {
+            await greyBoxComponent.setupGreyBox()
         });
 
-        await test.step(`And: I click 'Create' button for Image Carousel component
+        await test.step(`And: I click 'Create' button for Grey Box component
                          And: I click 'Save and publish' button`, async () => {
             await sharedSteps.clickCreateBtn(1)
             await sharedSteps.clickSaveAndPublishBtn()
@@ -83,9 +82,9 @@ test.describe('Image Carousel', async () => {
         });
 
         await test.step(`And: I redirect the Generic Content page
-                         Then: I should see the Image Carousel displayed on the Generic Content Page with details`, async () => {
+                         Then: I should see the Grey Box displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validateNewPageUrl(newPage)
-            await imageCarouselComponent.validateImageCarousel(newPage)
+            await greyBoxComponent.validateGreyBox(newPage)
         });
 
     })
