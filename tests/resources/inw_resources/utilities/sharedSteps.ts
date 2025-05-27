@@ -76,7 +76,7 @@ export class SharedSteps {
     }
 
     async createGenericContentPage() {
-        const pageName = this.newGenericContentPage +' '+ crypto.randomUUID().slice(0, 8);
+        const pageName = this.newGenericContentPage + ' ' + crypto.randomUUID().slice(0, 8);
         await this.homeMenu.waitFor({ state: 'visible' })
         await this.homeMenu.click()
         await this.genericContentPageButton.waitFor({ state: 'visible' })
@@ -150,9 +150,21 @@ export class SharedSteps {
         await this.saveAndPublishBtn.waitFor({ state: 'visible' })
         await this.saveAndPublishBtn.click()
         await this.publishNotification.waitFor({ state: 'visible' })
+        const notif = await this.publishNotification.textContent()
 
-        await expect(this.publishNotification).toHaveCount(1)
-        await expect(this.publishNotification).toHaveCount(0)
+        if (notif?.includes('Content published:  and visible on the website')) {
+            console.log(notif, ' - Content published: and visible on the website')
+
+            await expect(this.publishNotification).toHaveCount(1)
+            await expect(this.publishNotification).toHaveCount(0)
+        } else {
+            console.log(notif, ' - Recursive issue')
+
+            await this.page.locator('umb-button').filter({ hasText: 'Save and publish' }).getByRole('button').click()
+            await expect(this.publishNotification).toHaveCount(1)
+            await expect(this.publishNotification).toHaveCount(0)
+        }
+
     }
 
     async clickInfoTab() {
