@@ -152,17 +152,24 @@ export class SharedSteps {
         await this.publishNotification.waitFor({ state: 'visible' })
         const notif = await this.publishNotification.textContent()
 
-        if (notif?.includes('Content published:  and visible on the website')) {
-            console.log(notif, ' - Content published: and visible on the website')
+        let attempts = 0;
+        const maxAttempts = 5;
 
-            await expect(this.publishNotification).toHaveCount(1)
-            await expect(this.publishNotification).toHaveCount(0)
-        } else {
-            console.log(notif, ' - Recursive issue')
+        while (attempts < maxAttempts) {
 
-            await this.page.locator('umb-button').filter({ hasText: 'Save and publish' }).getByRole('button').click()
-            await expect(this.publishNotification).toHaveCount(1)
-            await expect(this.publishNotification).toHaveCount(0)
+            if (notif?.includes('Content published:  and visible on the website')) {
+                console.log(notif, ' - Content published: and visible on the website');
+                await expect(this.publishNotification).toHaveCount(1);
+                await expect(this.publishNotification).toHaveCount(0);
+                break;
+            } else {
+                console.log(notif, ' - Recursive issue');
+                await this.page.locator('umb-button').filter({ hasText: 'Save and publish' }).getByRole('button').click();
+                await expect(this.publishNotification).toHaveCount(1);
+                await expect(this.publishNotification).toHaveCount(0);
+            }
+
+            attempts++;
         }
 
     }
