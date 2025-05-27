@@ -39,9 +39,12 @@ test.afterEach(async ({ page, sharedSteps }) => {
 });
 
 
-test.describe('Grey Box', async () => {
+test.describe('Grey Box', () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
     test(`An ECMS user creates a Grey Box component and views it on the General Content page @inw`, async ({ greyBoxComponent, sharedSteps }) => {
+        
+        let selectedTheme : string;
+
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });
@@ -66,7 +69,7 @@ test.describe('Grey Box', async () => {
         });
 
         await test.step(`And: I setup a Grey Box component`, async () => {
-            await greyBoxComponent.setupGreyBox()
+            selectedTheme = await greyBoxComponent.setupGreyBox()
         });
 
         await test.step(`And: I click 'Create' button for Grey Box component
@@ -84,7 +87,7 @@ test.describe('Grey Box', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the Grey Box displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validateNewPageUrl(newPage)
-            await greyBoxComponent.validateGreyBox(newPage)
+            await greyBoxComponent.validateGreyBox(newPage, selectedTheme)
         });
 
     })

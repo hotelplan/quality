@@ -3,30 +3,37 @@ import path from 'path';
 
 export class GreyBoxComponent {
     readonly page: Page
-    readonly titleField: Locator
+    readonly themeDropdown: Locator
 
 
-    readonly mainSiteContent: (context : any) => Locator
+    readonly greyBox: (context : any, theme : string) => Locator
 
 
     constructor(page: Page) {
         this.page = page;
+        this.themeDropdown = page.getByRole('combobox');
 
 
-        this.mainSiteContent = (context : any) => context.locator('body');
+        this.greyBox = (context : any, theme : string) => context.locator(`//div[contains(@class,"highlighted-section--${theme}")]`);
 
     }
 
     async setupGreyBox() {
-        
-        
-        await this.titleField.waitFor({ state: 'visible' });
+        const options = ['Grey', 'Primary', 'Secondary'];
+        const randomOption = options[Math.floor(Math.random() * options.length)];
 
+        await this.themeDropdown.waitFor({ state: 'visible' });
+        await this.themeDropdown.selectOption({ label: randomOption });
 
+        console.log(`Selected theme: ${randomOption}`);
+        return randomOption;
     }
 
-    async validateGreyBox(newPage) {
-        await expect(this.mainSiteContent(newPage), "Grey Box Title is available on the page").toContainText('Grey Box TEST');
+    async validateGreyBox(newPage, theme: string) {
+        const themeSelected = theme.toLowerCase();
+        await expect(this.greyBox(newPage, themeSelected)).toBeVisible();
+        
+        await newPage.close();
     }
 
 }
