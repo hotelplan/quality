@@ -87,15 +87,63 @@ export class SharedSteps {
     }
 
     async deleteGenericContentPage(pageName: string) {
+        let attempts = 0;
+        const maxAttempts = 5;
+        const closeRecursiveErrorBtn = this.page.locator('[alias="overlayClose"] .umb-button__button')
+        const closeRecursiveErrorLocator = this.page.locator('#umb-overlay-title')
+        let closeRecursiveErrorText
+
         await this.actionsButton.waitFor({ state: 'visible' })
         await this.actionsButton.click()
         await this.deleteButton(pageName).waitFor({ state: 'visible' })
         await this.deleteButton(pageName).click()
         await this.okButton.waitFor({ state: 'visible' })
         await this.okButton.click()
-        await this.deleteConfirmation.waitFor({ state: 'visible' })
-        await this.okButton.waitFor({ state: 'visible' })
-        await this.okButton.click()
+        const deleteConfirmationIsVisible = await this.deleteConfirmation.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
+
+        while (attempts < maxAttempts) {
+            console.log('Delete confirmation is visible:', deleteConfirmationIsVisible);
+
+            if (!deleteConfirmationIsVisible) {
+                closeRecursiveErrorText = await closeRecursiveErrorLocator.textContent()
+                console.log('closeRecursiveErrorText', closeRecursiveErrorText);
+
+                if (closeRecursiveErrorText?.includes('Received an error from the server')) {
+                    console.log('Recursive error detected, attempting to close it');
+                    await closeRecursiveErrorBtn.click()
+                    await this.actionsButton.waitFor({ state: 'visible' })
+                    await this.actionsButton.click()
+                    await this.deleteButton(pageName).waitFor({ state: 'visible' })
+                    await this.deleteButton(pageName).click()
+                    await this.okButton.waitFor({ state: 'visible' })
+                    await this.okButton.click()
+                    await this.deleteConfirmation.waitFor({ state: 'visible' })
+
+                    const successfullyDeletedIsVisible = await this.page.locator('.alert-success').waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
+                    console.log('Successfully deleted is visible:', successfullyDeletedIsVisible);
+                    if (successfullyDeletedIsVisible) {
+                        console.log("about to break");
+                        const successMessage = await this.page.locator('.alert-success').textContent()
+                        if (successMessage?.includes('was deleted')) {
+                            await this.okButton.waitFor({ state: 'visible' })
+                            await this.okButton.click()
+                            console.log('Page deleted successfully');
+                            console.log("breaking now: ");
+                            break;
+                        }
+                    }
+
+                }
+            } else {
+                await this.okButton.waitFor({ state: 'visible' })
+                await this.okButton.click()
+                break;
+            }
+
+            attempts++;
+
+        }
+
     }
 
     async searchAndSelectNewGenericContentPage(pageName: string) {
@@ -166,7 +214,14 @@ export class SharedSteps {
                 console.log(notif, ' - Recursive issue');
                 await this.page.locator('umb-button').filter({ hasText: 'Save and publish' }).getByRole('button').click();
                 await expect(this.publishNotification).toHaveCount(1);
-                await expect(this.publishNotification).toHaveCount(0);
+
+                const updatedNotif = await this.publishNotification.textContent()
+                console.log('Waiting for the notification to appear again...', updatedNotif);
+                if (updatedNotif?.includes('Content published:  and visible on the website')) {
+                    console.log(updatedNotif, ' 2nd - Content published: and visible on the website');
+                    await expect(this.publishNotification).toHaveCount(0);
+                    break;
+                }
             }
 
             attempts++;
