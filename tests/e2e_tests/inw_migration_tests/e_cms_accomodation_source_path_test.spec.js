@@ -12,7 +12,7 @@ import path from 'path';
 
 const env = process.env.ENV || 'qa';
 const HOMEpath = environmentBaseUrl[env].e_cms;
-const ERRORpath = `${HOMEpath}/error-500`;
+const ERRORpath = `${environmentBaseUrl[env].inghams}/error-500`;
 
 // Helper function to read URLs from the CSV file
 const LaplandDatacsv = parse(fs.readFileSync(path.join(__dirname, 'migration_data', 'Migration_Lapland.csv')), {columns: true, skip_empty_lines: true});
