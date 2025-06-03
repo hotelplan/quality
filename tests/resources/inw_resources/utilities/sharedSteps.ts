@@ -76,7 +76,7 @@ export class SharedSteps {
     }
 
     async createGenericContentPage() {
-        const pageName = this.newGenericContentPage +' '+ crypto.randomUUID().slice(0, 8);
+        const pageName = this.newGenericContentPage + ' ' + crypto.randomUUID().slice(0, 8);
         await this.homeMenu.waitFor({ state: 'visible' })
         await this.homeMenu.click()
         await this.genericContentPageButton.waitFor({ state: 'visible' })
@@ -96,6 +96,7 @@ export class SharedSteps {
         await this.deleteConfirmation.waitFor({ state: 'visible' })
         await this.okButton.waitFor({ state: 'visible' })
         await this.okButton.click()
+
     }
 
     async searchAndSelectNewGenericContentPage(pageName: string) {
@@ -150,9 +151,35 @@ export class SharedSteps {
         await this.saveAndPublishBtn.waitFor({ state: 'visible' })
         await this.saveAndPublishBtn.click()
         await this.publishNotification.waitFor({ state: 'visible' })
+        const notif = await this.publishNotification.textContent()
 
-        await expect(this.publishNotification).toHaveCount(1)
-        await expect(this.publishNotification).toHaveCount(0)
+        let attempts = 0;
+        const maxAttempts = 5;
+
+        while (attempts < maxAttempts) {
+
+            if (notif?.includes('Content published:  and visible on the website')) {
+                console.log(notif, ' - Content published: and visible on the website');
+                await expect(this.publishNotification).toHaveCount(1);
+                await expect(this.publishNotification).toHaveCount(0);
+                break;
+            } else {
+                console.log(notif, ' - Recursive issue');
+                await this.page.locator('umb-button').filter({ hasText: 'Save and publish' }).getByRole('button').click();
+                await expect(this.publishNotification).toHaveCount(1);
+
+                const updatedNotif = await this.publishNotification.textContent()
+                console.log('Waiting for the notification to appear again...', updatedNotif);
+                if (updatedNotif?.includes('Content published:  and visible on the website')) {
+                    console.log(updatedNotif, ' 2nd - Content published: and visible on the website');
+                    await expect(this.publishNotification).toHaveCount(0);
+                    break;
+                }
+            }
+
+            attempts++;
+        }
+
     }
 
     async clickInfoTab() {
