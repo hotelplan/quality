@@ -108,10 +108,10 @@ export class SharedSteps {
         await this.globalSearchFirstResult.click()
     }
 
-    async searchAndSelectGenericContentPage() {
+    async searchPage(pageName: string) {
         await this.globalSearch.waitFor({ state: 'visible' })
         await this.globalSearch.click()
-        await this.globalSearchInput.fill(this.genericContentPage)
+        await this.globalSearchInput.fill(pageName)
         await this.globalSearchInput.press('Enter')
         await expect(this.globalSearchFirstResult).toBeVisible()
         await this.globalSearchFirstResult.click()
@@ -214,7 +214,7 @@ export class SharedSteps {
             await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
             return goodToKnowItemDescription
         } else {
-            await this.page.waitForLoadState('networkidle')
+            await this.page.waitForLoadState('domcontentloaded')
             await this.rteParagraph.waitFor({ state: 'visible' })
             await this.rteParagraph.click()
             await this.rteParagraph.fill(richTextContent);

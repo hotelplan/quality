@@ -24,7 +24,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 
 test.afterEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
-        await page.goto(ECMSurl  + '/umbraco#/content')
+        await page.goto(ECMSurl + '/umbraco#/content')
     });
 
     await test.step(`And: I select a Generic Content page`, async () => {
@@ -41,6 +41,11 @@ test.afterEach(async ({ page, sharedSteps }) => {
 test.describe('Call to Book', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
     test(`An ECMS user creates a CTB component and views it on the General Content page @inw`, async ({ ctbComponent, sharedSteps }) => {
+        await test.step(`Background: I get the Telephone number from Contact Section page`, async () => {
+            await sharedSteps.searchPage('Contact Section')
+            await ctbComponent.getCTBPhoneNumber()
+        });
+
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });
@@ -69,11 +74,6 @@ test.describe('Call to Book', async () => {
 
         });
 
-        await test.step(`And: I fill out CTB Phone number`, async () => {
-            await ctbComponent.fillOutCTBPhoneNumber()
-
-        });
-
         await test.step(`And: I select CTB Layout`, async () => {
             await ctbComponent.selectCTBLayout()
 
@@ -98,7 +98,7 @@ test.describe('Call to Book', async () => {
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the CTB displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validateNewPageUrl(newPage)
-            await ctbComponent.validateCtaButtonAvailability(newPage, rteContent)
+            await ctbComponent.validateCtbButtonAvailability(newPage, rteContent)
         });
 
     })

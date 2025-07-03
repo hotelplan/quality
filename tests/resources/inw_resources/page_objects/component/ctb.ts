@@ -6,8 +6,10 @@ export class CTBComponent {
     readonly ctbTitle: Locator
     readonly ctbPhoneNumer: Locator
     readonly ctbLayout: Locator
+    readonly telephonNumberFld: Locator
     public ctaButtonTitle: string
     public ctaPhoneNumber: string
+    public telephoneNumberFromContactSection: string
     public selectedLayout: string[]
 
     constructor(page: Page) {
@@ -17,6 +19,7 @@ export class CTBComponent {
         this.ctbLayout = page.locator('select[name="dropDownList"]').nth(2)
         this.ctaButtonTitle = faker.word.adjective() + ' ' + faker.word.noun() + ' CTB Automation ' + faker.number.int({ min: 50, max: 1000 })
         this.ctaPhoneNumber = faker.phone.number({ style: 'national' })
+        this.telephonNumberFld = page.locator('#telephoneNumber')
     }
 
     async fillOutCTBTitle() {
@@ -28,30 +31,40 @@ export class CTBComponent {
         await this.ctbPhoneNumer.fill(this.ctaPhoneNumber)
     }
 
+    async getCTBPhoneNumber() {
+        await this.telephonNumberFld.waitFor({ state: 'visible' })
+        this.telephoneNumberFromContactSection = await this.telephonNumberFld.inputValue()
+
+        return this.telephoneNumberFromContactSection
+    }
+
     async selectCTBLayout() {
         const layoutRandomIndex = Math.floor(Math.random() * 2) + 1;
         await this.ctbLayout.click()
         this.selectedLayout = await this.ctbLayout.selectOption({ index: layoutRandomIndex })
     }
 
-    async validateCtaButtonAvailability(newPage, rteContent) {
+    async validateCtbButtonAvailability(newPage, rteContent) {
+        let actualCtbPhoneIcon: any
         const ctbLayout = this.selectedLayout[0].split(':')[1]
         await expect(newPage.locator('body')).toContainText(this.ctaButtonTitle);
+        await expect(newPage.locator('body')).toContainText(this.telephoneNumberFromContactSection);
 
         if (ctbLayout === 'Standard') {
             await expect(newPage.locator('body')).toContainText(rteContent);
             const actualCtbLayout = await newPage.getByText(`${this.ctaButtonTitle}`).evaluate(node => node.className)
-            expect(actualCtbLayout.includes('standard'), "CTB Layout is correct").toBeTruthy()
+            expect(actualCtbLayout.includes('title'), "CTB Layout is correct").toBeTruthy()
+            actualCtbPhoneIcon = await newPage.getByText(`${this.telephoneNumberFromContactSection}`).locator('svg[title="Dropdown"]').evaluate(node => node.classList.value)
+
 
         } else if (ctbLayout === 'Compact') {
             const actualCtbLayout = await newPage.getByText(`${this.ctaButtonTitle}`).evaluate(node => node.className)
-            expect(actualCtbLayout.includes('mini'), "CTB Layout is correct").toBeTruthy()
+            expect(actualCtbLayout.includes('leftContent'), "CTB Layout is correct").toBeTruthy()
+
+            actualCtbPhoneIcon = await newPage.getByText(`${this.telephoneNumberFromContactSection}`).nth(2).evaluate(node => node.previousElementSibling.classList.value)
         }
 
-        await expect(newPage.locator('body')).toContainText(this.ctaPhoneNumber);
-        const actualCtbPhoneIcon = await newPage.getByText(`${this.ctaPhoneNumber}`).evaluate(node => node.parentElement?.previousElementSibling?.classList.value)
-        expect(actualCtbPhoneIcon?.includes('icon-phone-outlined'), "CTB Phone icon is correct").toBeTruthy()
-
+        expect(await actualCtbPhoneIcon?.includes('icon-phone-outlined'), "CTB Phone icon is correct").toBeTruthy()
     }
 
 }
