@@ -13,6 +13,7 @@ export class ImageCarouselComponent {
     readonly mainSiteContent: (context : any) => Locator
     readonly carousel: (context : any) => Locator
     readonly carouselItem: (context : any) => Locator
+    public uploadedImageCount: any
 
     constructor(page: Page) {
         this.page = page;
@@ -25,7 +26,7 @@ export class ImageCarouselComponent {
         this.createBtn = page.getByRole('button', { name: 'Create', exact: true }).nth(1);
 
         this.mainSiteContent = (context : any) => context.locator('body');
-        this.carousel = (context : any) => context.locator('[role="carousel"]');
+        this.carousel = (context : any) => context.locator('[role="group"]');
         this.carouselItem = (context : any) => context.locator('[class="fig-image"]');
     }
 
@@ -73,12 +74,14 @@ export class ImageCarouselComponent {
             await this.createBtn.click();
             await this.page.waitForLoadState('networkidle');
         }
+
+        this.uploadedImageCount = imageNames.length
     }
 
     async validateImageCarousel(newPage) {
         await expect(this.mainSiteContent(newPage), "Image Carousel Title is available on the page").toContainText('IMAGE CAROUSEL TEST');
-        await expect(this.carousel(newPage), "Image Carousel is available on the page").toBeVisible();
-        await expect(this.carouselItem(newPage), "Image Carousel Item is available on the page").toHaveCount(3);
+        await expect(this.carousel(newPage), "Image Carousel is available on the page").toHaveCount(this.uploadedImageCount);
+        await expect(this.carouselItem(newPage), "Image Carousel Item is available on the page").toHaveCount(this.uploadedImageCount);
     }
 
 }
