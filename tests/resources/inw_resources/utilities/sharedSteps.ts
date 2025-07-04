@@ -210,7 +210,7 @@ export class SharedSteps {
 
         if (component == 'Good to know item') {
             const goodToKnowItemDescription = faker.word.adjective() + ' ' + faker.word.noun() + ' Item Description Automation ' + faker.number.int({ min: 50, max: 1000 })
-            await this.page.waitForLoadState('networkidle')
+            await this.page.waitForLoadState('domcontentloaded')
             await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
             return goodToKnowItemDescription
         } else {
@@ -218,6 +218,8 @@ export class SharedSteps {
             await this.rteParagraph.waitFor({ state: 'visible' })
             await this.rteParagraph.click()
             await this.rteParagraph.fill(richTextContent);
+            await this.rteParagraph.focus()
+            await this.rteParagraph.click()
             return richTextContent
 
         }
@@ -233,7 +235,7 @@ export class SharedSteps {
     async pickComponentLink(component: string = 'common') {
         if (component == 'Good to know item') {
             const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
-            await this.linkPickerBtn.click()
+            await this.linkPickerBtn.nth(1).click()
             await this.fillOutGoogleLink(goodToKnowLinkTitle)
 
             return goodToKnowLinkTitle
