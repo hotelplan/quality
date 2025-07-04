@@ -279,6 +279,18 @@ export class SharedSteps {
     async validateNewPageUrl(newPage) {
         const formattedUrlPart = this.newGenericContentPage.replace(/\s+/g, '-').toLowerCase();
         await expect(newPage).toHaveURL(new RegExp(`.*${formattedUrlPart}`));
+        await this.clickAcceptAllCookiesBtn(newPage)
+    }
+
+    async clickAcceptAllCookiesBtn(newPage) {
+        const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' })
+        await acceptAllCookiesBtn.waitFor({ state: 'visible' })
+            .catch(async () => {
+                console.log('Accept All Cookies button not found, skipping click action');
+            });
+
+        await acceptAllCookiesBtn.click();
+
     }
 
 }
