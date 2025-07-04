@@ -240,7 +240,7 @@ export class SharedSteps {
 
         } else if (component == 'Pills') {
             const pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
-            await this.linkPickerBtn.nth(1).click()
+            await this.linkPickerBtn.nth(2).click()
             await this.fillOutGoogleLink(pillLinkTitle)
             await this.pillLinkSubmitBtn.click()
 
