@@ -25,15 +25,19 @@ export class HeadlineComponent {
             const headlineTextFldUnderAccordion = this.page.getByLabel('Text')
             await headlineTextFldUnderAccordion.waitFor({ state: 'visible' })
             await headlineTextFldUnderAccordion.fill(uniqueHeadlineForAccordionEntry)
+            await this.headlineDropdowns.nth(3).click()
+            this.size = await this.headlineDropdowns.nth(3).selectOption({ index: sizeRandomIndex })
+            await this.headlineDropdowns.nth(4).click()
+            this.alignment = await this.headlineDropdowns.nth(4).selectOption({ index: alignmentRandomIndex })
         } else {
             await this.headlineTextFld.waitFor({ state: 'visible' })
             await this.headlineTextFld.fill(this.headlineText)
+            await this.headlineDropdowns.nth(2).click()
+            this.size = await this.headlineDropdowns.nth(2).selectOption({ index: sizeRandomIndex })
+            await this.headlineDropdowns.nth(3).click()
+            this.alignment = await this.headlineDropdowns.nth(3).selectOption({ index: alignmentRandomIndex })
         }
 
-        await this.headlineDropdowns.nth(2).click()
-        this.size = await this.headlineDropdowns.nth(2).selectOption({ index: sizeRandomIndex })
-        await this.headlineDropdowns.nth(3).click()
-        this.alignment = await this.headlineDropdowns.nth(3).selectOption({ index: alignmentRandomIndex })
 
         if (component == 'accordion') {
             return uniqueHeadlineForAccordionEntry
@@ -49,7 +53,7 @@ export class HeadlineComponent {
         const expectedSizeTag = this.size[0].replace(/.*string:(\w+).*/, '$1')
         const expectedAlignment = this.alignment[0].replace(/.*string:(\w+).*/, '$1').toLowerCase();
         const actualTagName = await headlineId.evaluate(node => node.tagName)
-        const actualTextAlign = await headlineId.evaluate(node => window.getComputedStyle(node).textAlign)
+        const actualTextAlign = await headlineId.evaluate(node => node.parentElement.classList.value.split(" ").pop())
 
         expect(actualTagName).toBe(expectedSizeTag);
         expect(actualTextAlign).toBe(expectedAlignment);
