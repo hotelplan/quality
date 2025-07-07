@@ -48,7 +48,7 @@ test.describe('Lapland Country Broad Search', async () => {
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
                 await searchResultPage.checkCriteriaBarContent('2 adults');
-                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+                await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
             await test.step('When : I check Accomodation cards search results', async () => {
@@ -86,7 +86,7 @@ test.describe('Santa Country Broad Search', async () => {
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
                 await searchResultPage.checkCriteriaBarContent('2 adults');
-                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+                await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
             await test.step('When : I check Accomodation cards search results', async () => {
@@ -123,7 +123,7 @@ test.describe('Ski Country Broad Search', async () => {
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
                 await searchResultPage.checkCriteriaBarContent('2 adults');
-                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+                await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
             await test.step('When : I check Accomodation cards search results', async () => {
@@ -159,7 +159,7 @@ test.describe('Walking Country Broad Search', async () => {
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
                 await searchResultPage.checkCriteriaBarContent('2 adults');
-                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+                await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
             await test.step('When : I check Accomodation cards search results', async () => {
