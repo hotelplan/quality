@@ -42,11 +42,10 @@ export class GoodToKnowComponent {
         await expect(newPage.locator('body')).toContainText(rteContent);
 
         for (const goodToKnowItem of goodToKnowDetails) {
-            const actualIcon = await newPage.getByText(goodToKnowItem.title).evaluate(node => node.parentElement?.previousElementSibling?.classList.value)
-            const actualTitleAlignment = await newPage.getByText(goodToKnowItem.title).evaluate(node => node.className)
-            const actualDescription = await newPage.getByText(goodToKnowItem.description).evaluate(node => node.parentElement?.className)
-            const actualLink = await newPage.getByText(goodToKnowItem.link).evaluate(node => node.parentElement?.getAttribute('href'))
-
+            const actualIcon = await newPage.getByText(goodToKnowItem.title).evaluate(node => node.parentElement?.previousElementSibling?.querySelector('svg')?.classList.value)
+            const actualTitleAlignment = await newPage.getByText(goodToKnowItem.title).evaluate(node => window.getComputedStyle(node).textAlign)
+            const actualDescription = await newPage.getByText(goodToKnowItem.description).evaluate(node => window.getComputedStyle(node).textAlign)
+            const actualLink = await newPage.getByText(goodToKnowItem.link).evaluate(node => node.getAttribute('href'))
 
             expect(actualIcon?.includes(goodToKnowItem.icon), "Good to know Icon is correct").toBeTruthy()
             expect(actualTitleAlignment?.includes('center'), "Good to know Title Alignment is correct").toBeTruthy()

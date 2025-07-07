@@ -108,10 +108,10 @@ export class SharedSteps {
         await this.globalSearchFirstResult.click()
     }
 
-    async searchAndSelectGenericContentPage() {
+    async searchPage(pageName: string) {
         await this.globalSearch.waitFor({ state: 'visible' })
         await this.globalSearch.click()
-        await this.globalSearchInput.fill(this.genericContentPage)
+        await this.globalSearchInput.fill(pageName)
         await this.globalSearchInput.press('Enter')
         await expect(this.globalSearchFirstResult).toBeVisible()
         await this.globalSearchFirstResult.click()
@@ -210,14 +210,16 @@ export class SharedSteps {
 
         if (component == 'Good to know item') {
             const goodToKnowItemDescription = faker.word.adjective() + ' ' + faker.word.noun() + ' Item Description Automation ' + faker.number.int({ min: 50, max: 1000 })
-            await this.page.waitForLoadState('networkidle')
+            await this.page.waitForLoadState('domcontentloaded')
             await this.page.locator('iframe').nth(1).contentFrame().locator('#tinymce').fill(goodToKnowItemDescription)
             return goodToKnowItemDescription
         } else {
-            await this.page.waitForLoadState('networkidle')
+            await this.page.waitForLoadState('domcontentloaded')
             await this.rteParagraph.waitFor({ state: 'visible' })
             await this.rteParagraph.click()
             await this.rteParagraph.fill(richTextContent);
+            await this.rteParagraph.focus()
+            await this.rteParagraph.click()
             return richTextContent
 
         }
@@ -233,14 +235,14 @@ export class SharedSteps {
     async pickComponentLink(component: string = 'common') {
         if (component == 'Good to know item') {
             const goodToKnowLinkTitle = faker.word.noun() + ' Good to know Link ' + faker.number.int({ min: 50, max: 1000 })
-            await this.linkPickerBtn.click()
+            await this.linkPickerBtn.nth(1).click()
             await this.fillOutGoogleLink(goodToKnowLinkTitle)
 
             return goodToKnowLinkTitle
 
         } else if (component == 'Pills') {
             const pillLinkTitle = faker.word.noun() + ' Pill Link ' + faker.number.int({ min: 50, max: 1000 })
-            await this.linkPickerBtn.nth(1).click()
+            await this.linkPickerBtn.nth(2).click()
             await this.fillOutGoogleLink(pillLinkTitle)
             await this.pillLinkSubmitBtn.click()
 
@@ -279,6 +281,18 @@ export class SharedSteps {
     async validateNewPageUrl(newPage) {
         const formattedUrlPart = this.newGenericContentPage.replace(/\s+/g, '-').toLowerCase();
         await expect(newPage).toHaveURL(new RegExp(`.*${formattedUrlPart}`));
+        await this.clickAcceptAllCookiesBtn(newPage)
+    }
+
+    async clickAcceptAllCookiesBtn(newPage) {
+        const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' })
+        await acceptAllCookiesBtn.waitFor({ state: 'visible' })
+            .catch(async () => {
+                console.log('Accept All Cookies button not found, skipping click action');
+            });
+
+        await acceptAllCookiesBtn.click();
+
     }
 
 }
