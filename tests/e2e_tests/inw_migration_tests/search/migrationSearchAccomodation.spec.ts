@@ -13,9 +13,10 @@ const SantaDatacsv = parse(fs.readFileSync(path.join(__dirname, '..', 'migration
 const SkiDatacsv = parse(fs.readFileSync(path.join(__dirname, '..', 'migration_data', 'Migration_Ski.csv')), {columns: true, skip_empty_lines: true});
 const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, '..', 'migration_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/');
+        await sharedSteps.clickAcceptAllCookiesBtn(page);
     });
 });
 
@@ -59,7 +60,7 @@ test.describe.skip('Lapland Accommodation Broad Search', async () => {
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
                 await searchResultPage.checkCriteriaBarContent('2 adults');
-                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+                await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
             await test.step('When : I check Accomodation cards search results', async () => {
@@ -109,7 +110,7 @@ test.describe.skip('Santa Accommodation Broad Search', async () => {
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
                 await searchResultPage.checkCriteriaBarContent('2 adults');
-                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+                await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
             await test.step('When : I check Accomodation cards search results', async () => {
@@ -159,7 +160,7 @@ test.describe.skip('Ski Accommodation Broad Search', async () => {
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
                 await searchResultPage.checkCriteriaBarContent('2 adults');
-                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+                await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
             await test.step('When : I check Accomodation cards search results', async () => {
@@ -209,7 +210,7 @@ test.describe.skip('Walking Accommodation Broad Search', async () => {
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
                 await searchResultPage.checkCriteriaBarContent('2 adults');
-                await searchResultPage.checkCriteriaBarContent('From Any departure location');
+                await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
             await test.step('When : I check Accomodation cards search results', async () => {

@@ -11,6 +11,10 @@ let newPage
 let testPageName
 
 test.beforeEach(async ({ page, sharedSteps }) => {
+    // Clear arrays to prevent cross-test pollution
+    accordionTitleArr.length = 0
+    headlineTitleArr.length = 0
+    
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/umbraco#/content')
     })
@@ -28,6 +32,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 test.afterEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl  + '/umbraco#/content')
+        await page.waitForLoadState('domcontentloaded')
     });
 
     await test.step(`And: I select a Generic Content page`, async () => {
@@ -64,13 +69,16 @@ test.describe('Accordion', async () => {
 
         await test.step(`And: I click the Accordion component`, async () => {
             await sharedSteps.selectComponent()
-
+            // Wait for accordion form to load
+            await accordionComponent.page.waitForLoadState('domcontentloaded')
         });
         // creates 4 accordions
         for (let i = 0; i <= 3; i++) {
 
-            await test.step(`And: I click the Add Accordion Item button`, async () => {
+            await test.step(`And: I click the Add Accordion Item button (${i + 1}/4)`, async () => {
                 await accordionComponent.clickAddAccordionItemBtn()
+                // Wait for accordion item form to be ready
+                await accordionComponent.page.waitForTimeout(1000)
             });
 
             await test.step(`And: I input Accordion Title`, async () => {
@@ -82,8 +90,10 @@ test.describe('Accordion', async () => {
             await test.step(`And: I click Add content button
                              And: I choose and select Headline component for the accordion entry.`, async () => {
                 await accordionComponent.clickAddContentBtn()
+                await accordionComponent.page.waitForTimeout(1000)
                 await sharedSteps.searchComponent('Headline')
                 await sharedSteps.selectComponent()
+                await headlineComponent.page.waitForLoadState('domcontentloaded')
                 headlineTitle = await headlineComponent.fillOutHeadlineDetails('accordion')
                 headlineTitleArr.push(headlineTitle)
                 await accordionComponent.clickCreateAccordionEntryBtn()
@@ -92,6 +102,8 @@ test.describe('Accordion', async () => {
 
             await test.step(`And: I click 'Create' button for Accordion Item`, async () => {
                 await accordionComponent.clickCreateAccordionItemBtn()
+                // Wait for accordion item to be created before continuing
+                await accordionComponent.page.waitForTimeout(1500)
             });
 
         }
@@ -99,12 +111,14 @@ test.describe('Accordion', async () => {
         await test.step(`And: I click 'Create' button for Accordion component
                          And: I click 'Save and publish' button`, async () => {
             await sharedSteps.clickCreateBtn(1)
+            await sharedSteps.page.waitForTimeout(2000) // Wait for form to process
             await sharedSteps.clickSaveAndPublishBtn()
         });
 
         await test.step(`When: I click 'Info' tab
                          And: click the link to the page`, async () => {
             await sharedSteps.clickInfoTab()
+            await sharedSteps.page.waitForTimeout(1000) // Wait for Info tab to load
             newPage = await sharedSteps.clickPageLink()
         });
 
