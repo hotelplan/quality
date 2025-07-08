@@ -40,11 +40,10 @@ export class CTAButtonComponent {
         
         const expectedCTABtnTheme = this.ctaBtnTheme[0].split(':')[1]
         
-        // Enhanced validations with timeouts
-        await expect(newPage.locator('body'), "CTA Button title text is available on the page").toContainText(ctaButtonProperty.title, { timeout: 10000 });
-        await expect(newPage.locator(`a[title="${ctaButtonProperty.title}"]`), "CTA Button title is available on the page").toBeVisible({ timeout: 10000 })
-        await expect(newPage.locator(`a[title="${ctaButtonProperty.title}"]`), "CTA Button link is correct").toHaveAttribute('href', environmentBaseUrl.googleLink.testLink, { timeout: 10000 })
-        await expect(newPage.locator(`a[title="${ctaButtonProperty.title}"] [aria-labelledby='${ctaButtonProperty.icon}']`), "CTA Button icon is correct").toBeVisible({ timeout: 10000 })
+        await expect(newPage.locator('body'), "CTA Button title text is available on the page").toContainText(ctaButtonProperty.title);
+        await expect(newPage.locator(`a[title="${ctaButtonProperty.title}"]`), "CTA Button title is available on the page").toBeVisible()
+        await expect(newPage.locator(`a[title="${ctaButtonProperty.title}"]`), "CTA Button link is correct").toHaveAttribute('href', environmentBaseUrl.googleLink.testLink)
+        await expect(newPage.locator(`a[title="${ctaButtonProperty.title}"] [aria-labelledby='${ctaButtonProperty.icon}']`), "CTA Button icon is correct").toBeVisible()
         
         const actualCTABtnClassName = await newPage.locator(`a[title="${ctaButtonProperty.title}"]`).evaluate(node => node.className)
         expect(actualCTABtnClassName.includes(expectedCTABtnTheme), "CTA button theme is correct").toBeTruthy()

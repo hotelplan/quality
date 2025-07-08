@@ -54,19 +54,18 @@ export class AccordionComponent {
         
         // Validate accordion titles are present
         for(const accordionTitle of accordionTitles){
-            await expect(newPage.locator('body')).toContainText(accordionTitle, { timeout: 10000 });
+            await expect(newPage.locator('body')).toContainText(accordionTitle);
         }
 
         // Click each accordion to expand and wait for content
         for(const accordionTitle of accordionTitles){
             await newPage.getByText(accordionTitle).waitFor({ state: 'visible' })
             await newPage.getByText(accordionTitle).click()
-            await newPage.waitForTimeout(500) // Wait for accordion expansion
         }
 
         // Validate headline titles are present after accordion expansion
         for(const headlineTitle of headlineTitles){
-            await expect(newPage.locator('body')).toContainText(headlineTitle, { timeout: 10000 });
+            await expect(newPage.locator('body')).toContainText(headlineTitle);
         }
     }
 

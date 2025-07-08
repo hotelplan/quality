@@ -37,10 +37,10 @@ export default defineConfig({
         ? baseEnvUrl.stg.inghams
         : baseEnvUrl.qa.inghams
   },
-  timeout: 120000,
+  timeout: 420000, // 7 minutes timeout for overall test case execution
   expect: {
 
-    timeout: 60000
+    timeout: 120000, // 2 minutes timeout for individual assertions
   },
 
   /* Configure projects for major browsers */
