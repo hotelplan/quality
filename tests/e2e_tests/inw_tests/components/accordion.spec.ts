@@ -77,8 +77,6 @@ test.describe('Accordion', async () => {
 
             await test.step(`And: I click the Add Accordion Item button (${i + 1}/4)`, async () => {
                 await accordionComponent.clickAddAccordionItemBtn()
-                // Wait for accordion item form to be ready
-                await accordionComponent.page.waitForTimeout(1000)
             });
 
             await test.step(`And: I input Accordion Title`, async () => {
@@ -90,7 +88,6 @@ test.describe('Accordion', async () => {
             await test.step(`And: I click Add content button
                              And: I choose and select Headline component for the accordion entry.`, async () => {
                 await accordionComponent.clickAddContentBtn()
-                await accordionComponent.page.waitForTimeout(1000)
                 await sharedSteps.searchComponent('Headline')
                 await sharedSteps.selectComponent()
                 await headlineComponent.page.waitForLoadState('domcontentloaded')
@@ -102,8 +99,6 @@ test.describe('Accordion', async () => {
 
             await test.step(`And: I click 'Create' button for Accordion Item`, async () => {
                 await accordionComponent.clickCreateAccordionItemBtn()
-                // Wait for accordion item to be created before continuing
-                await accordionComponent.page.waitForTimeout(1500)
             });
 
         }
@@ -111,14 +106,12 @@ test.describe('Accordion', async () => {
         await test.step(`And: I click 'Create' button for Accordion component
                          And: I click 'Save and publish' button`, async () => {
             await sharedSteps.clickCreateBtn(1)
-            await sharedSteps.page.waitForTimeout(2000) // Wait for form to process
             await sharedSteps.clickSaveAndPublishBtn()
         });
 
         await test.step(`When: I click 'Info' tab
                          And: click the link to the page`, async () => {
             await sharedSteps.clickInfoTab()
-            await sharedSteps.page.waitForTimeout(1000) // Wait for Info tab to load
             newPage = await sharedSteps.clickPageLink()
         });
 

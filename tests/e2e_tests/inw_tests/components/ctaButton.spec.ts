@@ -77,12 +77,10 @@ test.describe('CTA Button', async () => {
 
         await test.step(`And: I select CTA button Theme`, async () => {
             await ctaButtonComponent.selectCTAButtonTheme()
-            await ctaButtonComponent.page.waitForTimeout(500)
         });
 
         await test.step(`And: I select CTA button Position`, async () => {
             await ctaButtonComponent.selectCTAButtonPosition()
-            await ctaButtonComponent.page.waitForTimeout(500)
         });
 
         await test.step(`And: I select Cta button Link`, async () => {
@@ -102,22 +100,18 @@ test.describe('CTA Button', async () => {
         await test.step(`And: I click 'Create' button for CTA button component
                          And: I click 'Save and publish' button`, async () => {
             await sharedSteps.clickCreateBtn()
-            await sharedSteps.page.waitForTimeout(1500) // Wait for component creation
             await sharedSteps.clickSaveAndPublishBtn()
         });
 
         await test.step(`When: I click 'Info' tab
                          And: click the link to the page`, async () => {
             await sharedSteps.clickInfoTab()
-            await sharedSteps.page.waitForTimeout(1000) // Wait for Info tab to load
             newPage = await sharedSteps.clickPageLink()
         });
 
         await test.step(`And: I redirect the Generic Content page
                          Then: I should see the CTA button displayed on the Generic Content Page with details`, async () => {
             await sharedSteps.validateNewPageUrl(newPage)
-            // Add small wait to ensure page is fully rendered
-            await newPage.waitForTimeout(1000)
             await ctaButtonComponent.validateCtaButtonAvailability(newPage, ctaButtonProperty)
         });
 
