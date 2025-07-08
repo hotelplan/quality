@@ -10,9 +10,10 @@ let initialSearchValues: SearchValues
 let updatedSearchValues
 let newPage
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/')
+        await sharedSteps.clickAcceptAllCookiesBtn(page);
     })
 })
 

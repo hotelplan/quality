@@ -13,9 +13,10 @@ const SantaDatacsv = parse(fs.readFileSync(path.join(__dirname, '..', 'migration
 const SkiDatacsv = parse(fs.readFileSync(path.join(__dirname, '..', 'migration_data', 'Migration_Ski.csv')), {columns: true, skip_empty_lines: true});
 const WalkingDatacsv = parse(fs.readFileSync(path.join(__dirname, '..', 'migration_data', 'Migration_Walking.csv')), {columns: true, skip_empty_lines: true});
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
         await page.goto(ECMSurl + '/');
+        await sharedSteps.clickAcceptAllCookiesBtn(page);
     });
 });
 

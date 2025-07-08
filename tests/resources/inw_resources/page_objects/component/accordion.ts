@@ -33,32 +33,41 @@ export class AccordionComponent {
     }
 
     async clickAddContentBtn() {
+        await this.addContentBtn.waitFor({ state: 'visible' })
         await this.addContentBtn.click()
-
     }
 
     async clickCreateAccordionEntryBtn() {
+        await this.createAccordionIEntryBtn.waitFor({ state: 'visible' })
         await this.createAccordionIEntryBtn.click()
     }
 
     async clickCreateAccordionItemBtn() {
         const createAccordionItemBtn = this.page.locator('.btn-primary').nth(1)
+        await createAccordionItemBtn.waitFor({ state: 'visible' })
         await createAccordionItemBtn.click()
     }
 
     async validateAccordionAvailability(newPage, accordionTitles, headlineTitles) {
+        // Wait for page to fully load
+        await newPage.waitForLoadState('domcontentloaded')
+        
+        // Validate accordion titles are present
         for(const accordionTitle of accordionTitles){
-            await expect(newPage.locator('body')).toContainText(accordionTitle);
+            await expect(newPage.locator('body')).toContainText(accordionTitle, { timeout: 10000 });
         }
 
+        // Click each accordion to expand and wait for content
         for(const accordionTitle of accordionTitles){
+            await newPage.getByText(accordionTitle).waitFor({ state: 'visible' })
             await newPage.getByText(accordionTitle).click()
+            await newPage.waitForTimeout(500) // Wait for accordion expansion
         }
 
+        // Validate headline titles are present after accordion expansion
         for(const headlineTitle of headlineTitles){
-            await expect(newPage.locator('body')).toContainText(headlineTitle);
+            await expect(newPage.locator('body')).toContainText(headlineTitle, { timeout: 10000 });
         }
-
     }
 
 }
