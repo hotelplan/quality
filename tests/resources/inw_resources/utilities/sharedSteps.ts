@@ -36,7 +36,16 @@ export class SharedSteps {
     readonly deleteButton: (pageName: string) => Locator
     readonly deleteConfirmation: Locator
     readonly okButton: Locator
-
+    readonly homeLink: Locator
+    readonly homeDocumentTypeLink: Locator
+    readonly homeListViewBtn: Locator
+    readonly homeListViewToggle: Locator
+    readonly saveAndCloseHomeBtn: Locator
+    readonly homeChildItems: Locator
+    readonly homePageTiles: Locator
+    readonly deletePageBtn: Locator
+    readonly deletePageConfirmationBtn: Locator
+    readonly pageEditorSubHeader: Locator
 
     constructor(page: Page) {
         this.page = page;
@@ -73,6 +82,16 @@ export class SharedSteps {
         this.deleteButton = (pageName: string) => page.getByRole('button', { name: `Delete ${pageName}` })
         this.deleteConfirmation = page.locator('//localize[text()="was deleted"]')
         this.okButton = page.getByRole('button', { name: 'OK' })
+        this.homeLink = page.getByRole('link', { name: 'Home' })
+        this.homeDocumentTypeLink = page.getByRole('button', { name: 'Open  Home...' })
+        this.homeListViewBtn = page.getByRole('button', { name: 'List view' })
+        this.homeListViewToggle = page.locator('[id="sub-view-1"] .umb-toggle__toggle');
+        this.saveAndCloseHomeBtn = page.getByRole('button', { name: 'Save and close' })
+        this.homeChildItems = page.locator('.umb-sub-views-nav').getByRole('button', { name: 'Child items' })
+        this.homePageTiles = page.locator('.umb-content-grid__item');
+        this.deletePageBtn = page.getByRole('button', { name: 'Delete...' })
+        this.deletePageConfirmationBtn = page.getByRole('button', { name: 'Yes, delete' })
+        this.pageEditorSubHeader = page.locator('.umb-editor-sub-header');
     }
 
     async createGenericContentPage() {
@@ -293,6 +312,45 @@ export class SharedSteps {
 
         await acceptAllCookiesBtn.click();
 
+    }
+
+    async clickHomeLink() {
+        await this.homeLink.waitFor({ state: 'visible' })
+        await this.homeLink.click()
+    }
+
+    async clickHomeDocumentTypeLink() {
+        await this.homeDocumentTypeLink.click()
+    }
+    
+    async changeHomeListView() {
+        await this.homeListViewBtn.click()
+        await this.homeListViewToggle.click()
+        await this.saveAndCloseHomeBtn.click()
+        await expect(this.publishNotification).toHaveCount(1);
+        await expect(this.publishNotification).toHaveCount(0);
+    }
+
+    async clickHomeChildItemsBtn() {
+        await this.homeChildItems.click()
+    }
+
+    async selectAutomationPageTiles() {
+        await this.homePageTiles.nth(0).waitFor({ state: 'visible' })
+        const homePageTilesCount = await this.homePageTiles.count()
+        for (let i = 0; i < homePageTilesCount; i++) {
+            const homePageTile = await this.homePageTiles.locator('a').nth(i).textContent()
+            if (homePageTile?.includes('Automation Test Page')) {
+                await this.homePageTiles.nth(i).click()
+            }
+        }
+    }
+
+    async deletePageConfirmation() {
+        await this.deletePageBtn.click()
+        await this.deletePageConfirmationBtn.click()
+        await expect(this.publishNotification).toHaveCount(1);
+        await expect(this.publishNotification).toHaveCount(0);
     }
 
 }

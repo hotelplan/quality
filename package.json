@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:regression:inw": "npx playwright test --grep @inw",
+    "test:regression:component": "npx playwright test --grep @component",
     "test:regression:inw:report": "npx playwright test --grep @inw && (allure generate ./allure-results -o ./allure-report --clean && allure open ./allure-report) || (allure generate ./allure-results -o ./allure-report --clean && allure open ./allure-report)",
     "report:open": "npx allure serve allure-results",
     "report:generate:single": "npx allure generate --single-file allure-results --clean",

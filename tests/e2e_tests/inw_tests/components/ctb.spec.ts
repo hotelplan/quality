@@ -24,7 +24,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 
 test.describe('Call to Book', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a CTB component and views it on the General Content page @inw @component`, async ({ ctbComponent, sharedSteps }) => {
+    test(`An ECMS user creates a CTB component and views it on the General Content page ${testPageName} @component @inw`, async ({ ctbComponent, sharedSteps }) => {
         await test.step(`Background: I get the Telephone number from Contact Section page`, async () => {
             await sharedSteps.searchPage('Contact Section')
             await ctbComponent.getCTBPhoneNumber()
