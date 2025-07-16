@@ -48,7 +48,12 @@ export default defineConfig({
     {
       name: 'get storage state',
       testMatch: /.*\.setup\.ts/,
-      fullyParallel: true
+      fullyParallel: true,
+      teardown: 'page cleanup'
+    },
+    {
+      name: 'page cleanup',
+      testMatch: /.*\.teardown\.ts/,
     },
     {
       name: 'Chromium',
