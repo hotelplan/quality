@@ -24,7 +24,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 
 test.describe('Image Carousel', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a Image Carousel component and views it on the General Content page @inw @component`, async ({ imageCarouselComponent, sharedSteps }) => {
+    test(`An ECMS user creates a Image Carousel component and views it on the General Content page ${testPageName} @inw @component`, async ({ imageCarouselComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });

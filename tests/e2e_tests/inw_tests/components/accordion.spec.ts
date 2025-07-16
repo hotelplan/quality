@@ -31,7 +31,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 
 test.describe('Accordion', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates an Accordion component and views it on the General Content page @inw @component`, async ({ accordionComponent, headlineComponent, sharedSteps }) => {
+    test(`An ECMS user creates an Accordion component and views it on the General Content page ${testPageName} @inw @component`, async ({ accordionComponent, headlineComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });

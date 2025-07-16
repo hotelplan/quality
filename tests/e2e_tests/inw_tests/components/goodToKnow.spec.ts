@@ -32,7 +32,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 
 test.describe('Good to know', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates Good-to-know component and views it on the General Content page @inw @component`, async ({ goodToKnowComponent, sharedSteps }) => {
+    test(`An ECMS user creates Good-to-know component and views it on the General Content page ${testPageName} @inw @component`, async ({ goodToKnowComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });

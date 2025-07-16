@@ -24,7 +24,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 
 test.describe('Grey Box', () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a Grey Box component and views it on the General Content page @inw @component`, async ({ greyBoxComponent, sharedSteps }) => {
+    test(`An ECMS user creates a Grey Box component and views it on the General Content page @inw @component ${testPageName}`, async ({ greyBoxComponent, sharedSteps }) => {
         
         let selectedTheme : string;
 

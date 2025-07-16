@@ -25,7 +25,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 
 test.describe('Rich Text Editor', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a RTE component and views it on the General Content page @inw @component`, async ({ rteComponent, sharedSteps }) => {
+    test(`An ECMS user creates a RTE component and views it on the General Content page ${testPageName} @inw @component`, async ({ rteComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });
