@@ -22,25 +22,9 @@ test.beforeEach(async ({ page, sharedSteps }) => {
     })
 })
 
-test.afterEach(async ({ page, sharedSteps }) => {
-    await test.step('Given: I navigate to home page', async () => {
-        await page.goto(ECMSurl + '/umbraco#/content')
-    });
-
-    await test.step(`And: I select a Generic Content page`, async () => {
-        await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
-    });
-
-    await test.step(`Then: Delete a Generic Content page`, async () => {
-        await sharedSteps.deleteGenericContentPage(testPageName)
-        await sharedSteps.clickSaveAndPublishBtn()
-    });
-
-});
-
 test.describe('Call to Book', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a CTB component and views it on the General Content page @inw`, async ({ ctbComponent, sharedSteps }) => {
+    test(`An ECMS user creates a CTB component and views it on the General Content page @inw @component`, async ({ ctbComponent, sharedSteps }) => {
         await test.step(`Background: I get the Telephone number from Contact Section page`, async () => {
             await sharedSteps.searchPage('Contact Section')
             await ctbComponent.getCTBPhoneNumber()
