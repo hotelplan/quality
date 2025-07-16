@@ -22,26 +22,9 @@ test.beforeEach(async ({ page, sharedSteps }) => {
     })
 })
 
-test.afterEach(async ({ page, sharedSteps }) => {
-    await test.step('Given: I navigate to home page', async () => {
-        await page.goto(ECMSurl + '/umbraco#/content')
-    });
-
-    await test.step(`And: I select a Generic Content page`, async () => {
-        await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
-    });
-
-    await test.step(`Then: Delete a Generic Content page`, async () => {
-        await sharedSteps.deleteGenericContentPage(testPageName)
-        await sharedSteps.clickSaveAndPublishBtn()
-    });
-
-});
-
-
 test.describe('Image Carousel', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a Image Carousel component and views it on the General Content page @inw`, async ({ imageCarouselComponent, sharedSteps }) => {
+    test(`An ECMS user creates a Image Carousel component and views it on the General Content page ${testPageName} @inw @component`, async ({ imageCarouselComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });

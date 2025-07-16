@@ -32,25 +32,9 @@ test.beforeEach(async ({ page, sharedSteps }) => {
     })
 })
 
-test.afterEach(async ({ page, sharedSteps }) => {
-    await test.step('Given: I navigate to home page', async () => {
-        await page.goto(ECMSurl  + '/umbraco#/content')
-        await page.waitForLoadState('domcontentloaded')
-    });
-
-    await test.step(`And: I select a Generic Content page`, async () => {
-        await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
-    });
-
-    await test.step(`Then: Delete a Generic Content page`, async () => {
-        await sharedSteps.deleteGenericContentPage(testPageName)
-        await sharedSteps.clickSaveAndPublishBtn()
-    });
-
-});
 test.describe('CTA Button', async () => {
     test.use({ storageState: '.auth/ecmsUserStorageState.json' });
-    test(`An ECMS user creates a CTA button component and views it on the General Content page @inw`, async ({ ctaButtonComponent, sharedSteps }) => {
+    test(`An ECMS user creates a CTA button component and views it on the General Content page ${testPageName} @inw @component`, async ({ ctaButtonComponent, sharedSteps }) => {
         await test.step(`Given: I select a Generic Content page`, async () => {
             await sharedSteps.searchAndSelectNewGenericContentPage(testPageName)
         });

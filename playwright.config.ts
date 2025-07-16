@@ -37,7 +37,7 @@ export default defineConfig({
         ? baseEnvUrl.stg.inghams
         : baseEnvUrl.qa.inghams
   },
-  timeout: 420000, // 7 minutes timeout for overall test case execution
+  timeout: 300000, // 5 minutes timeout for overall test case execution
   expect: {
 
     timeout: 120000, // 2 minutes timeout for individual assertions
@@ -48,7 +48,12 @@ export default defineConfig({
     {
       name: 'get storage state',
       testMatch: /.*\.setup\.ts/,
-      fullyParallel: true
+      fullyParallel: true,
+      teardown: 'page cleanup'
+    },
+    {
+      name: 'page cleanup',
+      testMatch: /.*\.teardown\.ts/,
     },
     {
       name: 'Chromium',
