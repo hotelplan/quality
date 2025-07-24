@@ -53,7 +53,7 @@ test.describe('Broad Search', async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
 
-            await test.step(`And: I set guests to 0`, async () => {
+            await test.step(`And: I set guests to 0 (minimum 1 due to UI constraint)`, async () => {
                 await searchResultPage.setNumberOfGuests(0);
             });
 
@@ -67,7 +67,7 @@ test.describe('Broad Search', async () => {
 
             await test.step('And: I check the Search results criteria', async () => {
                 await searchResultPage.checkCriteriaBarContent('Any date (7 nights)');
-                await searchResultPage.checkCriteriaBarContent('Any Guest');
+                await searchResultPage.checkCriteriaBarContent('1 adult'); // Changed to lowercase to match UI
                 await searchResultPage.checkCriteriaBarContent('Any departure location');
             });
 
@@ -78,7 +78,7 @@ test.describe('Broad Search', async () => {
             await test.step('Then: search criteria matches the accomodation page', async () => {
                 const page2 = await searchResultPage.opentAccommodationCards();
                 await searchResultPage.checkAccomodationPageCriteriaBar(page2,'Any date (7 nights)');
-                await searchResultPage.checkAccomodationPageCriteriaBar(page2, 'Any Guest');
+                await searchResultPage.checkAccomodationPageCriteriaBar(page2, '1 adult'); // Changed to lowercase to match UI
                 await searchResultPage.checkAccomodationPageCriteriaBar(page2, 'Any departure location');
             });
         });

@@ -22,9 +22,9 @@ export default{
         en_ch:'https://www.exploreworldwide.ch/',
     },
     stg:{
-        inghams:'https://inghams-v2.stg.hotelplan.co.uk',
-        e_cms:'https://inghamsv2-ecms.stg.hotelplan.co.uk',
-        p_cms:'https://inghamsv2-pcms.stg.hotelplan.co.uk',
+        inghams:'https://inghamsv2-ecms.stg.hotelplan.co.uk',
+        e_cms:'https://admin-inghamsv2-ecms.stg.hotelplan.co.uk',
+        p_cms:'https://admin-inghamsv2-pcms.stg.hotelplan.co.uk',
     },
     prod:{
         inghams:'https://www.inghams.co.uk',

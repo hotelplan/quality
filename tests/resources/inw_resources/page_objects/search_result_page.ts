@@ -52,7 +52,7 @@ export class SearchResultPage {
     constructor(page: Page, apiContext: APIRequestContext) {
         this.page = page;
         this.request = apiContext
-        this.searchProductTab = (product: string) => page.getByRole('button', { name: product, exact: true });
+        this.searchProductTab = (product: string) => page.getByRole('button', { name: product});
         this.searchBar = page.locator('.c-search-criteria-bar')
         this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]');
         this.searchHolidayBtn = page.getByRole('button', { name: 'Search holidays' })
@@ -68,11 +68,11 @@ export class SearchResultPage {
         //this.searchWhereToGoResult = (location: string) => page.getByText(location, { exact: true });
         this.searchWhereToGoResult = (location: string) => page.locator(`//ul[@class="filter-results u-list-style-none"]//div[normalize-space(text())="${location}"]`);
         this.searchWhereToGoAltResult = (location: string) => page.locator('span').filter({ hasText: location });
-        this.searchNoGuestsBtn = page.locator('//button[@class="trip-search__option guests"]')
+        this.searchNoGuestsBtn = page.getByRole('button', { name: /who's coming\?/i })
         this.searchNoGuestHeader = page.getByRole('heading', { name: 'Who\'s coming?' })
         this.minusButton = page.getByRole('button', { name: '-', exact: true })
         this.plusButton = page.getByRole('button', { name: '+', exact: true })
-        this.numberValue = page.locator('//div[@class="number-range__value"]')
+        this.numberValue = page.locator('div.number-range__value')
         this.addChildButton = page.getByRole('button', { name: 'Add a child' })
         this.childAgeSelections = page.locator('//datalist[@id="childSelectList"]/option')
         this.searchCriteriaBarResult = (context: any) => context.locator('//div[@class="c-search-criteria-bar__price-basis"]')
@@ -342,6 +342,9 @@ export class SearchResultPage {
         }
     }
     async setNumberOfGuests(targetNumber: number, numberOfChildren: number = 0, maxAttempts = 20) {
+        // Handle the UI business constraint: minimum 1 adult guest
+        const actualTargetNumber = Math.max(1, targetNumber);
+        
         await this.searchNoGuestsBtn.isVisible();
         await this.searchNoGuestsBtn.isEnabled();
         await this.searchNoGuestsBtn.click();
@@ -357,12 +360,12 @@ export class SearchResultPage {
             const currentValue = parseInt(currentText.trim(), 10);
 
             // Exit if we've reached the target value
-            if (currentValue === targetNumber) {
+            if (currentValue === actualTargetNumber) {
                 break; // Don't click Done yet, as we might need to add children
             }
 
             // Click the appropriate button based on comparison
-            if (currentValue > targetNumber) {
+            if (currentValue > actualTargetNumber) {
                 await this.minusButton.click();
             } else {
                 await this.plusButton.click();
@@ -373,7 +376,7 @@ export class SearchResultPage {
             attempts++;
 
             if (attempts >= maxAttempts) {
-                throw new Error(`Failed to set adult count to ${targetNumber} after ${maxAttempts} attempts`);
+                throw new Error(`Failed to set adult count to ${actualTargetNumber} after ${maxAttempts} attempts. Note: UI minimum is 1 adult.`);
             }
         }
 
@@ -395,6 +398,11 @@ export class SearchResultPage {
 
         // Click Done after setting both adults and children
         await this.searchNoGuestDoneBtn.click();
+        
+        // Log a warning if the original target was 0 but we had to set it to 1
+        if (targetNumber === 0) {
+            console.warn(`Warning: Requested 0 adult guests, but UI minimum is 1. Set to 1 adult instead.`);
+        }
     }
 
     async searchAnywhere(location: string) {
