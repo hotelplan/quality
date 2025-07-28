@@ -28,8 +28,8 @@ export default{
     },
     prod:{
         inghams:'https://www.inghams.co.uk',
-        e_cms:'https://admin-inghamsv2-ecms.hotelplan.co.uk',
-        p_cms:'https://admin-inghamsv2-pcms.hotelplan.co.uk',
+        e_cms:'https://admin.inghams.co.uk',
+        p_cms:'https://pcms.inghams.co.uk',
     },
     sphinx:{
         dev: 'https://sphinx-api-v2.dev.hotelplan.co.uk'

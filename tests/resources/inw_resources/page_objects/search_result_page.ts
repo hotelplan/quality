@@ -152,7 +152,7 @@ export class SearchResultPage {
         
         if (adultsMatch) {
             const adultsCount = adultsMatch[1];
-            expect(criteriaBarText).toContain(`${adultsCount} adults`);
+            expect(criteriaBarText).toContain(`${adultsCount} adult`);
             console.log(`✓ Found expected adults count: ${adultsCount}`);
         }
         
@@ -225,7 +225,7 @@ export class SearchResultPage {
         
         if (adultsMatch) {
             const adultsCount = adultsMatch[1];
-            expect(criteriaBarText).toContain(`${adultsCount} adults`);
+            expect(criteriaBarText).toContain(`${adultsCount} adult`);
             console.log(`✓ Found expected adults count: ${adultsCount}`);
         }
         
