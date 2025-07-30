@@ -6,9 +6,6 @@ const env = process.env.ENV || "qa";
 const ECMSurl = environmentBaseUrl[env].e_cms;
 
 const products = ['Ski', 'Walking', 'Lapland'];
-let initialSearchValues: SearchValues
-let updatedSearchValues
-let newPage
 
 test.beforeEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
@@ -19,6 +16,10 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 
 test.describe('Search', async () => {
     for (const product of products) {
+        let initialSearchValues: SearchValues
+        let updatedSearchValues
+        let newPage
+        
         test(`The search bar should be displayed as sticky on Resort details page for ${product} holidays @inw`, async ({ searchResultPage, resortPage }) => {
             await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
@@ -46,8 +47,10 @@ test.describe('Search', async () => {
                 await resortPage.validateSearchBarTobeSticky(newPage)
             })
         })
-
         test(`Search bar should display Number of nights, Number of guests, Departure location and Date on Resort details page for ${product} holidays @inw`, async ({ searchResultPage, resortPage }) => {
+            let testInitialSearchValues: SearchValues
+            let testNewPage
+            
             await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
@@ -57,7 +60,7 @@ test.describe('Search', async () => {
             });
 
             await test.step(`And: I get the default values for Number of nights, Number of guests, Departure location and Date`, async () => {
-                initialSearchValues = await searchResultPage.getInitialSearchValues()
+                testInitialSearchValues = await searchResultPage.getInitialSearchValues()
             })
 
             await test.step(`And: I search for ${product} holidays`, async () => {
@@ -70,17 +73,20 @@ test.describe('Search', async () => {
 
             await test.step(`And: I choose and select an Accommodation by clicking 'View details' button
                              And: I see the search bar displaying at the top of the page`, async () => {
-                newPage = await resortPage.checkResortSearchBarAvailability()
+                testNewPage = await resortPage.checkResortSearchBarAvailability()
             })
 
             await test.step(`When: I check the Number of nights, Number of guests, Departure location and Date
                              Then: I should see correct Number of nights, Number of guests, Departure location and Date displayed on the search bar`, async () => {
-                await resortPage.validateResortSearchBarDetails(initialSearchValues, newPage)
+                await resortPage.validateResortSearchBarDetails(testInitialSearchValues, testNewPage)
 
             })
         })
 
         test(`The search bar should display the updated number of nights, number of guests, departure location, and date on the Resort Details page for ${product} holidays when the details have been updated. @inw`, async ({ searchResultPage, resortPage }) => {
+            let testUpdatedSearchValues
+            let testNewPage
+            
             await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
@@ -95,21 +101,21 @@ test.describe('Search', async () => {
 
             await test.step(`And: I choose and select an Accommodation by clicking 'View details' button
                              And: I see the search bar displaying at the top of the page`, async () => {
-                newPage = await resortPage.checkResortSearchBarAvailability()
+                testNewPage = await resortPage.checkResortSearchBarAvailability()
             })
 
             await test.step(`And: The price should display the cheapest Holiday price. `, async () => {
-                await resortPage.validateResortPrice(newPage, product)
+                await resortPage.validateResortPrice(testNewPage, product)
 
             })
 
             await test.step(`And: I update the number of nights, number of guests, departure location, and date`, async () => {
-                updatedSearchValues = await resortPage.updateResortSearchDetails(newPage)
+                testUpdatedSearchValues = await resortPage.updateResortSearchDetails(testNewPage)
             })
 
             await test.step(`When: I check the Number of nights, Number of guests, Departure location and Date
                              Then: I should see correct Number of nights, Number of guests, Departure location and Date displayed on the search bar`, async () => {
-                await resortPage.validateResortSearchBarDetails(updatedSearchValues, newPage, true)
+                await resortPage.validateResortSearchBarDetails(testUpdatedSearchValues, testNewPage, true)
 
             })
         })
