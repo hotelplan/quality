@@ -46,6 +46,13 @@ export class SharedSteps {
     readonly deletePageBtn: Locator
     readonly deletePageConfirmationBtn: Locator
     readonly pageEditorSubHeader: Locator
+    readonly skiHolidaysMenu: Locator
+    readonly walkingHolidaysMenu: Locator
+    readonly laplandHolidaysMenu: Locator
+    readonly destinationsMenu: Locator
+    readonly productCarouselMoreInfoBtn: Locator
+    public randomCountry: string
+    public resortProductCarouselTitle: string | null | undefined
 
     constructor(page: Page) {
         this.page = page;
@@ -92,6 +99,12 @@ export class SharedSteps {
         this.deletePageBtn = page.getByRole('button', { name: 'Delete...' })
         this.deletePageConfirmationBtn = page.getByRole('button', { name: 'Yes, delete' })
         this.pageEditorSubHeader = page.locator('.umb-editor-sub-header');
+        this.skiHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Ski Holidays' })
+        this.walkingHolidaysMenu = page.getByRole('link', { name: 'Walking Holidays' })
+        this.laplandHolidaysMenu = page.getByRole('link', { name: 'Lapland Holidays' })
+        this.destinationsMenu = page.getByRole('link', { name: 'Destinations', exact: true })
+        this.productCarouselMoreInfoBtn = page.getByRole('link', { name: 'More info' })
+
     }
 
     async createGenericContentPage() {
@@ -322,7 +335,7 @@ export class SharedSteps {
     async clickHomeDocumentTypeLink() {
         await this.homeDocumentTypeLink.click()
     }
-    
+
     async changeHomeListView() {
         await this.homeListViewBtn.click()
         await this.homeListViewToggle.click()
@@ -351,6 +364,55 @@ export class SharedSteps {
         await this.deletePageConfirmationBtn.click()
         await expect(this.publishNotification).toHaveCount(1);
         await expect(this.publishNotification).toHaveCount(0);
+    }
+
+    async clickProductMenu(string = 'Ski') {
+        if (string === 'Ski') {
+            await this.skiHolidaysMenu.click()
+        } else if (string === 'Walking') {
+            await this.walkingHolidaysMenu.click()
+        } else if (string === 'Lapland') {
+            await this.laplandHolidaysMenu.click()
+        }
+
+    }
+
+    async hoverDestinationsMenu() {
+        await this.destinationsMenu.waitFor({ state: 'visible' })
+        await this.destinationsMenu.hover()
+    }
+
+    async selectCountry() {
+        const countries = ['Andorra', 'Austria', 'Canada', 'France', 'Italy', 'Norway', 'Switzerland']
+        this.randomCountry = countries[Math.floor(Math.random() * countries.length)];
+        const selectedCountry = this.page.getByRole('link', { name: `open ${this.randomCountry}` })
+
+        await selectedCountry.waitFor({ state: 'visible' })
+        await selectedCountry.click()
+
+
+    }
+
+    async validateInwURL(page = 'country') {
+        if (page === 'country') {
+            const formattedCountry = this.randomCountry.toLowerCase().replace(/\s+/g, '-');
+            await expect(this.page).toHaveURL(new RegExp(formattedCountry, 'i'));
+        } else if (page === 'resort') {
+            const formattedResort = this.resortProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-');
+            if (formattedResort) {
+                await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
+            }
+        }
+    }
+
+    async selectResortCard() {
+        const resortCardCount = await this.productCarouselMoreInfoBtn.count();
+        const randomIndex = Math.floor(Math.random() * resortCardCount);
+        await this.productCarouselMoreInfoBtn.nth(randomIndex).waitFor({ state: 'visible' });
+        this.resortProductCarouselTitle = await this.productCarouselMoreInfoBtn.nth(randomIndex).evaluate(node => node.parentElement?.parentElement?.previousElementSibling?.querySelector('h3')?.textContent);
+        await this.productCarouselMoreInfoBtn.nth(randomIndex).click();
+
+        await this.page.pause()
     }
 
 }

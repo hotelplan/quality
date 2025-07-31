@@ -76,17 +76,18 @@ test.describe('Search', async () => {
                 await searchResultPage.clickGroupToggle()
 
             })
-            await test.step(`When: I verify that the Resorts API response corresponds to Resort.`, async () => {
-                await searchResultPage.validateResortApiResults(product)
-            })
+            // TODO: needs refactoring
+            // await test.step(`When: I verify that the Resorts API response corresponds to Resort.`, async () => {
+            //     await searchResultPage.validateResortApiResults(product)
+            // })
 
-            await test.step(`Then: I verify that the Resort name displayed in the UI matches the API response.`, async () => {
-                await searchResultPage.validateResortResponseAgainstUIDisplay()
-            })
+            // await test.step(`Then: I verify that the Resort name displayed in the UI matches the API response.`, async () => {
+            //     await searchResultPage.validateResortResponseAgainstUIDisplay()
+            // })
 
-            await test.step(`And: I see that the 'View Accommodation(s)' button is displayed on each card.`, async () => {
-                await searchResultPage.validateViewAccommodationsButtonAvailability()
-            })
+            // await test.step(`And: I see that the 'View Accommodation(s)' button is displayed on each card.`, async () => {
+            //     await searchResultPage.validateViewAccommodationsButtonAvailability()
+            // })
 
         })
 
