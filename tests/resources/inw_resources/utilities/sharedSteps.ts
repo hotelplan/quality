@@ -51,11 +51,15 @@ export class SharedSteps {
     readonly laplandHolidaysMenu: Locator
     readonly destinationsMenu: Locator
     readonly productCarouselMoreInfoBtn: Locator
+    readonly productCarouselViewDetailsBtn: Locator
     readonly searchBar: Locator
     readonly emptySearchBarText: Locator
     readonly searchBarButton: Locator
     public randomCountry: string
+    public randomRegion: string
     public resortProductCarouselTitle: string | null | undefined
+    public accommodationProductCarouselTitle: string | null | undefined
+
 
     constructor(page: Page) {
         this.page = page;
@@ -107,6 +111,7 @@ export class SharedSteps {
         this.laplandHolidaysMenu = page.getByRole('link', { name: 'Lapland Holidays' })
         this.destinationsMenu = page.getByRole('link', { name: 'Destinations', exact: true })
         this.productCarouselMoreInfoBtn = page.getByRole('link', { name: 'More info' })
+        this.productCarouselViewDetailsBtn = page.getByRole('link', { name: 'View details' })
         this.searchBar = page.locator('#accommsTripBar')
         this.emptySearchBarText = page.locator('.c-search-criteria-bar__empty-trip-label')
         this.searchBarButton = page.locator('.c-search-criteria-bar__right-section .c-btn')
@@ -395,8 +400,18 @@ export class SharedSteps {
         await selectedCountry.waitFor({ state: 'visible' })
         await selectedCountry.click()
 
+    }
+
+    async selectRegion() {
+        const region = ['Three Valleys Ski Area', 'Tignes-Val d’Isere Ski Area', 'Arlberg Ski Area', 'The Dolomites Ski Area', 'Jungfrau Ski Region', 'Aosta Valley Ski Area', 'Portes du Soleil Ski Area', 'The Ski Juwel Area']
+        this.randomRegion = region[Math.floor(Math.random() * region.length)];
+        const selectedRegion = this.page.getByRole('link', { name: `${this.randomRegion}` })
+
+        await selectedRegion.waitFor({ state: 'visible' })
+        await selectedRegion.click()
 
     }
+
 
     async validateInwURL(page = 'country') {
         if (page === 'country') {
@@ -407,15 +422,34 @@ export class SharedSteps {
             if (formattedResort) {
                 await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
             }
+        } else if (page === 'region') {
+            const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-');
+            await expect(this.page).toHaveURL(new RegExp(formattedRegion, 'i'));
+        } else if (page === 'accommodation') {
+            const formmattedAccommodation = this.accommodationProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-');
+            if (formmattedAccommodation) {
+                await expect(this.page).toHaveURL(new RegExp(formmattedAccommodation, 'i'));
+            }
         }
+
     }
 
     async selectResortCard() {
         const resortCardCount = await this.productCarouselMoreInfoBtn.count();
         const randomIndex = Math.floor(Math.random() * resortCardCount);
+
         await this.productCarouselMoreInfoBtn.nth(randomIndex).waitFor({ state: 'visible' });
         this.resortProductCarouselTitle = await this.productCarouselMoreInfoBtn.nth(randomIndex).evaluate(node => node.parentElement?.parentElement?.previousElementSibling?.querySelector('h3')?.textContent);
         await this.productCarouselMoreInfoBtn.nth(randomIndex).click();
+    }
+
+    async selectAccommodationCard() {
+        const accommodationCardCount = await this.productCarouselViewDetailsBtn.count();
+        const randomIndex = Math.floor(Math.random() * accommodationCardCount);
+
+        await this.productCarouselViewDetailsBtn.nth(randomIndex).waitFor({ state: 'visible' });
+        this.accommodationProductCarouselTitle = await this.productCarouselViewDetailsBtn.nth(randomIndex).evaluate(node => node.parentElement?.parentElement?.previousElementSibling?.previousElementSibling?.previousElementSibling?.querySelector('h3')?.textContent);
+        await this.productCarouselViewDetailsBtn.nth(randomIndex).click();
     }
 
     async validateSearchBarAvailability() {
