@@ -51,6 +51,9 @@ export class SharedSteps {
     readonly laplandHolidaysMenu: Locator
     readonly destinationsMenu: Locator
     readonly productCarouselMoreInfoBtn: Locator
+    readonly searchBar: Locator
+    readonly emptySearchBarText: Locator
+    readonly searchBarButton: Locator
     public randomCountry: string
     public resortProductCarouselTitle: string | null | undefined
 
@@ -104,7 +107,9 @@ export class SharedSteps {
         this.laplandHolidaysMenu = page.getByRole('link', { name: 'Lapland Holidays' })
         this.destinationsMenu = page.getByRole('link', { name: 'Destinations', exact: true })
         this.productCarouselMoreInfoBtn = page.getByRole('link', { name: 'More info' })
-
+        this.searchBar = page.locator('#accommsTripBar')
+        this.emptySearchBarText = page.locator('.c-search-criteria-bar__empty-trip-label')
+        this.searchBarButton = page.locator('.c-search-criteria-bar__right-section .c-btn')
     }
 
     async createGenericContentPage() {
@@ -411,8 +416,26 @@ export class SharedSteps {
         await this.productCarouselMoreInfoBtn.nth(randomIndex).waitFor({ state: 'visible' });
         this.resortProductCarouselTitle = await this.productCarouselMoreInfoBtn.nth(randomIndex).evaluate(node => node.parentElement?.parentElement?.previousElementSibling?.querySelector('h3')?.textContent);
         await this.productCarouselMoreInfoBtn.nth(randomIndex).click();
+    }
 
-        await this.page.pause()
+    async validateSearchBarAvailability() {
+        await this.searchBar.waitFor({ state: 'visible' });
+        const isSearchBarVisible = await this.searchBar.isVisible();
+        expect(isSearchBarVisible).toBeTruthy();
+    }
+
+    async validateSearchBarText() {
+        const expectedText = 'Check availability to see more accurate pricing'
+        await this.searchBar.waitFor({ state: 'visible' });
+        const searchBarText = await this.emptySearchBarText.textContent();
+        expect(searchBarText).toContain(expectedText);
+    }
+
+    async validateSearchBarButtonText() {
+        const expectedButtonText = 'Check Availability';
+        await this.searchBarButton.waitFor({ state: 'visible' });
+        const buttonText = await this.searchBarButton.textContent();
+        expect(buttonText).toContain(expectedButtonText);
     }
 
 }
