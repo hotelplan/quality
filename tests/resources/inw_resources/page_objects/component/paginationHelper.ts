@@ -80,8 +80,12 @@ export class PaginationHelper {
         try {
             console.log('Attempting to navigate to next page...');
             
-            // Multiple selectors for next button
+            // Multiple selectors for next button - prioritize pagination-specific selectors
             const nextSelectors = [
+                'nav[aria-label*="Pagination"] button:last-child', // Last button in pagination nav
+                '.pagination button:last-child',                    // Last button in pagination container  
+                '.c-pagination button:last-child',                  // Last button in c-pagination container
+                'navigation button:last-child',                     // Last button in navigation element
                 'button:has-text("Next")',
                 'a:has-text("Next")', 
                 '.next-page',
@@ -100,6 +104,13 @@ export class PaginationHelper {
                         const isDisabled = await nextButton.isDisabled().catch(() => false);
                         if (isDisabled) {
                             console.log('Next button found but is disabled');
+                            continue;
+                        }
+                        
+                        // Additional check to avoid clicking on pre-registration or other footer links
+                        const href = await nextButton.getAttribute('href').catch(() => null);
+                        if (href && href.includes('pre-registration')) {
+                            console.log('Skipping pre-registration link');
                             continue;
                         }
                         
