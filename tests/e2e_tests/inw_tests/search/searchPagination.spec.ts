@@ -55,6 +55,9 @@ test.describe('Search Pagination Tests', async () => {
             await test.step(`Then: I test comprehensive pagination functionality for ${category}`, async () => {
                 console.log(`\n🔍 Comprehensive Pagination Testing for ${category}:`);
                 
+                // Initialize pagination helper
+                const paginationHelper = new PaginationHelper(page);
+                
                 // Wait for pagination to be available
                 await page.waitForSelector('nav[aria-label*="Pagination"], .pagination', { timeout: 10000 }).catch(() => {
                     console.log('No pagination found, proceeding with single page test');
@@ -64,6 +67,11 @@ test.describe('Search Pagination Tests', async () => {
                 const initialResults = await page.locator('.c-search-card, .search-result, .result-card').count();
                 const initialUrl = page.url();
                 console.log(`   Initial page: ${initialResults} results at ${initialUrl}`);
+                
+                // 🔍 CAPTURE PAGE 1 CONTENT
+                console.log(`\n   📝 Capturing Page 1 content for ${category}...`);
+                const page1Content = await paginationHelper.capturePageContent();
+                console.log(`   ✓ Page 1 content captured: ${page1Content.length} items`);
                 
                 // Test 1: Click next arrow
                 const nextArrowButton = page.getByRole('button').filter({ hasText: /^$/ }).nth(1);
@@ -76,6 +84,19 @@ test.describe('Search Pagination Tests', async () => {
                     const nextUrl = page.url();
                     const nextResults = await page.locator('.c-search-card, .search-result, .result-card').count();
                     console.log(`   After next arrow: ${nextResults} results at ${nextUrl}`);
+                    
+                    // 🔍 CAPTURE PAGE 2 CONTENT AND COMPARE
+                    console.log(`\n   📝 Capturing Page 2 content for ${category}...`);
+                    const page2Content = await paginationHelper.capturePageContent();
+                    const contentComparison = await paginationHelper.comparePageContent(page1Content, page2Content);
+                    console.log(`   🔍 Content verification: ${contentComparison.details}`);
+                    
+                    // Assert that content is different
+                    if (contentComparison.isDifferent) {
+                        console.log(`   ✅ SUCCESS: Page 1 and Page 2 have different content for ${category}!`);
+                    } else {
+                        console.log(`   ⚠️  WARNING: Page 1 and Page 2 appear to have same content for ${category}`);
+                    }
                     
                     // Test 2: Try clicking on different page numbers
                     console.log(`\n   📄 Testing page number navigation for ${category}...`);
@@ -92,8 +113,17 @@ test.describe('Search Pagination Tests', async () => {
                         const page3Results = await page.locator('.c-search-card, .search-result, .result-card').count();
                         console.log(`   Page 3: ${page3Results} results at ${page3Url}`);
                         
+                        // 🔍 CAPTURE PAGE 3 CONTENT AND COMPARE
+                        const page3Content = await paginationHelper.capturePageContent();
+                        const page2vs3Comparison = await paginationHelper.comparePageContent(page2Content, page3Content);
+                        console.log(`   🔍 Page 2 vs 3 content: ${page2vs3Comparison.details}`);
+                        
                         const hasPage3Param = page3Url.includes('page=3');
                         console.log(`   URL correctly shows page 3: ${hasPage3Param}`);
+                        
+                        if (page2vs3Comparison.isDifferent) {
+                            console.log(`   ✅ SUCCESS: Page 2 and Page 3 have different content!`);
+                        }
                     } else if (await page2Button.isVisible({ timeout: 3000 })) {
                         const isPage2Disabled = await page2Button.isDisabled();
                         if (!isPage2Disabled) {
@@ -104,6 +134,11 @@ test.describe('Search Pagination Tests', async () => {
                             const page2Url = page.url();
                             const page2Results = await page.locator('.c-search-card, .search-result, .result-card').count();
                             console.log(`   Page 2: ${page2Results} results at ${page2Url}`);
+                            
+                            // 🔍 VERIFY WE'RE BACK TO PAGE 2 CONTENT
+                            const returnToPage2Content = await paginationHelper.capturePageContent();
+                            const returnComparison = await paginationHelper.comparePageContent(page2Content, returnToPage2Content);
+                            console.log(`   🔍 Return to Page 2 verification: ${returnComparison.details}`);
                         } else {
                             console.log('   2️⃣ Already on page 2 (button disabled)');
                         }
@@ -133,9 +168,20 @@ test.describe('Search Pagination Tests', async () => {
                         const page1Url = page.url();
                         const page1Results = await page.locator('.c-search-card, .search-result, .result-card').count();
                         console.log(`   Back to page 1: ${page1Results} results at ${page1Url}`);
+                        
+                        // 🔍 VERIFY WE'RE BACK TO ORIGINAL PAGE 1 CONTENT
+                        const returnToPage1Content = await paginationHelper.capturePageContent();
+                        const page1ReturnComparison = await paginationHelper.comparePageContent(page1Content, returnToPage1Content);
+                        console.log(`   🔍 Return to Page 1 verification: ${page1ReturnComparison.details}`);
+                        
+                        if (!page1ReturnComparison.isDifferent) {
+                            console.log(`   ✅ SUCCESS: Returned to original Page 1 content for ${category}!`);
+                        } else {
+                            console.log(`   ⚠️  WARNING: Page 1 content changed after navigation for ${category}`);
+                        }
                     }
                     
-                    console.log(`✅ Arrow and page number navigation completed for ${category}!`);
+                    console.log(`✅ Arrow and page number navigation with content verification completed for ${category}!`);
                 } else {
                     console.log(`   No pagination arrows found - single page of results for ${category}`);
                 }
@@ -144,6 +190,9 @@ test.describe('Search Pagination Tests', async () => {
             await test.step(`And: I test pagination in View by Resort mode for ${category}`, async () => {
                 console.log(`\n🏔️ Testing pagination in "View results by resort" mode for ${category}:`);
                 
+                // Initialize pagination helper for resort view
+                const paginationHelper = new PaginationHelper(page);
+                
                 // Switch to View by Resort
                 const viewByResortToggle = page.locator('div').filter({ hasText: /^View results by resort$/ }).locator('label');
                 if (await viewByResortToggle.isVisible({ timeout: 5000 })) {
@@ -151,6 +200,11 @@ test.describe('Search Pagination Tests', async () => {
                     await page.waitForLoadState('networkidle');
                     await page.waitForTimeout(3000); // Wait for view to change
                     console.log(`   ✓ Switched to "View results by resort" mode for ${category}`);
+                    
+                    // 🔍 CAPTURE RESORT VIEW PAGE 1 CONTENT
+                    console.log(`\n   📝 Capturing Resort View Page 1 content for ${category}...`);
+                    const resortPage1Content = await paginationHelper.capturePageContent();
+                    console.log(`   ✓ Resort View Page 1 content captured: ${resortPage1Content.length} items`);
                     
                     // Check if pagination still works in resort view
                     const resortNextButton = page.getByRole('button').filter({ hasText: /^$/ }).nth(1);
@@ -169,6 +223,18 @@ test.describe('Search Pagination Tests', async () => {
                         console.log(`   Resort view pagination: ${resortInitialResults} -> ${resortNewResults} results`);
                         console.log(`   Resort URL change: ${resortInitialUrl} -> ${resortNewUrl}`);
                         
+                        // 🔍 CAPTURE RESORT VIEW PAGE 2 CONTENT AND COMPARE
+                        console.log(`\n   📝 Capturing Resort View Page 2 content for ${category}...`);
+                        const resortPage2Content = await paginationHelper.capturePageContent();
+                        const resortContentComparison = await paginationHelper.comparePageContent(resortPage1Content, resortPage2Content);
+                        console.log(`   🔍 Resort View content verification: ${resortContentComparison.details}`);
+                        
+                        if (resortContentComparison.isDifferent) {
+                            console.log(`   ✅ SUCCESS: Resort View Page 1 and Page 2 have different content for ${category}!`);
+                        } else {
+                            console.log(`   ⚠️  WARNING: Resort View Page 1 and Page 2 appear to have same content for ${category}`);
+                        }
+                        
                         // Test page number in resort view
                         const resortPage2Button = page.getByRole('button', { name: '2', exact: true });
                         if (await resortPage2Button.isVisible({ timeout: 3000 })) {
@@ -177,6 +243,11 @@ test.describe('Search Pagination Tests', async () => {
                                 await resortPage2Button.click();
                                 await page.waitForLoadState('networkidle');
                                 console.log(`   ✓ Page 2 navigation works in resort view for ${category}`);
+                                
+                                // 🔍 VERIFY RESORT VIEW PAGE 2 CONTENT CONSISTENCY
+                                const resortPage2VerifyContent = await paginationHelper.capturePageContent();
+                                const resortPage2Consistency = await paginationHelper.comparePageContent(resortPage2Content, resortPage2VerifyContent);
+                                console.log(`   🔍 Resort View Page 2 consistency: ${resortPage2Consistency.details}`);
                             } else {
                                 console.log(`   ✓ Already on page 2 in resort view for ${category} (button disabled)`);
                             }
@@ -184,7 +255,7 @@ test.describe('Search Pagination Tests', async () => {
                             console.log(`   Page 2 button not available in resort view for ${category}`);
                         }
                         
-                        console.log(`✅ Resort view pagination test completed for ${category}!`);
+                        console.log(`✅ Resort view pagination test with content verification completed for ${category}!`);
                     } else {
                         console.log(`   No pagination in resort view for ${category} (all results fit on one page)`);
                     }

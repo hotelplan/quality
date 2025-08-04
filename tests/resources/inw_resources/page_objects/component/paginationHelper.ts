@@ -238,6 +238,101 @@ export class PaginationHelper {
         return null;
     }
 
+    // Method to capture page content for comparison
+    async capturePageContent(): Promise<string[]> {
+        try {
+            const contentIdentifiers: string[] = [];
+            
+            // Try multiple selectors to capture unique identifiers from search results
+            const selectors = [
+                '.c-search-card h3, .c-search-card h4', // Hotel/accommodation names
+                '.c-search-card [data-testid*="name"]', // Name with data-testid
+                '.search-result .title, .search-result h3', // Generic search result titles
+                '.result-card .name, .result-card h3', // Result card names
+                '[data-testid*="hotel"], [data-testid*="accommodation"]', // Hotel/accommodation data attributes
+                '.accommodation-name, .hotel-name', // Specific name classes
+                'h3, h4, h5' // Fallback to any headings
+            ];
+            
+            for (const selector of selectors) {
+                const elements = await this.page.locator(selector).all();
+                if (elements.length > 0) {
+                    console.log(`Found ${elements.length} content elements with selector: ${selector}`);
+                    
+                    for (const element of elements) {
+                        try {
+                            const text = await element.textContent({ timeout: 1000 });
+                            if (text && text.trim() && text.length > 3) {
+                                contentIdentifiers.push(text.trim());
+                            }
+                        } catch (error) {
+                            // Skip elements that can't be read
+                        }
+                    }
+                    
+                    // If we found content with this selector, break to avoid duplicates
+                    if (contentIdentifiers.length > 0) {
+                        break;
+                    }
+                }
+            }
+            
+            // If no specific content found, try to get any visible text from cards
+            if (contentIdentifiers.length === 0) {
+                console.log('No specific content found, trying generic card content...');
+                const cards = await this.page.locator('.c-search-card, .search-result, .result-card').all();
+                
+                for (const card of cards.slice(0, 10)) { // Limit to first 10 to avoid too much data
+                    try {
+                        const cardText = await card.textContent({ timeout: 1000 });
+                        if (cardText && cardText.trim()) {
+                            // Extract first meaningful text (usually hotel name)
+                            const lines = cardText.trim().split('\n').filter(line => line.trim().length > 3);
+                            if (lines.length > 0) {
+                                contentIdentifiers.push(lines[0].trim());
+                            }
+                        }
+                    } catch (error) {
+                        // Skip cards that can't be read
+                    }
+                }
+            }
+            
+            console.log(`Captured ${contentIdentifiers.length} content identifiers`);
+            return contentIdentifiers.slice(0, 10); // Return max 10 identifiers for comparison
+            
+        } catch (error) {
+            console.log(`Error capturing page content: ${error.message}`);
+            return [];
+        }
+    }
+
+    // Method to compare content between pages
+    async comparePageContent(page1Content: string[], page2Content: string[]): Promise<{ isDifferent: boolean; details: string }> {
+        if (page1Content.length === 0 || page2Content.length === 0) {
+            return {
+                isDifferent: false,
+                details: 'Cannot compare - one or both pages have no content captured'
+            };
+        }
+
+        // Check for exact matches
+        const commonItems = page1Content.filter(item => page2Content.includes(item));
+        const uniqueToPage1 = page1Content.filter(item => !page2Content.includes(item));
+        const uniqueToPage2 = page2Content.filter(item => !page1Content.includes(item));
+
+        const isDifferent = commonItems.length < Math.min(page1Content.length, page2Content.length);
+
+        console.log(`Page 1 content (${page1Content.length} items):`, page1Content.slice(0, 3));
+        console.log(`Page 2 content (${page2Content.length} items):`, page2Content.slice(0, 3));
+        console.log(`Common items: ${commonItems.length}, Unique to Page 1: ${uniqueToPage1.length}, Unique to Page 2: ${uniqueToPage2.length}`);
+
+        return {
+            isDifferent,
+            details: `Content comparison: ${commonItems.length} common, ${uniqueToPage1.length} unique to page 1, ${uniqueToPage2.length} unique to page 2. Pages are ${isDifferent ? 'DIFFERENT' : 'SAME'}`
+        };
+    }
+
     // Method to verify pagination functionality comprehensively
     async verifyPaginationFunctionality(): Promise<{ success: boolean; method: string; details: string }> {
         console.log('Starting comprehensive pagination verification...');
