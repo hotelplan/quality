@@ -1,37 +1,26 @@
 import { type Page, type Locator, expect } from '@playwright/test';
 
 export class PaginationHelper {
+    // Variables
     readonly page: Page;
+    readonly paginationContainer: Locator;
+    readonly nextButton: Locator;
+    readonly previousButton: Locator;
+    readonly loadMoreButton: Locator;
+    readonly pageNumbers: Locator;
+    readonly currentPageIndicator: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.paginationContainer = page.locator('.pagination, .c-pagination, [data-testid*="pagination"], .pager, .page-navigation').first();
+        this.nextButton = page.locator('button:has-text("Next"), a:has-text("Next"), .next-page, .pagination-next').first();
+        this.previousButton = page.locator('button:has-text("Previous"), a:has-text("Previous"), .prev-page, .pagination-prev').first();
+        this.loadMoreButton = page.locator('button:has-text("Load more"), button:has-text("Show more"), .load-more, .show-more').first();
+        this.pageNumbers = page.locator('.pagination a, .page-numbers a').filter({ hasText: /^\d+$/ });
+        this.currentPageIndicator = page.locator('.pagination .active, .pagination .current, .page-numbers .current').first();
     }
 
-    // Common pagination selectors
-    get paginationContainer(): Locator {
-        return this.page.locator('.pagination, .c-pagination, [data-testid*="pagination"], .pager, .page-navigation').first();
-    }
-
-    get nextButton(): Locator {
-        return this.page.locator('button:has-text("Next"), a:has-text("Next"), .next-page, .pagination-next').first();
-    }
-
-    get previousButton(): Locator {
-        return this.page.locator('button:has-text("Previous"), a:has-text("Previous"), .prev-page, .pagination-prev').first();
-    }
-
-    get loadMoreButton(): Locator {
-        return this.page.locator('button:has-text("Load more"), button:has-text("Show more"), .load-more, .show-more').first();
-    }
-
-    get pageNumbers(): Locator {
-        return this.page.locator('.pagination a, .page-numbers a').filter({ hasText: /^\d+$/ });
-    }
-
-    get currentPageIndicator(): Locator {
-        return this.page.locator('.pagination .active, .pagination .current, .page-numbers .current').first();
-    }
-
+    // Methods
     // Method to check if pagination is present
     async isPaginationPresent(): Promise<boolean> {
         const selectors = [
