@@ -107,9 +107,9 @@ export class SharedSteps {
         this.deletePageConfirmationBtn = page.getByRole('button', { name: 'Yes, delete' })
         this.pageEditorSubHeader = page.locator('.umb-editor-sub-header');
         this.skiHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Ski Holidays' })
-        this.walkingHolidaysMenu = page.getByRole('link', { name: 'Walking Holidays' })
-        this.laplandHolidaysMenu = page.getByRole('link', { name: 'Lapland Holidays' })
-        this.destinationsMenu = page.getByRole('link', { name: 'Destinations', exact: true })
+        this.walkingHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Walking Holidays' })
+        this.laplandHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Lapland Holidays' })
+        this.destinationsMenu = page.getByText('Destinations Search by')
         this.productCarouselMoreInfoBtn = page.getByRole('link', { name: 'More info' })
         this.productCarouselViewDetailsBtn = page.getByRole('link', { name: 'View details' })
         this.searchBar = page.locator('#accommsTripBar')
@@ -327,14 +327,18 @@ export class SharedSteps {
     }
 
     async clickAcceptAllCookiesBtn(newPage) {
-        const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' })
-        await acceptAllCookiesBtn.waitFor({ state: 'visible' })
-            .catch(async () => {
+        const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' });
+
+        const isVisible = await acceptAllCookiesBtn.waitFor({ state: 'visible', timeout: 5000 })
+            .then(() => true)
+            .catch(() => {
                 console.log('Accept All Cookies button not found, skipping click action');
+                return false;
             });
 
-        await acceptAllCookiesBtn.click();
+        if (!isVisible) return;
 
+        await acceptAllCookiesBtn.click();
     }
 
     async clickHomeLink() {
@@ -376,12 +380,12 @@ export class SharedSteps {
         await expect(this.publishNotification).toHaveCount(0);
     }
 
-    async clickProductMenu(string = 'Ski') {
-        if (string === 'Ski') {
+    async clickProductMenu(product = 'Ski') {
+        if (product === 'Ski') {
             await this.skiHolidaysMenu.click()
-        } else if (string === 'Walking') {
+        } else if (product === 'Walking') {
             await this.walkingHolidaysMenu.click()
-        } else if (string === 'Lapland') {
+        } else if (product === 'Lapland') {
             await this.laplandHolidaysMenu.click()
         }
 
@@ -390,6 +394,7 @@ export class SharedSteps {
     async hoverDestinationsMenu() {
         await this.destinationsMenu.waitFor({ state: 'visible' })
         await this.destinationsMenu.hover()
+
     }
 
     async selectCountry() {
@@ -402,8 +407,15 @@ export class SharedSteps {
 
     }
 
-    async selectRegion() {
-        const region = ['Three Valleys Ski Area', 'Tignes-Val d’Isere Ski Area', 'Arlberg Ski Area', 'The Dolomites Ski Area', 'Jungfrau Ski Region', 'Aosta Valley Ski Area', 'Portes du Soleil Ski Area', 'The Ski Juwel Area']
+    async selectRegion(product = 'Ski') {
+        let region: string[] = [];
+
+        if (product === 'Ski') {
+            region = ['Three Valleys Ski Area', 'Tignes-Val d’Isere Ski Area', 'Arlberg Ski Area', 'The Dolomites Ski Area', 'Jungfrau Ski Region', 'Aosta Valley Ski Area', 'Portes du Soleil Ski Area', 'The Ski Juwel Area']
+        } else if (product === 'Walking') {
+            region = ['Austrian Tyrol', 'Lake Garda', 'The Dolomites', 'Lake Como', 'Bernese Oberland', 'The Wildschonau Valley', 'Lake Maggiore', 'Liguria', 'Graubunden Region', 'Lake Lucerne']
+        }
+
         this.randomRegion = region[Math.floor(Math.random() * region.length)];
         const selectedRegion = this.page.getByRole('link', { name: `${this.randomRegion}` })
 
@@ -415,23 +427,28 @@ export class SharedSteps {
 
     async validateInwURL(page = 'country') {
         if (page === 'country') {
-            const formattedCountry = this.randomCountry.toLowerCase().replace(/\s+/g, '-');
+            const formattedCountry = this.randomCountry.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedCountry, 'i'));
         } else if (page === 'resort') {
-            const formattedResort = this.resortProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-');
+            const formattedResort = this.resortProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             if (formattedResort) {
                 await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
             }
         } else if (page === 'region') {
-            const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-');
+            const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedRegion, 'i'));
         } else if (page === 'accommodation') {
-            const formmattedAccommodation = this.accommodationProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-');
+            const formmattedAccommodation = this.accommodationProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             if (formmattedAccommodation) {
                 await expect(this.page).toHaveURL(new RegExp(formmattedAccommodation, 'i'));
             }
+        } else if (page === 'Product-landing-ski') {
+            await expect(this.page).toHaveURL(new RegExp('ski-holidays', 'i'));
+        } else if (page === 'Product-landing-walking') {
+            await expect(this.page).toHaveURL(new RegExp('walking-holidays', 'i'));
+        } else if (page === 'Product-landing-lapland') {
+            await expect(this.page).toHaveURL(new RegExp('lapland-holidays', 'i'));
         }
-
     }
 
     async selectResortCard() {
@@ -466,7 +483,7 @@ export class SharedSteps {
     }
 
     async validateSearchBarButtonText() {
-        const expectedButtonText = 'Check Availability';
+        const expectedButtonText = 'Check availability';
         await this.searchBarButton.waitFor({ state: 'visible' });
         const buttonText = await this.searchBarButton.textContent();
         expect(buttonText).toContain(expectedButtonText);
