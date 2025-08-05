@@ -57,6 +57,7 @@ export class SharedSteps {
     readonly searchBarButton: Locator
     public randomCountry: string
     public randomRegion: string
+    public randomResort: string
     public resortProductCarouselTitle: string | null | undefined
     public accommodationProductCarouselTitle: string | null | undefined
 
@@ -392,6 +393,7 @@ export class SharedSteps {
     }
 
     async hoverDestinationsMenu() {
+        await this.page.waitForLoadState('networkidle')
         await this.destinationsMenu.waitFor({ state: 'visible' })
         await this.destinationsMenu.hover()
 
@@ -424,12 +426,21 @@ export class SharedSteps {
 
     }
 
+    async selectResort() {
+        const resorts = ['Mayrhofen', 'Zell am See', 'Seefeld', 'Alpbach', 'Bardolino', 'Selva', 'Chamonix', 'Grindelwald', 'Lake Bled', 'Canazei', 'Zermatt']
+        this.randomResort = resorts[Math.floor(Math.random() * resorts.length)];
+        const selectedResort = this.page.getByRole('link', { name: `${this.randomResort}` })
+
+        await selectedResort.waitFor({ state: 'visible' })
+        await selectedResort.click()
+    }
+
 
     async validateInwURL(page = 'country') {
         if (page === 'country') {
             const formattedCountry = this.randomCountry.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedCountry, 'i'));
-        } else if (page === 'resort') {
+        } else if (page === 'resortFromCarousel') {
             const formattedResort = this.resortProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             if (formattedResort) {
                 await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
@@ -437,7 +448,7 @@ export class SharedSteps {
         } else if (page === 'region') {
             const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedRegion, 'i'));
-        } else if (page === 'accommodation') {
+        } else if (page === 'accommodationFromCarousel') {
             const formmattedAccommodation = this.accommodationProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             if (formmattedAccommodation) {
                 await expect(this.page).toHaveURL(new RegExp(formmattedAccommodation, 'i'));
