@@ -440,14 +440,17 @@ export class SharedSteps {
         if (page === 'country') {
             const formattedCountry = this.randomCountry.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedCountry, 'i'));
+        } else if (page === 'region') {
+            const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+            await expect(this.page).toHaveURL(new RegExp(formattedRegion, 'i'));
+        } else if (page === 'resort') {
+            const formattedResort = this.randomResort.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+            await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
         } else if (page === 'resortFromCarousel') {
             const formattedResort = this.resortProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             if (formattedResort) {
                 await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
             }
-        } else if (page === 'region') {
-            const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
-            await expect(this.page).toHaveURL(new RegExp(formattedRegion, 'i'));
         } else if (page === 'accommodationFromCarousel') {
             const formmattedAccommodation = this.accommodationProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             if (formmattedAccommodation) {
