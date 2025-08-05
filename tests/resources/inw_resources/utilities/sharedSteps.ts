@@ -50,6 +50,7 @@ export class SharedSteps {
     readonly walkingHolidaysMenu: Locator
     readonly laplandHolidaysMenu: Locator
     readonly destinationsMenu: Locator
+    readonly laplandDestinationsMenu: Locator
     readonly productCarouselMoreInfoBtn: Locator
     readonly productCarouselViewDetailsBtn: Locator
     readonly searchBar: Locator
@@ -111,6 +112,7 @@ export class SharedSteps {
         this.walkingHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Walking Holidays' })
         this.laplandHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Lapland Holidays' })
         this.destinationsMenu = page.getByText('Destinations Search by')
+        this.laplandDestinationsMenu = page.getByText('Lapland Adventures Lapland')
         this.productCarouselMoreInfoBtn = page.getByRole('link', { name: 'More info' })
         this.productCarouselViewDetailsBtn = page.getByRole('link', { name: 'View details' })
         this.searchBar = page.locator('#accommsTripBar')
@@ -392,10 +394,16 @@ export class SharedSteps {
 
     }
 
-    async hoverDestinationsMenu() {
+    async hoverDestinationsMenu(product = 'Lapland') {
         await this.page.waitForLoadState('networkidle')
-        await this.destinationsMenu.waitFor({ state: 'visible' })
-        await this.destinationsMenu.hover()
+
+        if (product === 'Lapland') {
+            await this.laplandDestinationsMenu.waitFor({ state: 'visible' })
+            await this.laplandDestinationsMenu.hover()
+        } else {
+            await this.destinationsMenu.waitFor({ state: 'visible' })
+            await this.destinationsMenu.hover()
+        }
 
     }
 
@@ -426,10 +434,23 @@ export class SharedSteps {
 
     }
 
-    async selectResort() {
-        const resorts = ['Mayrhofen', 'Zell am See', 'Seefeld', 'Alpbach', 'Bardolino', 'Selva', 'Chamonix', 'Grindelwald', 'Lake Bled', 'Canazei', 'Zermatt']
+    async selectResort(product = 'walking') {
+        let resorts: string[] = [];
+
+        if (product === 'walking') {
+            resorts = ['Mayrhofen', 'Zell am See', 'Seefeld', 'Alpbach', 'Bardolino', 'Selva', 'Chamonix', 'Grindelwald', 'Lake Bled', 'Canazei', 'Zermatt']
+        } else if (product === 'lapland') {
+            resorts = ['Levi', 'Ylläs', 'Saariselkä', 'Pyhä']
+        }
+
         this.randomResort = resorts[Math.floor(Math.random() * resorts.length)];
-        const selectedResort = this.page.getByRole('link', { name: `${this.randomResort}` })
+        let selectedResort
+
+        if (product === 'walking') {
+            selectedResort = this.page.getByRole('link', { name: `${this.randomResort}` })
+        } else {
+            selectedResort = this.page.locator('#Lapland\\ Adventures').getByRole('link', { name: this.randomResort });
+        }
 
         await selectedResort.waitFor({ state: 'visible' })
         await selectedResort.click()
