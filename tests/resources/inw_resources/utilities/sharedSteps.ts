@@ -470,6 +470,9 @@ export class SharedSteps {
 
 
     async validateInwURL(page = 'country') {
+        await this.page.waitForLoadState('networkidle')
+        await this.page.waitForLoadState('domcontentloaded');
+
         if (page === 'country') {
             const formattedCountry = this.randomCountry.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedCountry, 'i'));
