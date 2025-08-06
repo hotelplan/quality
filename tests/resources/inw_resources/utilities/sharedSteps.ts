@@ -428,7 +428,7 @@ export class SharedSteps {
         }
 
         this.randomRegion = region[Math.floor(Math.random() * region.length)];
-        const selectedRegion = this.page.getByRole('link', { name: `${this.randomRegion}` })
+        const selectedRegion = this.page.locator('#Destinations').getByRole('link', { name: `${this.randomRegion}` })
 
         await selectedRegion.waitFor({ state: 'visible' })
         await selectedRegion.click()
@@ -458,12 +458,14 @@ export class SharedSteps {
     }
 
     async selectLaplandActivity() {
-        const laplandActivities = ['Northern Lights adventures', 'Husky rides', 'Snowmobile rides', 'Horse rides', 'Reindeer rides', 'Ice activities', 'Skiing in Lapland'];
+        const laplandActivities = ['Northern Lights stays', 'Husky rides', 'Snowmobile rides', 'Horse rides', 'Reindeer rides', 'Ice activities', 'Skiing in Lapland'];
         this.randomLaplandActivity = laplandActivities[Math.floor(Math.random() * laplandActivities.length)];
-        const selectedActivity = this.page.locator('#Lapland\\ Adventures').getByRole('link', { name: this.randomLaplandActivity});
+
+        const selectedActivity = this.page.locator('#Lapland\\ Adventures').getByRole('link', { name: this.randomLaplandActivity });
 
         await selectedActivity.waitFor({ state: 'visible' });
         await selectedActivity.click();
+
     }
 
 
@@ -480,8 +482,6 @@ export class SharedSteps {
         } else if (page === 'laplandActivity') {
             const formattedLaplandActivity = this.randomLaplandActivity.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
             await expect(this.page).toHaveURL(new RegExp(formattedLaplandActivity, 'i'));
-        } else if (page === 'northern-light-stays') {
-            await expect(this.page).toHaveURL(new RegExp('northern-light-stays', 'i'));
         } else if (page === 'resortFromCarousel') {
             const formattedResort = this.resortProductCarouselTitle?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
             if (formattedResort) {
