@@ -475,7 +475,7 @@ export class SharedSteps {
             const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedRegion, 'i'));
         } else if (page === 'resort') {
-            const formattedResort = this.randomResort.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+            const formattedResort = this.randomResort.toLowerCase().normalize('NFD').replace(/\s+/g, '-').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
         } else if (page === 'laplandActivity') {
             const formattedLaplandActivity = this.randomLaplandActivity.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
