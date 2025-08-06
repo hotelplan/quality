@@ -59,6 +59,7 @@ export class SharedSteps {
     public randomCountry: string
     public randomRegion: string
     public randomResort: string
+    public randomLaplandActivity: string
     public resortProductCarouselTitle: string | null | undefined
     public accommodationProductCarouselTitle: string | null | undefined
 
@@ -456,6 +457,15 @@ export class SharedSteps {
         await selectedResort.click()
     }
 
+    async selectLaplandActivity() {
+        const laplandActivities = ['Northern Lights adventures', 'Husky rides', 'Snowmobile rides', 'Horse rides', 'Reindeer rides', 'Ice activities', 'Skiing in Lapland'];
+        this.randomLaplandActivity = laplandActivities[Math.floor(Math.random() * laplandActivities.length)];
+        const selectedActivity = this.page.getByRole('link', { name: this.randomLaplandActivity, exact: true });
+
+        await selectedActivity.waitFor({ state: 'visible' });
+        await selectedActivity.click();
+    }
+
 
     async validateInwURL(page = 'country') {
         if (page === 'country') {
@@ -467,7 +477,11 @@ export class SharedSteps {
         } else if (page === 'resort') {
             const formattedResort = this.randomResort.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
-        } else if (page === 'resortFromCarousel') {
+        } else if (page === 'laplandActivity') {
+            const formattedLaplandActivity = this.randomLaplandActivity.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+            await expect(this.page).toHaveURL(new RegExp(formattedLaplandActivity, 'i'));
+        }
+        else if (page === 'resortFromCarousel') {
             const formattedResort = this.resortProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             if (formattedResort) {
                 await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
