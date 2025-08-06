@@ -858,6 +858,99 @@ export class SearchResultPage {
         return this.searchValues;
     }
 
+    // Filter-related methods for POM compliance
+    async verifyFiltersPresence(expectedFilters: string[]): Promise<{ visibleCount: number; missingFilters: string[] }> {
+        let visibleCount = 0;
+        const missingFilters: string[] = [];
+        
+        for (const filterName of expectedFilters) {
+            try {
+                const filterButton = this.page.getByRole('button', { name: filterName });
+                await expect(filterButton).toBeVisible({ timeout: 5000 });
+                console.log(`   ✅ ${filterName} filter is visible and accessible`);
+                visibleCount++;
+            } catch (error) {
+                console.log(`   ❌ ${filterName} filter not found or not visible`);
+                missingFilters.push(filterName);
+            }
+        }
+        
+        return { visibleCount, missingFilters };
+    }
+
+    async countSearchResults(): Promise<{ count: number; selector: string }> {
+        // Check for search results using multiple possible locators
+        const possibleResultSelectors = [
+            '.hotel-card',
+            '.c-search-card', 
+            '.search-result',
+            '.accommodation-card',
+            '[class*="card"]'
+        ];
+        
+        for (const selector of possibleResultSelectors) {
+            try {
+                const results = this.page.locator(selector);
+                const count = await results.count();
+                if (count > 0) {
+                    console.log(`   ✅ Found ${count} search results using selector: ${selector}`);
+                    return { count, selector };
+                }
+            } catch (error) {
+                // Continue to next selector
+            }
+        }
+        
+        return { count: 0, selector: 'none' };
+    }
+
+    async verifyPageStructureElements(): Promise<{ foundElements: string[]; missingElements: string[] }> {
+        // Check for key page elements that should be present on search results page
+        const pageElements = [
+            { name: 'Search filters container', selector: '#searchFilters, .filters, [class*="filter"]' },
+            { name: 'Results container', selector: '.results, .search-results, [class*="result"]' },
+            { name: 'Pagination', selector: '.pagination, [class*="pag"]' }
+        ];
+        
+        const foundElements: string[] = [];
+        const missingElements: string[] = [];
+        
+        for (const element of pageElements) {
+            try {
+                const elementLocator = this.page.locator(element.selector).first();
+                if (await elementLocator.isVisible({ timeout: 3000 })) {
+                    console.log(`   ✅ ${element.name} is present`);
+                    foundElements.push(element.name);
+                } else {
+                    console.log(`   ℹ️ ${element.name} not visible (may not be required)`);
+                    missingElements.push(element.name);
+                }
+            } catch (error) {
+                console.log(`   ℹ️ ${element.name} check skipped`);
+                missingElements.push(element.name);
+            }
+        }
+        
+        return { foundElements, missingElements };
+    }
+
+    async getFiltersList(filtersList: string[]): Promise<string[]> {
+        const visibleFilters: string[] = [];
+        
+        for (const filterName of filtersList) {
+            try {
+                const filterButton = this.page.getByRole('button', { name: filterName });
+                if (await filterButton.isVisible({ timeout: 3000 })) {
+                    visibleFilters.push(filterName);
+                }
+            } catch (error) {
+                // Filter not available for this category
+            }
+        }
+        
+        return visibleFilters;
+    }
+
 }
 
 
