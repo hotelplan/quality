@@ -447,10 +447,10 @@ export class SharedSteps {
         this.randomResort = resorts[Math.floor(Math.random() * resorts.length)];
         let selectedResort
 
-        if (product === 'walking') {
-            selectedResort = this.page.getByRole('link', { name: `${this.randomResort}` })
+        if (product === 'lapland') {
+            selectedResort = this.page.locator('#Lapland\\ Adventures').getByRole('link', { name: `${this.randomResort}` })
         } else {
-            selectedResort = this.page.locator('#Lapland\\ Adventures').getByRole('link', { name: this.randomResort });
+            selectedResort = this.page.locator('#Destinations').getByRole('link', { name: this.randomResort });
         }
 
         await selectedResort.waitFor({ state: 'visible' })
@@ -475,19 +475,20 @@ export class SharedSteps {
             const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
             await expect(this.page).toHaveURL(new RegExp(formattedRegion, 'i'));
         } else if (page === 'resort') {
-            const formattedResort = this.randomResort.toLowerCase().normalize('NFD').replace(/\s+/g, '-').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '');
+            const formattedResort = this.randomResort.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
             await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
         } else if (page === 'laplandActivity') {
-            const formattedLaplandActivity = this.randomLaplandActivity.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+            const formattedLaplandActivity = this.randomLaplandActivity.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
             await expect(this.page).toHaveURL(new RegExp(formattedLaplandActivity, 'i'));
-        }
-        else if (page === 'resortFromCarousel') {
-            const formattedResort = this.resortProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+        } else if (page === 'northern-light-stays') {
+            await expect(this.page).toHaveURL(new RegExp('northern-light-stays', 'i'));
+        } else if (page === 'resortFromCarousel') {
+            const formattedResort = this.resortProductCarouselTitle?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
             if (formattedResort) {
                 await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
             }
         } else if (page === 'accommodationFromCarousel') {
-            const formmattedAccommodation = this.accommodationProductCarouselTitle?.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+            const formmattedAccommodation = this.accommodationProductCarouselTitle?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
             if (formmattedAccommodation) {
                 await expect(this.page).toHaveURL(new RegExp(formmattedAccommodation, 'i'));
             }
