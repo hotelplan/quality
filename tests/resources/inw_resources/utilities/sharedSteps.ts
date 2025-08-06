@@ -460,7 +460,7 @@ export class SharedSteps {
     async selectLaplandActivity() {
         const laplandActivities = ['Northern Lights adventures', 'Husky rides', 'Snowmobile rides', 'Horse rides', 'Reindeer rides', 'Ice activities', 'Skiing in Lapland'];
         this.randomLaplandActivity = laplandActivities[Math.floor(Math.random() * laplandActivities.length)];
-        const selectedActivity = this.page.getByRole('link', { name: this.randomLaplandActivity, exact: true });
+        const selectedActivity = this.page.locator('#Lapland\\ Adventures').getByRole('link', { name: this.randomLaplandActivity});
 
         await selectedActivity.waitFor({ state: 'visible' });
         await selectedActivity.click();
