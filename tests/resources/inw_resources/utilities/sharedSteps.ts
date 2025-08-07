@@ -46,6 +46,23 @@ export class SharedSteps {
     readonly deletePageBtn: Locator
     readonly deletePageConfirmationBtn: Locator
     readonly pageEditorSubHeader: Locator
+    readonly skiHolidaysMenu: Locator
+    readonly walkingHolidaysMenu: Locator
+    readonly laplandHolidaysMenu: Locator
+    readonly destinationsMenu: Locator
+    readonly laplandDestinationsMenu: Locator
+    readonly productCarouselMoreInfoBtn: Locator
+    readonly productCarouselViewDetailsBtn: Locator
+    readonly searchBar: Locator
+    readonly emptySearchBarText: Locator
+    readonly searchBarButton: Locator
+    public randomCountry: string
+    public randomRegion: string
+    public randomResort: string
+    public randomLaplandActivity: string
+    public resortProductCarouselTitle: string | null | undefined
+    public accommodationProductCarouselTitle: string | null | undefined
+
 
     constructor(page: Page) {
         this.page = page;
@@ -92,6 +109,16 @@ export class SharedSteps {
         this.deletePageBtn = page.getByRole('button', { name: 'Delete...' })
         this.deletePageConfirmationBtn = page.getByRole('button', { name: 'Yes, delete' })
         this.pageEditorSubHeader = page.locator('.umb-editor-sub-header');
+        this.skiHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Ski Holidays' })
+        this.walkingHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Walking Holidays' })
+        this.laplandHolidaysMenu = page.getByRole('banner').getByRole('link', { name: 'Lapland Holidays' })
+        this.destinationsMenu = page.getByText('Destinations Search by')
+        this.laplandDestinationsMenu = page.getByText('Lapland Adventures Lapland')
+        this.productCarouselMoreInfoBtn = page.getByRole('link', { name: 'More info' })
+        this.productCarouselViewDetailsBtn = page.getByRole('link', { name: 'View details' })
+        this.searchBar = page.locator('#accommsTripBar')
+        this.emptySearchBarText = page.locator('.c-search-criteria-bar__empty-trip-label')
+        this.searchBarButton = page.locator('.c-search-criteria-bar__right-section .c-btn')
     }
 
     async createGenericContentPage() {
@@ -304,14 +331,18 @@ export class SharedSteps {
     }
 
     async clickAcceptAllCookiesBtn(newPage) {
-        const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' })
-        await acceptAllCookiesBtn.waitFor({ state: 'visible' })
-            .catch(async () => {
+        const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' });
+
+        const isVisible = await acceptAllCookiesBtn.waitFor({ state: 'visible', timeout: 5000 })
+            .then(() => true)
+            .catch(() => {
                 console.log('Accept All Cookies button not found, skipping click action');
+                return false;
             });
 
-        await acceptAllCookiesBtn.click();
+        if (!isVisible) return;
 
+        await acceptAllCookiesBtn.click();
     }
 
     async clickHomeLink() {
@@ -322,7 +353,7 @@ export class SharedSteps {
     async clickHomeDocumentTypeLink() {
         await this.homeDocumentTypeLink.click()
     }
-    
+
     async changeHomeListView() {
         await this.homeListViewBtn.click()
         await this.homeListViewToggle.click()
@@ -351,6 +382,164 @@ export class SharedSteps {
         await this.deletePageConfirmationBtn.click()
         await expect(this.publishNotification).toHaveCount(1);
         await expect(this.publishNotification).toHaveCount(0);
+    }
+
+    async clickProductMenu(product = 'Ski') {
+        if (product === 'Ski') {
+            await this.skiHolidaysMenu.click()
+        } else if (product === 'Walking') {
+            await this.walkingHolidaysMenu.click()
+        } else if (product === 'Lapland') {
+            await this.laplandHolidaysMenu.click()
+        }
+
+    }
+
+    async hoverDestinationsMenu(product = 'Lapland') {
+        await this.page.waitForLoadState('networkidle')
+
+        if (product === 'Lapland') {
+            await this.laplandDestinationsMenu.waitFor({ state: 'visible' })
+            await this.laplandDestinationsMenu.hover()
+        } else {
+            await this.destinationsMenu.waitFor({ state: 'visible' })
+            await this.destinationsMenu.hover()
+        }
+
+    }
+
+    async selectCountry() {
+        const countries = ['Andorra', 'Austria', 'Canada', 'France', 'Italy', 'Norway', 'Switzerland']
+        this.randomCountry = countries[Math.floor(Math.random() * countries.length)];
+        const selectedCountry = this.page.getByRole('link', { name: `open ${this.randomCountry}` })
+
+        await selectedCountry.waitFor({ state: 'visible' })
+        await selectedCountry.click()
+
+    }
+
+    async selectRegion(product = 'Ski') {
+        let region: string[] = [];
+
+        if (product === 'Ski') {
+            region = ['Three Valleys Ski Area', 'Tignes-Val d’Isere Ski Area', 'Arlberg Ski Area', 'The Dolomites Ski Area', 'Jungfrau Ski Region', 'Aosta Valley Ski Area', 'Portes du Soleil Ski Area', 'The Ski Juwel Area']
+        } else if (product === 'Walking') {
+            region = ['Austrian Tyrol', 'Lake Garda', 'The Dolomites', 'Lake Como', 'Bernese Oberland', 'The Wildschonau Valley', 'Lake Maggiore', 'Liguria', 'Graubunden Region', 'Lake Lucerne']
+        }
+
+        this.randomRegion = region[Math.floor(Math.random() * region.length)];
+        const selectedRegion = this.page.locator('#Destinations').getByRole('link', { name: `${this.randomRegion}` })
+
+        await selectedRegion.waitFor({ state: 'visible' })
+        await selectedRegion.click()
+
+    }
+
+    async selectResort(product = 'walking') {
+        let resorts: string[] = [];
+
+        if (product === 'walking') {
+            resorts = ['Mayrhofen', 'Zell am See', 'Seefeld', 'Alpbach', 'Bardolino', 'Selva', 'Chamonix', 'Grindelwald', 'Lake Bled', 'Canazei', 'Zermatt']
+        } else if (product === 'lapland') {
+            resorts = ['Levi', 'Ylläs', 'Saariselkä', 'Pyhä']
+        }
+
+        this.randomResort = resorts[Math.floor(Math.random() * resorts.length)];
+        let selectedResort
+
+        if (product === 'lapland') {
+            selectedResort = this.page.locator('#Lapland\\ Adventures').getByRole('link', { name: `${this.randomResort}` })
+        } else {
+            selectedResort = this.page.locator('#Destinations').getByRole('link', { name: this.randomResort });
+        }
+
+        await selectedResort.waitFor({ state: 'visible' })
+        await selectedResort.click()
+    }
+
+    async selectLaplandActivity() {
+        const laplandActivities = ['Northern Lights stays', 'Husky rides', 'Snowmobile rides', 'Horse rides', 'Reindeer rides', 'Ice activities', 'Skiing in Lapland'];
+        this.randomLaplandActivity = laplandActivities[Math.floor(Math.random() * laplandActivities.length)];
+
+        const selectedActivity = this.page.locator('#Lapland\\ Adventures').getByRole('link', { name: this.randomLaplandActivity });
+
+        await selectedActivity.waitFor({ state: 'visible' });
+        await selectedActivity.click();
+
+    }
+
+
+    async validateInwURL(page = 'country') {
+        await this.page.waitForLoadState('networkidle')
+        await this.page.waitForLoadState('domcontentloaded');
+
+        if (page === 'country') {
+            const formattedCountry = this.randomCountry.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+            await expect(this.page).toHaveURL(new RegExp(formattedCountry, 'i'));
+        } else if (page === 'region') {
+            const formattedRegion = this.randomRegion.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\s-]|&/g, '');
+            await expect(this.page).toHaveURL(new RegExp(formattedRegion, 'i'));
+        } else if (page === 'resort') {
+            const formattedResort = this.randomResort.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
+        } else if (page === 'laplandActivity') {
+            const formattedLaplandActivity = this.randomLaplandActivity.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            await expect(this.page).toHaveURL(new RegExp(formattedLaplandActivity, 'i'));
+        } else if (page === 'resortFromCarousel') {
+            const formattedResort = this.resortProductCarouselTitle?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            if (formattedResort) {
+                await expect(this.page).toHaveURL(new RegExp(formattedResort, 'i'));
+            }
+        } else if (page === 'accommodationFromCarousel') {
+            const formmattedAccommodation = this.accommodationProductCarouselTitle?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]|[^\w\s-]|&/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+            if (formmattedAccommodation) {
+                await expect(this.page).toHaveURL(new RegExp(formmattedAccommodation, 'i'));
+            }
+        } else if (page === 'Product-landing-ski') {
+            await expect(this.page).toHaveURL(new RegExp('ski-holidays', 'i'));
+        } else if (page === 'Product-landing-walking') {
+            await expect(this.page).toHaveURL(new RegExp('walking-holidays', 'i'));
+        } else if (page === 'Product-landing-lapland') {
+            await expect(this.page).toHaveURL(new RegExp('lapland-holidays', 'i'));
+        }
+    }
+
+    async selectResortCard() {
+        const resortCardCount = await this.productCarouselMoreInfoBtn.count();
+        const randomIndex = Math.floor(Math.random() * resortCardCount);
+
+        await this.productCarouselMoreInfoBtn.nth(randomIndex).waitFor({ state: 'visible' });
+        this.resortProductCarouselTitle = await this.productCarouselMoreInfoBtn.nth(randomIndex).evaluate(node => node.parentElement?.parentElement?.previousElementSibling?.querySelector('h3')?.textContent);
+        await this.productCarouselMoreInfoBtn.nth(randomIndex).click();
+    }
+
+    async selectAccommodationCard() {
+        const accommodationCardCount = await this.productCarouselViewDetailsBtn.count();
+        const randomIndex = Math.floor(Math.random() * accommodationCardCount);
+
+        await this.productCarouselViewDetailsBtn.nth(randomIndex).waitFor({ state: 'visible' });
+        this.accommodationProductCarouselTitle = await this.productCarouselViewDetailsBtn.nth(randomIndex).evaluate(node => node.parentElement?.parentElement?.previousElementSibling?.previousElementSibling?.previousElementSibling?.querySelector('h3')?.textContent);
+        await this.productCarouselViewDetailsBtn.nth(randomIndex).click();
+    }
+
+    async validateSearchBarAvailability() {
+        await this.searchBar.waitFor({ state: 'visible' });
+        const isSearchBarVisible = await this.searchBar.isVisible();
+        expect(isSearchBarVisible).toBeTruthy();
+    }
+
+    async validateSearchBarText() {
+        const expectedText = 'Check availability to see more accurate pricing'
+        await this.searchBar.waitFor({ state: 'visible' });
+        const searchBarText = await this.emptySearchBarText.textContent();
+        expect(searchBarText).toContain(expectedText);
+    }
+
+    async validateSearchBarButtonText() {
+        const expectedButtonText = 'Check availability';
+        await this.searchBarButton.waitFor({ state: 'visible' });
+        const buttonText = await this.searchBarButton.textContent();
+        expect(buttonText).toContain(expectedButtonText);
     }
 
 }
