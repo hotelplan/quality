@@ -304,14 +304,13 @@ export class SharedSteps {
     }
 
     async clickAcceptAllCookiesBtn(newPage) {
-        const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' })
-        await acceptAllCookiesBtn.waitFor({ state: 'visible' })
-            .catch(async () => {
-                console.log('Accept All Cookies button not found, skipping click action');
-            });
-
-        await acceptAllCookiesBtn.click();
-
+        const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' });
+        try {
+            await acceptAllCookiesBtn.waitFor({ state: 'visible', timeout: 2000 });
+            await acceptAllCookiesBtn.click();
+        } catch (e) {
+            console.log('Accept All Cookies button not found, skipping click action');
+        }
     }
 
     async clickHomeLink() {
