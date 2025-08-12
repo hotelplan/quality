@@ -951,6 +951,340 @@ export class SearchResultPage {
         return visibleFilters;
     }
 
+    // =================== ENHANCED FILTER METHODS FOR COMPREHENSIVE TESTING ===================
+
+    /**
+     * Opens a specific filter by name
+     * @param filterName - Name of the filter to open (e.g., 'Ratings', 'Best For')
+     * @param waitTime - Optional wait time after opening filter
+     */
+    async openFilter(filterName: string, waitTime: number = 1000): Promise<void> {
+        const filterButton = this.page.getByRole('button', { name: filterName });
+        await expect(filterButton).toBeVisible({ timeout: 10000 });
+        await filterButton.click();
+        await this.page.waitForTimeout(waitTime);
+    }
+
+    /**
+     * Closes the currently open filter using Escape key
+     */
+    async closeFilter(): Promise<void> {
+        await this.page.keyboard.press('Escape');
+        await this.page.waitForTimeout(500);
+    }
+
+    /**
+     * Applies filter changes by clicking the Confirm button
+     */
+    async applyFilter(): Promise<void> {
+        const confirmButton = this.page.getByRole('button', { name: 'Confirm' });
+        if (await confirmButton.isVisible({ timeout: 3000 })) {
+            await confirmButton.click();
+            await this.page.waitForTimeout(2000);
+        } else {
+            throw new Error('Confirm button not found for filter application');
+        }
+    }
+
+    /**
+     * Checks if a filter option is enabled (clickable)
+     * @param optionText - Text of the filter option to check
+     * @returns boolean indicating if option is enabled
+     */
+    async isFilterOptionEnabled(optionText: string): Promise<boolean> {
+        try {
+            const optionElement = this.page.locator(`text="${optionText}"`).first();
+            if (!(await optionElement.isVisible({ timeout: 3000 }))) {
+                return false;
+            }
+
+            return await optionElement.evaluate((el) => {
+                const styles = window.getComputedStyle(el);
+                return styles.pointerEvents !== 'none' && 
+                       styles.opacity !== '0.5' && 
+                       !el.hasAttribute('disabled');
+            });
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets all available filter options for a specific filter
+     * @param filterName - Name of the filter to analyze
+     * @param maxOptions - Maximum number of options to check (default: 20)
+     * @returns Object with enabled and disabled options
+     */
+    async getFilterOptions(filterName: string, maxOptions: number = 20): Promise<{
+        enabled: string[];
+        disabled: string[];
+        total: number;
+    }> {
+        await this.openFilter(filterName);
+        
+        const enabled: string[] = [];
+        const disabled: string[] = [];
+        
+        // Get all potential clickable elements in the filter
+        const options = this.page.locator('label, [role="checkbox"], [role="radio"], generic[cursor="pointer"]');
+        const optionCount = Math.min(await options.count(), maxOptions);
+        
+        for (let i = 0; i < optionCount; i++) {
+            try {
+                const option = options.nth(i);
+                if (await option.isVisible({ timeout: 1000 })) {
+                    const text = await option.textContent();
+                    if (text && text.trim().length > 0 && text.trim().length < 50) {
+                        const isEnabled = await option.evaluate((el) => {
+                            const styles = window.getComputedStyle(el);
+                            return styles.pointerEvents !== 'none' && styles.opacity !== '0.5';
+                        });
+                        
+                        if (isEnabled) {
+                            enabled.push(text.trim());
+                        } else {
+                            disabled.push(text.trim());
+                        }
+                    }
+                }
+            } catch (error) {
+                // Continue to next option
+            }
+        }
+        
+        await this.closeFilter();
+        
+        return {
+            enabled,
+            disabled,
+            total: enabled.length + disabled.length
+        };
+    }
+
+    /**
+     * Validates specific filter options against expected enabled/disabled lists
+     * @param filterName - Name of the filter to validate
+     * @param expectedEnabled - Array of expected enabled options
+     * @param expectedDisabled - Array of expected disabled options (optional)
+     */
+    async validateFilterStates(
+        filterName: string, 
+        expectedEnabled: string[], 
+        expectedDisabled?: string[]
+    ): Promise<{ passed: boolean; missingEnabled: string[]; unexpectedDisabled: string[] }> {
+        await this.openFilter(filterName);
+        
+        const missingEnabled: string[] = [];
+        const unexpectedDisabled: string[] = [];
+        
+        // Check expected enabled options
+        for (const expectedOption of expectedEnabled) {
+            const isEnabled = await this.isFilterOptionEnabled(expectedOption);
+            if (!isEnabled) {
+                missingEnabled.push(expectedOption);
+            }
+        }
+        
+        // Check expected disabled options if provided
+        if (expectedDisabled) {
+            for (const disabledOption of expectedDisabled) {
+                const isEnabled = await this.isFilterOptionEnabled(disabledOption);
+                if (isEnabled) {
+                    unexpectedDisabled.push(disabledOption);
+                }
+            }
+        }
+        
+        await this.closeFilter();
+        
+        return {
+            passed: missingEnabled.length === 0 && unexpectedDisabled.length === 0,
+            missingEnabled,
+            unexpectedDisabled
+        };
+    }
+
+    /**
+     * Applies a specific filter option by clicking on it
+     * @param filterName - Name of the filter to open
+     * @param optionText - Text of the option to select
+     * @param applyChanges - Whether to apply changes after selection (default: true)
+     */
+    async selectFilterOption(filterName: string, optionText: string, applyChanges: boolean = true): Promise<void> {
+        await this.openFilter(filterName);
+        
+        const optionElement = this.page.locator(`text="${optionText}"`).first();
+        await expect(optionElement).toBeVisible({ timeout: 5000 });
+        
+        // Verify option is enabled before clicking
+        const isEnabled = await this.isFilterOptionEnabled(optionText);
+        if (!isEnabled) {
+            throw new Error(`Filter option "${optionText}" is disabled and cannot be selected`);
+        }
+        
+        await optionElement.click();
+        
+        if (applyChanges) {
+            await this.applyFilter();
+        } else {
+            await this.closeFilter();
+        }
+    }
+
+    /**
+     * Tests filter performance by measuring load time
+     * @param filterName - Name of the filter to test
+     * @returns Load time in milliseconds
+     */
+    async measureFilterLoadTime(filterName: string): Promise<number> {
+        const startTime = Date.now();
+        await this.openFilter(filterName, 500);
+        const endTime = Date.now();
+        await this.closeFilter();
+        
+        return endTime - startTime;
+    }
+
+    /**
+     * Validates that a filter application resulted in URL parameter changes
+     * @param expectedParam - Expected URL parameter to check for
+     * @returns boolean indicating if URL was updated correctly
+     */
+    async validateFilterUrlUpdate(expectedParam?: string): Promise<boolean> {
+        const currentUrl = this.page.url();
+        
+        if (expectedParam) {
+            return currentUrl.includes(expectedParam);
+        }
+        
+        // Generic check for any filter parameters
+        const filterParams = ['rating', 'bestfor', 'board', 'facilities', 'holiday', 'duration', 'budget'];
+        return filterParams.some(param => currentUrl.includes(param));
+    }
+
+    /**
+     * Checks for the presence of applied filter tags on the results page
+     * @param filterText - Text of the applied filter to look for
+     * @returns boolean indicating if filter tag is visible
+     */
+    async isFilterTagVisible(filterText: string): Promise<boolean> {
+        try {
+            const filterTag = this.page.locator(`text="${filterText}"`).first();
+            return await filterTag.isVisible({ timeout: 5000 });
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets the count of search results after filter application
+     * @returns Number of results or -1 if count cannot be determined
+     */
+    async getSearchResultCount(): Promise<number> {
+        try {
+            // Try multiple selectors for result count
+            const countSelectors = [
+                '.results-count',
+                '.search-results-count',
+                '[data-testid="results-count"]',
+                'text=/\\d+\\s+results?/i',
+                'text=/showing\\s+\\d+/i'
+            ];
+            
+            for (const selector of countSelectors) {
+                try {
+                    const countElement = this.page.locator(selector).first();
+                    if (await countElement.isVisible({ timeout: 3000 })) {
+                        const countText = await countElement.textContent();
+                        const match = countText?.match(/(\d+)/);
+                        if (match) {
+                            return parseInt(match[1]);
+                        }
+                    }
+                } catch (error) {
+                    continue;
+                }
+            }
+            
+            // Fallback: count actual result cards
+            const resultCards = this.page.locator(
+                '[data-testid="accommodation-card"], .accommodation-card, .search-card, .result-card'
+            );
+            return await resultCards.count();
+            
+        } catch (error) {
+            console.warn('Could not determine search result count:', error);
+            return -1;
+        }
+    }
+
+    /**
+     * Comprehensive filter testing method that validates a filter's functionality
+     * @param filterName - Name of the filter to test
+     * @param expectedEnabled - Array of expected enabled options
+     * @param expectedDisabled - Array of expected disabled options (optional)
+     * @param testOption - Specific option to test application with (optional)
+     */
+    async testFilterComprehensively(
+        filterName: string,
+        expectedEnabled: string[],
+        expectedDisabled?: string[],
+        testOption?: string
+    ): Promise<{
+        validationPassed: boolean;
+        optionCount: number;
+        loadTime: number;
+        applicationWorked: boolean;
+        resultCount: number;
+    }> {
+        console.log(`\n🔍 Testing ${filterName} filter comprehensively:`);
+        
+        // 1. Measure load time
+        const loadTime = await this.measureFilterLoadTime(filterName);
+        console.log(`   ⏱️ Load time: ${loadTime}ms`);
+        
+        // 2. Validate filter states
+        const validation = await this.validateFilterStates(filterName, expectedEnabled, expectedDisabled);
+        console.log(`   ✅ State validation: ${validation.passed ? 'PASSED' : 'FAILED'}`);
+        if (!validation.passed) {
+            console.log(`      Missing enabled: ${validation.missingEnabled.join(', ')}`);
+            console.log(`      Unexpected disabled: ${validation.unexpectedDisabled.join(', ')}`);
+        }
+        
+        // 3. Get option count
+        const options = await this.getFilterOptions(filterName);
+        console.log(`   📊 Options: ${options.enabled.length} enabled, ${options.disabled.length} disabled`);
+        
+        // 4. Test filter application if test option provided
+        let applicationWorked = false;
+        let resultCount = -1;
+        
+        if (testOption && expectedEnabled.includes(testOption)) {
+            try {
+                const initialCount = await this.getSearchResultCount();
+                await this.selectFilterOption(filterName, testOption);
+                await this.page.waitForTimeout(2000);
+                
+                applicationWorked = await this.validateFilterUrlUpdate();
+                resultCount = await this.getSearchResultCount();
+                
+                console.log(`   🎯 Applied "${testOption}": ${applicationWorked ? 'SUCCESS' : 'FAILED'}`);
+                console.log(`   📈 Results: ${initialCount} → ${resultCount}`);
+                
+            } catch (error) {
+                console.log(`   ❌ Filter application failed: ${error.message}`);
+            }
+        }
+        
+        return {
+            validationPassed: validation.passed,
+            optionCount: options.total,
+            loadTime,
+            applicationWorked,
+            resultCount
+        };
+    }
+
 }
 
 
