@@ -1285,6 +1285,293 @@ export class SearchResultPage {
         };
     }
 
+    // =================== ENHANCED REUSABLE METHODS FOR PROPER POM ===================
+
+    /**
+     * High-level method to navigate to search results for any category
+     * @param category - Category to search (Ski, Walking, Lapland)
+     * @param searchLocation - Location to search for (default: 'anywhere')
+     */
+    async navigateToSearchResults(category: string, searchLocation: string = 'anywhere'): Promise<void> {
+        await this.clickSearchProductTab(category);
+        await this.searchAnywhere(searchLocation);
+        await this.clickSearchHolidayBtn();
+        await this.validateSearchResultPageUrl();
+    }
+
+    /**
+     * Validates that all specified filter options are enabled
+     * @param filterName - Name of the filter to validate
+     * @param expectedOptions - Array of options that should be enabled
+     * @returns Validation result with counts and status
+     */
+    async validateFilterOptions(
+        filterName: string, 
+        expectedOptions: string[]
+    ): Promise<{
+        allOptionsEnabled: boolean;
+        enabledCount: number;
+        totalCount: number;
+        missingOptions: string[];
+    }> {
+        await this.openFilter(filterName);
+        
+        const missingOptions: string[] = [];
+        let enabledCount = 0;
+        
+        console.log(`\n🔍 Validating ${filterName} filter options:`);
+        
+        for (const option of expectedOptions) {
+            const isEnabled = await this.isFilterOptionEnabled(option);
+            if (isEnabled) {
+                enabledCount++;
+                console.log(`   ✅ ${option} is enabled`);
+            } else {
+                missingOptions.push(option);
+                console.log(`   ❌ ${option} is not enabled or not found`);
+            }
+        }
+        
+        await this.closeFilter();
+        
+        return {
+            allOptionsEnabled: missingOptions.length === 0,
+            enabledCount,
+            totalCount: expectedOptions.length,
+            missingOptions
+        };
+    }
+
+    /**
+     * Applies a filter option and validates the result
+     * @param filterName - Name of the filter to apply
+     * @param optionText - Option to select
+     * @param validationOptions - What to validate after applying
+     */
+    async applyFilterAndValidate(
+        filterName: string,
+        optionText: string,
+        validationOptions: {
+            expectUrlUpdate?: boolean;
+            expectResultsChange?: boolean;
+            expectFilterTag?: boolean;
+        } = {}
+    ): Promise<{
+        applied: boolean;
+        urlUpdated: boolean;
+        resultsChanged: boolean;
+        filterTagVisible: boolean;
+        initialResultCount: number;
+        finalResultCount: number;
+    }> {
+        const initialResultCount = await this.getSearchResultCount();
+        const initialUrl = this.page.url();
+        
+        try {
+            // Apply the filter
+            await this.selectFilterOption(filterName, optionText, true);
+            
+            // Wait for changes to take effect
+            await this.page.waitForTimeout(2000);
+            
+            // Validate results
+            const finalUrl = this.page.url();
+            const finalResultCount = await this.getSearchResultCount();
+            
+            const urlUpdated = validationOptions.expectUrlUpdate ? 
+                finalUrl !== initialUrl : true;
+            
+            const resultsChanged = validationOptions.expectResultsChange ? 
+                finalResultCount !== initialResultCount : true;
+            
+            const filterTagVisible = validationOptions.expectFilterTag ? 
+                await this.isFilterTagVisible(optionText) : true;
+            
+            console.log(`   🎯 Applied filter "${optionText}": URL changed: ${urlUpdated}, Results changed: ${resultsChanged}`);
+            
+            return {
+                applied: true,
+                urlUpdated,
+                resultsChanged,
+                filterTagVisible,
+                initialResultCount,
+                finalResultCount
+            };
+            
+        } catch (error) {
+            console.error(`   ❌ Failed to apply filter "${optionText}": ${error.message}`);
+            return {
+                applied: false,
+                urlUpdated: false,
+                resultsChanged: false,
+                filterTagVisible: false,
+                initialResultCount,
+                finalResultCount: initialResultCount
+            };
+        }
+    }
+
+    /**
+     * Resets/removes a previously applied filter
+     * @param filterName - Name of the filter to reset
+     * @param optionText - Option to deselect (if applicable)
+     */
+    async resetFilter(filterName: string, optionText?: string): Promise<void> {
+        try {
+            if (optionText) {
+                // For toggle-type filters, click the same option to deselect
+                await this.openFilter(filterName);
+                
+                const optionElement = this.page.locator(`text="${optionText}"`).first();
+                if (await optionElement.isVisible({ timeout: 3000 })) {
+                    await optionElement.click();
+                    await this.applyFilter();
+                    console.log(`   🔄 Reset filter "${filterName}" option "${optionText}"`);
+                } else {
+                    await this.closeFilter();
+                    console.log(`   ℹ️ Filter option "${optionText}" not found for reset`);
+                }
+            } else {
+                // For filters that might have a "Clear All" or similar option
+                await this.openFilter(filterName);
+                
+                const clearButton = this.page.locator('button:has-text("Clear"), button:has-text("Reset"), button:has-text("Remove")').first();
+                if (await clearButton.isVisible({ timeout: 2000 })) {
+                    await clearButton.click();
+                    await this.applyFilter();
+                    console.log(`   🔄 Reset all options for filter "${filterName}"`);
+                } else {
+                    await this.closeFilter();
+                    console.log(`   ℹ️ No clear option found for filter "${filterName}"`);
+                }
+            }
+        } catch (error) {
+            console.warn(`   ⚠️ Could not reset filter "${filterName}": ${error.message}`);
+            // Try to close any open filter modal
+            await this.closeFilter();
+        }
+    }
+
+    /**
+     * Validates category-specific filter states against expected configurations
+     * @param filterName - Name of the filter to validate
+     * @param categoryConfig - Configuration object with enabled/disabled arrays
+     */
+    async validateCategorySpecificFilter(
+        filterName: string,
+        categoryConfig: {
+            enabled: string[];
+            disabled: string[];
+        }
+    ): Promise<{
+        validationPassed: boolean;
+        enabledMatches: number;
+        disabledMatches: number;
+        unexpectedEnabled: string[];
+        unexpectedDisabled: string[];
+    }> {
+        await this.openFilter(filterName);
+        
+        let enabledMatches = 0;
+        let disabledMatches = 0;
+        const unexpectedEnabled: string[] = [];
+        const unexpectedDisabled: string[] = [];
+        
+        console.log(`\n🎯 Validating category-specific ${filterName} filter:`);
+        
+        // Check expected enabled options
+        for (const expectedOption of categoryConfig.enabled) {
+            const isEnabled = await this.isFilterOptionEnabled(expectedOption);
+            if (isEnabled) {
+                enabledMatches++;
+                console.log(`   ✅ "${expectedOption}" is correctly enabled`);
+            } else {
+                unexpectedDisabled.push(expectedOption);
+                console.log(`   ❌ "${expectedOption}" should be enabled but is disabled/missing`);
+            }
+        }
+        
+        // Check expected disabled options (if they exist in UI)
+        for (const expectedOption of categoryConfig.disabled) {
+            try {
+                const optionElement = this.page.locator(`text="${expectedOption}"`).first();
+                if (await optionElement.isVisible({ timeout: 1000 })) {
+                    const isEnabled = await this.isFilterOptionEnabled(expectedOption);
+                    if (!isEnabled) {
+                        disabledMatches++;
+                        console.log(`   ✅ "${expectedOption}" is correctly disabled`);
+                    } else {
+                        unexpectedEnabled.push(expectedOption);
+                        console.log(`   ❌ "${expectedOption}" should be disabled but is enabled`);
+                    }
+                }
+                // If option is not visible, it's effectively disabled, which is acceptable
+            } catch (error) {
+                // Option not found, which is acceptable for disabled options
+            }
+        }
+        
+        await this.closeFilter();
+        
+        const validationPassed = unexpectedEnabled.length === 0 && unexpectedDisabled.length === 0;
+        
+        console.log(`   📊 Validation summary: ${enabledMatches}/${categoryConfig.enabled.length} enabled match, ${disabledMatches} disabled confirmed`);
+        
+        return {
+            validationPassed,
+            enabledMatches,
+            disabledMatches,
+            unexpectedEnabled,
+            unexpectedDisabled
+        };
+    }
+
+    /**
+     * Tests a common filter option across multiple categories
+     * @param filterName - Name of the filter to test
+     * @param testOption - Option to test (should be available in most categories)
+     */
+    async testUniversalFilterOption(filterName: string, testOption: string): Promise<{
+        available: boolean;
+        enabled: boolean;
+        applicationWorked: boolean;
+    }> {
+        try {
+            await this.openFilter(filterName);
+            
+            // Check if option exists and is enabled
+            const optionElement = this.page.locator(`text="${testOption}"`).first();
+            const available = await optionElement.isVisible({ timeout: 3000 });
+            
+            if (!available) {
+                await this.closeFilter();
+                return { available: false, enabled: false, applicationWorked: false };
+            }
+            
+            const enabled = await this.isFilterOptionEnabled(testOption);
+            
+            if (!enabled) {
+                await this.closeFilter();
+                return { available: true, enabled: false, applicationWorked: false };
+            }
+            
+            // Test application
+            await optionElement.click();
+            await this.applyFilter();
+            
+            const applicationWorked = await this.validateFilterUrlUpdate();
+            
+            console.log(`   🎯 Universal filter test for "${testOption}": Available: ${available}, Enabled: ${enabled}, Applied: ${applicationWorked}`);
+            
+            return { available, enabled, applicationWorked };
+            
+        } catch (error) {
+            console.warn(`   ⚠️ Universal filter test failed for "${testOption}": ${error.message}`);
+            await this.closeFilter();
+            return { available: false, enabled: false, applicationWorked: false };
+        }
+    }
+
 }
 
 
