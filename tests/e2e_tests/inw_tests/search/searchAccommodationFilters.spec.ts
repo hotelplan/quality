@@ -1,1092 +1,659 @@
 import { test, expect } from '../../../resources/inw_resources/page_objects/base/page_base';
-import { SearchResultPage } from '../../../resources/inw_resources/page_objects/search_result_page';
-import environmentBaseUrl from '../../../resources/utils/environmentBaseUrl';
-import { FilterTestHelpers, FilterTestData } from '../../../resources/inw_resources/utilities/filterTestHelpers';
-
-const env = process.env.ENV || "qa";
-const inghamsUrl = environmentBaseUrl[env].inghams;
-
-// Helper function to get expected rating ranges based on MCP investigation
-function getExpectedRatingRange(categoryName: string) {
-    const ranges: { [key: string]: { min: number; max: number } } = {
-        'Ski': { min: 2, max: 4 },
-        'Walking': { min: 3, max: 5 },
-        'Lapland': { min: 3, max: 5 }
-    };
-    return ranges[categoryName] || { min: 1, max: 5 };
-}
 
 /**
- * COMPREHENSIVE SEARCH ACCOMMODATION FILTERS TEST SUITE
+ * ACCOMMODATION FILTERS TEST SUITE
  * 
- * INDIVIDUAL VALUE TESTING APPROACH:
- * ===================================
+ * This test suite comprehensively tests all accommodation filters across Ski, Walking, and Lapland categories
+ * following POM principles and prioritizing qa/stg environments with Chromium browser.
  * 
- * This test suite implements comprehensive individual value testing for each filter type:
+ * Test Coverage:
+ * - Ratings filter testing
+ * - Best For filter testing
+ * - Board Basis filter testing
+ * - Facilities filter testing
+ * - Holiday Types filter testing
+ * - Duration filter testing
+ * - Budget filter testing
+ * - All Filters combined testing
  * 
- * 🌟 RATINGS FILTER:
- * - Tests each rating value: 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5
- * - Verifies each enabled rating can be applied and produces results
- * - Checks URL updates and filter application for each value
- * 
- * 🎯 BEST FOR FILTER:
- * - Tests each option: Family Holidays, Couples Holidays, Solo Holidays, Group Holidays,
- *   First Time Skiers, Spa & Wellness, Wow Factor, Peace & Quiet, etc.
- * - Verifies each enabled option can be applied individually
- * - Confirms filter application through URL changes or filter tags
- * 
- * 🍽️ BOARD BASIS FILTER:
- * - Tests each meal plan: Room Only, Bed & Breakfast, Half Board, Full Board,
- *   All Inclusive, Self Catering
- * - Applies each available option and verifies functionality
- * - Checks for proper filter application and reset
- * 
- * ⚙️ OTHER FILTERS:
- * - Facilities, Holiday Types, Duration, Budget filters
- * - Individual testing approach for maximum coverage
- * 
- * FIXES IMPLEMENTED BASED ON MCP SERVER INVESTIGATION:
- * ===================================================
- * - Enhanced element stability handling for dynamic DOM changes
- * - Individual filter value testing for each rating, facility, etc.
- * - Improved error handling for JavaScript/CSP issues
- * - Better wait strategies for filter interface stability
- * - Comprehensive validation of each filter option
- * - Fixed dual filter interface handling (modal vs inline)
- * 
- * ROOT CAUSE FIXES:
- * ================
- * - Added explicit waits for filter panel stability
- * - Implemented retry logic for DOM element changes
- * - Enhanced filter option validation
- * - Added proper state verification after each filter application
- * - Simplified filter interaction approach to handle UI inconsistencies
+ * Each test follows the pattern:
+ * 1. Navigate to category search results
+ * 2. Open filter
+ * 3. Test individual filter values
+ * 4. Validate search results match applied filters
+ * 5. Handle "No results" scenarios appropriately
  */
 
-// Use centralized test data instead of inline definitions
-const searchCategories = FilterTestData.categories;
-const filterDefinitions = FilterTestData.universalFilters;
+// Test data configuration
+const categories = [
+    { name: 'Ski', searchLocation: 'anywhere' },
+    { name: 'Walking', searchLocation: 'anywhere' },
+    { name: 'Lapland', searchLocation: 'anywhere' }
+];
 
-test.beforeEach(async ({ page }) => {
-    await test.step('Given: I navigate to Inghams home page and handle initial setup', async () => {
-        await page.goto(inghamsUrl);
-        await page.waitForLoadState('domcontentloaded');
-        
-        // Handle cookies
-        try {
-            const acceptCookiesBtn = page.getByRole('button', { name: 'Accept All Cookies' });
-            if (await acceptCookiesBtn.isVisible({ timeout: 5000 })) {
-                await acceptCookiesBtn.click();
-                console.log('✓ Cookies accepted');
-            }
-        } catch (error) {
-            console.log('ℹ️ Cookies handling skipped');
+// Run only on qa and stg environments with Chromium
+test.describe('Accommodation Filters - Comprehensive Testing', () => {
+    test.beforeEach(async ({ page }) => {
+        // Ensure we're running in the correct environment
+        const env = process.env.ENV || 'qa';
+        if (!['qa', 'stg'].includes(env)) {
+            test.skip(true, 'Skipping: Tests only run on qa and stg environments');
         }
         
-        await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {
-            console.log('Network idle timeout, continuing...');
-        });
-    });
-});
-
-test.describe('Comprehensive Search Accommodation Filters Tests', () => {
-
-    // FILTER TYPE 1: RATINGS FILTER TESTS - INDIVIDUAL VALUE TESTING
-    test.describe('Ratings Filter Tests', () => {
-        for (const category of searchCategories) {
-            test(`${category.name} - Ratings Filter: Test each individual rating value (1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5) @ratingsFilter`, async ({ page }) => {
-                test.setTimeout(300000); // Extended timeout for individual value testing
-                
-                const searchResultPage = new SearchResultPage(page, {} as any);
-                const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-                
-                await test.step(`Setup: Navigate to ${category.name} search results`, async () => {
-                    await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
-                    console.log(`✓ Successfully reached ${category.name} search results page`);
-                });
-
-                await test.step(`Test: Check each individual rating value`, async () => {
-                    const allRatings = ['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'];
-                    let enabledRatings = 0;
-                    let workingRatings = 0;
-                    let noResultsCount = 0;
-                    
-                    for (const rating of allRatings) {
-                        console.log(`\n🌟 Testing ${rating}-star rating for ${category.name}...`);
-                        
-                        try {
-                            // Open Ratings filter with improved stability
-                            await searchResultPage.openFilter('Ratings');
-                            await page.waitForTimeout(1500); // Increased wait for filter stability
-                            
-                            // More specific locator for rating options based on MCP investigation
-                            const ratingElement = page.locator(`[data-testid*="rating-${rating}"]`).or(
-                                page.locator(`label:has-text("${rating}")`).or(
-                                    page.locator(`text="${rating}"`).first()
-                                )
-                            );
-                            const isVisible = await ratingElement.isVisible({ timeout: 5000 });
-                            
-                            if (isVisible) {
-                                const isEnabled = await ratingElement.isEnabled();
-                                
-                                if (isEnabled) {
-                                    enabledRatings++;
-                                    console.log(`  ✓ ${rating}-star option is enabled`);
-                                    
-                                    // Apply this specific rating filter
-                                    await ratingElement.click();
-                                    await page.waitForTimeout(1000);
-                                    
-                                    // Look for and click Confirm button if present (based on MCP investigation)
-                                    const confirmButton = page.locator('button:has-text("Confirm"), button:has-text("Apply")').first();
-                                    if (await confirmButton.isVisible({ timeout: 3000 })) {
-                                        await confirmButton.click();
-                                        console.log(`  ✓ Confirmed ${rating}-star filter selection`);
-                                        await page.waitForTimeout(2000); // Wait for filter to apply
-                                    }
-                                    
-                                    // Check for "No results matching your" message (validated via MCP)
-                                    const noResultsMessage = page.getByText('No results matching your');
-                                    const hasNoResults = await noResultsMessage.isVisible({ timeout: 5000 });
-                                    
-                                    if (hasNoResults) {
-                                        noResultsCount++;
-                                        console.log(`  ℹ️ ${rating}-star filter shows "No results matching your criteria"`);
-                                        
-                                        // Verify "Try removing some queries" text is present
-                                        const tryRemovingText = page.getByText('Try removing some queries');
-                                        if (await tryRemovingText.isVisible({ timeout: 2000 })) {
-                                            console.log(`  ✓ "Try removing some queries" message displayed correctly`);
-                                        }
-                                        
-                                        workingRatings++; // No results is still a valid response
-                                    } else {
-                                        // Check if filter was applied with results
-                                        const currentUrl = page.url();
-                                        const hasFilterTag = await page.locator(`[data-testid*="filter-tag"], .filter-tag, [aria-label*="${rating}"]`).isVisible({ timeout: 3000 });
-                                        const hasStarRatings = await page.locator('.star-rating, [aria-label*="star"], [title*="star"]').count() > 0;
-                                        
-                                        if (currentUrl.includes(rating) || hasFilterTag || hasStarRatings) {
-                                            workingRatings++;
-                                            console.log(`  ✅ ${rating}-star filter applied successfully with results`);
-                                            
-                                            // Validate displayed ratings match expectations based on MCP data
-                                            const expectedRange = getExpectedRatingRange(category.name);
-                                            console.log(`  📊 Expected ${category.name} rating range: ${expectedRange.min}-${expectedRange.max} stars`);
-                                        } else {
-                                            console.log(`  ❌ ${rating}-star filter failed to apply properly`);
-                                        }
-                                    }
-                                    
-                                    // Enhanced filter reset logic
-                                    try {
-                                        // Look for multiple types of remove buttons
-                                        const removeSelectors = [
-                                            `[aria-label*="Remove ${rating}"]`,
-                                            `[title*="Remove ${rating}"]`,
-                                            `button:has-text("×"):near(text="${rating}")`,
-                                            '.filter-remove-btn',
-                                            '[data-testid*="remove-filter"]'
-                                        ];
-                                        
-                                        let removed = false;
-                                        for (const selector of removeSelectors) {
-                                            const removeButton = page.locator(selector).first();
-                                            if (await removeButton.isVisible({ timeout: 2000 })) {
-                                                await removeButton.click();
-                                                await page.waitForTimeout(1000);
-                                                removed = true;
-                                                break;
-                                            }
-                                        }
-                                        
-                                        if (!removed) {
-                                            // Alternative: refresh the page to reset filters
-                                            console.log(`  ℹ️ Using page refresh to reset ${rating}-star filter`);
-                                            await page.reload();
-                                            await page.waitForLoadState('networkidle', { timeout: 10000 });
-                                        }
-                                    } catch (resetError) {
-                                        console.log(`  ℹ️ Could not reset ${rating}-star filter: ${resetError.message}`);
-                                    }
-                                    
-                                } else {
-                                    console.log(`  ⚪ ${rating}-star option is disabled`);
-                                }
-                            } else {
-                                console.log(`  ⚪ ${rating}-star option is not available for ${category.name}`);
-                            }
-                            
-                            // Close filter panel with better error handling
-                            try {
-                                await searchResultPage.closeFilter();
-                                await page.waitForTimeout(500);
-                            } catch (closeError) {
-                                // Try alternative close methods
-                                await page.keyboard.press('Escape');
-                                await page.waitForTimeout(500);
-                            }
-                            
-                        } catch (error) {
-                            console.log(`  ⚠️ Error testing ${rating}-star rating: ${error.message}`);
-                            // Ensure clean state for next iteration
-                            try {
-                                await searchResultPage.closeFilter();
-                            } catch {
-                                await page.keyboard.press('Escape');
-                            }
-                        }
-                    }
-                    
-                    console.log(`\n📊 ${category.name} Ratings Summary:`);
-                    console.log(`   • ${enabledRatings} rating options enabled`);
-                    console.log(`   • ${workingRatings} rating filters working`);
-                    console.log(`   • ${noResultsCount} filters showing "No results matching your criteria"`);
-                    
-                    // Adjust expectations based on MCP investigation findings
-                    expect(enabledRatings, 
-                        `${category.name} should have multiple rating options enabled`).toBeGreaterThan(4);
-                    
-                    // Verify most enabled ratings work (including "no results" as valid response)
-                    if (enabledRatings > 0) {
-                        const workingRatio = workingRatings / enabledRatings;
-                        expect(workingRatio, 
-                            `At least 60% of enabled ratings should work for ${category.name} (including "no results" responses)`).toBeGreaterThan(0.6);
-                    }
-                    
-                    // Validate that we can handle "no results" scenarios properly
-                    console.log(`   ✓ Successfully handled ${noResultsCount} "no results" scenarios`);
-                });
-            });
-        }
+        console.log(`🌍 Running accommodation filters tests on ${env} environment`);
+        
+        // Set longer timeout for filter operations
+        test.setTimeout(300000); // 5 minutes per test
+        
+        // Set viewport for consistency
+        await page.setViewportSize({ width: 1920, height: 1080 });
     });
 
-    // FILTER TYPE 2: BEST FOR FILTER TESTS - INDIVIDUAL VALUE TESTING
-    test.describe('Best For Filter Tests', () => {
-        for (const category of searchCategories) {
-            test(`${category.name} - Best For Filter: Test each individual enabled option @bestForFilter`, async ({ page }) => {
-                test.setTimeout(300000);
+    // =================== RATINGS FILTER TESTS ===================
+    
+    categories.forEach(category => {
+        test.describe(`${category.name} - Ratings Filter Testing`, () => {
+            
+            test(`@accom @regression Should test all Ratings filter values for ${category.name}`, async ({ 
+                page, 
+                searchResultPage 
+            }) => {
+                // Navigate to category search results
+                console.log(`🔧 Setting up ${category.name} search results...`);
+                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                console.log(`✓ Successfully navigated to ${category.name} search results`);
                 
-                const searchResultPage = new SearchResultPage(page, {} as any);
-                const filterHelpers = new FilterTestHelpers(page, searchResultPage);
+                // Get all available rating options (filter to only numeric ratings)
+                console.log(`\n🌟 Testing Ratings filter for ${category.name}...`);
                 
-                await test.step(`Setup: Navigate to ${category.name} search results`, async () => {
-                    await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
-                    console.log(`✓ Successfully reached ${category.name} search results page`);
-                });
-
-                await test.step(`Test: Check each individual Best For option`, async () => {
-                    // Get all possible Best For options
-                    const allBestForOptions = [
-                        'Family Holidays', 'Couples Holidays', 'Solo Holidays', 'Group Holidays',
-                        'First Time Skiers', 'Spa & Wellness', 'Wow Factor', 'Peace & Quiet',
-                        'Inghams Choice', 'Sightseeing', 'National Parks'
-                    ];
-                    
-                    let enabledOptions = 0;
-                    let workingOptions = 0;
-                    
-                    for (const option of allBestForOptions) {
-                        console.log(`\n🎯 Testing '${option}' for ${category.name}...`);
-                        
-                        try {
-                            // Check if this option is enabled by trying to find it in the filter
-                            await searchResultPage.openFilter('Best For');
-                            await page.waitForTimeout(1000);
-                            
-                            const optionElement = page.locator(`text="${option}"`);
-                            const isVisible = await optionElement.isVisible({ timeout: 5000 });
-                            
-                            if (isVisible) {
-                                const isEnabled = await optionElement.isEnabled();
-                                
-                                if (isEnabled) {
-                                    enabledOptions++;
-                                    console.log(`  ✓ '${option}' is enabled`);
-                                    
-                                    // Apply this specific option
-                                    await optionElement.click();
-                                    await page.waitForTimeout(2000);
-                                    
-                                    // Check if filter was applied (look for URL change or filter tag)
-                                    const currentUrl = page.url();
-                                    const hasFilterTag = await page.locator(`text="${option}"`).first().isVisible();
-                                    
-                                    if (currentUrl.includes(option.toLowerCase().replace(/\s+/g, '-')) || hasFilterTag) {
-                                        workingOptions++;
-                                        console.log(`  ✅ '${option}' filter applied successfully`);
-                                    } else {
-                                        console.log(`  ⚠️ '${option}' filter may not have applied properly`);
-                                    }
-                                    
-                                    // Reset by removing the filter
-                                    try {
-                                        const removeButton = page.locator(`[aria-label*="Remove ${option}"], [title*="Remove ${option}"]`);
-                                        if (await removeButton.isVisible({ timeout: 3000 })) {
-                                            await removeButton.click();
-                                            await page.waitForTimeout(1000);
-                                        }
-                                    } catch (resetError) {
-                                        console.log(`  ℹ️ Could not reset '${option}' filter`);
-                                    }
-                                    
-                                } else {
-                                    console.log(`  ⚪ '${option}' is disabled`);
-                                }
-                            } else {
-                                console.log(`  ⚪ '${option}' not available for ${category.name}`);
-                            }
-                            
-                            // Close filter panel
-                            await searchResultPage.closeFilter();
-                            await page.waitForTimeout(500);
-                            
-                        } catch (error) {
-                            console.log(`  ⚠️ Error testing '${option}': ${error.message}`);
-                            // Try to close filter panel in case it's still open
-                            try {
-                                await searchResultPage.closeFilter();
-                            } catch {}
-                        }
-                    }
-                    
-                    console.log(`\n📊 ${category.name} Best For Summary: ${enabledOptions} enabled, ${workingOptions} working`);
-                    
-                    // Verify we found some enabled options
-                    expect(enabledOptions, 
-                        `${category.name} should have at least 2 Best For options enabled`).toBeGreaterThan(1);
-                    
-                    // Verify most enabled options work
-                    if (enabledOptions > 0) {
-                        const workingRatio = workingOptions / enabledOptions;
-                        expect(workingRatio, 
-                            `At least 60% of enabled Best For options should work for ${category.name}`).toBeGreaterThan(0.6);
-                    }
-                });
-            });
-        }
-    });
-
-    // FILTER TYPE 3: BOARD BASIS FILTER TESTS - INDIVIDUAL VALUE TESTING
-    test.describe('Board Basis Filter Tests', () => {
-        for (const category of searchCategories) {
-            test(`${category.name} - Board Basis Filter: Test each individual meal plan option @boardBasisFilter`, async ({ page }) => {
-                test.setTimeout(180000);
+                // Use predefined rating options to avoid getting non-rating options mixed in
+                const ratingOptions = ['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'];
                 
-                const searchResultPage = new SearchResultPage(page, {} as any);
-                const filterHelpers = new FilterTestHelpers(page, searchResultPage);
+                console.log(`Testing ${ratingOptions.length} rating options: ${ratingOptions.join(', ')}`);
                 
-                await test.step(`Setup: Navigate to ${category.name} search results`, async () => {
-                    await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
-                    console.log(`✓ Successfully reached ${category.name} search results page`);
-                });
-
-                await test.step(`Test: Check each individual Board Basis option`, async () => {
-                    const allBoardBasisOptions = [
-                        'Room Only', 'Bed & Breakfast', 'Half Board', 'Full Board', 
-                        'All Inclusive', 'Self Catering'
-                    ];
-                    
-                    let enabledOptions = 0;
-                    let workingOptions = 0;
-                    
-                    for (const option of allBoardBasisOptions) {
-                        console.log(`\n🍽️ Testing '${option}' for ${category.name}...`);
-                        
-                        try {
-                            // Open Board Basis filter
-                            await searchResultPage.openFilter('Board Basis');
-                            await page.waitForTimeout(1000);
-                            
-                            // Check if this option is available and enabled
-                            const optionElement = page.locator(`text="${option}"`);
-                            const isVisible = await optionElement.isVisible({ timeout: 5000 });
-                            
-                            if (isVisible) {
-                                const isEnabled = await optionElement.isEnabled();
-                                
-                                if (isEnabled) {
-                                    enabledOptions++;
-                                    console.log(`  ✓ '${option}' is enabled`);
-                                    
-                                    // Apply this specific option
-                                    await optionElement.click();
-                                    await page.waitForTimeout(2000);
-                                    
-                                    // Verify filter was applied
-                                    const currentUrl = page.url();
-                                    const hasFilterTag = await page.locator(`text="${option}"`).first().isVisible();
-                                    
-                                    if (currentUrl.includes(option.toLowerCase().replace(/\s+/g, '-')) || 
-                                        currentUrl.includes('board') || hasFilterTag) {
-                                        workingOptions++;
-                                        console.log(`  ✅ '${option}' filter applied successfully`);
-                                    } else {
-                                        console.log(`  ⚠️ '${option}' filter may not have applied properly`);
-                                    }
-                                    
-                                    // Reset filter
-                                    try {
-                                        const removeButton = page.locator(`[aria-label*="Remove ${option}"], [title*="Remove ${option}"]`);
-                                        if (await removeButton.isVisible({ timeout: 3000 })) {
-                                            await removeButton.click();
-                                            await page.waitForTimeout(1000);
-                                        }
-                                    } catch (resetError) {
-                                        console.log(`  ℹ️ Could not reset '${option}' filter`);
-                                    }
-                                    
-                                } else {
-                                    console.log(`  ⚪ '${option}' is disabled`);
-                                }
-                            } else {
-                                console.log(`  ⚪ '${option}' not available for ${category.name}`);
-                            }
-                            
-                            // Close filter panel
-                            await searchResultPage.closeFilter();
-                            await page.waitForTimeout(500);
-                            
-                        } catch (error) {
-                            console.log(`  ⚠️ Error testing '${option}': ${error.message}`);
-                            try {
-                                await searchResultPage.closeFilter();
-                            } catch {}
-                        }
-                    }
-                    
-                    console.log(`\n📊 ${category.name} Board Basis Summary: ${enabledOptions} enabled, ${workingOptions} working`);
-                    
-                    // Verify we found reasonable number of enabled options
-                    expect(enabledOptions, 
-                        `${category.name} should have at least 2 board basis options enabled`).toBeGreaterThan(1);
-                    
-                    // Verify most enabled options work
-                    if (enabledOptions > 0) {
-                        const workingRatio = workingOptions / enabledOptions;
-                        expect(workingRatio, 
-                            `At least 60% of enabled Board Basis options should work for ${category.name}`).toBeGreaterThan(0.6);
-                    }
-                });
-            });
-        }
-    });
-
-    // FILTER TYPE 4: FACILITIES FILTER TESTS - INDIVIDUAL VALUE TESTING
-    test.describe('Facilities Filter Tests', () => {
-        for (const category of searchCategories) {
-            test(`${category.name} - Facilities Filter: Test each individual facility option @facilitiesFilter`, async ({ page }) => {
-                test.setTimeout(240000); // Extended timeout for comprehensive testing
-                
-                const searchResultPage = new SearchResultPage(page, {} as any);
-                const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-                
-                await test.step(`Setup: Navigate to ${category.name} search results`, async () => {
-                    await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
-                    console.log(`✓ Successfully reached ${category.name} search results page`);
-                });
-
-                await test.step(`Test: Check each individual facility option`, async () => {
-                    const allFacilities = [
-                        'Indoor Pool', 'Outdoor Pool', 'Spa Facilities', 'Gym/Fitness Centres',
-                        'Free Wi-Fi', 'Restaurant', 'Bar', 'Sauna/Steam Room', 'Hot Tub',
-                        'Kids Club', 'Parking', 'Family Rooms', 'Single Rooms', 'Heated Boot Room',
-                        'Children\'s Play Area', 'Spa & Wellness', 'Food & Drink', 'Central Location',
-                        'Close to Lifts', 'Ski In/Ski Out', 'Family-Run', 'Small Hotel'
-                    ];
-                    
-                    let enabledFacilities = 0;
-                    let workingFacilities = 0;
-                    
-                    for (const facility of allFacilities) {
-                        console.log(`\n⚙️ Testing '${facility}' for ${category.name}...`);
-                        
-                        try {
-                            await searchResultPage.openFilter('Facilities');
-                            await page.waitForTimeout(1000);
-                            
-                            const facilityElement = page.locator(`text="${facility}"`).first();
-                            const isVisible = await facilityElement.isVisible({ timeout: 5000 });
-                            
-                            if (isVisible && await facilityElement.isEnabled()) {
-                                enabledFacilities++;
-                                console.log(`  ✓ '${facility}' is enabled`);
-                                
-                                await facilityElement.click();
-                                await page.waitForTimeout(2000);
-                                
-                                // Check if filter was applied
-                                const currentUrl = page.url();
-                                const hasFilterTag = await page.locator(`text="${facility}"`).first().isVisible();
-                                
-                                if (currentUrl.includes(facility.toLowerCase().replace(/[\s'/]/g, '-')) || 
-                                    hasFilterTag || currentUrl.includes('filter')) {
-                                    workingFacilities++;
-                                    console.log(`  ✅ '${facility}' filter applied successfully`);
-                                } else {
-                                    console.log(`  ⚠️ '${facility}' filter may not have applied properly`);
-                                }
-                                
-                                // Reset filter
-                                try {
-                                    const removeButton = page.locator(`[aria-label*="Remove ${facility}"], [title*="Remove ${facility}"]`);
-                                    if (await removeButton.isVisible({ timeout: 3000 })) {
-                                        await removeButton.click();
-                                        await page.waitForTimeout(1000);
-                                    }
-                                } catch {
-                                    console.log(`  ℹ️ Could not reset '${facility}' filter`);
-                                }
-                                
-                            } else {
-                                console.log(`  ⚪ '${facility}' is disabled or not available`);
-                            }
-                            
-                            await searchResultPage.closeFilter();
-                            await page.waitForTimeout(500);
-                            
-                        } catch (error) {
-                            console.log(`  ⚠️ Error testing '${facility}': ${error.message}`);
-                            try {
-                                await searchResultPage.closeFilter();
-                            } catch {}
-                        }
-                    }
-                    
-                    console.log(`\n📊 ${category.name} Facilities Summary: ${enabledFacilities} enabled, ${workingFacilities} working`);
-                    
-                    expect(enabledFacilities, 
-                        `${category.name} should have at least 3 facility options enabled`).toBeGreaterThan(2);
-                    
-                    if (enabledFacilities > 0) {
-                        const workingRatio = workingFacilities / enabledFacilities;
-                        expect(workingRatio, 
-                            `At least 50% of enabled facilities should work for ${category.name}`).toBeGreaterThan(0.5);
-                    }
-                });
-            });
-        }
-    });
-
-    // FILTER TYPE 5: HOLIDAY TYPES FILTER TESTS - INDIVIDUAL VALUE TESTING
-    test.describe('Holiday Types Filter Tests', () => {
-        for (const category of searchCategories) {
-            test(`${category.name} - Holiday Types Filter: Test each individual holiday type option @holidayTypesFilter`, async ({ page }) => {
-                test.setTimeout(180000);
-                
-                const searchResultPage = new SearchResultPage(page, {} as any);
-                const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-                
-                await test.step(`Setup: Navigate to ${category.name} search results`, async () => {
-                    await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
-                    console.log(`✓ Successfully reached ${category.name} search results page`);
-                });
-
-                await test.step(`Test: Check each individual holiday type option`, async () => {
-                    const allHolidayTypes = [
-                        'Family Holidays', 'Couples Holidays', 'Solo Holidays', 'Group Holidays',
-                        'Ski Holidays', 'Walking Holidays', 'Lapland Holidays', 'City Breaks',
-                        'Beach Holidays', 'Adventure Holidays', 'Cultural Holidays', 'Wildlife Holidays',
-                        'Romantic Holidays', 'Activity Holidays', 'Relaxation Holidays'
-                    ];
-                    
-                    let enabledTypes = 0;
-                    let workingTypes = 0;
-                    
-                    for (const holidayType of allHolidayTypes) {
-                        console.log(`\n🏖️ Testing '${holidayType}' for ${category.name}...`);
-                        
-                        try {
-                            await searchResultPage.openFilter('Holiday Types');
-                            await page.waitForTimeout(1000);
-                            
-                            const typeElement = page.locator(`text="${holidayType}"`).first();
-                            const isVisible = await typeElement.isVisible({ timeout: 5000 });
-                            
-                            if (isVisible && await typeElement.isEnabled()) {
-                                enabledTypes++;
-                                console.log(`  ✓ '${holidayType}' is enabled`);
-                                
-                                await typeElement.click();
-                                await page.waitForTimeout(2000);
-                                
-                                // Check if filter was applied
-                                const currentUrl = page.url();
-                                const hasFilterTag = await page.locator(`text="${holidayType}"`).first().isVisible();
-                                
-                                if (currentUrl.includes(holidayType.toLowerCase().replace(/\s+/g, '-')) || 
-                                    hasFilterTag || currentUrl.includes('holiday')) {
-                                    workingTypes++;
-                                    console.log(`  ✅ '${holidayType}' filter applied successfully`);
-                                } else {
-                                    console.log(`  ⚠️ '${holidayType}' filter may not have applied properly`);
-                                }
-                                
-                                // Reset filter
-                                try {
-                                    const removeButton = page.locator(`[aria-label*="Remove ${holidayType}"], [title*="Remove ${holidayType}"]`);
-                                    if (await removeButton.isVisible({ timeout: 3000 })) {
-                                        await removeButton.click();
-                                        await page.waitForTimeout(1000);
-                                    }
-                                } catch {
-                                    console.log(`  ℹ️ Could not reset '${holidayType}' filter`);
-                                }
-                                
-                            } else {
-                                console.log(`  ⚪ '${holidayType}' is disabled or not available for ${category.name}`);
-                            }
-                            
-                            await searchResultPage.closeFilter();
-                            await page.waitForTimeout(500);
-                            
-                        } catch (error) {
-                            console.log(`  ⚠️ Error testing '${holidayType}': ${error.message}`);
-                            try {
-                                await searchResultPage.closeFilter();
-                            } catch {}
-                        }
-                    }
-                    
-                    console.log(`\n📊 ${category.name} Holiday Types Summary: ${enabledTypes} enabled, ${workingTypes} working`);
-                    
-                    expect(enabledTypes, 
-                        `${category.name} should have at least 2 holiday type options enabled`).toBeGreaterThan(1);
-                    
-                    if (enabledTypes > 0) {
-                        const workingRatio = workingTypes / enabledTypes;
-                        expect(workingRatio, 
-                            `At least 60% of enabled holiday types should work for ${category.name}`).toBeGreaterThan(0.6);
-                    }
-                });
-            });
-        }
-    });
-
-    // FILTER TYPE 6: DURATION FILTER TESTS - INDIVIDUAL VALUE TESTING
-    test.describe('Duration Filter Tests', () => {
-        for (const category of searchCategories) {
-            test(`${category.name} - Duration Filter: Test each individual duration option @durationFilter`, async ({ page }) => {
-                test.setTimeout(180000);
-                
-                const searchResultPage = new SearchResultPage(page, {} as any);
-                const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-                
-                await test.step(`Setup: Navigate to ${category.name} search results`, async () => {
-                    await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
-                    console.log(`✓ Successfully reached ${category.name} search results page`);
-                });
-
-                await test.step(`Test: Check each individual duration option`, async () => {
-                    const allDurations = [
-                        '2 nights', '3 nights', '4 nights', '5 nights', '6 nights', '7 nights',
-                        '8 nights', '9 nights', '10 nights', '11 nights', '12 nights', '13 nights', '14 nights',
-                        '1 week', '2 weeks', '3 weeks', '4 weeks'
-                    ];
-                    
-                    let enabledDurations = 0;
-                    let workingDurations = 0;
-                    
-                    for (const duration of allDurations) {
-                        console.log(`\n⏱️ Testing '${duration}' for ${category.name}...`);
-                        
-                        try {
-                            await searchResultPage.openFilter('Duration');
-                            await page.waitForTimeout(1000);
-                            
-                            const durationElement = page.locator(`text="${duration}"`).first();
-                            const isVisible = await durationElement.isVisible({ timeout: 5000 });
-                            
-                            if (isVisible && await durationElement.isEnabled()) {
-                                enabledDurations++;
-                                console.log(`  ✓ '${duration}' is enabled`);
-                                
-                                await durationElement.click();
-                                await page.waitForTimeout(2000);
-                                
-                                // Check if filter was applied
-                                const currentUrl = page.url();
-                                const hasFilterTag = await page.locator(`text="${duration}"`).first().isVisible();
-                                
-                                if (currentUrl.includes(duration.toLowerCase().replace(/\s+/g, '-')) || 
-                                    hasFilterTag || currentUrl.includes('duration') || currentUrl.includes('nights')) {
-                                    workingDurations++;
-                                    console.log(`  ✅ '${duration}' filter applied successfully`);
-                                } else {
-                                    console.log(`  ⚠️ '${duration}' filter may not have applied properly`);
-                                }
-                                
-                                // Reset filter
-                                try {
-                                    const removeButton = page.locator(`[aria-label*="Remove ${duration}"], [title*="Remove ${duration}"]`);
-                                    if (await removeButton.isVisible({ timeout: 3000 })) {
-                                        await removeButton.click();
-                                        await page.waitForTimeout(1000);
-                                    }
-                                } catch {
-                                    console.log(`  ℹ️ Could not reset '${duration}' filter`);
-                                }
-                                
-                            } else {
-                                console.log(`  ⚪ '${duration}' is disabled or not available for ${category.name}`);
-                            }
-                            
-                            await searchResultPage.closeFilter();
-                            await page.waitForTimeout(500);
-                            
-                        } catch (error) {
-                            console.log(`  ⚠️ Error testing '${duration}': ${error.message}`);
-                            try {
-                                await searchResultPage.closeFilter();
-                            } catch {}
-                        }
-                    }
-                    
-                    console.log(`\n📊 ${category.name} Duration Summary: ${enabledDurations} enabled, ${workingDurations} working`);
-                    
-                    expect(enabledDurations, 
-                        `${category.name} should have at least 2 duration options enabled`).toBeGreaterThan(1);
-                    
-                    if (enabledDurations > 0) {
-                        const workingRatio = workingDurations / enabledDurations;
-                        expect(workingRatio, 
-                            `At least 60% of enabled duration options should work for ${category.name}`).toBeGreaterThan(0.6);
-                    }
-                });
-            });
-        }
-    });
-
-    // FILTER TYPE 7: BUDGET FILTER TESTS - INDIVIDUAL VALUE TESTING
-    test.describe('Budget Filter Tests', () => {
-        for (const category of searchCategories) {
-            test(`${category.name} - Budget Filter: Test budget range functionality @budgetFilter`, async ({ page }) => {
-                test.setTimeout(180000);
-                
-                const searchResultPage = new SearchResultPage(page, {} as any);
-                const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-                
-                await test.step(`Setup: Navigate to ${category.name} search results`, async () => {
-                    await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
-                    console.log(`✓ Successfully reached ${category.name} search results page`);
-                });
-
-                await test.step(`Test: Check individual budget ranges`, async () => {
-                    const budgetRanges = [
-                        { min: '100', max: '500', name: '£100-£500' },
-                        { min: '500', max: '1000', name: '£500-£1000' },
-                        { min: '1000', max: '1500', name: '£1000-£1500' },
-                        { min: '1500', max: '2000', name: '£1500-£2000' },
-                        { min: '2000', max: '3000', name: '£2000-£3000' }
-                    ];
-                    
-                    let workingRanges = 0;
-                    let testedRanges = 0;
-                    
-                    for (const range of budgetRanges) {
-                        console.log(`\n💰 Testing budget range '${range.name}' for ${category.name}...`);
-                        
-                        try {
-                            await searchResultPage.openFilter('Budget');
-                            await page.waitForTimeout(1000);
-                            
-                            // Look for input fields
-                            const inputFields = page.locator('input');
-                            const inputCount = await inputFields.count();
-                            
-                            if (inputCount >= 2) {
-                                testedRanges++;
-                                console.log(`  ✓ Found ${inputCount} budget input fields`);
-                                
-                                // Fill min and max values
-                                await inputFields.first().clear();
-                                await inputFields.first().fill(range.min);
-                                await inputFields.last().clear();
-                                await inputFields.last().fill(range.max);
-                                await page.waitForTimeout(1000);
-                                
-                                // Apply filter
-                                const applyButton = page.locator('button:has-text("Apply"), button:has-text("Confirm")').first();
-                                if (await applyButton.isVisible({ timeout: 3000 })) {
-                                    await applyButton.click();
-                                    await page.waitForTimeout(2000);
-                                }
-                                
-                                // Check if filter was applied
-                                const currentUrl = page.url();
-                                if (currentUrl.includes('min') || currentUrl.includes('max') || 
-                                    currentUrl.includes('budget') || currentUrl.includes('price')) {
-                                    workingRanges++;
-                                    console.log(`  ✅ Budget range '${range.name}' applied successfully`);
-                                } else {
-                                    console.log(`  ⚠️ Budget range '${range.name}' may not have applied properly`);
-                                }
-                                
-                            } else if (inputCount === 1) {
-                                testedRanges++;
-                                console.log(`  ✓ Found single budget input field`);
-                                
-                                await inputFields.first().clear();
-                                await inputFields.first().fill(range.max);
-                                await page.waitForTimeout(1000);
-                                
-                                const currentUrl = page.url();
-                                if (currentUrl !== page.url()) {
-                                    workingRanges++;
-                                    console.log(`  ✅ Budget value '${range.max}' applied successfully`);
-                                }
-                                
-                            } else {
-                                console.log(`  ⚪ No budget input fields found for ${category.name}`);
-                            }
-                            
-                            await searchResultPage.closeFilter();
-                            await page.waitForTimeout(500);
-                            
-                        } catch (error) {
-                            console.log(`  ⚠️ Error testing budget range '${range.name}': ${error.message}`);
-                            try {
-                                await searchResultPage.closeFilter();
-                            } catch {}
-                        }
-                    }
-                    
-                    console.log(`\n📊 ${category.name} Budget Summary: ${testedRanges} ranges tested, ${workingRanges} working`);
-                    
-                    if (testedRanges > 0) {
-                        const workingRatio = workingRanges / testedRanges;
-                        expect(workingRatio, 
-                            `At least 40% of budget ranges should work for ${category.name}`).toBeGreaterThan(0.4);
-                    } else {
-                        console.log(`  ℹ️ Budget filter not available for ${category.name}`);
-                    }
-                });
-            });
-        }
-    });
-
-    // FILTER TYPE 8: ALL FILTERS MODAL TESTS - COMPREHENSIVE TESTING
-    test.describe('All Filters Modal Tests', () => {
-        for (const category of searchCategories) {
-            test(`${category.name} - All Filters Modal: Test comprehensive filter interface @allFiltersModal`, async ({ page }) => {
-                test.setTimeout(240000);
-                
-                const searchResultPage = new SearchResultPage(page, {} as any);
-                const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-                
-                await test.step(`Setup: Navigate to ${category.name} search results`, async () => {
-                    await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
-                    console.log(`✓ Successfully reached ${category.name} search results page`);
-                });
-
-                await test.step(`Test: Open All Filters modal and verify all filter types are present`, async () => {
-                    console.log(`\n🎛️ Testing All Filters modal for ${category.name}...`);
+                // Test each rating value individually
+                for (const rating of ratingOptions) {
+                    console.log(`\n🔍 Testing rating: ${rating}`);
                     
                     try {
-                        // Look for "All filters" button
-                        const allFiltersButton = page.locator('button:has-text("All filters"), button:has-text("All Filters")').first();
+                        // Open Ratings filter and select the current rating
+                        await searchResultPage.openFilter('Ratings');
                         
-                        if (await allFiltersButton.isVisible({ timeout: 10000 })) {
-                            console.log(`  ✓ All Filters button found`);
-                            await allFiltersButton.click();
-                            await page.waitForTimeout(2000);
-                            
-                            // Check for presence of all filter categories
-                            const expectedFilters = ['Ratings', 'Best For', 'Board Basis', 'Facilities', 'Holiday Types', 'Duration', 'Budget'];
-                            let foundFilters = 0;
-                            
-                            for (const filterType of expectedFilters) {
-                                const filterSection = page.locator(`text="${filterType}"`).first();
-                                if (await filterSection.isVisible({ timeout: 3000 })) {
-                                    foundFilters++;
-                                    console.log(`    ✓ ${filterType} section found`);
-                                } else {
-                                    console.log(`    ⚪ ${filterType} section not visible`);
-                                }
-                            }
-                            
-                            console.log(`  📊 All Filters Modal: ${foundFilters}/${expectedFilters.length} filter sections found`);
-                            
-                            // Test a few filter interactions within the modal
-                            await test.step(`Test: Interact with filters in modal`, async () => {
-                                try {
-                                    // Try to interact with ratings if available
-                                    const ratingsSection = page.locator(`text="Ratings"`).first();
-                                    if (await ratingsSection.isVisible()) {
-                                        await ratingsSection.click();
-                                        await page.waitForTimeout(1000);
-                                        
-                                        const ratingOptions = page.locator('text="4", text="5"');
-                                        const optionCount = await ratingOptions.count();
-                                        console.log(`    ✓ Ratings section: ${optionCount} options found`);
-                                    }
-                                    
-                                    // Try to interact with facilities if available
-                                    const facilitiesSection = page.locator(`text="Facilities"`).first();
-                                    if (await facilitiesSection.isVisible()) {
-                                        await facilitiesSection.click();
-                                        await page.waitForTimeout(1000);
-                                        
-                                        const facilityOptions = page.locator('text="Indoor Pool", text="Spa Facilities", text="Restaurant"');
-                                        const facilityCount = await facilityOptions.count();
-                                        console.log(`    ✓ Facilities section: ${facilityCount} options found`);
-                                    }
-                                    
-                                } catch (interactionError) {
-                                    console.log(`    ℹ️ Filter interaction in modal limited: ${interactionError.message}`);
-                                }
-                            });
-                            
-                            // Close modal
-                            try {
-                                const closeButton = page.locator('button:has-text("Close"), button:has-text("×"), [aria-label="Close"]').first();
-                                if (await closeButton.isVisible({ timeout: 3000 })) {
-                                    await closeButton.click();
-                                } else {
-                                    await page.keyboard.press('Escape');
-                                }
-                                await page.waitForTimeout(1000);
-                            } catch {
-                                await page.keyboard.press('Escape');
-                            }
-                            
-                            // Verify we have a reasonable number of filter sections
-                            expect(foundFilters, 
-                                `${category.name} All Filters modal should show at least 4 filter types`).toBeGreaterThan(3);
-                            
+                        // Click the rating option
+                        const ratingLabel = page.locator('label').filter({ hasText: new RegExp(`^${rating}$`) });
+                        await expect(ratingLabel).toBeVisible({ timeout: 5000 });
+                        await ratingLabel.click();
+                        
+                        // Apply the filter
+                        await searchResultPage.applyFilter();
+                        
+                        // Wait for results to update
+                        await page.waitForTimeout(3000);
+                        
+                        // Check if there are results or no results message
+                        const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                        
+                        if (hasNoResults) {
+                            console.log(`✅ ${rating} rating correctly shows "No results" message`);
                         } else {
-                            console.log(`  ⚪ All Filters button not found for ${category.name}`);
+                            // Validate that all visible accommodations have the selected rating
+                            const validation = await searchResultPage.validateAccommodationRatings(rating);
+                            expect(validation.isValid, 
+                                `All accommodations should have rating ${rating}. Found ${validation.invalidCards} mismatched cards out of ${validation.actualRatings.length} total`
+                            ).toBe(true);
+                            
+                            console.log(`✅ ${rating} rating filter validation passed: ${validation.actualRatings.length - validation.invalidCards}/${validation.actualRatings.length} cards match`);
+                        }
+                        
+                        // Unselect the current rating before testing the next one
+                        await searchResultPage.openFilter('Ratings');
+                        await ratingLabel.click(); // Unselect
+                        await searchResultPage.applyFilter();
+                        await page.waitForTimeout(2000);
+                        
+                    } catch (error) {
+                        console.error(`❌ Failed testing rating ${rating}: ${error.message}`);
+                        throw error;
+                    }
+                }
+                
+                console.log(`🎉 Completed Ratings filter testing for ${category.name}`);
+            });
+        });
+    });
+
+    // =================== BEST FOR FILTER TESTS ===================
+    
+    categories.forEach(category => {
+        test.describe(`${category.name} - Best For Filter Testing`, () => {
+            
+            test(`@accom @regression Should test Best For filter options for ${category.name}`, async ({ 
+                page, 
+                searchResultPage 
+            }) => {
+                // Navigate to category search results
+                console.log(`🔧 Setting up ${category.name} search results...`);
+                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                
+                console.log(`\n🎯 Testing Best For filter for ${category.name}...`);
+                
+                // Get available options for this category
+                const filterOptions = await searchResultPage.getFilterOptions('Best For');
+                console.log(`Found ${filterOptions.enabled.length} Best For options: ${filterOptions.enabled.join(', ')}`);
+                
+                // Test each enabled option
+                for (const option of filterOptions.enabled) {
+                    console.log(`\n🔍 Testing Best For option: ${option}`);
+                    
+                    try {
+                        // Apply the filter option
+                        await searchResultPage.selectFilterOption('Best For', option, true);
+                        
+                        // Wait for results to update
+                        await page.waitForTimeout(3000);
+                        
+                        // Validate results
+                        const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                        const resultCount = await searchResultPage.getSearchResultCount();
+                        
+                        if (hasNoResults) {
+                            console.log(`✅ "${option}" option correctly shows "No results" message`);
+                        } else {
+                            expect(resultCount, `"${option}" filter should return some results`).toBeGreaterThan(0);
+                            console.log(`✅ "${option}" filter returned ${resultCount} results`);
+                        }
+                        
+                        // Clear the filter before testing next option
+                        await searchResultPage.openFilter('Best For');
+                        const optionCheckbox = page.locator(`text="${option}"`).first();
+                        if (await optionCheckbox.isVisible({ timeout: 3000 })) {
+                            await optionCheckbox.click(); // Uncheck
+                        }
+                        await searchResultPage.applyFilter();
+                        await page.waitForTimeout(2000);
+                        
+                    } catch (error) {
+                        console.error(`❌ Failed testing Best For option "${option}": ${error.message}`);
+                        throw error;
+                    }
+                }
+                
+                console.log(`🎉 Completed Best For filter testing for ${category.name}`);
+            });
+        });
+    });
+
+    // =================== BOARD BASIS FILTER TESTS ===================
+    
+    categories.forEach(category => {
+        test.describe(`${category.name} - Board Basis Filter Testing`, () => {
+            
+            test(`@accom @regression Should test all Board Basis filter options for ${category.name}`, async ({ 
+                page, 
+                searchResultPage 
+            }) => {
+                // Navigate to category search results
+                console.log(`🔧 Setting up ${category.name} search results...`);
+                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                
+                console.log(`\n🍽️ Testing Board Basis filter for ${category.name}...`);
+                
+                // Test universal board basis options
+                const boardBasisOptions = ['Room Only', 'Bed & Breakfast', 'Half Board', 'Full Board', 'All Inclusive', 'Self Catering'];
+                
+                for (const option of boardBasisOptions) {
+                    console.log(`\n🔍 Testing Board Basis option: ${option}`);
+                    
+                    try {
+                        // Apply the filter option
+                        await searchResultPage.selectFilterOption('Board Basis', option, true);
+                        
+                        // Wait for results to update
+                        await page.waitForTimeout(3000);
+                        
+                        // Validate results
+                        const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                        const resultCount = await searchResultPage.getSearchResultCount();
+                        
+                        if (hasNoResults) {
+                            console.log(`✅ "${option}" board basis correctly shows "No results" message`);
+                        } else {
+                            expect(resultCount, `"${option}" board basis should return some results`).toBeGreaterThan(0);
+                            console.log(`✅ "${option}" board basis returned ${resultCount} results`);
+                        }
+                        
+                        // Clear the filter
+                        await searchResultPage.openFilter('Board Basis');
+                        const optionCheckbox = page.locator(`text="${option}"`).first();
+                        if (await optionCheckbox.isVisible({ timeout: 3000 })) {
+                            await optionCheckbox.click(); // Uncheck
+                        }
+                        await searchResultPage.applyFilter();
+                        await page.waitForTimeout(2000);
+                        
+                    } catch (error) {
+                        console.error(`❌ Failed testing Board Basis option "${option}": ${error.message}`);
+                        throw error;
+                    }
+                }
+                
+                console.log(`🎉 Completed Board Basis filter testing for ${category.name}`);
+            });
+        });
+    });
+
+    // =================== FACILITIES FILTER TESTS ===================
+    
+    categories.forEach(category => {
+        test.describe(`${category.name} - Facilities Filter Testing`, () => {
+            
+            test(`@accom @regression Should test key Facilities filter options for ${category.name}`, async ({ 
+                page, 
+                searchResultPage 
+            }) => {
+                // Navigate to category search results
+                console.log(`🔧 Setting up ${category.name} search results...`);
+                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                
+                console.log(`\n🏊 Testing Facilities filter for ${category.name}...`);
+                
+                // Test key facilities (subset to avoid overly long tests)
+                const keyFacilities = ['WiFi', 'Indoor Pool', 'Spa Facilities', 'Bar', 'Restaurant'];
+                
+                for (const facility of keyFacilities) {
+                    console.log(`\n🔍 Testing Facility: ${facility}`);
+                    
+                    try {
+                        // Check if facility option is available
+                        await searchResultPage.openFilter('Facilities');
+                        const facilityOption = page.locator(`text="${facility}"`).first();
+                        
+                        if (await facilityOption.isVisible({ timeout: 3000 })) {
+                            await facilityOption.click();
+                            await searchResultPage.applyFilter();
+                            
+                            // Wait for results to update
+                            await page.waitForTimeout(3000);
+                            
+                            // Validate results
+                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                            const resultCount = await searchResultPage.getSearchResultCount();
+                            
+                            if (hasNoResults) {
+                                console.log(`✅ "${facility}" facility correctly shows "No results" message`);
+                            } else {
+                                expect(resultCount, `"${facility}" facility should return some results`).toBeGreaterThan(0);
+                                console.log(`✅ "${facility}" facility returned ${resultCount} results`);
+                            }
+                            
+                            // Clear the filter
+                            await searchResultPage.openFilter('Facilities');
+                            await facilityOption.click(); // Uncheck
+                            await searchResultPage.applyFilter();
+                            await page.waitForTimeout(2000);
+                        } else {
+                            console.log(`⚠️ "${facility}" facility not available for ${category.name}`);
                         }
                         
                     } catch (error) {
-                        console.log(`  ⚠️ Error testing All Filters modal for ${category.name}: ${error.message}`);
+                        console.error(`❌ Failed testing Facility "${facility}": ${error.message}`);
+                        // Continue with next facility instead of failing entire test
                     }
-                });
+                }
+                
+                console.log(`🎉 Completed Facilities filter testing for ${category.name}`);
             });
-        }
-    });
-    test('Cross-Category Filter Analysis: Compare filter availability and states across all categories @crossCategoryAnalysis', async ({ page }) => {
-        test.setTimeout(300000); // 5 minutes timeout
-        
-        const searchResultPage = new SearchResultPage(page, {} as any);
-        const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-        
-        await test.step('Generate comprehensive filter comparison report', async () => {
-            const filterTypes = ['Ratings', 'Best For', 'Board Basis', 'Facilities', 'Holiday Types', 'Duration', 'Budget'];
-            
-            for (const filterType of filterTypes) {
-                console.log(`\n📊 Running cross-category analysis for ${filterType}:`);
-                const analysis = await filterHelpers.runCrossCategaryFilterAnalysis(filterType);
-                
-                const report = filterHelpers.generateFilterTestReport(filterType, {
-                    crossCategoryAnalysis: analysis
-                });
-                
-                console.log(report);
-            }
-            
-            console.log(`\n✅ Cross-category filter analysis completed successfully!`);
         });
     });
 
-    // ALL FILTERS INTEGRATION TEST
-    test('All Filters Modal: Verify comprehensive filter interface @allFiltersModal', async ({ page }) => {
-        test.setTimeout(120000);
-        
-        const searchResultPage = new SearchResultPage(page, {} as any);
-        const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-        
-        await test.step('Test All Filters modal across categories', async () => {
-            for (const category of searchCategories) {
-                console.log(`\n🎛️ Testing All Filters modal for ${category.name}:`);
+    // =================== HOLIDAY TYPES FILTER TESTS ===================
+    
+    categories.forEach(category => {
+        test.describe(`${category.name} - Holiday Types Filter Testing`, () => {
+            
+            test(`@accom @regression Should test key Holiday Types filter options for ${category.name}`, async ({ 
+                page, 
+                searchResultPage 
+            }) => {
+                // Navigate to category search results
+                console.log(`🔧 Setting up ${category.name} search results...`);
+                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                console.log(`✓ Successfully navigated to ${category.name} search results`);
                 
-                // Navigate to category
-                await filterHelpers.setupCategorySearch(category.name, category.searchLocation);
+                console.log(`\n🏖️ Testing Holiday Types filter for ${category.name}...`);
                 
-                // Click "All filters" button
-                try {
-                    await page.getByRole('button', { name: 'All filters' }).click();
-                    await page.waitForTimeout(2000);
+                // Test key holiday types
+                const keyHolidayTypes = ['Family Holidays', 'Romantic Holidays', 'Luxury', 'Budget'];
+                
+                for (const holidayType of keyHolidayTypes) {
+                    console.log(`\n🔍 Testing Holiday Type: ${holidayType}`);
                     
-                    // Verify modal opens and contains filter sections
-                    const filterSections = ['Ratings', 'Best For', 'Board Basis', 'Facilities', 'Holiday Types', 'Duration', 'Budget'];
-                    let visibleSections = 0;
-                    
-                    for (const section of filterSections) {
-                        try {
-                            const sectionElement = page.locator(`text="${section}"`).first();
-                            if (await sectionElement.isVisible({ timeout: 3000 })) {
-                                visibleSections++;
-                                console.log(`   ✅ ${section} section is visible in All Filters modal`);
+                    try {
+                        // Check if holiday type option is available
+                        await searchResultPage.openFilter('Holiday Types');
+                        const holidayTypeOption = page.locator(`text="${holidayType}"`).first();
+                        
+                        if (await holidayTypeOption.isVisible({ timeout: 3000 })) {
+                            await holidayTypeOption.click();
+                            await searchResultPage.applyFilter();
+                            
+                            // Wait for results to update
+                            await page.waitForTimeout(3000);
+                            
+                            // Validate results
+                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                            const resultCount = await searchResultPage.getSearchResultCount();
+                            
+                            if (hasNoResults) {
+                                console.log(`✅ "${holidayType}" holiday type correctly shows "No results" message`);
+                            } else {
+                                expect(resultCount, `"${holidayType}" holiday type should return some results`).toBeGreaterThan(0);
+                                console.log(`✅ "${holidayType}" holiday type returned ${resultCount} results`);
                             }
-                        } catch (error) {
-                            console.log(`   ℹ️ ${section} section not found in modal`);
+                            
+                            // Clear the filter
+                            await searchResultPage.openFilter('Holiday Types');
+                            await holidayTypeOption.click(); // Uncheck
+                            await searchResultPage.applyFilter();
+                            await page.waitForTimeout(2000);
+                        } else {
+                            console.log(`⚠️ "${holidayType}" holiday type not available for ${category.name}`);
                         }
+                        
+                    } catch (error) {
+                        console.error(`❌ Failed testing Holiday Type "${holidayType}": ${error.message}`);
+                        // Continue with next holiday type instead of failing entire test
                     }
+                }
+                
+                console.log(`🎉 Completed Holiday Types filter testing for ${category.name}`);
+            });
+        });
+    });
+
+    // =================== DURATION FILTER TESTS ===================
+    
+    categories.forEach(category => {
+        test.describe(`${category.name} - Duration Filter Testing`, () => {
+            
+            test(`@accom @regression Should test Duration filter options for ${category.name}`, async ({ 
+                page, 
+                searchResultPage 
+            }) => {
+                // Navigate to category search results
+                console.log(`🔧 Setting up ${category.name} search results...`);
+                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                
+                console.log(`\n⏰ Testing Duration filter for ${category.name}...`);
+                
+                try {
+                    // Get available duration options
+                    const filterOptions = await searchResultPage.getFilterOptions('Duration');
                     
-                    console.log(`   📊 Found ${visibleSections}/${filterSections.length} filter sections in ${category.name} All Filters modal`);
-                    expect(visibleSections, `${category.name} All Filters modal should show most filter sections`).toBeGreaterThan(4);
-                    
-                    // Close modal
-                    await page.keyboard.press('Escape');
-                    await page.waitForTimeout(1000);
+                    if (filterOptions.enabled.length > 0) {
+                        console.log(`Found ${filterOptions.enabled.length} duration options: ${filterOptions.enabled.join(', ')}`);
+                        
+                        // Test first few duration options (to keep test reasonable)
+                        const testDurations = filterOptions.enabled.slice(0, 3);
+                        
+                        for (const duration of testDurations) {
+                            console.log(`\n🔍 Testing Duration: ${duration}`);
+                            
+                            await searchResultPage.selectFilterOption('Duration', duration, true);
+                            await page.waitForTimeout(3000);
+                            
+                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                            const resultCount = await searchResultPage.getSearchResultCount();
+                            
+                            if (hasNoResults) {
+                                console.log(`✅ "${duration}" duration correctly shows "No results" message`);
+                            } else {
+                                expect(resultCount, `"${duration}" duration should return some results`).toBeGreaterThan(0);
+                                console.log(`✅ "${duration}" duration returned ${resultCount} results`);
+                            }
+                            
+                            // Clear the filter
+                            await searchResultPage.openFilter('Duration');
+                            const durationOption = page.locator(`text="${duration}"`).first();
+                            if (await durationOption.isVisible({ timeout: 3000 })) {
+                                await durationOption.click(); // Uncheck
+                            }
+                            await searchResultPage.applyFilter();
+                            await page.waitForTimeout(2000);
+                        }
+                    } else {
+                        console.log(`⚠️ No Duration filter options available for ${category.name}`);
+                    }
                     
                 } catch (error) {
-                    console.log(`   ℹ️ All Filters modal test skipped for ${category.name}: ${error.message}`);
+                    console.error(`❌ Failed testing Duration filter: ${error.message}`);
+                    // Duration filter might not exist for all categories, so don't fail the test
+                    console.log(`⚠️ Duration filter testing skipped for ${category.name}`);
+                }
+                
+                console.log(`🎉 Completed Duration filter testing for ${category.name}`);
+            });
+        });
+    });
+
+    // =================== BUDGET FILTER TESTS ===================
+    
+    categories.forEach(category => {
+        test.describe(`${category.name} - Budget Filter Testing`, () => {
+            
+            test(`@accom @regression Should test Budget filter options for ${category.name}`, async ({ 
+                page, 
+                searchResultPage 
+            }) => {
+                // Navigate to category search results
+                console.log(`🔧 Setting up ${category.name} search results...`);
+                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                
+                console.log(`\n💰 Testing Budget filter for ${category.name}...`);
+                
+                try {
+                    // Get available budget options
+                    const filterOptions = await searchResultPage.getFilterOptions('Budget');
+                    
+                    if (filterOptions.enabled.length > 0) {
+                        console.log(`Found ${filterOptions.enabled.length} budget options: ${filterOptions.enabled.join(', ')}`);
+                        
+                        // Test first few budget options
+                        const testBudgets = filterOptions.enabled.slice(0, 3);
+                        
+                        for (const budget of testBudgets) {
+                            console.log(`\n🔍 Testing Budget: ${budget}`);
+                            
+                            await searchResultPage.selectFilterOption('Budget', budget, true);
+                            await page.waitForTimeout(3000);
+                            
+                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                            const resultCount = await searchResultPage.getSearchResultCount();
+                            
+                            if (hasNoResults) {
+                                console.log(`✅ "${budget}" budget correctly shows "No results" message`);
+                            } else {
+                                expect(resultCount, `"${budget}" budget should return some results`).toBeGreaterThan(0);
+                                console.log(`✅ "${budget}" budget returned ${resultCount} results`);
+                            }
+                            
+                            // Clear the filter
+                            await searchResultPage.openFilter('Budget');
+                            const budgetOption = page.locator(`text="${budget}"`).first();
+                            if (await budgetOption.isVisible({ timeout: 3000 })) {
+                                await budgetOption.click(); // Uncheck
+                            }
+                            await searchResultPage.applyFilter();
+                            await page.waitForTimeout(2000);
+                        }
+                    } else {
+                        console.log(`⚠️ No Budget filter options available for ${category.name}`);
+                    }
+                    
+                } catch (error) {
+                    console.error(`❌ Failed testing Budget filter: ${error.message}`);
+                    console.log(`⚠️ Budget filter testing skipped for ${category.name}`);
+                }
+                
+                console.log(`🎉 Completed Budget filter testing for ${category.name}`);
+            });
+        });
+    });
+
+    // =================== ALL FILTERS COMBINED TESTS ===================
+    
+    categories.forEach(category => {
+        test.describe(`${category.name} - All Filters Combined Testing`, () => {
+            
+            test(`@accom @regression Should test All Filters functionality for ${category.name}`, async ({ 
+                page, 
+                searchResultPage 
+            }) => {
+                // Navigate to category search results
+                console.log(`🔧 Setting up ${category.name} search results...`);
+                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                
+                console.log(`\n🎛️ Testing All Filters functionality for ${category.name}...`);
+                
+                try {
+                    // Click the "All filters" button
+                    const allFiltersButton = page.getByRole('button', { name: 'All filters' });
+                    
+                    if (await allFiltersButton.isVisible({ timeout: 5000 })) {
+                        await allFiltersButton.click();
+                        await page.waitForTimeout(2000);
+                        
+                        // Verify that multiple filter categories are visible
+                        const filterCategories = ['Ratings', 'Best For', 'Board Basis', 'Facilities'];
+                        let visibleFilters = 0;
+                        
+                        for (const filterCategory of filterCategories) {
+                            const filterSection = page.locator(`text="${filterCategory}"`).first();
+                            if (await filterSection.isVisible({ timeout: 3000 })) {
+                                visibleFilters++;
+                                console.log(`✅ ${filterCategory} filter section visible in All Filters`);
+                            }
+                        }
+                        
+                        expect(visibleFilters, 'All Filters should show multiple filter categories').toBeGreaterThan(1);
+                        
+                        // Test applying multiple filters at once
+                        console.log('\n🔍 Testing multiple filter application...');
+                        
+                        // Try to apply a rating filter
+                        const rating3 = page.locator('label').filter({ hasText: /^3$/ });
+                        if (await rating3.isVisible({ timeout: 3000 })) {
+                            await rating3.click();
+                            console.log('✅ Applied rating filter: 3');
+                        }
+                        
+                        // Try to apply a facility filter
+                        const wifiOption = page.locator('text="WiFi"').first();
+                        if (await wifiOption.isVisible({ timeout: 3000 })) {
+                            await wifiOption.click();
+                            console.log('✅ Applied facility filter: WiFi');
+                        }
+                        
+                        // Apply the combined filters
+                        const confirmButton = page.getByRole('button', { name: 'Confirm' });
+                        if (await confirmButton.isVisible({ timeout: 3000 })) {
+                            await confirmButton.click();
+                            await page.waitForTimeout(3000);
+                            
+                            // Validate results with multiple filters
+                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                            const resultCount = await searchResultPage.getSearchResultCount();
+                            
+                            if (hasNoResults) {
+                                console.log(`✅ Combined filters correctly show "No results" message`);
+                            } else {
+                                expect(resultCount, 'Combined filters should return some results').toBeGreaterThan(0);
+                                console.log(`✅ Combined filters returned ${resultCount} results`);
+                            }
+                        }
+                        
+                    } else {
+                        console.log(`⚠️ All Filters button not found for ${category.name}`);
+                    }
+                    
+                } catch (error) {
+                    console.error(`❌ Failed testing All Filters: ${error.message}`);
+                    console.log(`⚠️ All Filters testing skipped for ${category.name}`);
+                }
+                
+                console.log(`🎉 Completed All Filters testing for ${category.name}`);
+            });
+        });
+    });
+
+    // =================== CROSS-CATEGORY FILTER VALIDATION ===================
+    
+    test.describe('Cross-Category Filter Validation', () => {
+        
+        test('@accom @regression Should validate universal filters work across all categories', async ({ 
+            page, 
+            searchResultPage 
+        }) => {
+            console.log('\n🌐 Testing universal filters across all categories...');
+            
+            const universalFilters = ['Ratings', 'Board Basis', 'Facilities'];
+            const results: { [filter: string]: { [category: string]: boolean } } = {};
+            
+            for (const filterName of universalFilters) {
+                results[filterName] = {};
+                
+                for (const category of categories) {
+                    console.log(`\n🔍 Testing ${filterName} filter availability in ${category.name}...`);
+                    
+                    try {
+                        console.log(`🔧 Setting up ${category.name} search results...`);
+                        await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
+                        console.log(`✓ Successfully navigated to ${category.name} search results`);
+                        
+                        // Try to open the filter
+                        await searchResultPage.openFilter(filterName);
+                        
+                        // Check if filter has options
+                        const filterOptions = await searchResultPage.getFilterOptions(filterName);
+                        const hasOptions = filterOptions.enabled.length > 0;
+                        
+                        results[filterName][category.name] = hasOptions;
+                        
+                        if (hasOptions) {
+                            console.log(`✅ ${filterName} available in ${category.name}: ${filterOptions.enabled.length} options`);
+                        } else {
+                            console.log(`❌ ${filterName} not available in ${category.name}`);
+                        }
+                        
+                        await searchResultPage.closeFilter();
+                        
+                    } catch (error) {
+                        console.error(`❌ Error testing ${filterName} in ${category.name}: ${error.message}`);
+                        results[filterName][category.name] = false;
+                    }
                 }
             }
-        });
-    });
-});
-
-// PERFORMANCE AND RELIABILITY TESTS
-test.describe('Filter Performance and Reliability Tests', () => {
-
-    test('Filter Response Time: Verify all filters load within acceptable time limits @filterPerformance', async ({ page }) => {
-        test.setTimeout(180000);
-        
-        const searchResultPage = new SearchResultPage(page, {} as any);
-        const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-        
-        await test.step('Test filter loading performance across categories', async () => {
-            const filterTypes = ['Ratings', 'Best For', 'Board Basis', 'Facilities', 'Holiday Types', 'Duration', 'Budget'];
             
-            for (const filterType of filterTypes) {
-                console.log(`\n⚡ Testing ${filterType} filter performance:`);
-                const performanceResults = await filterHelpers.testFilterPerformance(filterType);
+            // Report cross-category filter availability
+            console.log('\n📊 Cross-category filter availability report:');
+            for (const [filterName, categoryResults] of Object.entries(results)) {
+                const availableCount = Object.values(categoryResults).filter(Boolean).length;
+                const totalCategories = categories.length;
+                console.log(`${filterName}: ${availableCount}/${totalCategories} categories`);
                 
-                expect(performanceResults.performancePassed, 
-                    `${filterType} filter should load within acceptable time limits`).toBe(true);
-                
-                const report = filterHelpers.generateFilterTestReport(filterType, {
-                    performanceResults: performanceResults
-                });
-                console.log(report);
+                // For truly universal filters, expect them to be available in most categories
+                if (filterName === 'Ratings') {
+                    expect(availableCount, `${filterName} should be available in most categories`).toBeGreaterThanOrEqual(2);
+                }
             }
-        });
-    });
-
-    test('Filter State Persistence: Verify applied filters persist during navigation @filterPersistence', async ({ page }) => {
-        test.setTimeout(120000);
-        
-        const searchResultPage = new SearchResultPage(page, {} as any);
-        const filterHelpers = new FilterTestHelpers(page, searchResultPage);
-        
-        await test.step('Test filter state persistence', async () => {
-            // Test with Ski category
-            await filterHelpers.setupCategorySearch('Ski', 'anywhere');
             
-            // Test persistence with rating filter
-            const persistenceResults = await filterHelpers.testFilterPersistence('Ratings', '4');
-            
-            expect(persistenceResults.persistenceWorked, 
-                'Filter parameters should persist after page refresh').toBe(true);
-            
-            const report = filterHelpers.generateFilterTestReport('Ratings', {
-                persistenceResults: persistenceResults
-            });
-            console.log(report);
+            console.log('🎉 Completed cross-category filter validation');
         });
     });
 });

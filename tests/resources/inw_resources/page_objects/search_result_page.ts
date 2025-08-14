@@ -87,6 +87,173 @@ export class SearchResultPage {
         this.nightsValue = page.locator('.nights-btn')
     }
 
+    // =================== NAVIGATION METHODS ===================
+
+    /**
+     * Navigates to search results for a specific category
+     * @param categoryName - The category to search (Ski, Walking, Lapland)
+     * @param searchLocation - Location to search (default: 'anywhere')
+     */
+    async navigateToSearchResults(categoryName: string, searchLocation: string = 'anywhere'): Promise<void> {
+        console.log(`🔧 Navigating to ${categoryName} search results...`);
+        
+        // Navigate to the base URL
+        await this.page.goto('/');
+        await this.page.waitForLoadState('domcontentloaded');
+        
+        // Click the category tab
+        await this.clickSearchProductTab(categoryName);
+        await this.page.waitForTimeout(1000);
+        
+        // Perform search
+        await this.clickSearchHolidayBtn();
+        
+        // Wait for search results to load
+        await this.validateSearchResultPageUrl();
+        await this.waitForAccommodationResults();
+        
+        console.log(`✓ Successfully navigated to ${categoryName} search results`);
+    }
+
+    /**
+     * Waits for accommodation results to load on the page
+     */
+    async waitForAccommodationResults(): Promise<void> {
+        console.log('⏳ Waiting for accommodation results to load...');
+        
+        // Wait for accommodation cards to be visible with multiple fallback strategies
+        const selectors = [
+            '.c-search-card',
+            '[data-testid="accommodation-card"]',
+            '.search-card',
+            '.accommodation-card',
+            '[class*="search-card"]'
+        ];
+        
+        let resultsFound = false;
+        for (const selector of selectors) {
+            try {
+                await this.page.locator(selector).first().waitFor({ 
+                    state: 'visible', 
+                    timeout: 10000 
+                });
+                resultsFound = true;
+                console.log(`✓ Accommodation results loaded (selector: ${selector})`);
+                break;
+            } catch (error) {
+                console.warn(`Could not find results with selector: ${selector}`);
+            }
+        }
+        
+        if (!resultsFound) {
+            // Check for "no results" message
+            const noResultsMessages = [
+                'No results matching your',
+                'No accommodations found',
+                'No holidays found',
+                'Sorry, no results'
+            ];
+            
+            for (const message of noResultsMessages) {
+                const noResultsElement = this.page.getByText(message);
+                if (await noResultsElement.isVisible({ timeout: 3000 })) {
+                    console.warn(`⚠️ No search results found: ${message}`);
+                    return;
+                }
+            }
+            
+            throw new Error('Could not find accommodation results or no-results message');
+        }
+    }
+
+    /**
+     * Checks if accommodation ratings match the applied filter
+     * @param expectedRating - The rating that should be displayed
+     */
+    async validateAccommodationRatings(expectedRating: string): Promise<{ isValid: boolean; actualRatings: string[]; invalidCards: number }> {
+        console.log(`🔍 Validating accommodation ratings match filter: ${expectedRating}`);
+        
+        const ratingSelectors = [
+            '.rating > span',
+            '[data-testid="rating"]',
+            '.star-rating',
+            '.accommodation-rating',
+            '[class*="rating"] span'
+        ];
+        
+        let actualRatings: string[] = [];
+        let invalidCards = 0;
+        
+        // Get all accommodation cards
+        const accommodationCards = this.page.locator('.c-search-card, [data-testid="accommodation-card"], .search-card').all();
+        const cards = await accommodationCards;
+        
+        for (let i = 0; i < cards.length; i++) {
+            const card = cards[i];
+            let ratingFound = false;
+            
+            for (const selector of ratingSelectors) {
+                try {
+                    const ratingElement = card.locator(selector).first();
+                    if (await ratingElement.isVisible({ timeout: 1000 })) {
+                        const ratingText = await ratingElement.textContent();
+                        if (ratingText && ratingText.trim()) {
+                            actualRatings.push(ratingText.trim());
+                            
+                            // Check if rating matches expected
+                            if (!ratingText.includes(expectedRating)) {
+                                invalidCards++;
+                                console.warn(`❌ Card ${i + 1}: Expected rating ${expectedRating}, found ${ratingText}`);
+                            } else {
+                                console.log(`✅ Card ${i + 1}: Rating ${ratingText} matches filter`);
+                            }
+                            ratingFound = true;
+                            break;
+                        }
+                    }
+                } catch (error) {
+                    // Continue to next selector
+                }
+            }
+            
+            if (!ratingFound) {
+                console.warn(`⚠️ Card ${i + 1}: No rating found`);
+                invalidCards++;
+            }
+        }
+        
+        const isValid = invalidCards === 0 && actualRatings.length > 0;
+        console.log(`📊 Rating validation: ${actualRatings.length - invalidCards}/${actualRatings.length} cards match, ${invalidCards} invalid`);
+        
+        return { isValid, actualRatings, invalidCards };
+    }
+
+    /**
+     * Checks for "No results" message when filters return no matches
+     */
+    async validateNoResultsMessage(): Promise<boolean> {
+        console.log('🔍 Checking for no results message...');
+        
+        const noResultsMessages = [
+            'No results matching your',
+            'No accommodations found',
+            'No holidays found',
+            'Sorry, no results',
+            'No results found'
+        ];
+        
+        for (const message of noResultsMessages) {
+            const element = this.page.getByText(message);
+            if (await element.isVisible({ timeout: 3000 })) {
+                console.log(`✅ No results message found: ${message}`);
+                return true;
+            }
+        }
+        
+        console.log('❌ No results message not found');
+        return false;
+    }
+
     async validateSearchResultPageUrl() {
         await this.page.waitForLoadState('domcontentloaded')
         await expect(this.page, 'User successfully navigated to Search result page').toHaveURL(/.*search-results/);
@@ -954,14 +1121,64 @@ export class SearchResultPage {
     // =================== ENHANCED FILTER METHODS FOR COMPREHENSIVE TESTING ===================
 
     /**
-     * Opens a specific filter by name
+     * Opens a specific filter by name with enhanced modal handling
      * @param filterName - Name of the filter to open (e.g., 'Ratings', 'Best For')
      * @param waitTime - Optional wait time after opening filter
      */
     async openFilter(filterName: string, waitTime: number = 1000): Promise<void> {
+        // First, handle any existing modals or overlays
+        await this.page.keyboard.press('Escape');
+        await this.page.waitForTimeout(300);
+        
+        // Check for and close any modal overlays that might block clicks
+        const modalSelectors = ['.c-modal', '.filter__modal', '[role="dialog"]', '.modal-overlay', '.c-modal-mask'];
+        for (const selector of modalSelectors) {
+            const modal = this.page.locator(selector);
+            if (await modal.isVisible({ timeout: 1000 })) {
+                console.log(`Closing modal: ${selector}`);
+                await this.page.keyboard.press('Escape');
+                await this.page.waitForTimeout(500);
+                break;
+            }
+        }
+        
+        // Locate the filter button with enhanced stability
         const filterButton = this.page.getByRole('button', { name: filterName });
+        
+        // Wait for the button to be present and stable
         await expect(filterButton).toBeVisible({ timeout: 10000 });
-        await filterButton.click();
+        
+        // Check if button is actually clickable (not blocked by overlays)
+        let clickAttempts = 0;
+        const maxAttempts = 3;
+        
+        while (clickAttempts < maxAttempts) {
+            try {
+                await filterButton.click({ timeout: 5000 });
+                console.log(`✓ Successfully clicked ${filterName} filter button`);
+                break;
+            } catch (error) {
+                clickAttempts++;
+                console.log(`Attempt ${clickAttempts}/${maxAttempts} - ${filterName} filter click failed: ${error.message}`);
+                
+                if (clickAttempts < maxAttempts) {
+                    // Try to clear any interfering elements
+                    await this.page.keyboard.press('Escape');
+                    await this.page.waitForTimeout(500);
+                    
+                    // If still blocked, try force clicking at coordinates
+                    const buttonBox = await filterButton.boundingBox();
+                    if (buttonBox) {
+                        await this.page.mouse.click(buttonBox.x + buttonBox.width / 2, buttonBox.y + buttonBox.height / 2);
+                        console.log(`Attempted force click on ${filterName} filter button`);
+                        break;
+                    }
+                } else {
+                    throw new Error(`Failed to click ${filterName} filter button after ${maxAttempts} attempts: ${error.message}`);
+                }
+            }
+        }
+        
         await this.page.waitForTimeout(waitTime);
     }
 
@@ -1286,18 +1503,6 @@ export class SearchResultPage {
     }
 
     // =================== ENHANCED REUSABLE METHODS FOR PROPER POM ===================
-
-    /**
-     * High-level method to navigate to search results for any category
-     * @param category - Category to search (Ski, Walking, Lapland)
-     * @param searchLocation - Location to search for (default: 'anywhere')
-     */
-    async navigateToSearchResults(category: string, searchLocation: string = 'anywhere'): Promise<void> {
-        await this.clickSearchProductTab(category);
-        await this.searchAnywhere(searchLocation);
-        await this.clickSearchHolidayBtn();
-        await this.validateSearchResultPageUrl();
-    }
 
     /**
      * Validates that all specified filter options are enabled

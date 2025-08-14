@@ -103,296 +103,57 @@ export class FilterTestHelpers {
     }
 
     /**
-     * Validates a universal filter (one that should work the same across all categories)
+     * Gets valid rating options (filters out non-numeric values)
      */
-    async validateUniversalFilter(
+    async getValidRatingOptions(): Promise<string[]> {
+        const filterOptions = await this.searchResultPage.getFilterOptions('Ratings');
+        return filterOptions.enabled.filter(option => /^[1-5](\.[5])?$/.test(option));
+    }
+
+    /**
+     * Tests a single filter option and validates results
+     */
+    async testSingleFilterOption(
         filterName: string, 
-        expectedOptions: string[], 
-        testOption?: string
-    ): Promise<{
-        validationPassed: boolean;
-        enabledCount: number;
-        applicationWorked: boolean;
-    }> {
-        console.log(`\n🌐 Testing universal filter: ${filterName}`);
-        
-        // Validate all options are enabled
-        const validation = await this.searchResultPage.validateFilterOptions(filterName, expectedOptions);
-        
-        let applicationWorked = false;
-        
-        // Test application if test option provided
-        if (testOption && validation.allOptionsEnabled) {
-            try {
-                const result = await this.searchResultPage.applyFilterAndValidate(
-                    filterName, 
-                    testOption,
-                    { expectUrlUpdate: true }
-                );
-                applicationWorked = result.applied && result.urlUpdated;
-                
-                // Reset filter
-                await this.searchResultPage.resetFilter(filterName, testOption);
-            } catch (error) {
-                console.warn(`⚠️ Filter application test failed: ${error.message}`);
-            }
-        }
-        
-        return {
-            validationPassed: validation.allOptionsEnabled,
-            enabledCount: validation.enabledCount,
-            applicationWorked
-        };
-    }
-
-    /**
-     * Validates a category-specific filter with expected enabled/disabled states
-     */
-    async validateCategorySpecificFilter(
-        filterName: string,
-        categoryConfig: { enabled: string[]; disabled: string[] },
-        testOption?: string
-    ): Promise<{
-        validationPassed: boolean;
-        enabledMatches: number;
-        applicationWorked: boolean;
-    }> {
-        console.log(`\n🎯 Testing category-specific filter: ${filterName}`);
-        
-        const validation = await this.searchResultPage.validateCategorySpecificFilter(filterName, categoryConfig);
-        
-        let applicationWorked = false;
-        
-        // Test application with first enabled option if no test option provided
-        const optionToTest = testOption || categoryConfig.enabled[0];
-        
-        if (optionToTest && validation.validationPassed) {
-            try {
-                const result = await this.searchResultPage.applyFilterAndValidate(
-                    filterName,
-                    optionToTest,
-                    { expectUrlUpdate: true }
-                );
-                applicationWorked = result.applied && result.urlUpdated;
-                
-                // Reset filter
-                await this.searchResultPage.resetFilter(filterName, optionToTest);
-            } catch (error) {
-                console.warn(`⚠️ Filter application test failed: ${error.message}`);
-            }
-        }
-        
-        return {
-            validationPassed: validation.validationPassed,
-            enabledMatches: validation.enabledMatches,
-            applicationWorked
-        };
-    }
-
-    /**
-     * Runs a comprehensive filter test across all categories
-     */
-    async runCrossCategaryFilterAnalysis(filterName: string): Promise<{
-        categoriesWithFilter: string[];
-        universalFilter: boolean;
-        categorySpecificBehavior: { [category: string]: any };
-    }> {
-        const categoryResults: { [category: string]: any } = {};
-        const categoriesWithFilter: string[] = [];
-        
-        console.log(`\n📊 Running cross-category analysis for ${filterName} filter:`);
-        
-        for (const category of FilterTestData.categories) {
-            try {
-                // Setup category
-                await this.setupCategorySearch(category.name);
-                
-                // Test if filter exists
-                await this.searchResultPage.openFilter(filterName);
-                const filterOptions = await this.searchResultPage.getFilterOptions(filterName);
-                await this.searchResultPage.closeFilter();
-                
-                if (filterOptions.total > 0) {
-                    categoriesWithFilter.push(category.name);
-                    categoryResults[category.name] = {
-                        available: true,
-                        enabledOptions: filterOptions.enabled,
-                        disabledOptions: filterOptions.disabled,
-                        totalOptions: filterOptions.total
-                    };
-                    
-                    console.log(`   ✅ ${category.name}: ${filterOptions.enabled.length} enabled, ${filterOptions.disabled.length} disabled`);
-                } else {
-                    categoryResults[category.name] = { available: false };
-                    console.log(`   ❌ ${category.name}: Filter not available`);
-                }
-                
-            } catch (error) {
-                categoryResults[category.name] = { available: false, error: error.message };
-                console.log(`   ❌ ${category.name}: Error testing filter - ${error.message}`);
-            }
-        }
-        
-        const universalFilter = categoriesWithFilter.length === FilterTestData.categories.length;
-        
-        console.log(`\n📋 Analysis Summary for ${filterName}:`);
-        console.log(`   - Available in: ${categoriesWithFilter.join(', ')}`);
-        console.log(`   - Universal filter: ${universalFilter ? 'Yes' : 'No'}`);
-        
-        return {
-            categoriesWithFilter,
-            universalFilter,
-            categorySpecificBehavior: categoryResults
-        };
-    }
-
-    /**
-     * Tests filter performance across categories
-     */
-    async testFilterPerformance(filterName: string): Promise<{
-        averageLoadTime: number;
-        maxLoadTime: number;
-        performancePassed: boolean;
-        categoryResults: { [category: string]: number };
-    }> {
-        const loadTimes: { [category: string]: number } = {};
-        let totalTime = 0;
-        let maxTime = 0;
-        
-        console.log(`\n⚡ Testing performance for ${filterName} filter:`);
-        
-        for (const category of FilterTestData.categories) {
-            try {
-                await this.setupCategorySearch(category.name);
-                
-                const loadTime = await this.searchResultPage.measureFilterLoadTime(filterName);
-                loadTimes[category.name] = loadTime;
-                totalTime += loadTime;
-                maxTime = Math.max(maxTime, loadTime);
-                
-                console.log(`   ${category.name}: ${loadTime}ms`);
-                
-            } catch (error) {
-                console.log(`   ${category.name}: Performance test failed - ${error.message}`);
-                loadTimes[category.name] = -1;
-            }
-        }
-        
-        const averageLoadTime = totalTime / Object.keys(loadTimes).length;
-        const performancePassed = maxTime <= FilterTestData.performanceThresholds.filterLoadTime;
-        
-        console.log(`\n📊 Performance Summary for ${filterName}:`);
-        console.log(`   - Average: ${averageLoadTime.toFixed(0)}ms`);
-        console.log(`   - Maximum: ${maxTime}ms`);
-        console.log(`   - Performance: ${performancePassed ? 'PASSED' : 'FAILED'}`);
-        
-        return {
-            averageLoadTime,
-            maxLoadTime: maxTime,
-            performancePassed,
-            categoryResults: loadTimes
-        };
-    }
-
-    /**
-     * Validates filter state persistence after page refresh
-     */
-    async testFilterPersistence(filterName: string, testOption: string): Promise<{
-        persistenceWorked: boolean;
-        urlPersisted: boolean;
-        filterStillApplied: boolean;
-    }> {
-        console.log(`\n🔄 Testing filter persistence for ${filterName}:`);
-        
+        optionValue: string, 
+        expectResults: boolean = true
+    ): Promise<{ success: boolean; resultCount: number; hasNoResults: boolean }> {
         try {
-            // Apply filter
-            const applyResult = await this.searchResultPage.applyFilterAndValidate(
-                filterName,
-                testOption,
-                { expectUrlUpdate: true }
-            );
+            // Apply the filter option
+            await this.searchResultPage.selectFilterOption(filterName, optionValue, true);
             
-            if (!applyResult.applied) {
-                throw new Error('Filter application failed');
-            }
-            
-            const urlWithFilter = this.page.url();
-            console.log(`   ✅ Applied filter, URL: ${urlWithFilter}`);
-            
-            // Refresh page
-            await this.page.reload();
-            await this.page.waitForLoadState('domcontentloaded');
+            // Wait for results to update
             await this.page.waitForTimeout(3000);
             
-            const urlAfterRefresh = this.page.url();
-            const urlPersisted = urlAfterRefresh.includes('filter') || urlAfterRefresh.includes(testOption.toLowerCase());
+            // Check results
+            const hasNoResults = await this.searchResultPage.validateNoResultsMessage();
+            const resultCount = hasNoResults ? 0 : await this.searchResultPage.getSearchResultCount();
             
-            // Check if filter tag is still visible
-            const filterStillApplied = await this.searchResultPage.isFilterTagVisible(testOption);
+            console.log(`✅ "${optionValue}" filter: ${hasNoResults ? 'No results' : `${resultCount} results`}`);
             
-            console.log(`   📋 After refresh: URL persisted: ${urlPersisted}, Filter applied: ${filterStillApplied}`);
-            
-            return {
-                persistenceWorked: urlPersisted && filterStillApplied,
-                urlPersisted,
-                filterStillApplied
-            };
+            return { success: true, resultCount, hasNoResults };
             
         } catch (error) {
-            console.error(`   ❌ Persistence test failed: ${error.message}`);
-            return {
-                persistenceWorked: false,
-                urlPersisted: false,
-                filterStillApplied: false
-            };
+            console.error(`❌ Failed testing "${optionValue}": ${error.message}`);
+            return { success: false, resultCount: 0, hasNoResults: false };
         }
     }
 
     /**
-     * Generates a comprehensive test report for a filter
+     * Clears a filter option
      */
-    generateFilterTestReport(
-        filterName: string,
-        results: {
-            crossCategoryAnalysis?: any;
-            performanceResults?: any;
-            persistenceResults?: any;
-            validationResults?: { [category: string]: any };
+    async clearFilterOption(filterName: string, optionValue: string): Promise<void> {
+        try {
+            await this.searchResultPage.openFilter(filterName);
+            const optionElement = this.page.locator(`text="${optionValue}"`).first();
+            if (await optionElement.isVisible({ timeout: 3000 })) {
+                await optionElement.click(); // Uncheck/unselect
+            }
+            await this.searchResultPage.applyFilter();
+            await this.page.waitForTimeout(2000);
+        } catch (error) {
+            console.warn(`⚠️ Could not clear filter option "${optionValue}": ${error.message}`);
         }
-    ): string {
-        let report = `\n🎯 COMPREHENSIVE TEST REPORT: ${filterName.toUpperCase()} FILTER\n`;
-        report += `================================================================\n`;
-        
-        if (results.crossCategoryAnalysis) {
-            report += `\n📊 CROSS-CATEGORY AVAILABILITY:\n`;
-            report += `   - Available in: ${results.crossCategoryAnalysis.categoriesWithFilter.join(', ')}\n`;
-            report += `   - Universal filter: ${results.crossCategoryAnalysis.universalFilter ? 'YES' : 'NO'}\n`;
-        }
-        
-        if (results.performanceResults) {
-            report += `\n⚡ PERFORMANCE ANALYSIS:\n`;
-            report += `   - Average load time: ${results.performanceResults.averageLoadTime.toFixed(0)}ms\n`;
-            report += `   - Maximum load time: ${results.performanceResults.maxLoadTime}ms\n`;
-            report += `   - Performance status: ${results.performanceResults.performancePassed ? 'PASSED' : 'FAILED'}\n`;
-        }
-        
-        if (results.persistenceResults) {
-            report += `\n🔄 PERSISTENCE TESTING:\n`;
-            report += `   - URL persistence: ${results.persistenceResults.urlPersisted ? 'PASSED' : 'FAILED'}\n`;
-            report += `   - Filter state persistence: ${results.persistenceResults.filterStillApplied ? 'PASSED' : 'FAILED'}\n`;
-            report += `   - Overall persistence: ${results.persistenceResults.persistenceWorked ? 'PASSED' : 'FAILED'}\n`;
-        }
-        
-        if (results.validationResults) {
-            report += `\n✅ VALIDATION RESULTS BY CATEGORY:\n`;
-            Object.entries(results.validationResults).forEach(([category, result]: [string, any]) => {
-                report += `   ${category}: ${result.validationPassed ? 'PASSED' : 'FAILED'} (${result.enabledCount || 0} options validated)\n`;
-            });
-        }
-        
-        report += `\n================================================================\n`;
-        
-        return report;
     }
 }
 
