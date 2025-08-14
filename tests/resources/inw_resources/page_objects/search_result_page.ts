@@ -1394,6 +1394,147 @@ export class SearchResultPage {
     }
 
     /**
+     * Validates accommodation tags for Best For filter testing
+     * @param expectedTag - The filter tag that should appear on accommodations
+     * @returns Object with validation results and accommodation details
+     */
+    async validateAccommodationTags(expectedTag: string): Promise<{
+        totalCards: number;
+        cardsWithTag: number;
+        cardsWithoutTag: number;
+        accommodationsWithoutTag: string[];
+        validationPassed: boolean;
+    }> {
+        console.log(`🔍 Validating accommodations have "${expectedTag}" tag...`);
+        
+        try {
+            // Wait for results to load
+            await this.page.waitForTimeout(2000);
+            
+            // Get all accommodation cards
+            const accommodationCards = this.page.locator(
+                '[data-testid="accommodation-card"], .accommodation-card, .search-card, .result-card, .c-search-card'
+            );
+            
+            const totalCards = await accommodationCards.count();
+            console.log(`📊 Found ${totalCards} accommodation cards to validate`);
+            
+            if (totalCards === 0) {
+                return {
+                    totalCards: 0,
+                    cardsWithTag: 0,
+                    cardsWithoutTag: 0,
+                    accommodationsWithoutTag: [],
+                    validationPassed: true // No cards means validation passes (empty state)
+                };
+            }
+            
+            let cardsWithTag = 0;
+            const accommodationsWithoutTag: string[] = [];
+            
+            // Check each accommodation card for the expected tag
+            for (let i = 0; i < totalCards; i++) {
+                try {
+                    const card = accommodationCards.nth(i);
+                    
+                    // Get accommodation name
+                    const nameSelectors = [
+                        '.c-header-h3',
+                        '.accommodation-name',
+                        '.search-card-title',
+                        'h3',
+                        '[data-testid="accommodation-name"]'
+                    ];
+                    
+                    let accommodationName = `Accommodation ${i + 1}`;
+                    for (const nameSelector of nameSelectors) {
+                        try {
+                            const nameElement = card.locator(nameSelector).first();
+                            if (await nameElement.isVisible({ timeout: 1000 })) {
+                                const name = await nameElement.textContent();
+                                if (name && name.trim()) {
+                                    accommodationName = name.trim();
+                                    break;
+                                }
+                            }
+                        } catch (error) {
+                            continue;
+                        }
+                    }
+                    
+                    // Check if the card contains the expected tag in pills/tags section
+                    const tagSelectors = [
+                        `.pill:has-text("${expectedTag}")`,
+                        `.tag:has-text("${expectedTag}")`,
+                        `.c-pill:has-text("${expectedTag}")`,
+                        `[data-testid="accommodation-tag"]:has-text("${expectedTag}")`,
+                        `text="${expectedTag}"`
+                    ];
+                    
+                    let hasTag = false;
+                    for (const tagSelector of tagSelectors) {
+                        try {
+                            const tagElement = card.locator(tagSelector).first();
+                            if (await tagElement.isVisible({ timeout: 1000 })) {
+                                hasTag = true;
+                                break;
+                            }
+                        } catch (error) {
+                            continue;
+                        }
+                    }
+                    
+                    if (hasTag) {
+                        cardsWithTag++;
+                        console.log(`✅ "${accommodationName}" has "${expectedTag}" tag`);
+                    } else {
+                        accommodationsWithoutTag.push(accommodationName);
+                        console.log(`⚠️ "${accommodationName}" does NOT have "${expectedTag}" tag`);
+                    }
+                    
+                } catch (error) {
+                    console.warn(`⚠️ Error validating card ${i + 1}: ${error.message}`);
+                    accommodationsWithoutTag.push(`Accommodation ${i + 1} (validation error)`);
+                }
+            }
+            
+            const cardsWithoutTag = totalCards - cardsWithTag;
+            const validationPassed = cardsWithoutTag === 0;
+            
+            console.log(`📊 Tag validation summary:`);
+            console.log(`   - Total cards: ${totalCards}`);
+            console.log(`   - Cards with "${expectedTag}" tag: ${cardsWithTag}`);
+            console.log(`   - Cards without tag: ${cardsWithoutTag}`);
+            console.log(`   - Validation passed: ${validationPassed ? 'YES' : 'NO'}`);
+            
+            if (accommodationsWithoutTag.length > 0) {
+                console.log(`🔍 Accommodations without "${expectedTag}" tag:`);
+                accommodationsWithoutTag.forEach((name, index) => {
+                    console.log(`   ${index + 1}. ${name}`);
+                });
+            }
+            
+            return {
+                totalCards,
+                cardsWithTag,
+                cardsWithoutTag,
+                accommodationsWithoutTag,
+                validationPassed
+            };
+            
+        } catch (error) {
+            console.error(`❌ Error validating accommodation tags: ${error.message}`);
+            return {
+                totalCards: 0,
+                cardsWithTag: 0,
+                cardsWithoutTag: 0,
+                accommodationsWithoutTag: [],
+                validationPassed: false
+            };
+        }
+    }
+
+    /**
      * Gets the count of search results after filter application
      * @returns Number of results or -1 if count cannot be determined
      */
