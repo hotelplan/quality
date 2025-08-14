@@ -49,7 +49,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
         await page.setViewportSize({ width: 1920, height: 1080 });
     });
 
-    // =================== RATINGS FILTER TESTS ===================
+    // =================== RATINGS FILTER TESTS ===================//
     
     categories.forEach(category => {
         test.describe(`${category.name} - Ratings Filter Testing`, () => {
