@@ -254,6 +254,97 @@ export class SearchResultPage {
         return false;
     }
 
+    /**
+     * Validates that accommodations have the expected Board Basis type
+     * @param expectedBoardBasis - The Board Basis type that should be displayed
+     */
+    async validateAccommodationBoardBasis(expectedBoardBasis: string): Promise<{
+        isValid: boolean;
+        totalCards: number;
+        cardsWithBoardBasis: number;
+        cardsWithoutBoardBasis: number;
+        accommodationsWithoutBoardBasis: string[];
+    }> {
+        console.log(`🔍 Validating accommodations have "${expectedBoardBasis}" board basis...`);
+        
+        try {
+            // Wait for accommodation cards to load
+            await this.page.waitForSelector('.c-search-card', { timeout: 10000 });
+            
+            // Get all accommodation cards
+            const accommodationCards = this.page.locator('.c-search-card');
+            const cardCount = await accommodationCards.count();
+            console.log(`📊 Found ${cardCount} accommodation cards to validate`);
+            
+            let cardsWithBoardBasis = 0;
+            let cardsWithoutBoardBasis = 0;
+            const accommodationsWithoutBoardBasis: string[] = [];
+            
+            // Check each accommodation card
+            for (let i = 0; i < cardCount; i++) {
+                const card = accommodationCards.nth(i);
+                
+                // Get accommodation name
+                const nameElement = card.locator('h3, .c-search-card__title, [data-testid="accommodation-title"]').first();
+                const accommodationName = await nameElement.textContent() || `Accommodation ${i + 1}`;
+                
+                // Check for Board Basis information in the card
+                const boardBasisElement = card.locator('.c-search-card--resorts__board-basis');
+                
+                if (await boardBasisElement.isVisible({ timeout: 2000 })) {
+                    const boardBasisText = await boardBasisElement.textContent() || '';
+                    
+                    // Check if the expected board basis is present
+                    if (boardBasisText.toLowerCase().includes(expectedBoardBasis.toLowerCase())) {
+                        console.log(`✅ "${accommodationName}" has "${expectedBoardBasis}" board basis`);
+                        cardsWithBoardBasis++;
+                    } else {
+                        console.log(`⚠️ "${accommodationName}" shows "${boardBasisText}" instead of "${expectedBoardBasis}"`);
+                        cardsWithoutBoardBasis++;
+                        accommodationsWithoutBoardBasis.push(accommodationName);
+                    }
+                } else {
+                    console.log(`⚠️ "${accommodationName}" does NOT show board basis information`);
+                    cardsWithoutBoardBasis++;
+                    accommodationsWithoutBoardBasis.push(accommodationName);
+                }
+            }
+            
+            // Summary
+            const isValid = cardsWithoutBoardBasis === 0;
+            console.log(`📊 Board Basis validation summary:`);
+            console.log(`   - Total cards: ${cardCount}`);
+            console.log(`   - Cards with "${expectedBoardBasis}" board basis: ${cardsWithBoardBasis}`);
+            console.log(`   - Cards without correct board basis: ${cardsWithoutBoardBasis}`);
+            console.log(`   - Validation passed: ${isValid ? 'YES' : 'NO'}`);
+            
+            if (!isValid) {
+                console.log(`🔍 Accommodations without "${expectedBoardBasis}" board basis:`);
+                accommodationsWithoutBoardBasis.forEach((name, index) => {
+                    console.log(`   ${index + 1}. ${name}`);
+                });
+            }
+            
+            return {
+                isValid,
+                totalCards: cardCount,
+                cardsWithBoardBasis,
+                cardsWithoutBoardBasis,
+                accommodationsWithoutBoardBasis
+            };
+            
+        } catch (error) {
+            console.error(`❌ Error validating board basis: ${error.message}`);
+            return {
+                isValid: false,
+                totalCards: 0,
+                cardsWithBoardBasis: 0,
+                cardsWithoutBoardBasis: 0,
+                accommodationsWithoutBoardBasis: []
+            };
+        }
+    }
+
     async validateSearchResultPageUrl() {
         await this.page.waitForLoadState('domcontentloaded')
         await expect(this.page, 'User successfully navigated to Search result page').toHaveURL(/.*search-results/);
