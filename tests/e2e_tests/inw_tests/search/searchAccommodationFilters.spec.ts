@@ -478,56 +478,158 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 page, 
                 searchResultPage 
             }) => {
-                // Navigate to category search results
+                // Steps 1-3: Navigate to Inghams website, select category, and search
                 console.log(`🔧 Setting up ${category.name} search results...`);
                 await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
                 console.log(`✓ Successfully navigated to ${category.name} search results`);
                 
+                // Step 4: Check search results exist in form of accommodations
+                await searchResultPage.waitForAccommodationResults();
+                const initialResultCount = await searchResultPage.getSearchResultCount();
+                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                
                 console.log(`\n🏊 Testing Facilities filter for ${category.name}...`);
                 
-                // Test key facilities (subset to avoid overly long tests)
-                const keyFacilities = ['WiFi', 'Indoor Pool', 'Spa Facilities', 'Bar', 'Restaurant'];
+                // Step 5: Click Facilities and check what filter values are available
+                console.log(`✓ Opening Facilities filter...`);
+                await searchResultPage.openFilter('Facilities');
+                console.log(`✓ Successfully opened Facilities filter`);
                 
-                for (const facility of keyFacilities) {
-                    console.log(`\n🔍 Testing Facility: ${facility}`);
+                // Step 6: Check individual filter values - enabled vs disabled
+                const facilitiesOptions = ['WiFi', 'Indoor Pool', 'Outdoor Pool', 'Spa Facilities', 'Sauna/Steam Room', 'Bar', 'Restaurant', 'Kids Club', 'Family Rooms', 'Single Rooms', 'Group Holidays', 'Disabled Access', 'Parking', 'Pet Friendly', 'Lift Access'];
+                
+                console.log(`📋 Initial Facilities filter analysis for ${category.name}:`);
+                const initialFilterOptions: string[] = [];
+                const testedOptions: string[] = [];
+                const skippedOptions: string[] = [];
+                
+                // Check availability of each Facilities option
+                for (const option of facilitiesOptions) {
+                    const filterCheckbox = page.locator(`label`).filter({ hasText: option }).first();
                     
                     try {
-                        // Check if facility option is available
-                        await searchResultPage.openFilter('Facilities');
-                        const facilityOption = page.locator(`text="${facility}"`).first();
+                        const isVisible = await filterCheckbox.isVisible({ timeout: 2000 });
                         
-                        if (await facilityOption.isVisible({ timeout: 3000 })) {
-                            await facilityOption.click();
-                            await searchResultPage.applyFilter();
-                            
-                            // Wait for results to update
-                            await page.waitForTimeout(3000);
-                            
-                            // Validate results
-                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
-                            const resultCount = await searchResultPage.getSearchResultCount();
-                            
-                            if (hasNoResults) {
-                                console.log(`✅ "${facility}" facility correctly shows "No results" message`);
-                            } else {
-                                expect(resultCount, `"${facility}" facility should return some results`).toBeGreaterThan(0);
-                                console.log(`✅ "${facility}" facility returned ${resultCount} results`);
-                            }
-                            
-                            // Clear the filter
-                            await searchResultPage.openFilter('Facilities');
-                            await facilityOption.click(); // Uncheck
-                            await searchResultPage.applyFilter();
-                            await page.waitForTimeout(2000);
+                        if (!isVisible) {
+                            console.log(`   ⚠️ "${option}" option not found in filter list, skipping...`);
+                            skippedOptions.push(`${option} (not visible)`);
+                            continue;
+                        }
+                        
+                        // Check if option is enabled (clickable)
+                        const isEnabled = await filterCheckbox.isEnabled({ timeout: 1000 });
+                        const hasDisabledClass = await filterCheckbox.evaluate((el) => {
+                            return el.classList.contains('disabled') || 
+                                   el.hasAttribute('disabled') ||
+                                   el.getAttribute('aria-disabled') === 'true';
+                        });
+                        
+                        if (!isEnabled || hasDisabledClass) {
+                            console.log(`   ⚠️ "${option}" option is disabled, will be skipped during testing`);
+                            skippedOptions.push(`${option} (disabled)`);
                         } else {
-                            console.log(`⚠️ "${facility}" facility not available for ${category.name}`);
+                            console.log(`   ✅ "${option}" option is available and enabled`);
+                            initialFilterOptions.push(option);
                         }
                         
                     } catch (error) {
-                        console.error(`❌ Failed testing Facility "${facility}": ${error.message}`);
-                        // Continue with next facility instead of failing entire test
+                        console.log(`   ⚠️ Error checking "${option}" option: ${error.message}`);
+                        skippedOptions.push(`${option} (error checking)`);
                     }
                 }
+                
+                console.log(`   - Initially detected enabled options (${initialFilterOptions.length}): ${initialFilterOptions.join(', ')}`);
+                console.log(`   - Initially detected disabled/unavailable options (${skippedOptions.length}): ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
+                
+                // Close the filter to start fresh
+                await searchResultPage.closeFilter();
+                
+                console.log(`\n🔍 Dynamically testing Facilities options for ${category.name}...`);
+                console.log(`   📋 Will test each available option individually with real-time validation`);
+                
+                // Test each available Facilities option (limit to first 8 to keep tests reasonable)
+                const optionsToTest = initialFilterOptions.slice(0, 8);
+                console.log(`   📋 Testing first ${optionsToTest.length} options: ${optionsToTest.join(', ')}`);
+                
+                for (const option of optionsToTest) {
+                    console.log(`\n🔍 Testing Facilities option: "${option}"`);
+                    console.log(`   📌 Checking real-time availability of "${option}" filter...`);
+                    
+                    // Step 5: Click Facilities (for each option)
+                    await searchResultPage.openFilter('Facilities');
+                    
+                    // Re-check if option is still available (dynamic validation)
+                    const filterCheckbox = page.locator(`label`).filter({ hasText: option }).first();
+                    
+                    const isCurrentlyVisible = await filterCheckbox.isVisible({ timeout: 3000 });
+                    const isCurrentlyEnabled = isCurrentlyVisible ? await filterCheckbox.isEnabled({ timeout: 1000 }) : false;
+                    const hasDisabledClass = isCurrentlyVisible ? await filterCheckbox.evaluate((el) => {
+                        return el.classList.contains('disabled') || 
+                               el.hasAttribute('disabled') ||
+                               el.getAttribute('aria-disabled') === 'true';
+                    }) : true;
+                    
+                    if (!isCurrentlyVisible || !isCurrentlyEnabled || hasDisabledClass) {
+                        console.log(`   ⚠️ "${option}" option is now unavailable/disabled, skipping...`);
+                        skippedOptions.push(`${option} (became unavailable)`);
+                        await searchResultPage.closeFilter();
+                        continue;
+                    }
+                    
+                    console.log(`   ✅ "${option}" option is available and clickable, proceeding with test...`);
+                    
+                    // Step 7: Select one filter value from enabled values
+                    await filterCheckbox.click();
+                    console.log(`   ✅ Selected "${option}" facilities filter`);
+                    
+                    // Step 8: Click confirm/apply
+                    await searchResultPage.applyFilter();
+                    console.log(`   ✅ Applied "${option}" filter`);
+                    testedOptions.push(option);
+                    
+                    // Wait for results to update
+                    await page.waitForTimeout(3000);
+                    
+                    // Step 9-10: Check changes on accommodation search results
+                    const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                    
+                    if (hasNoResults) {
+                        console.log(`   ✅ "${option}" filter correctly shows "No results match" message`);
+                    } else {
+                        // Validate result count
+                        const resultCount = await searchResultPage.getSearchResultCount();
+                        console.log(`   📊 Filter "${option}" returned ${resultCount} results`);
+                        expect(resultCount, `"${option}" filter should return some results`).toBeGreaterThan(0);
+                        console.log(`   ✅ "${option}" facilities filter returned valid results`);
+                    }
+                    
+                    // Step 11-12: Click Facilities filter again and unselect the previously selected filter value
+                    console.log(`   🔄 Unselecting "${option}" filter...`);
+                    await searchResultPage.openFilter('Facilities');
+                    
+                    // Re-locate the checkbox for unselecting
+                    const unselectCheckbox = page.locator(`label`).filter({ hasText: option }).first();
+                    if (await unselectCheckbox.isVisible({ timeout: 3000 })) {
+                        await unselectCheckbox.click(); // Uncheck the option
+                        console.log(`   ✅ Unselected "${option}" filter`);
+                        await searchResultPage.applyFilter();
+                        await page.waitForTimeout(2000);
+                    } else {
+                        console.log(`   ⚠️ Could not find "${option}" checkbox to unselect`);
+                        await searchResultPage.closeFilter();
+                    }
+                    
+                    // Steps 13-16 are implicit: Continue loop to select next filter value and repeat validation
+                }
+                
+                console.log(`\n📊 Facilities filter testing summary for ${category.name}:`);
+                console.log(`   - Initially detected options: ${initialFilterOptions.length}`);
+                console.log(`   - Successfully tested options: ${testedOptions.length}`);
+                console.log(`   - Skipped/disabled options: ${skippedOptions.length}`);
+                console.log(`   - Tested options: ${testedOptions.join(', ')}`);
+                console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
+                console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
                 
                 console.log(`🎉 Completed Facilities filter testing for ${category.name}`);
             });
@@ -543,56 +645,158 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 page, 
                 searchResultPage 
             }) => {
-                // Navigate to category search results
+                // Steps 1-3: Navigate to Inghams website, select category, and search
                 console.log(`🔧 Setting up ${category.name} search results...`);
                 await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
                 console.log(`✓ Successfully navigated to ${category.name} search results`);
                 
+                // Step 4: Check search results exist in form of accommodations
+                await searchResultPage.waitForAccommodationResults();
+                const initialResultCount = await searchResultPage.getSearchResultCount();
+                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                
                 console.log(`\n🏖️ Testing Holiday Types filter for ${category.name}...`);
                 
-                // Test key holiday types
-                const keyHolidayTypes = ['Family Holidays', 'Romantic Holidays', 'Luxury', 'Budget'];
+                // Step 5: Click Holiday Types and check what filter values are available
+                console.log(`✓ Opening Holiday Types filter...`);
+                await searchResultPage.openFilter('Holiday Types');
+                console.log(`✓ Successfully opened Holiday Types filter`);
                 
-                for (const holidayType of keyHolidayTypes) {
-                    console.log(`\n🔍 Testing Holiday Type: ${holidayType}`);
+                // Step 6: Check individual filter values - enabled vs disabled
+                const holidayTypesOptions = ['Family Holidays', 'Romantic Holidays', 'Group Holidays', 'Adult Only', 'All Inclusive', 'Short Breaks', 'Long Stays', 'Luxury', 'Budget', 'Mid Range', 'Adventure', 'Cultural'];
+                
+                console.log(`📋 Initial Holiday Types filter analysis for ${category.name}:`);
+                const initialFilterOptions: string[] = [];
+                const testedOptions: string[] = [];
+                const skippedOptions: string[] = [];
+                
+                // Check availability of each Holiday Types option
+                for (const option of holidayTypesOptions) {
+                    const filterCheckbox = page.locator(`label`).filter({ hasText: option }).first();
                     
                     try {
-                        // Check if holiday type option is available
-                        await searchResultPage.openFilter('Holiday Types');
-                        const holidayTypeOption = page.locator(`text="${holidayType}"`).first();
+                        const isVisible = await filterCheckbox.isVisible({ timeout: 2000 });
                         
-                        if (await holidayTypeOption.isVisible({ timeout: 3000 })) {
-                            await holidayTypeOption.click();
-                            await searchResultPage.applyFilter();
-                            
-                            // Wait for results to update
-                            await page.waitForTimeout(3000);
-                            
-                            // Validate results
-                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
-                            const resultCount = await searchResultPage.getSearchResultCount();
-                            
-                            if (hasNoResults) {
-                                console.log(`✅ "${holidayType}" holiday type correctly shows "No results" message`);
-                            } else {
-                                expect(resultCount, `"${holidayType}" holiday type should return some results`).toBeGreaterThan(0);
-                                console.log(`✅ "${holidayType}" holiday type returned ${resultCount} results`);
-                            }
-                            
-                            // Clear the filter
-                            await searchResultPage.openFilter('Holiday Types');
-                            await holidayTypeOption.click(); // Uncheck
-                            await searchResultPage.applyFilter();
-                            await page.waitForTimeout(2000);
+                        if (!isVisible) {
+                            console.log(`   ⚠️ "${option}" option not found in filter list, skipping...`);
+                            skippedOptions.push(`${option} (not visible)`);
+                            continue;
+                        }
+                        
+                        // Check if option is enabled (clickable)
+                        const isEnabled = await filterCheckbox.isEnabled({ timeout: 1000 });
+                        const hasDisabledClass = await filterCheckbox.evaluate((el) => {
+                            return el.classList.contains('disabled') || 
+                                   el.hasAttribute('disabled') ||
+                                   el.getAttribute('aria-disabled') === 'true';
+                        });
+                        
+                        if (!isEnabled || hasDisabledClass) {
+                            console.log(`   ⚠️ "${option}" option is disabled, will be skipped during testing`);
+                            skippedOptions.push(`${option} (disabled)`);
                         } else {
-                            console.log(`⚠️ "${holidayType}" holiday type not available for ${category.name}`);
+                            console.log(`   ✅ "${option}" option is available and enabled`);
+                            initialFilterOptions.push(option);
                         }
                         
                     } catch (error) {
-                        console.error(`❌ Failed testing Holiday Type "${holidayType}": ${error.message}`);
-                        // Continue with next holiday type instead of failing entire test
+                        console.log(`   ⚠️ Error checking "${option}" option: ${error.message}`);
+                        skippedOptions.push(`${option} (error checking)`);
                     }
                 }
+                
+                console.log(`   - Initially detected enabled options (${initialFilterOptions.length}): ${initialFilterOptions.join(', ')}`);
+                console.log(`   - Initially detected disabled/unavailable options (${skippedOptions.length}): ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
+                
+                // Close the filter to start fresh
+                await searchResultPage.closeFilter();
+                
+                console.log(`\n🔍 Dynamically testing Holiday Types options for ${category.name}...`);
+                console.log(`   📋 Will test each available option individually with real-time validation`);
+                
+                // Test each available Holiday Types option (limit to first 6 to keep tests reasonable)
+                const optionsToTest = initialFilterOptions.slice(0, 6);
+                console.log(`   📋 Testing first ${optionsToTest.length} options: ${optionsToTest.join(', ')}`);
+                
+                for (const option of optionsToTest) {
+                    console.log(`\n🔍 Testing Holiday Types option: "${option}"`);
+                    console.log(`   📌 Checking real-time availability of "${option}" filter...`);
+                    
+                    // Step 5: Click Holiday Types (for each option)
+                    await searchResultPage.openFilter('Holiday Types');
+                    
+                    // Re-check if option is still available (dynamic validation)
+                    const filterCheckbox = page.locator(`label`).filter({ hasText: option }).first();
+                    
+                    const isCurrentlyVisible = await filterCheckbox.isVisible({ timeout: 3000 });
+                    const isCurrentlyEnabled = isCurrentlyVisible ? await filterCheckbox.isEnabled({ timeout: 1000 }) : false;
+                    const hasDisabledClass = isCurrentlyVisible ? await filterCheckbox.evaluate((el) => {
+                        return el.classList.contains('disabled') || 
+                               el.hasAttribute('disabled') ||
+                               el.getAttribute('aria-disabled') === 'true';
+                    }) : true;
+                    
+                    if (!isCurrentlyVisible || !isCurrentlyEnabled || hasDisabledClass) {
+                        console.log(`   ⚠️ "${option}" option is now unavailable/disabled, skipping...`);
+                        skippedOptions.push(`${option} (became unavailable)`);
+                        await searchResultPage.closeFilter();
+                        continue;
+                    }
+                    
+                    console.log(`   ✅ "${option}" option is available and clickable, proceeding with test...`);
+                    
+                    // Step 7: Select one filter value from enabled values
+                    await filterCheckbox.click();
+                    console.log(`   ✅ Selected "${option}" holiday types filter`);
+                    
+                    // Step 8: Click confirm/apply
+                    await searchResultPage.applyFilter();
+                    console.log(`   ✅ Applied "${option}" filter`);
+                    testedOptions.push(option);
+                    
+                    // Wait for results to update
+                    await page.waitForTimeout(3000);
+                    
+                    // Step 9-10: Check changes on accommodation search results
+                    const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                    
+                    if (hasNoResults) {
+                        console.log(`   ✅ "${option}" filter correctly shows "No results match" message`);
+                    } else {
+                        // Validate result count
+                        const resultCount = await searchResultPage.getSearchResultCount();
+                        console.log(`   📊 Filter "${option}" returned ${resultCount} results`);
+                        expect(resultCount, `"${option}" filter should return some results`).toBeGreaterThan(0);
+                        console.log(`   ✅ "${option}" holiday types filter returned valid results`);
+                    }
+                    
+                    // Step 11-12: Click Holiday Types filter again and unselect the previously selected filter value
+                    console.log(`   🔄 Unselecting "${option}" filter...`);
+                    await searchResultPage.openFilter('Holiday Types');
+                    
+                    // Re-locate the checkbox for unselecting
+                    const unselectCheckbox = page.locator(`label`).filter({ hasText: option }).first();
+                    if (await unselectCheckbox.isVisible({ timeout: 3000 })) {
+                        await unselectCheckbox.click(); // Uncheck the option
+                        console.log(`   ✅ Unselected "${option}" filter`);
+                        await searchResultPage.applyFilter();
+                        await page.waitForTimeout(2000);
+                    } else {
+                        console.log(`   ⚠️ Could not find "${option}" checkbox to unselect`);
+                        await searchResultPage.closeFilter();
+                    }
+                    
+                    // Steps 13-16 are implicit: Continue loop to select next filter value and repeat validation
+                }
+                
+                console.log(`\n📊 Holiday Types filter testing summary for ${category.name}:`);
+                console.log(`   - Initially detected options: ${initialFilterOptions.length}`);
+                console.log(`   - Successfully tested options: ${testedOptions.length}`);
+                console.log(`   - Skipped/disabled options: ${skippedOptions.length}`);
+                console.log(`   - Tested options: ${testedOptions.join(', ')}`);
+                console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
+                console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
                 
                 console.log(`🎉 Completed Holiday Types filter testing for ${category.name}`);
             });
@@ -608,56 +812,134 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 page, 
                 searchResultPage 
             }) => {
-                // Navigate to category search results
+                // Steps 1-3: Navigate to Inghams website, select category, and search
                 console.log(`🔧 Setting up ${category.name} search results...`);
                 await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
                 console.log(`✓ Successfully navigated to ${category.name} search results`);
                 
+                // Step 4: Check search results exist in form of accommodations
+                await searchResultPage.waitForAccommodationResults();
+                const initialResultCount = await searchResultPage.getSearchResultCount();
+                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                
                 console.log(`\n⏰ Testing Duration filter for ${category.name}...`);
                 
                 try {
-                    // Get available duration options
+                    // Step 5: Click Duration and check what filter values are available
+                    console.log(`✓ Opening Duration filter...`);
+                    await searchResultPage.openFilter('Duration');
+                    console.log(`✓ Successfully opened Duration filter`);
+                    
+                    // Step 6: Get available duration options using dynamic discovery
                     const filterOptions = await searchResultPage.getFilterOptions('Duration');
                     
-                    if (filterOptions.enabled.length > 0) {
-                        console.log(`Found ${filterOptions.enabled.length} duration options: ${filterOptions.enabled.join(', ')}`);
+                    if (filterOptions.enabled.length === 0) {
+                        console.log(`⚠️ No Duration filter options available for ${category.name}`);
+                        await searchResultPage.closeFilter();
+                        console.log(`🎉 Duration filter testing skipped for ${category.name} (no options available)`);
+                        return;
+                    }
+                    
+                    console.log(`📋 Initial Duration filter analysis for ${category.name}:`);
+                    console.log(`   - Initially detected enabled options (${filterOptions.enabled.length}): ${filterOptions.enabled.join(', ')}`);
+                    console.log(`   - Initially detected disabled options (${filterOptions.disabled.length}): ${filterOptions.disabled.join(', ')}`);
+                    
+                    // Close the filter to start fresh
+                    await searchResultPage.closeFilter();
+                    
+                    console.log(`\n🔍 Dynamically testing Duration options for ${category.name}...`);
+                    console.log(`   📋 Will test each available option individually with real-time validation`);
+                    
+                    // Test available Duration options (limit to first 5 to keep tests reasonable)
+                    const optionsToTest = filterOptions.enabled.slice(0, 5);
+                    console.log(`   📋 Testing first ${optionsToTest.length} options: ${optionsToTest.join(', ')}`);
+                    
+                    const testedOptions: string[] = [];
+                    const skippedOptions: string[] = [];
+                    
+                    for (const option of optionsToTest) {
+                        console.log(`\n🔍 Testing Duration option: "${option}"`);
+                        console.log(`   📌 Checking real-time availability of "${option}" filter...`);
                         
-                        // Test first few duration options (to keep test reasonable)
-                        const testDurations = filterOptions.enabled.slice(0, 3);
+                        // Step 5: Click Duration (for each option)
+                        await searchResultPage.openFilter('Duration');
                         
-                        for (const duration of testDurations) {
-                            console.log(`\n🔍 Testing Duration: ${duration}`);
-                            
-                            await searchResultPage.selectFilterOption('Duration', duration, true);
-                            await page.waitForTimeout(3000);
-                            
-                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                        // Re-check if option is still available (dynamic validation)
+                        const filterCheckbox = page.locator(`label`).filter({ hasText: option }).first();
+                        
+                        const isCurrentlyVisible = await filterCheckbox.isVisible({ timeout: 3000 });
+                        const isCurrentlyEnabled = isCurrentlyVisible ? await filterCheckbox.isEnabled({ timeout: 1000 }) : false;
+                        const hasDisabledClass = isCurrentlyVisible ? await filterCheckbox.evaluate((el) => {
+                            return el.classList.contains('disabled') || 
+                                   el.hasAttribute('disabled') ||
+                                   el.getAttribute('aria-disabled') === 'true';
+                        }) : true;
+                        
+                        if (!isCurrentlyVisible || !isCurrentlyEnabled || hasDisabledClass) {
+                            console.log(`   ⚠️ "${option}" option is now unavailable/disabled, skipping...`);
+                            skippedOptions.push(`${option} (became unavailable)`);
+                            await searchResultPage.closeFilter();
+                            continue;
+                        }
+                        
+                        console.log(`   ✅ "${option}" option is available and clickable, proceeding with test...`);
+                        
+                        // Step 7: Select one filter value from enabled values
+                        await filterCheckbox.click();
+                        console.log(`   ✅ Selected "${option}" duration filter`);
+                        
+                        // Step 8: Click confirm/apply
+                        await searchResultPage.applyFilter();
+                        console.log(`   ✅ Applied "${option}" filter`);
+                        testedOptions.push(option);
+                        
+                        // Wait for results to update
+                        await page.waitForTimeout(3000);
+                        
+                        // Step 9-10: Check changes on accommodation search results
+                        const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                        
+                        if (hasNoResults) {
+                            console.log(`   ✅ "${option}" filter correctly shows "No results match" message`);
+                        } else {
+                            // Validate result count
                             const resultCount = await searchResultPage.getSearchResultCount();
-                            
-                            if (hasNoResults) {
-                                console.log(`✅ "${duration}" duration correctly shows "No results" message`);
-                            } else {
-                                expect(resultCount, `"${duration}" duration should return some results`).toBeGreaterThan(0);
-                                console.log(`✅ "${duration}" duration returned ${resultCount} results`);
-                            }
-                            
-                            // Clear the filter
-                            await searchResultPage.openFilter('Duration');
-                            const durationOption = page.locator(`text="${duration}"`).first();
-                            if (await durationOption.isVisible({ timeout: 3000 })) {
-                                await durationOption.click(); // Uncheck
-                            }
+                            console.log(`   📊 Filter "${option}" returned ${resultCount} results`);
+                            expect(resultCount, `"${option}" filter should return some results`).toBeGreaterThan(0);
+                            console.log(`   ✅ "${option}" duration filter returned valid results`);
+                        }
+                        
+                        // Step 11-12: Click Duration filter again and unselect the previously selected filter value
+                        console.log(`   🔄 Unselecting "${option}" filter...`);
+                        await searchResultPage.openFilter('Duration');
+                        
+                        // Re-locate the checkbox for unselecting
+                        const unselectCheckbox = page.locator(`label`).filter({ hasText: option }).first();
+                        if (await unselectCheckbox.isVisible({ timeout: 3000 })) {
+                            await unselectCheckbox.click(); // Uncheck the option
+                            console.log(`   ✅ Unselected "${option}" filter`);
                             await searchResultPage.applyFilter();
                             await page.waitForTimeout(2000);
+                        } else {
+                            console.log(`   ⚠️ Could not find "${option}" checkbox to unselect`);
+                            await searchResultPage.closeFilter();
                         }
-                    } else {
-                        console.log(`⚠️ No Duration filter options available for ${category.name}`);
+                        
+                        // Steps 13-16 are implicit: Continue loop to select next filter value and repeat validation
                     }
+                    
+                    console.log(`\n📊 Duration filter testing summary for ${category.name}:`);
+                    console.log(`   - Initially detected options: ${filterOptions.enabled.length}`);
+                    console.log(`   - Successfully tested options: ${testedOptions.length}`);
+                    console.log(`   - Skipped/disabled options: ${skippedOptions.length}`);
+                    console.log(`   - Tested options: ${testedOptions.join(', ')}`);
+                    console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
+                    console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
                     
                 } catch (error) {
                     console.error(`❌ Failed testing Duration filter: ${error.message}`);
-                    // Duration filter might not exist for all categories, so don't fail the test
-                    console.log(`⚠️ Duration filter testing skipped for ${category.name}`);
+                    console.log(`⚠️ Duration filter testing skipped for ${category.name} due to error`);
                 }
                 
                 console.log(`🎉 Completed Duration filter testing for ${category.name}`);
@@ -674,55 +956,134 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 page, 
                 searchResultPage 
             }) => {
-                // Navigate to category search results
+                // Steps 1-3: Navigate to Inghams website, select category, and search
                 console.log(`🔧 Setting up ${category.name} search results...`);
                 await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
                 console.log(`✓ Successfully navigated to ${category.name} search results`);
                 
+                // Step 4: Check search results exist in form of accommodations
+                await searchResultPage.waitForAccommodationResults();
+                const initialResultCount = await searchResultPage.getSearchResultCount();
+                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                
                 console.log(`\n💰 Testing Budget filter for ${category.name}...`);
                 
                 try {
-                    // Get available budget options
+                    // Step 5: Click Budget and check what filter values are available
+                    console.log(`✓ Opening Budget filter...`);
+                    await searchResultPage.openFilter('Budget');
+                    console.log(`✓ Successfully opened Budget filter`);
+                    
+                    // Step 6: Get available budget options using dynamic discovery
                     const filterOptions = await searchResultPage.getFilterOptions('Budget');
                     
-                    if (filterOptions.enabled.length > 0) {
-                        console.log(`Found ${filterOptions.enabled.length} budget options: ${filterOptions.enabled.join(', ')}`);
+                    if (filterOptions.enabled.length === 0) {
+                        console.log(`⚠️ No Budget filter options available for ${category.name}`);
+                        await searchResultPage.closeFilter();
+                        console.log(`🎉 Budget filter testing skipped for ${category.name} (no options available)`);
+                        return;
+                    }
+                    
+                    console.log(`📋 Initial Budget filter analysis for ${category.name}:`);
+                    console.log(`   - Initially detected enabled options (${filterOptions.enabled.length}): ${filterOptions.enabled.join(', ')}`);
+                    console.log(`   - Initially detected disabled options (${filterOptions.disabled.length}): ${filterOptions.disabled.join(', ')}`);
+                    
+                    // Close the filter to start fresh
+                    await searchResultPage.closeFilter();
+                    
+                    console.log(`\n🔍 Dynamically testing Budget options for ${category.name}...`);
+                    console.log(`   📋 Will test each available option individually with real-time validation`);
+                    
+                    // Test available Budget options (limit to first 4 to keep tests reasonable)
+                    const optionsToTest = filterOptions.enabled.slice(0, 4);
+                    console.log(`   📋 Testing first ${optionsToTest.length} options: ${optionsToTest.join(', ')}`);
+                    
+                    const testedOptions: string[] = [];
+                    const skippedOptions: string[] = [];
+                    
+                    for (const option of optionsToTest) {
+                        console.log(`\n🔍 Testing Budget option: "${option}"`);
+                        console.log(`   📌 Checking real-time availability of "${option}" filter...`);
                         
-                        // Test first few budget options
-                        const testBudgets = filterOptions.enabled.slice(0, 3);
+                        // Step 5: Click Budget (for each option)
+                        await searchResultPage.openFilter('Budget');
                         
-                        for (const budget of testBudgets) {
-                            console.log(`\n🔍 Testing Budget: ${budget}`);
-                            
-                            await searchResultPage.selectFilterOption('Budget', budget, true);
-                            await page.waitForTimeout(3000);
-                            
-                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                        // Re-check if option is still available (dynamic validation)
+                        const filterCheckbox = page.locator(`label`).filter({ hasText: option }).first();
+                        
+                        const isCurrentlyVisible = await filterCheckbox.isVisible({ timeout: 3000 });
+                        const isCurrentlyEnabled = isCurrentlyVisible ? await filterCheckbox.isEnabled({ timeout: 1000 }) : false;
+                        const hasDisabledClass = isCurrentlyVisible ? await filterCheckbox.evaluate((el) => {
+                            return el.classList.contains('disabled') || 
+                                   el.hasAttribute('disabled') ||
+                                   el.getAttribute('aria-disabled') === 'true';
+                        }) : true;
+                        
+                        if (!isCurrentlyVisible || !isCurrentlyEnabled || hasDisabledClass) {
+                            console.log(`   ⚠️ "${option}" option is now unavailable/disabled, skipping...`);
+                            skippedOptions.push(`${option} (became unavailable)`);
+                            await searchResultPage.closeFilter();
+                            continue;
+                        }
+                        
+                        console.log(`   ✅ "${option}" option is available and clickable, proceeding with test...`);
+                        
+                        // Step 7: Select one filter value from enabled values
+                        await filterCheckbox.click();
+                        console.log(`   ✅ Selected "${option}" budget filter`);
+                        
+                        // Step 8: Click confirm/apply
+                        await searchResultPage.applyFilter();
+                        console.log(`   ✅ Applied "${option}" filter`);
+                        testedOptions.push(option);
+                        
+                        // Wait for results to update
+                        await page.waitForTimeout(3000);
+                        
+                        // Step 9-10: Check changes on accommodation search results
+                        const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                        
+                        if (hasNoResults) {
+                            console.log(`   ✅ "${option}" filter correctly shows "No results match" message`);
+                        } else {
+                            // Validate result count
                             const resultCount = await searchResultPage.getSearchResultCount();
-                            
-                            if (hasNoResults) {
-                                console.log(`✅ "${budget}" budget correctly shows "No results" message`);
-                            } else {
-                                expect(resultCount, `"${budget}" budget should return some results`).toBeGreaterThan(0);
-                                console.log(`✅ "${budget}" budget returned ${resultCount} results`);
-                            }
-                            
-                            // Clear the filter
-                            await searchResultPage.openFilter('Budget');
-                            const budgetOption = page.locator(`text="${budget}"`).first();
-                            if (await budgetOption.isVisible({ timeout: 3000 })) {
-                                await budgetOption.click(); // Uncheck
-                            }
+                            console.log(`   📊 Filter "${option}" returned ${resultCount} results`);
+                            expect(resultCount, `"${option}" filter should return some results`).toBeGreaterThan(0);
+                            console.log(`   ✅ "${option}" budget filter returned valid results`);
+                        }
+                        
+                        // Step 11-12: Click Budget filter again and unselect the previously selected filter value
+                        console.log(`   🔄 Unselecting "${option}" filter...`);
+                        await searchResultPage.openFilter('Budget');
+                        
+                        // Re-locate the checkbox for unselecting
+                        const unselectCheckbox = page.locator(`label`).filter({ hasText: option }).first();
+                        if (await unselectCheckbox.isVisible({ timeout: 3000 })) {
+                            await unselectCheckbox.click(); // Uncheck the option
+                            console.log(`   ✅ Unselected "${option}" filter`);
                             await searchResultPage.applyFilter();
                             await page.waitForTimeout(2000);
+                        } else {
+                            console.log(`   ⚠️ Could not find "${option}" checkbox to unselect`);
+                            await searchResultPage.closeFilter();
                         }
-                    } else {
-                        console.log(`⚠️ No Budget filter options available for ${category.name}`);
+                        
+                        // Steps 13-16 are implicit: Continue loop to select next filter value and repeat validation
                     }
+                    
+                    console.log(`\n📊 Budget filter testing summary for ${category.name}:`);
+                    console.log(`   - Initially detected options: ${filterOptions.enabled.length}`);
+                    console.log(`   - Successfully tested options: ${testedOptions.length}`);
+                    console.log(`   - Skipped/disabled options: ${skippedOptions.length}`);
+                    console.log(`   - Tested options: ${testedOptions.join(', ')}`);
+                    console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
+                    console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
                     
                 } catch (error) {
                     console.error(`❌ Failed testing Budget filter: ${error.message}`);
-                    console.log(`⚠️ Budget filter testing skipped for ${category.name}`);
+                    console.log(`⚠️ Budget filter testing skipped for ${category.name} due to error`);
                 }
                 
                 console.log(`🎉 Completed Budget filter testing for ${category.name}`);
