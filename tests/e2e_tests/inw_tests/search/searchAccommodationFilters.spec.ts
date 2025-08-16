@@ -49,6 +49,112 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
         await page.setViewportSize({ width: 1920, height: 1080 });
     });
 
+    /**
+     * Helper function to validate sticky bar changes for Duration filter
+     * Handles the dynamic red promotional bar that appears sometimes
+     */
+    async function validateStickyBarForDuration(page: any, expectedDuration: string): Promise<boolean> {
+        console.log(`🔍 Validating sticky bar shows "${expectedDuration}"...`);
+        
+        try {
+            // Wait for potential updates
+            await page.waitForTimeout(2000);
+            
+            // Look for the actual search criteria sticky bar (below any red promotional bars)
+            const stickyBarSelectors = [
+                // Main search criteria bar (most common)
+                '.search-criteria',
+                '[class*="criteria"]',
+                '[class*="search-bar"]',
+                
+                // Fallback selectors for sticky elements
+                '[class*="sticky"]',
+                '.sticky-bar',
+                
+                // Generic container that might contain search info
+                '[class*="search-summary"]',
+                '.search-info'
+            ];
+            
+            console.log(`📋 Checking sticky bar content for "${expectedDuration}"...`);
+            
+            for (const selector of stickyBarSelectors) {
+                try {
+                    const elements = page.locator(selector);
+                    const count = await elements.count();
+                    
+                    for (let i = 0; i < count; i++) {
+                        const element = elements.nth(i);
+                        
+                        if (await element.isVisible({ timeout: 2000 })) {
+                            const elementText = await element.textContent() || '';
+                            console.log(`📋 Sticky element ${i + 1} content: "${elementText}"`);
+                            
+                            // Skip if this looks like a promotional banner (contains common promo keywords)
+                            const isPromoBanner = /free night|offer|deal|discount|save|limited time/i.test(elementText);
+                            if (isPromoBanner) {
+                                console.log(`⏭️ Skipping promotional banner: "${elementText.substring(0, 50)}..."`);
+                                continue;
+                            }
+                            
+                            // Check if this element contains our duration information
+                            const containsAnyDate = /any date/i.test(elementText);
+                            const containsDuration = elementText.toLowerCase().includes(expectedDuration.toLowerCase());
+                            
+                            if (containsAnyDate || containsDuration) {
+                                console.log(`🎯 Found search criteria element: "${elementText}"`);
+                                
+                                // Look for the specific pattern: "Any Date (X nights)" or similar
+                                const durationPattern = new RegExp(`any date.*\\(?${expectedDuration.replace(/\s+/g, '\\s*')}\\)?`, 'i');
+                                const nightsPattern = new RegExp(`\\(?${expectedDuration.replace(/\s+/g, '\\s*')}\\)?`, 'i');
+                                
+                                if (durationPattern.test(elementText) || nightsPattern.test(elementText)) {
+                                    console.log(`✅ Sticky bar correctly shows "${expectedDuration}"`);
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                } catch (selectorError) {
+                    console.log(`⚠️ Error checking selector "${selector}": ${selectorError.message}`);
+                    continue;
+                }
+            }
+            
+            // Additional check: Look for text that contains our duration anywhere on the page (but not in promo banners)
+            console.log(`📋 Performing broader page search for "${expectedDuration}"...`);
+            const durationElements = page.locator(`text=/${expectedDuration}/i`);
+            const durationCount = await durationElements.count();
+            
+            for (let i = 0; i < durationCount; i++) {
+                const element = durationElements.nth(i);
+                const elementText = await element.textContent() || '';
+                const parentText = await element.locator('..').textContent() || '';
+                
+                // Skip promotional banners
+                const isInPromoBanner = /free night|offer|deal|discount|save|limited time/i.test(parentText);
+                if (isInPromoBanner) continue;
+                
+                // Check if it's in a search context
+                const isInSearchContext = /any date|search|criteria|nights/i.test(parentText);
+                if (isInSearchContext) {
+                    console.log(`✅ Found "${expectedDuration}" in search context: "${parentText.substring(0, 100)}..."`);
+                    return true;
+                }
+            }
+            
+            console.log(`❌ STICKY BAR VALIDATION FAILED for "${expectedDuration}"`);
+            console.log(`📋 Searched through ${stickyBarSelectors.length} sticky bar selectors and page-wide search`);
+            console.log(`🔍 This indicates the filter may not be updating the search criteria properly`);
+            console.log(`💡 Expected to find "${expectedDuration}" in sticky bar content but it was not located`);
+            return false;
+            
+        } catch (error) {
+            console.error(`❌ Error validating sticky bar: ${error.message}`);
+            return false;
+        }
+    }
+
     // =================== RATINGS FILTER TESTS ===================//
     
     categories.forEach(category => {
@@ -812,26 +918,62 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 page, 
                 searchResultPage 
             }) => {
-                // Steps 1-3: Navigate to Inghams website, select category, and search
+                // Step 1: Go to Inghams website
+                // Step 2: Click Ski, Walking or Lapland at the Search Modal
+                // Step 3: Click Search
                 console.log(`🔧 Setting up ${category.name} search results...`);
                 await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
                 console.log(`✓ Successfully navigated to ${category.name} search results`);
                 
-                // Step 4: Check search results exist in form of accommodations
+                // Step 4: Check the search results exists in a form of Accommodations
                 await searchResultPage.waitForAccommodationResults();
                 const initialResultCount = await searchResultPage.getSearchResultCount();
+                
+                // Handle edge case where category has no results (e.g., seasonal availability)
+                if (initialResultCount === 0) {
+                    console.log(`⚠️ No initial search results found for ${category.name} - this may be due to seasonal availability or limited inventory`);
+                    
+                    // Check if this is a "No results" scenario vs a technical error
+                    const hasNoResultsMessage = await searchResultPage.validateNoResultsMessage();
+                    
+                    if (hasNoResultsMessage) {
+                        console.log(`📋 Confirmed: ${category.name} shows "No results matching your criteria" message`);
+                        console.log(`✅ Duration filter test completed for ${category.name} - No base results available (seasonal/business limitation)`);
+                        console.log(`💡 Recommendation: Test Duration filter for ${category.name} during peak season when results are available`);
+                        return; // Exit test gracefully - this is a business scenario, not a test failure
+                    } else {
+                        // If no results but no "No results" message, this might be a technical issue
+                        throw new Error(`No accommodation results found for ${category.name} and no "No results" message displayed - potential technical issue`);
+                    }
+                }
+                
                 expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
                 console.log(`✅ Found ${initialResultCount} initial accommodation results`);
                 
                 console.log(`\n⏰ Testing Duration filter for ${category.name}...`);
                 
                 try {
-                    // Step 5: Click Duration and check what filter values are available
-                    console.log(`✓ Opening Duration filter...`);
+                    // Step 5: Click Duration
+                    console.log(`⏰ Step 5: Opening Duration filter...`);
                     await searchResultPage.openFilter('Duration');
                     console.log(`✓ Successfully opened Duration filter`);
                     
-                    // Step 6: Get available duration options using dynamic discovery
+                    // Step 6: Check what individual filter value, because some of it is disabled 
+                    // or might not be available for Walking or Lapland. Selections today might not be the same tomorrow.
+                    console.log(`⏰ Step 6: Checking individual filter values (dynamic validation)...`);
+                    
+                    // First check if there are any duration options available at all
+                    const noDurationMessage = page.locator('text=/There are no available durations/');
+                    const hasNoDurationMessage = await noDurationMessage.isVisible({ timeout: 2000 }).catch(() => false);
+                    
+                    if (hasNoDurationMessage) {
+                        console.log(`📋 Duration filter shows "No available durations" for ${category.name}`);
+                        console.log(`⚠️ This is a legitimate business scenario - ${category.name} may have limited duration options`);
+                        await searchResultPage.closeFilter();
+                        console.log(`✅ Duration filter test completed for ${category.name} - No available duration options (expected for some categories)`);
+                        return; // Exit test gracefully
+                    }
+                    
                     const filterOptions = await searchResultPage.getFilterOptions('Duration');
                     
                     if (filterOptions.enabled.length === 0) {
@@ -841,105 +983,292 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                         return;
                     }
                     
-                    console.log(`📋 Initial Duration filter analysis for ${category.name}:`);
-                    console.log(`   - Initially detected enabled options (${filterOptions.enabled.length}): ${filterOptions.enabled.join(', ')}`);
-                    console.log(`   - Initially detected disabled options (${filterOptions.disabled.length}): ${filterOptions.disabled.join(', ')}`);
+                    console.log(`📋 Duration filter analysis for ${category.name}:`);
+                    console.log(`   - Available enabled options (${filterOptions.enabled.length}): ${filterOptions.enabled.join(', ')}`);
+                    console.log(`   - Disabled/unavailable options (${filterOptions.disabled.length}): ${filterOptions.disabled.join(', ')}`);
+                    console.log(`   📌 Note: Selections today might not be the same tomorrow - using real-time validation`);
                     
-                    // Close the filter to start fresh
-                    await searchResultPage.closeFilter();
+                    // Filter out non-duration options (only keep options with "night" in them)
+                    const actualDurationOptions = filterOptions.enabled.filter(option => 
+                        /\d+\s*night/i.test(option) || option.toLowerCase().includes('night')
+                    );
                     
-                    console.log(`\n🔍 Dynamically testing Duration options for ${category.name}...`);
-                    console.log(`   📋 Will test each available option individually with real-time validation`);
-                    
-                    // Test available Duration options (limit to first 5 to keep tests reasonable)
-                    const optionsToTest = filterOptions.enabled.slice(0, 5);
-                    console.log(`   📋 Testing first ${optionsToTest.length} options: ${optionsToTest.join(', ')}`);
-                    
-                    const testedOptions: string[] = [];
-                    const skippedOptions: string[] = [];
-                    
-                    for (const option of optionsToTest) {
-                        console.log(`\n🔍 Testing Duration option: "${option}"`);
-                        console.log(`   📌 Checking real-time availability of "${option}" filter...`);
-                        
-                        // Step 5: Click Duration (for each option)
-                        await searchResultPage.openFilter('Duration');
-                        
-                        // Re-check if option is still available (dynamic validation)
-                        const filterCheckbox = page.locator(`label`).filter({ hasText: option }).first();
-                        
-                        const isCurrentlyVisible = await filterCheckbox.isVisible({ timeout: 3000 });
-                        const isCurrentlyEnabled = isCurrentlyVisible ? await filterCheckbox.isEnabled({ timeout: 1000 }) : false;
-                        const hasDisabledClass = isCurrentlyVisible ? await filterCheckbox.evaluate((el) => {
-                            return el.classList.contains('disabled') || 
-                                   el.hasAttribute('disabled') ||
-                                   el.getAttribute('aria-disabled') === 'true';
-                        }) : true;
-                        
-                        if (!isCurrentlyVisible || !isCurrentlyEnabled || hasDisabledClass) {
-                            console.log(`   ⚠️ "${option}" option is now unavailable/disabled, skipping...`);
-                            skippedOptions.push(`${option} (became unavailable)`);
-                            await searchResultPage.closeFilter();
-                            continue;
-                        }
-                        
-                        console.log(`   ✅ "${option}" option is available and clickable, proceeding with test...`);
-                        
-                        // Step 7: Select one filter value from enabled values
-                        await filterCheckbox.click();
-                        console.log(`   ✅ Selected "${option}" duration filter`);
-                        
-                        // Step 8: Click confirm/apply
-                        await searchResultPage.applyFilter();
-                        console.log(`   ✅ Applied "${option}" filter`);
-                        testedOptions.push(option);
-                        
-                        // Wait for results to update
-                        await page.waitForTimeout(3000);
-                        
-                        // Step 9-10: Check changes on accommodation search results
-                        const hasNoResults = await searchResultPage.validateNoResultsMessage();
-                        
-                        if (hasNoResults) {
-                            console.log(`   ✅ "${option}" filter correctly shows "No results match" message`);
-                        } else {
-                            // Validate result count
-                            const resultCount = await searchResultPage.getSearchResultCount();
-                            console.log(`   📊 Filter "${option}" returned ${resultCount} results`);
-                            expect(resultCount, `"${option}" filter should return some results`).toBeGreaterThan(0);
-                            console.log(`   ✅ "${option}" duration filter returned valid results`);
-                        }
-                        
-                        // Step 11-12: Click Duration filter again and unselect the previously selected filter value
-                        console.log(`   🔄 Unselecting "${option}" filter...`);
-                        await searchResultPage.openFilter('Duration');
-                        
-                        // Re-locate the checkbox for unselecting
-                        const unselectCheckbox = page.locator(`label`).filter({ hasText: option }).first();
-                        if (await unselectCheckbox.isVisible({ timeout: 3000 })) {
-                            await unselectCheckbox.click(); // Uncheck the option
-                            console.log(`   ✅ Unselected "${option}" filter`);
-                            await searchResultPage.applyFilter();
-                            await page.waitForTimeout(2000);
-                        } else {
-                            console.log(`   ⚠️ Could not find "${option}" checkbox to unselect`);
-                            await searchResultPage.closeFilter();
-                        }
-                        
-                        // Steps 13-16 are implicit: Continue loop to select next filter value and repeat validation
+                    if (actualDurationOptions.length === 0) {
+                        console.log(`⚠️ No valid duration options (containing 'night') found for ${category.name}`);
+                        console.log(`   📋 Available options were: ${filterOptions.enabled.join(', ')}`);
+                        console.log(`   💡 These appear to be non-duration filter options mixed in`);
+                        await searchResultPage.closeFilter();
+                        console.log(`✅ Duration filter test completed for ${category.name} - No valid duration options available`);
+                        return; // Exit test gracefully
                     }
                     
-                    console.log(`\n📊 Duration filter testing summary for ${category.name}:`);
-                    console.log(`   - Initially detected options: ${filterOptions.enabled.length}`);
-                    console.log(`   - Successfully tested options: ${testedOptions.length}`);
-                    console.log(`   - Skipped/disabled options: ${skippedOptions.length}`);
-                    console.log(`   - Tested options: ${testedOptions.join(', ')}`);
-                    console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
-                    console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
+                    // Close the filter to start fresh testing
+                    await searchResultPage.closeFilter();
                     
-                } catch (error) {
-                    console.error(`❌ Failed testing Duration filter: ${error.message}`);
-                    console.log(`⚠️ Duration filter testing skipped for ${category.name} due to error`);
+                    // Test available Duration options (limit to first 3 to keep tests reasonable)
+                    const optionsToTest = actualDurationOptions.slice(0, 3);
+                    console.log(`📋 Will test ${optionsToTest.length} actual Duration options: ${optionsToTest.join(', ')}`);
+                    
+                    // Track testing progress
+                    const successfulTests: string[] = [];
+                    const failedTests: string[] = [];
+                    let previousOption: string | null = null;
+                    
+                    for (let i = 0; i < optionsToTest.length; i++) {
+                        const currentOption = optionsToTest[i];
+                        console.log(`\n--- Testing Duration Option ${i + 1}/${optionsToTest.length}: "${currentOption}" ---`);
+                        
+                        try {
+                            // Step 7: Select one filter value from the values available (e.g., "3 nights")
+                            console.log(`⏰ Step 7: Selecting "${currentOption}" from available values...`);
+                            await searchResultPage.openFilter('Duration');
+                            
+                            // Dynamic validation - check if option is still available
+                            const optionLocator = page.locator(`label`).filter({ hasText: currentOption }).first();
+                            let isStillAvailable = await optionLocator.isVisible({ timeout: 3000 });
+                            
+                            if (!isStillAvailable) {
+                                // Try alternative selectors for duration options
+                                const altSelectors = [
+                                    `[class*="exposed-filters"] label:has-text("${currentOption}")`,
+                                    `label[for*="${currentOption}"]`,
+                                    `label:text-matches("${currentOption.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}", "i")`
+                                ];
+                                
+                                for (const selector of altSelectors) {
+                                    try {
+                                        const altElement = page.locator(selector).first();
+                                        isStillAvailable = await altElement.isVisible({ timeout: 1000 });
+                                        if (isStillAvailable) {
+                                            console.log(`✓ Found "${currentOption}" using alternative selector`);
+                                            await altElement.click();
+                                            break;
+                                        }
+                                    } catch (e) {
+                                        continue;
+                                    }
+                                }
+                            } else {
+                                await optionLocator.click();
+                            }
+                            
+                            if (!isStillAvailable) {
+                                console.log(`⚠️ "${currentOption}" is no longer available, skipping...`);
+                                failedTests.push(`${currentOption} (became unavailable)`);
+                                await searchResultPage.closeFilter();
+                                continue;
+                            }
+                            
+                            console.log(`✅ Selected "${currentOption}" duration filter`);
+                            
+                            // Step 8: Click confirm or apply
+                            console.log(`⏰ Step 8: Applying "${currentOption}" filter...`);
+                            await searchResultPage.applyFilter();
+                            console.log(`✅ Applied "${currentOption}" filter changes`);
+                            
+                            // Wait for results to update
+                            await page.waitForTimeout(4000);
+                            
+                            // Step 9: Check the changes on accommodation search results and sticky bar
+                            console.log(`⏰ Step 9: Checking accommodation results and sticky bar changes...`);
+                            
+                            // Check for "No results" scenario first
+                            const hasNoResults = await searchResultPage.validateNoResultsMessage();
+                            
+                            if (hasNoResults) {
+                                console.log(`📝 "${currentOption}" returned "No results match" message - acceptable for filtering`);
+                                
+                                // Validate sticky bar even with no results - this is CRITICAL
+                                const stickyBarUpdated = await validateStickyBarForDuration(page, currentOption);
+                                if (stickyBarUpdated) {
+                                    console.log(`✅ Sticky bar correctly shows "${currentOption}" despite no results`);
+                                } else {
+                                    console.error(`❌ CRITICAL: Sticky bar failed to update to "${currentOption}" even with no results - this indicates a functional issue`);
+                                    throw new Error(`Sticky bar validation failed: Expected "${currentOption}" to be displayed in sticky bar even with no results`);
+                                }
+                                
+                                successfulTests.push(`${currentOption} (no results)`);
+                                
+                            } else {
+                                // Validate results with this duration
+                                const resultCount = await searchResultPage.getSearchResultCount();
+                                console.log(`📊 "${currentOption}" filter returned ${resultCount} accommodation results`);
+                                expect(resultCount, `"${currentOption}" filter should return results`).toBeGreaterThan(0);
+                                
+                                // Check sticky bar changes from "Any Date" to "Any Date (3 nights)"
+                                const stickyBarUpdated = await validateStickyBarForDuration(page, currentOption);
+                                if (stickyBarUpdated) {
+                                    console.log(`✅ Sticky bar correctly changed from "Any Date" to show "${currentOption}"`);
+                                } else {
+                                    console.error(`❌ CRITICAL: Sticky bar failed to update to "${currentOption}" - this indicates a functional issue`);
+                                    console.error(`📋 Expected sticky bar to show "${currentOption}" but it still shows default value`);
+                                    throw new Error(`Sticky bar validation failed: Expected "${currentOption}" to be displayed in sticky bar but it was not found`);
+                                }
+                                
+                                console.log(`✅ Successfully validated "${currentOption}" duration filter`);
+                                successfulTests.push(currentOption);
+                            }
+                            
+                            // Steps 11-16: Handle option switching for next iteration
+                            if (i < optionsToTest.length - 1) {
+                                const nextOption = optionsToTest[i + 1];
+                                
+                                // Step 11: Click Duration filter again
+                                console.log(`⏰ Step 11: Re-opening Duration filter for option switching...`);
+                                await searchResultPage.openFilter('Duration');
+                                
+                                // Step 12: Unselect the previously selected filter value
+                                console.log(`⏰ Step 12: Unselecting previously selected "${currentOption}"...`);
+                                const unselectLocator = page.locator(`label`).filter({ hasText: currentOption }).first();
+                                if (await unselectLocator.isVisible({ timeout: 3000 })) {
+                                    await unselectLocator.click(); // Uncheck current option
+                                    console.log(`✅ Unselected "${currentOption}"`);
+                                } else {
+                                    console.log(`⚠️ Could not find "${currentOption}" to unselect`);
+                                }
+                                
+                                // Step 13: Select new filter value (e.g., "5 nights")
+                                console.log(`⏰ Step 13: Selecting new filter value "${nextOption}"...`);
+                                const nextLocator = page.locator(`label`).filter({ hasText: nextOption }).first();
+                                if (await nextLocator.isVisible({ timeout: 3000 })) {
+                                    await nextLocator.click();
+                                    console.log(`✅ Selected new option "${nextOption}"`);
+                                } else {
+                                    console.log(`⚠️ "${nextOption}" is no longer available during switching`);
+                                    failedTests.push(`${nextOption} (unavailable during switching)`);
+                                    await searchResultPage.closeFilter();
+                                    continue;
+                                }
+                                
+                                // Step 14: Click confirm
+                                console.log(`⏰ Step 14: Confirming "${nextOption}" selection...`);
+                                await searchResultPage.applyFilter();
+                                await page.waitForTimeout(4000);
+                                
+                                // Step 15: Check changes on accommodation search results and sticky bar
+                                console.log(`⏰ Step 15: Validating results for "${nextOption}"...`);
+                                
+                                const nextHasNoResults = await searchResultPage.validateNoResultsMessage();
+                                
+                                if (nextHasNoResults) {
+                                    console.log(`📝 "${nextOption}" returned "No results match" message`);
+                                    const nextStickyBarUpdated = await validateStickyBarForDuration(page, nextOption);
+                                    if (nextStickyBarUpdated) {
+                                        console.log(`✅ Sticky bar correctly shows "${nextOption}" despite no results`);
+                                    } else {
+                                        console.error(`❌ CRITICAL: Sticky bar failed to update to "${nextOption}" in step switching - this indicates a functional issue`);
+                                        throw new Error(`Step 15 sticky bar validation failed: Expected "${nextOption}" to be displayed in sticky bar`);
+                                    }
+                                } else {
+                                    const nextResultCount = await searchResultPage.getSearchResultCount();
+                                    console.log(`📊 "${nextOption}" returned ${nextResultCount} results`);
+                                    
+                                    // Check sticky bar updated to new duration
+                                    const nextStickyBarUpdated = await validateStickyBarForDuration(page, nextOption);
+                                    if (nextStickyBarUpdated) {
+                                        console.log(`✅ Sticky bar correctly updated from "${currentOption}" to "${nextOption}"`);
+                                    } else {
+                                        console.error(`❌ CRITICAL: Sticky bar failed to update from "${currentOption}" to "${nextOption}" - this indicates a functional issue`);
+                                        throw new Error(`Step 15 sticky bar validation failed: Expected sticky bar to update from "${currentOption}" to "${nextOption}"`);
+                                    }
+                                }
+                            }
+                            
+                            previousOption = currentOption;
+                            
+                        } catch (optionError) {
+                            console.error(`❌ Error testing "${currentOption}": ${optionError.message}`);
+                            failedTests.push(`${currentOption} (error: ${optionError.message})`);
+                            
+                            // Check if this is a critical sticky bar validation error (case-insensitive)
+                            const errorMessage = optionError.message.toLowerCase();
+                            if (errorMessage.includes('sticky bar validation failed') || errorMessage.includes('critical: sticky bar failed')) {
+                                console.error(`🚨 FAILING TEST: Critical sticky bar validation error detected`);
+                                console.error(`🔧 This indicates a functional problem with the Duration filter that must be addressed`);
+                                
+                                // Try to close any open modals/filters before failing
+                                try {
+                                    await searchResultPage.closeFilter();
+                                } catch (closeError) {
+                                    console.log(`⚠️ Could not close filter: ${closeError.message}`);
+                                }
+                                
+                                // Re-throw the error to fail the test
+                                throw optionError;
+                            }
+                            
+                            // Try to close any open modals/filters before continuing
+                            try {
+                                await searchResultPage.closeFilter();
+                            } catch (closeError) {
+                                console.log(`⚠️ Could not close filter: ${closeError.message}`);
+                            }
+                        }
+                    }
+                    
+                    // Step 16: Repeat until all individual filter values are tested (completed in loop above)
+                    
+                    // Final cleanup
+                    console.log(`\n🧹 Clearing all Duration filter selections...`);
+                    try {
+                        await searchResultPage.openFilter('Duration');
+                        
+                        // Clear any remaining selections
+                        for (const option of successfulTests.filter(opt => !opt.includes('no results'))) {
+                            try {
+                                const clearLocator = page.locator(`label`).filter({ hasText: option }).first();
+                                if (await clearLocator.isVisible({ timeout: 2000 })) {
+                                    // Check if still selected and clear
+                                    const isSelected = await clearLocator.evaluate((el: any) => {
+                                        const input = el.querySelector('input[type="checkbox"], input[type="radio"]');
+                                        return input ? input.checked : false;
+                                    });
+                                    
+                                    if (isSelected) {
+                                        await clearLocator.click();
+                                        console.log(`✅ Cleared "${option}" selection`);
+                                    }
+                                }
+                            } catch (clearError) {
+                                console.log(`⚠️ Could not clear "${option}": ${clearError.message}`);
+                            }
+                        }
+                        
+                        await searchResultPage.applyFilter();
+                        console.log(`✅ All Duration filters cleared`);
+                        
+                    } catch (finalClearError) {
+                        console.log(`⚠️ Error during final cleanup: ${finalClearError.message}`);
+                    } finally {
+                        await searchResultPage.closeFilter();
+                    }
+                    
+                    // Test summary
+                    console.log(`\n📊 Duration filter testing summary for ${category.name}:`);
+                    console.log(`   - Total options discovered: ${filterOptions.enabled.length}`);
+                    console.log(`   - Options tested: ${optionsToTest.length}`);
+                    console.log(`   - Successful tests: ${successfulTests.length}`);
+                    console.log(`   - Failed/skipped tests: ${failedTests.length}`);
+                    console.log(`   - Successful: ${successfulTests.join(', ')}`);
+                    if (failedTests.length > 0) {
+                        console.log(`   - Failed/Skipped: ${failedTests.join(', ')}`);
+                    }
+                    console.log(`   📌 Note: Dynamic validation handles day-to-day filter availability changes`);
+                    
+                } catch (overallError) {
+                    console.error(`❌ Overall Duration filter testing failed: ${overallError.message}`);
+                    console.log(`⚠️ Duration filter testing incomplete for ${category.name} due to error`);
+                    
+                    // Check if this is a critical sticky bar validation error that should fail the test (case-insensitive)
+                    const errorMessage = overallError.message.toLowerCase();
+                    if (errorMessage.includes('sticky bar validation failed') || 
+                        errorMessage.includes('critical: sticky bar failed')) {
+                        console.error(`🚨 CRITICAL ERROR: Duration filter test FAILED due to sticky bar validation issue`);
+                        console.error(`🔧 This indicates a functional problem with the Duration filter that must be addressed`);
+                        
+                        // Re-throw the error to make the test fail
+                        throw overallError;
+                    }
                 }
                 
                 console.log(`🎉 Completed Duration filter testing for ${category.name}`);

@@ -345,6 +345,69 @@ export class SearchResultPage {
         }
     }
 
+    /**
+     * Validates sticky bar changes for Duration filter
+     * @param expectedDuration - The duration that should be displayed in sticky bar
+     */
+    async validateStickyBarDurationChange(expectedDuration: string): Promise<boolean> {
+        console.log(`🔍 Validating sticky bar shows "${expectedDuration}" duration...`);
+        
+        try {
+            // Wait for sticky bar to update
+            await this.page.waitForTimeout(2000);
+            
+            // Look for sticky bar elements that might contain duration information
+            const stickyBarSelectors = [
+                '.sticky-bar',
+                '.search-criteria',
+                '.criteria-bar',
+                '.search-bar',
+                '[class*="sticky"]',
+                '[class*="criteria"]',
+                '.c-search-bar',
+                '.search-summary'
+            ];
+            
+            for (const selector of stickyBarSelectors) {
+                const stickyElement = this.page.locator(selector).first();
+                if (await stickyElement.isVisible({ timeout: 2000 })) {
+                    const stickyText = await stickyElement.textContent() || '';
+                    console.log(`📋 Sticky bar content: ${stickyText}`);
+                    
+                    // Check if duration is reflected in sticky bar
+                    const durationPattern = new RegExp(`\\b${expectedDuration.replace(/\s+/g, '\\s*')}\\b`, 'i');
+                    if (durationPattern.test(stickyText)) {
+                        console.log(`✅ Sticky bar correctly shows "${expectedDuration}"`);
+                        return true;
+                    }
+                }
+            }
+            
+            // Also check the main search criteria area
+            const searchCriteriaElements = this.page.locator('text=/Any date|nights/i');
+            const criteriaCount = await searchCriteriaElements.count();
+            
+            for (let i = 0; i < criteriaCount; i++) {
+                const criteriaElement = searchCriteriaElements.nth(i);
+                const criteriaText = await criteriaElement.textContent() || '';
+                console.log(`📋 Search criteria ${i + 1}: ${criteriaText}`);
+                
+                const durationPattern = new RegExp(`\\b${expectedDuration.replace(/\s+/g, '\\s*')}\\b`, 'i');
+                if (durationPattern.test(criteriaText)) {
+                    console.log(`✅ Search criteria correctly shows "${expectedDuration}"`);
+                    return true;
+                }
+            }
+            
+            console.log(`⚠️ Duration "${expectedDuration}" not found in sticky bar or search criteria`);
+            return false;
+            
+        } catch (error) {
+            console.error(`❌ Error validating sticky bar duration: ${error.message}`);
+            return false;
+        }
+    }
+
     async validateSearchResultPageUrl() {
         await this.page.waitForLoadState('domcontentloaded')
         await expect(this.page, 'User successfully navigated to Search result page').toHaveURL(/.*search-results/);
