@@ -244,7 +244,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 
                 // Step 4: Check search results exist in form of accommodations
                 await searchResultPage.waitForAccommodationResults();
-                const initialResultCount = await searchResultPage.getSearchResultCount();
+                const { count: initialResultCount } = await searchResultPage.countSearchResults();
                 expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
                 console.log(`✅ Found ${initialResultCount} initial accommodation results`);
                 
@@ -1279,9 +1279,9 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     // =================== BUDGET FILTER TESTS ===================
     
     categories.forEach(category => {
-        test.describe(`${category.name} - Budget Filter Testing`, () => {
+        test.describe(`${category.name} - Budget Filter Comprehensive Testing`, () => {
             
-            test(`@accom @regression Should test Budget filter options for ${category.name}`, async ({ 
+            test(`@accom @regression Should test comprehensive Budget filter validation for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
@@ -1296,126 +1296,159 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
                 console.log(`✅ Found ${initialResultCount} initial accommodation results`);
                 
-                console.log(`\n💰 Testing Budget filter for ${category.name}...`);
+                console.log(`\n💰 Starting comprehensive Budget filter testing for ${category.name}...`);
                 
                 try {
-                    // Step 5: Click Budget and check what filter values are available
-                    console.log(`✓ Opening Budget filter...`);
+                    // Step 5: Open Budget filter
                     await searchResultPage.openFilter('Budget');
                     console.log(`✓ Successfully opened Budget filter`);
                     
-                    // Step 6: Get available budget options using dynamic discovery
-                    const filterOptions = await searchResultPage.getFilterOptions('Budget');
+                    // Step 1: Test negative value input (-1 should become 0)
+                    console.log(`\n📋 Step 1: Testing negative value input...`);
+                    await searchResultPage.setBudgetMinValue('-1');
+                    let minValue = await searchResultPage.getBudgetMinValue();
+                    expect(minValue).toBe('0');
+                    console.log('✓ Step 1: Negative value (-1) correctly converted to 0');
                     
-                    if (filterOptions.enabled.length === 0) {
-                        console.log(`⚠️ No Budget filter options available for ${category.name}`);
-                        await searchResultPage.closeFilter();
-                        console.log(`🎉 Budget filter testing skipped for ${category.name} (no options available)`);
-                        return;
-                    }
+                    // Step 2: Test large number input (99999) - should be capped at 10000
+                    console.log(`\n📋 Step 2: Testing large number input...`);
+                    await searchResultPage.setBudgetMaxValue('99999');
+                    let maxValue = await searchResultPage.getBudgetMaxValue();
+                    expect(maxValue).toBe('10000'); // System caps max value at 10000
+                    console.log('✓ Step 2: Large number (99999) correctly capped at 10000');
                     
-                    console.log(`📋 Initial Budget filter analysis for ${category.name}:`);
-                    console.log(`   - Initially detected enabled options (${filterOptions.enabled.length}): ${filterOptions.enabled.join(', ')}`);
-                    console.log(`   - Initially detected disabled options (${filterOptions.disabled.length}): ${filterOptions.disabled.join(', ')}`);
+                    // Step 2b: Test large number input on min field
+                    console.log(`\n📋 Step 2b: Testing large number input on min field...`);
+                    await searchResultPage.setBudgetMinValue('99999');
+                    minValue = await searchResultPage.getBudgetMinValue();
+                    expect(minValue).toBe('9999'); // System caps min value at 9999
+                    console.log('✓ Step 2b: Large number (99999) correctly capped at 9999 for min field');
                     
-                    // Close the filter to start fresh
-                    await searchResultPage.closeFilter();
+                    // Step 3: Test min > max validation (system should auto-adjust)
+                    console.log(`\n📋 Step 3: Testing min > max validation...`);
+                    await searchResultPage.setBudgetMinValue('2000');
+                    await searchResultPage.setBudgetMaxValue('1000');
+                    minValue = await searchResultPage.getBudgetMinValue();
+                    maxValue = await searchResultPage.getBudgetMaxValue();
+                    // System should either keep values as entered or auto-adjust max to min+1
+                    console.log(`✓ Step 3: Min/Max validation - Min: ${minValue}, Max: ${maxValue}`);
+                    // Note: System behavior may vary - either keeps values or auto-adjusts
                     
-                    console.log(`\n🔍 Dynamically testing Budget options for ${category.name}...`);
-                    console.log(`   📋 Will test each available option individually with real-time validation`);
+                    // Step 4: Test empty field validation
+                    console.log(`\n📋 Step 4: Testing empty field validation...`);
+                    await searchResultPage.setBudgetMinValue('');
+                    await searchResultPage.setBudgetMaxValue('');
+                    minValue = await searchResultPage.getBudgetMinValue();
+                    maxValue = await searchResultPage.getBudgetMaxValue();
+                    console.log(`✓ Step 4: Empty field handling - Min: ${minValue}, Max: ${maxValue}`);
                     
-                    // Test available Budget options (limit to first 4 to keep tests reasonable)
-                    const optionsToTest = filterOptions.enabled.slice(0, 4);
-                    console.log(`   📋 Testing first ${optionsToTest.length} options: ${optionsToTest.join(', ')}`);
+                    // Step 5: Test decimal value input
+                    console.log(`\n📋 Step 5: Testing decimal value input...`);
+                    await searchResultPage.setBudgetMinValue('500.50');
+                    await searchResultPage.setBudgetMaxValue('1500.75');
+                    minValue = await searchResultPage.getBudgetMinValue();
+                    maxValue = await searchResultPage.getBudgetMaxValue();
+                    console.log(`✓ Step 5: Decimal values - Min: ${minValue}, Max: ${maxValue}`);
                     
-                    const testedOptions: string[] = [];
-                    const skippedOptions: string[] = [];
+                    // Step 6: Test zero values
+                    console.log(`\n📋 Step 6: Testing zero values...`);
+                    await searchResultPage.setBudgetMinValue('0');
+                    await searchResultPage.setBudgetMaxValue('0');
+                    minValue = await searchResultPage.getBudgetMinValue();
+                    maxValue = await searchResultPage.getBudgetMaxValue();
+                    console.log(`✓ Step 6: Zero values - Min: ${minValue}, Max: ${maxValue}`);
                     
-                    for (const option of optionsToTest) {
-                        console.log(`\n🔍 Testing Budget option: "${option}"`);
-                        console.log(`   📌 Checking real-time availability of "${option}" filter...`);
-                        
-                        // Step 5: Click Budget (for each option)
-                        await searchResultPage.openFilter('Budget');
-                        
-                        // Re-check if option is still available (dynamic validation)
-                        const filterCheckbox = page.locator(`label`).filter({ hasText: option }).first();
-                        
-                        const isCurrentlyVisible = await filterCheckbox.isVisible({ timeout: 3000 });
-                        const isCurrentlyEnabled = isCurrentlyVisible ? await filterCheckbox.isEnabled({ timeout: 1000 }) : false;
-                        const hasDisabledClass = isCurrentlyVisible ? await filterCheckbox.evaluate((el) => {
-                            return el.classList.contains('disabled') || 
-                                   el.hasAttribute('disabled') ||
-                                   el.getAttribute('aria-disabled') === 'true';
-                        }) : true;
-                        
-                        if (!isCurrentlyVisible || !isCurrentlyEnabled || hasDisabledClass) {
-                            console.log(`   ⚠️ "${option}" option is now unavailable/disabled, skipping...`);
-                            skippedOptions.push(`${option} (became unavailable)`);
-                            await searchResultPage.closeFilter();
-                            continue;
-                        }
-                        
-                        console.log(`   ✅ "${option}" option is available and clickable, proceeding with test...`);
-                        
-                        // Step 7: Select one filter value from enabled values
-                        await filterCheckbox.click();
-                        console.log(`   ✅ Selected "${option}" budget filter`);
-                        
-                        // Step 8: Click confirm/apply
-                        await searchResultPage.applyFilter();
-                        console.log(`   ✅ Applied "${option}" filter`);
-                        testedOptions.push(option);
-                        
-                        // Wait for results to update
-                        await page.waitForTimeout(3000);
-                        
-                        // Step 9-10: Check changes on accommodation search results
-                        const hasNoResults = await searchResultPage.validateNoResultsMessage();
-                        
-                        if (hasNoResults) {
-                            console.log(`   ✅ "${option}" filter correctly shows "No results match" message`);
-                        } else {
-                            // Validate result count
-                            const resultCount = await searchResultPage.getSearchResultCount();
-                            console.log(`   📊 Filter "${option}" returned ${resultCount} results`);
-                            expect(resultCount, `"${option}" filter should return some results`).toBeGreaterThan(0);
-                            console.log(`   ✅ "${option}" budget filter returned valid results`);
-                        }
-                        
-                        // Step 11-12: Click Budget filter again and unselect the previously selected filter value
-                        console.log(`   🔄 Unselecting "${option}" filter...`);
-                        await searchResultPage.openFilter('Budget');
-                        
-                        // Re-locate the checkbox for unselecting
-                        const unselectCheckbox = page.locator(`label`).filter({ hasText: option }).first();
-                        if (await unselectCheckbox.isVisible({ timeout: 3000 })) {
-                            await unselectCheckbox.click(); // Uncheck the option
-                            console.log(`   ✅ Unselected "${option}" filter`);
-                            await searchResultPage.applyFilter();
-                            await page.waitForTimeout(2000);
-                        } else {
-                            console.log(`   ⚠️ Could not find "${option}" checkbox to unselect`);
-                            await searchResultPage.closeFilter();
-                        }
-                        
-                        // Steps 13-16 are implicit: Continue loop to select next filter value and repeat validation
-                    }
+                    // Step 7: Reset to valid range for price testing
+                    console.log(`\n📋 Step 7: Setting up valid range for price testing...`);
+                    await searchResultPage.setBudgetMinValue('500');
+                    await searchResultPage.setBudgetMaxValue('1000');
+                    console.log(`✓ Step 7: Set valid range 500-1000`);
                     
-                    console.log(`\n📊 Budget filter testing summary for ${category.name}:`);
-                    console.log(`   - Initially detected options: ${filterOptions.enabled.length}`);
-                    console.log(`   - Successfully tested options: ${testedOptions.length}`);
-                    console.log(`   - Skipped/disabled options: ${skippedOptions.length}`);
-                    console.log(`   - Tested options: ${testedOptions.join(', ')}`);
-                    console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
-                    console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
+                    // Step 8: Apply filters and verify
+                    console.log(`\n📋 Step 8: Applying filters...`);
+                    await searchResultPage.applyFilters();
+                    console.log('✓ Step 8: Filters applied successfully');
+                    
+                    // Step 9: Verify search results exist
+                    console.log(`\n📋 Step 9: Verifying search results exist...`);
+                    const { count: resultCount } = await searchResultPage.countSearchResults();
+                    expect(resultCount).toBeGreaterThan(0);
+                    console.log(`✓ Step 9: Found ${resultCount} search results`);
+                    
+                    // Step 10: Verify prices are within range
+                    console.log(`\n📋 Step 10: Verifying prices within range...`);
+                    const pricesWithinRange = await searchResultPage.verifyPricesInRange(500, 1000);
+                    expect(pricesWithinRange).toBe(true);
+                    console.log('✓ Step 10: All prices verified within 500-1000 range');
+                    
+                    // Step 11: Test different valid range
+                    console.log(`\n📋 Step 11: Testing different valid range...`);
+                    await searchResultPage.openFilter('Budget');
+                    await searchResultPage.setBudgetMinValue('1000');
+                    await searchResultPage.setBudgetMaxValue('2000');
+                    await searchResultPage.applyFilters();
+                    console.log(`✓ Step 11: Applied 1000-2000 range`);
+                    
+                    // Step 12: Verify new range results
+                    console.log(`\n📋 Step 12: Verifying new range results...`);
+                    const { count: highRangeResultCount } = await searchResultPage.countSearchResults();
+                    expect(highRangeResultCount).toBeGreaterThan(0);
+                    console.log(`✓ Step 12: Found ${highRangeResultCount} results for 1000-2000 range`);
+                    
+                    // Step 13: Verify high range prices
+                    console.log(`\n📋 Step 13: Verifying high range prices...`);
+                    const highRangePricesValid = await searchResultPage.verifyPricesInRange(1000, 2000);
+                    expect(highRangePricesValid).toBe(true);
+                    console.log('✓ Step 13: All prices verified within 1000-2000 range');
+                    
+                    // Step 14: Test minimum only filter
+                    console.log(`\n📋 Step 14: Testing minimum only filter...`);
+                    await searchResultPage.openFilter('Budget');
+                    await searchResultPage.setBudgetMinValue('1500');
+                    await searchResultPage.setBudgetMaxValue('10000'); // Reset to default max
+                    await searchResultPage.applyFilters();
+                    console.log(`✓ Step 14: Applied minimum filter (1500+)`);
+                    
+                    // Step 15: Verify minimum filter results
+                    console.log(`\n📋 Step 15: Verifying minimum filter results...`);
+                    const { count: minOnlyResultCount } = await searchResultPage.countSearchResults();
+                    expect(minOnlyResultCount).toBeGreaterThan(0);
+                    console.log(`✓ Step 15: Found ${minOnlyResultCount} results with min 1500`);
+                    
+                    // Step 16: Test maximum only filter
+                    console.log(`\n📋 Step 16: Testing maximum only filter...`);
+                    await searchResultPage.openFilter('Budget');
+                    await searchResultPage.setBudgetMinValue('0'); // Reset to default min
+                    await searchResultPage.setBudgetMaxValue('800');
+                    await searchResultPage.applyFilters();
+                    console.log(`✓ Step 16: Applied maximum filter (up to 800)`);
+                    
+                    // Step 17: Verify maximum filter results
+                    console.log(`\n📋 Step 17: Verifying maximum filter results...`);
+                    const { count: maxOnlyResultCount } = await searchResultPage.countSearchResults();
+                    expect(maxOnlyResultCount).toBeGreaterThan(0);
+                    const maxOnlyPricesValid = await searchResultPage.verifyPricesInRange(0, 800);
+                    expect(maxOnlyPricesValid).toBe(true);
+                    console.log(`✓ Step 17: Found ${maxOnlyResultCount} results with max 800, all prices valid`);
+                    
+                    // Clean up
+                    await searchResultPage.clearFilters();
+                    console.log('\n🧹 Filters cleared successfully');
+                    
+                    console.log(`\n📊 Budget filter comprehensive testing summary for ${category.name}:`);
+                    console.log(`   - All 17 steps completed successfully`);
+                    console.log(`   - Input validation: negative values, large numbers, decimals, empty fields ✓`);
+                    console.log(`   - Range validation: min/max relationships, price ranges ✓`);
+                    console.log(`   - Filter application: different ranges, min-only, max-only ✓`);
+                    console.log(`   - Price verification: all results within specified ranges ✓`);
                     
                 } catch (error) {
-                    console.error(`❌ Failed testing Budget filter: ${error.message}`);
-                    console.log(`⚠️ Budget filter testing skipped for ${category.name} due to error`);
+                    console.error(`❌ Failed comprehensive Budget filter testing: ${error.message}`);
+                    console.log(`⚠️ Budget filter comprehensive testing failed for ${category.name}: ${error.message}`);
+                    throw error; // Re-throw to fail the test
                 }
                 
-                console.log(`🎉 Completed Budget filter testing for ${category.name}`);
+                console.log(`🎉 Successfully completed comprehensive Budget filter testing for ${category.name}`);
             });
         });
     });

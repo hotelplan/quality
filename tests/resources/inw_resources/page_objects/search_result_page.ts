@@ -2072,6 +2072,141 @@ export class SearchResultPage {
         }
     }
 
+    // =================== BUDGET FILTER METHODS ===================
+
+    /**
+     * Sets the minimum budget value in the budget filter
+     * @param value - The minimum price value to set
+     */
+    async setBudgetMinValue(value: string): Promise<void> {
+        const minInput = this.page.locator('input[type="number"]').first(); // First number input is min
+        await minInput.clear();
+        await minInput.fill(value);
+        // Trigger validation by pressing Tab (which causes blur event)
+        await minInput.press('Tab');
+        await this.page.waitForTimeout(500);
+    }
+
+    async setBudgetMaxValue(value: string): Promise<void> {
+        const maxInput = this.page.locator('input[type="number"]').nth(1); // Second number input is max
+        await maxInput.clear();
+        await maxInput.fill(value);
+        // Trigger validation by pressing Tab (which causes blur event)
+        await maxInput.press('Tab');
+        await this.page.waitForTimeout(500);
+    }
+
+    async getBudgetMinValue(): Promise<string> {
+        const minInput = this.page.locator('input[type="number"]').first();
+        return await minInput.inputValue();
+    }
+
+    async getBudgetMaxValue(): Promise<string> {
+        const maxInput = this.page.locator('input[type="number"]').nth(1);
+        return await maxInput.inputValue();
+    }
+
+    /**
+     * Sets both minimum and maximum budget values
+     * @param minValue - The minimum price value
+     * @param maxValue - The maximum price value
+     */
+    async setBudgetRange(minValue: string, maxValue: string): Promise<void> {
+        await this.setBudgetMinValue(minValue);
+        await this.setBudgetMaxValue(maxValue);
+    }
+
+    /**
+     * Verifies that all displayed prices are within the specified range
+     * @param minPrice - Minimum expected price
+     * @param maxPrice - Maximum expected price
+     * @returns True if all prices are within range
+     */
+    async verifyPricesInRange(minPrice: number, maxPrice: number): Promise<boolean> {
+        await this.page.waitForTimeout(2000); // Wait for results to load
+        
+        // Look for price elements using multiple selectors
+        const priceSelectors = [
+            '[class*="price"]',
+            '[data-testid*="price"]', 
+            '.c-search-card__price',
+            '[class*="from"]',
+            'text=/£[0-9,]+/'
+        ];
+        
+        let priceElements: any[] = [];
+        
+        for (const selector of priceSelectors) {
+            const elements = await this.page.locator(selector).all();
+            if (elements.length > 0) {
+                priceElements = elements;
+                break;
+            }
+        }
+        
+        if (priceElements.length === 0) {
+            console.log('⚠️ No price elements found on the page');
+            return false;
+        }
+        
+        console.log(`📊 Checking ${priceElements.length} price elements for range ${minPrice}-${maxPrice}`);
+        
+        for (const element of priceElements) {
+            try {
+                const priceText = await element.textContent();
+                if (priceText) {
+                    // Extract numeric price from text like "£549pp", "From £1,079 pp", etc.
+                    const priceMatch = priceText.match(/£([0-9,]+)/);
+                    if (priceMatch) {
+                        const price = parseInt(priceMatch[1].replace(/,/g, ''));
+                        if (price < minPrice || price > maxPrice) {
+                            console.log(`❌ Price ${price} is outside range ${minPrice}-${maxPrice}`);
+                            return false;
+                        }
+                        console.log(`✓ Price ${price} is within range`);
+                    }
+                }
+            } catch (error) {
+                console.warn(`⚠️ Could not extract price from element: ${error.message}`);
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Clicks the Budget filter to open it
+     */
+    async clickBudgetFilter(): Promise<void> {
+        // Look for Budget filter in the filter list
+        const budgetFilter = this.page.locator('listitem').filter({ hasText: 'Budget' });
+        await budgetFilter.click();
+        await this.page.waitForTimeout(1000); // Wait for filter to open
+    }
+
+    /**
+     * Applies the current filter selections
+     */
+    async applyFilters(): Promise<void> {
+        const confirmButton = this.page.getByRole('button', { name: 'Confirm' });
+        await confirmButton.click();
+        await this.page.waitForTimeout(2000); // Wait for results to update
+    }
+
+    /**
+     * Clears all active filters
+     */
+    async clearFilters(): Promise<void> {
+        // Look for clear/reset filters option
+        const clearButton = this.page.locator('[data-testid="clear-filters"], .clear-filters, button:has-text("Clear"), button:has-text("Reset")').first();
+        if (await clearButton.isVisible({ timeout: 3000 })) {
+            await clearButton.click();
+            await this.page.waitForTimeout(1000);
+        }
+    }
+
+
+
 }
 
 
