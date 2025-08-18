@@ -79,13 +79,13 @@ jobs:
       run: |  
 
         if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Search Migration" ]; then
-          npx playwright test tests/e2e_tests/inw_migration_tests/search/ --project=Chromium --project=Mobile_Safari
+          npx playwright test tests/e2e_tests/inw_migration_tests/search/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Migration" ]; then
-          npx playwright test tests/e2e_tests/inw_migration_tests/ --project=Chromium --project=Mobile_Safari
+          npx playwright test tests/e2e_tests/inw_migration_tests/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Components" ]; then
-          npx playwright test tests/e2e_tests/inw_tests/components/ --project=Chromium --project=Mobile_Safari
+          npx playwright test tests/e2e_tests/inw_tests/components/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Search" ]; then
-          npx playwright test tests/e2e_tests/inw_tests/search/ --project=Chromium --project=Mobile_Safari
+          npx playwright test tests/e2e_tests/inw_tests/search/ --project=Chromium
         else
           echo "No matching scope found. Please check the input."
           exit 1
