@@ -96,6 +96,49 @@ jobs:
       run: |
         npx allure generate allure-results --clean -o allure-report
 
+    - name: Deploy Allure Report to GitHub Pages
+      if: ${{ !cancelled() }}
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./allure-report
+        destination_dir: reports/${{ github.run_number }}
+        keep_files: true
+
+    - name: Create Report Link Comment
+      if: ${{ !cancelled() }}
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const reportUrl = `https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/reports/${{ github.run_number }}/`;
+          const scope = '${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}';
+          const environment = '${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}';
+          const runNumber = '${{ github.run_number }}';
+          
+          const comment = `## 📊 Allure Test Report
+          
+          **Test Run Details:**
+          - Scope: ${scope}
+          - Environment: ${environment}
+          - Build: ${runNumber}
+          
+          📋 **[View Allure Report](${reportUrl})**
+          
+          _Report generated on: ${new Date().toLocaleString()}_`;
+          
+          // Create a commit status with the report link
+          await github.rest.repos.createCommitStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: context.sha,
+            state: 'success',
+            target_url: reportUrl,
+            description: `Allure Report - ${scope} (${environment})`,
+            context: 'Test Report'
+          });
+          
+          console.log(`📊 Allure Report available at: ${reportUrl}`);
+
     - name: Test Report Generation
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
