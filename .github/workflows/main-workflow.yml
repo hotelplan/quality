@@ -37,17 +37,16 @@ on:
         options:
         - qa
         - stg
-        - prod
       scope:
         description: 'Test Scope'
         required: true
-        default: 'Smoke'
+        default: 'Components'
         type: choice
         options:
-        - Smoke
-        - Regression
+        - Search Migration
         - Migration
-        - Accommodation
+        - Components
+        - Search
 
   repository_dispatch:
     types: [deploy]
@@ -79,22 +78,29 @@ jobs:
         PCMS_PASSWORD: ${{ secrets.PCMS_PASSWORD_QA }}
       run: |  
 
-        if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Smoke" ]; then
-          npx playwright test --grep /@smoke/ --project=Chromium
-        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Regression" ]; then
-          npx playwright test --grep /@regression/ --project=Chromium
+        if [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Search Migration" ]; then
+          npx playwright test tests/e2e_tests/inw_migration_tests/search/ --project=Chromium --project=Mobile_Safari
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Migration" ]; then
-          npx playwright test --grep /@migration/ --project=Chromium
-        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Accommodation" ]; then
-          npx playwright test --grep /@accom/ --project=Chromium
+          npx playwright test tests/e2e_tests/inw_migration_tests/ --project=Chromium --project=Mobile_Safari
+        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Components" ]; then
+          npx playwright test tests/e2e_tests/inw_tests/components/ --project=Chromium --project=Mobile_Safari
+        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Search" ]; then
+          npx playwright test tests/e2e_tests/inw_tests/search/ --project=Chromium --project=Mobile_Safari
         else
           echo "No matching scope found. Please check the input."
           exit 1
         fi
+
+    - name: Generate Allure Report
+      if: ${{ !cancelled() }}
+      run: |
+        npx allure generate allure-results --clean -o allure-report
 
     - name: Test Report Generation
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: HP_${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}_Test_Results_${{github.run_number}} - ${{ github.event.inputs.environment || github.event.client_payload.environment || inputs.environment }}
-        path: test-results/*
+        path: |
+          test-results/*
+          allure-report/*
