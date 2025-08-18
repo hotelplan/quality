@@ -87,6 +87,327 @@ export class SearchResultPage {
         this.nightsValue = page.locator('.nights-btn')
     }
 
+    // =================== NAVIGATION METHODS ===================
+
+    /**
+     * Navigates to search results for a specific category
+     * @param categoryName - The category to search (Ski, Walking, Lapland)
+     * @param searchLocation - Location to search (default: 'anywhere')
+     */
+    async navigateToSearchResults(categoryName: string, searchLocation: string = 'anywhere'): Promise<void> {
+        console.log(`🔧 Navigating to ${categoryName} search results...`);
+        
+        // Navigate to the base URL
+        await this.page.goto('/');
+        await this.page.waitForLoadState('domcontentloaded');
+        
+        // Click the category tab
+        await this.clickSearchProductTab(categoryName);
+        await this.page.waitForTimeout(1000);
+        
+        // Perform search
+        await this.clickSearchHolidayBtn();
+        
+        // Wait for search results to load
+        await this.validateSearchResultPageUrl();
+        await this.waitForAccommodationResults();
+        
+        console.log(`✓ Successfully navigated to ${categoryName} search results`);
+    }
+
+    /**
+     * Waits for accommodation results to load on the page
+     */
+    async waitForAccommodationResults(): Promise<void> {
+        console.log('⏳ Waiting for accommodation results to load...');
+        
+        // Wait for accommodation cards to be visible with multiple fallback strategies
+        const selectors = [
+            '.c-search-card',
+            '[data-testid="accommodation-card"]',
+            '.search-card',
+            '.accommodation-card',
+            '[class*="search-card"]'
+        ];
+        
+        let resultsFound = false;
+        for (const selector of selectors) {
+            try {
+                await this.page.locator(selector).first().waitFor({ 
+                    state: 'visible', 
+                    timeout: 10000 
+                });
+                resultsFound = true;
+                console.log(`✓ Accommodation results loaded (selector: ${selector})`);
+                break;
+            } catch (error) {
+                console.warn(`Could not find results with selector: ${selector}`);
+            }
+        }
+        
+        if (!resultsFound) {
+            // Check for "no results" message
+            const noResultsMessages = [
+                'No results matching your',
+                'No accommodations found',
+                'No holidays found',
+                'Sorry, no results'
+            ];
+            
+            for (const message of noResultsMessages) {
+                const noResultsElement = this.page.getByText(message);
+                if (await noResultsElement.isVisible({ timeout: 3000 })) {
+                    console.warn(`⚠️ No search results found: ${message}`);
+                    return;
+                }
+            }
+            
+            throw new Error('Could not find accommodation results or no-results message');
+        }
+    }
+
+    /**
+     * Checks if accommodation ratings match the applied filter
+     * @param expectedRating - The rating that should be displayed
+     */
+    async validateAccommodationRatings(expectedRating: string): Promise<{ isValid: boolean; actualRatings: string[]; invalidCards: number }> {
+        console.log(`🔍 Validating accommodation ratings match filter: ${expectedRating}`);
+        
+        const ratingSelectors = [
+            '.rating > span',
+            '[data-testid="rating"]',
+            '.star-rating',
+            '.accommodation-rating',
+            '[class*="rating"] span'
+        ];
+        
+        let actualRatings: string[] = [];
+        let invalidCards = 0;
+        
+        // Get all accommodation cards
+        const accommodationCards = this.page.locator('.c-search-card, [data-testid="accommodation-card"], .search-card').all();
+        const cards = await accommodationCards;
+        
+        for (let i = 0; i < cards.length; i++) {
+            const card = cards[i];
+            let ratingFound = false;
+            
+            for (const selector of ratingSelectors) {
+                try {
+                    const ratingElement = card.locator(selector).first();
+                    if (await ratingElement.isVisible({ timeout: 1000 })) {
+                        const ratingText = await ratingElement.textContent();
+                        if (ratingText && ratingText.trim()) {
+                            actualRatings.push(ratingText.trim());
+                            
+                            // Check if rating matches expected
+                            if (!ratingText.includes(expectedRating)) {
+                                invalidCards++;
+                                console.warn(`❌ Card ${i + 1}: Expected rating ${expectedRating}, found ${ratingText}`);
+                            } else {
+                                console.log(`✅ Card ${i + 1}: Rating ${ratingText} matches filter`);
+                            }
+                            ratingFound = true;
+                            break;
+                        }
+                    }
+                } catch (error) {
+                    // Continue to next selector
+                }
+            }
+            
+            if (!ratingFound) {
+                console.warn(`⚠️ Card ${i + 1}: No rating found`);
+                invalidCards++;
+            }
+        }
+        
+        const isValid = invalidCards === 0 && actualRatings.length > 0;
+        console.log(`📊 Rating validation: ${actualRatings.length - invalidCards}/${actualRatings.length} cards match, ${invalidCards} invalid`);
+        
+        return { isValid, actualRatings, invalidCards };
+    }
+
+    /**
+     * Checks for "No results" message when filters return no matches
+     */
+    async validateNoResultsMessage(): Promise<boolean> {
+        console.log('🔍 Checking for no results message...');
+        
+        const noResultsMessages = [
+            'No results matching your',
+            'No accommodations found',
+            'No holidays found',
+            'Sorry, no results',
+            'No results found'
+        ];
+        
+        for (const message of noResultsMessages) {
+            const element = this.page.getByText(message);
+            if (await element.isVisible({ timeout: 3000 })) {
+                console.log(`✅ No results message found: ${message}`);
+                return true;
+            }
+        }
+        
+        console.log('❌ No results message not found');
+        return false;
+    }
+
+    /**
+     * Validates that accommodations have the expected Board Basis type
+     * @param expectedBoardBasis - The Board Basis type that should be displayed
+     */
+    async validateAccommodationBoardBasis(expectedBoardBasis: string): Promise<{
+        isValid: boolean;
+        totalCards: number;
+        cardsWithBoardBasis: number;
+        cardsWithoutBoardBasis: number;
+        accommodationsWithoutBoardBasis: string[];
+    }> {
+        console.log(`🔍 Validating accommodations have "${expectedBoardBasis}" board basis...`);
+        
+        try {
+            // Wait for accommodation cards to load
+            await this.page.waitForSelector('.c-search-card', { timeout: 10000 });
+            
+            // Get all accommodation cards
+            const accommodationCards = this.page.locator('.c-search-card');
+            const cardCount = await accommodationCards.count();
+            console.log(`📊 Found ${cardCount} accommodation cards to validate`);
+            
+            let cardsWithBoardBasis = 0;
+            let cardsWithoutBoardBasis = 0;
+            const accommodationsWithoutBoardBasis: string[] = [];
+            
+            // Check each accommodation card
+            for (let i = 0; i < cardCount; i++) {
+                const card = accommodationCards.nth(i);
+                
+                // Get accommodation name
+                const nameElement = card.locator('h3, .c-search-card__title, [data-testid="accommodation-title"]').first();
+                const accommodationName = await nameElement.textContent() || `Accommodation ${i + 1}`;
+                
+                // Check for Board Basis information in the card
+                const boardBasisElement = card.locator('.c-search-card--resorts__board-basis');
+                
+                if (await boardBasisElement.isVisible({ timeout: 2000 })) {
+                    const boardBasisText = await boardBasisElement.textContent() || '';
+                    
+                    // Check if the expected board basis is present
+                    if (boardBasisText.toLowerCase().includes(expectedBoardBasis.toLowerCase())) {
+                        console.log(`✅ "${accommodationName}" has "${expectedBoardBasis}" board basis`);
+                        cardsWithBoardBasis++;
+                    } else {
+                        console.log(`⚠️ "${accommodationName}" shows "${boardBasisText}" instead of "${expectedBoardBasis}"`);
+                        cardsWithoutBoardBasis++;
+                        accommodationsWithoutBoardBasis.push(accommodationName);
+                    }
+                } else {
+                    console.log(`⚠️ "${accommodationName}" does NOT show board basis information`);
+                    cardsWithoutBoardBasis++;
+                    accommodationsWithoutBoardBasis.push(accommodationName);
+                }
+            }
+            
+            // Summary
+            const isValid = cardsWithoutBoardBasis === 0;
+            console.log(`📊 Board Basis validation summary:`);
+            console.log(`   - Total cards: ${cardCount}`);
+            console.log(`   - Cards with "${expectedBoardBasis}" board basis: ${cardsWithBoardBasis}`);
+            console.log(`   - Cards without correct board basis: ${cardsWithoutBoardBasis}`);
+            console.log(`   - Validation passed: ${isValid ? 'YES' : 'NO'}`);
+            
+            if (!isValid) {
+                console.log(`🔍 Accommodations without "${expectedBoardBasis}" board basis:`);
+                accommodationsWithoutBoardBasis.forEach((name, index) => {
+                    console.log(`   ${index + 1}. ${name}`);
+                });
+            }
+            
+            return {
+                isValid,
+                totalCards: cardCount,
+                cardsWithBoardBasis,
+                cardsWithoutBoardBasis,
+                accommodationsWithoutBoardBasis
+            };
+            
+        } catch (error) {
+            console.error(`❌ Error validating board basis: ${error.message}`);
+            return {
+                isValid: false,
+                totalCards: 0,
+                cardsWithBoardBasis: 0,
+                cardsWithoutBoardBasis: 0,
+                accommodationsWithoutBoardBasis: []
+            };
+        }
+    }
+
+    /**
+     * Validates sticky bar changes for Duration filter
+     * @param expectedDuration - The duration that should be displayed in sticky bar
+     */
+    async validateStickyBarDurationChange(expectedDuration: string): Promise<boolean> {
+        console.log(`🔍 Validating sticky bar shows "${expectedDuration}" duration...`);
+        
+        try {
+            // Wait for sticky bar to update
+            await this.page.waitForTimeout(2000);
+            
+            // Look for sticky bar elements that might contain duration information
+            const stickyBarSelectors = [
+                '.sticky-bar',
+                '.search-criteria',
+                '.criteria-bar',
+                '.search-bar',
+                '[class*="sticky"]',
+                '[class*="criteria"]',
+                '.c-search-bar',
+                '.search-summary'
+            ];
+            
+            for (const selector of stickyBarSelectors) {
+                const stickyElement = this.page.locator(selector).first();
+                if (await stickyElement.isVisible({ timeout: 2000 })) {
+                    const stickyText = await stickyElement.textContent() || '';
+                    console.log(`📋 Sticky bar content: ${stickyText}`);
+                    
+                    // Check if duration is reflected in sticky bar
+                    const durationPattern = new RegExp(`\\b${expectedDuration.replace(/\s+/g, '\\s*')}\\b`, 'i');
+                    if (durationPattern.test(stickyText)) {
+                        console.log(`✅ Sticky bar correctly shows "${expectedDuration}"`);
+                        return true;
+                    }
+                }
+            }
+            
+            // Also check the main search criteria area
+            const searchCriteriaElements = this.page.locator('text=/Any date|nights/i');
+            const criteriaCount = await searchCriteriaElements.count();
+            
+            for (let i = 0; i < criteriaCount; i++) {
+                const criteriaElement = searchCriteriaElements.nth(i);
+                const criteriaText = await criteriaElement.textContent() || '';
+                console.log(`📋 Search criteria ${i + 1}: ${criteriaText}`);
+                
+                const durationPattern = new RegExp(`\\b${expectedDuration.replace(/\s+/g, '\\s*')}\\b`, 'i');
+                if (durationPattern.test(criteriaText)) {
+                    console.log(`✅ Search criteria correctly shows "${expectedDuration}"`);
+                    return true;
+                }
+            }
+            
+            console.log(`⚠️ Duration "${expectedDuration}" not found in sticky bar or search criteria`);
+            return false;
+            
+        } catch (error) {
+            console.error(`❌ Error validating sticky bar duration: ${error.message}`);
+            return false;
+        }
+    }
+
     async validateSearchResultPageUrl() {
         await this.page.waitForLoadState('domcontentloaded')
         await expect(this.page, 'User successfully navigated to Search result page').toHaveURL(/.*search-results/);
@@ -857,6 +1178,1034 @@ export class SearchResultPage {
 
         return this.searchValues;
     }
+
+    // Filter-related methods for POM compliance
+    async verifyFiltersPresence(expectedFilters: string[]): Promise<{ visibleCount: number; missingFilters: string[] }> {
+        let visibleCount = 0;
+        const missingFilters: string[] = [];
+        
+        for (const filterName of expectedFilters) {
+            try {
+                const filterButton = this.page.getByRole('button', { name: filterName });
+                await expect(filterButton).toBeVisible({ timeout: 5000 });
+                console.log(`   ✅ ${filterName} filter is visible and accessible`);
+                visibleCount++;
+            } catch (error) {
+                console.log(`   ❌ ${filterName} filter not found or not visible`);
+                missingFilters.push(filterName);
+            }
+        }
+        
+        return { visibleCount, missingFilters };
+    }
+
+    async countSearchResults(): Promise<{ count: number; selector: string }> {
+        // Check for search results using multiple possible locators
+        const possibleResultSelectors = [
+            '.hotel-card',
+            '.c-search-card', 
+            '.search-result',
+            '.accommodation-card',
+            '[class*="card"]'
+        ];
+        
+        for (const selector of possibleResultSelectors) {
+            try {
+                const results = this.page.locator(selector);
+                const count = await results.count();
+                if (count > 0) {
+                    console.log(`   ✅ Found ${count} search results using selector: ${selector}`);
+                    return { count, selector };
+                }
+            } catch (error) {
+                // Continue to next selector
+            }
+        }
+        
+        return { count: 0, selector: 'none' };
+    }
+
+    async verifyPageStructureElements(): Promise<{ foundElements: string[]; missingElements: string[] }> {
+        // Check for key page elements that should be present on search results page
+        const pageElements = [
+            { name: 'Search filters container', selector: '#searchFilters, .filters, [class*="filter"]' },
+            { name: 'Results container', selector: '.results, .search-results, [class*="result"]' },
+            { name: 'Pagination', selector: '.pagination, [class*="pag"]' }
+        ];
+        
+        const foundElements: string[] = [];
+        const missingElements: string[] = [];
+        
+        for (const element of pageElements) {
+            try {
+                const elementLocator = this.page.locator(element.selector).first();
+                if (await elementLocator.isVisible({ timeout: 3000 })) {
+                    console.log(`   ✅ ${element.name} is present`);
+                    foundElements.push(element.name);
+                } else {
+                    console.log(`   ℹ️ ${element.name} not visible (may not be required)`);
+                    missingElements.push(element.name);
+                }
+            } catch (error) {
+                console.log(`   ℹ️ ${element.name} check skipped`);
+                missingElements.push(element.name);
+            }
+        }
+        
+        return { foundElements, missingElements };
+    }
+
+    async getFiltersList(filtersList: string[]): Promise<string[]> {
+        const visibleFilters: string[] = [];
+        
+        for (const filterName of filtersList) {
+            try {
+                const filterButton = this.page.getByRole('button', { name: filterName });
+                if (await filterButton.isVisible({ timeout: 3000 })) {
+                    visibleFilters.push(filterName);
+                }
+            } catch (error) {
+                // Filter not available for this category
+            }
+        }
+        
+        return visibleFilters;
+    }
+
+    // =================== ENHANCED FILTER METHODS FOR COMPREHENSIVE TESTING ===================
+
+    /**
+     * Opens a specific filter by name with enhanced modal handling
+     * @param filterName - Name of the filter to open (e.g., 'Ratings', 'Best For')
+     * @param waitTime - Optional wait time after opening filter
+     */
+    async openFilter(filterName: string, waitTime: number = 1000): Promise<void> {
+        // First, handle any existing modals or overlays
+        await this.page.keyboard.press('Escape');
+        await this.page.waitForTimeout(300);
+        
+        // Check for and close any modal overlays that might block clicks
+        const modalSelectors = ['.c-modal', '.filter__modal', '[role="dialog"]', '.modal-overlay', '.c-modal-mask'];
+        for (const selector of modalSelectors) {
+            const modal = this.page.locator(selector);
+            if (await modal.isVisible({ timeout: 1000 })) {
+                console.log(`Closing modal: ${selector}`);
+                await this.page.keyboard.press('Escape');
+                await this.page.waitForTimeout(500);
+                break;
+            }
+        }
+        
+        // Locate the filter button with enhanced stability
+        const filterButton = this.page.getByRole('button', { name: filterName });
+        
+        // Wait for the button to be present and stable
+        await expect(filterButton).toBeVisible({ timeout: 10000 });
+        
+        // Check if button is actually clickable (not blocked by overlays)
+        let clickAttempts = 0;
+        const maxAttempts = 3;
+        
+        while (clickAttempts < maxAttempts) {
+            try {
+                await filterButton.click({ timeout: 5000 });
+                console.log(`✓ Successfully clicked ${filterName} filter button`);
+                break;
+            } catch (error) {
+                clickAttempts++;
+                console.log(`Attempt ${clickAttempts}/${maxAttempts} - ${filterName} filter click failed: ${error.message}`);
+                
+                if (clickAttempts < maxAttempts) {
+                    // Try to clear any interfering elements
+                    await this.page.keyboard.press('Escape');
+                    await this.page.waitForTimeout(500);
+                    
+                    // If still blocked, try force clicking at coordinates
+                    const buttonBox = await filterButton.boundingBox();
+                    if (buttonBox) {
+                        await this.page.mouse.click(buttonBox.x + buttonBox.width / 2, buttonBox.y + buttonBox.height / 2);
+                        console.log(`Attempted force click on ${filterName} filter button`);
+                        break;
+                    }
+                } else {
+                    throw new Error(`Failed to click ${filterName} filter button after ${maxAttempts} attempts: ${error.message}`);
+                }
+            }
+        }
+        
+        await this.page.waitForTimeout(waitTime);
+    }
+
+    /**
+     * Closes the currently open filter using Escape key
+     */
+    async closeFilter(): Promise<void> {
+        await this.page.keyboard.press('Escape');
+        await this.page.waitForTimeout(500);
+    }
+
+    /**
+     * Applies filter changes by clicking the Confirm button
+     */
+    async applyFilter(): Promise<void> {
+        const confirmButton = this.page.getByRole('button', { name: 'Confirm' });
+        if (await confirmButton.isVisible({ timeout: 3000 })) {
+            await confirmButton.click();
+            await this.page.waitForTimeout(2000);
+        } else {
+            throw new Error('Confirm button not found for filter application');
+        }
+    }
+
+    /**
+     * Checks if a filter option is enabled (clickable)
+     * @param optionText - Text of the filter option to check
+     * @returns boolean indicating if option is enabled
+     */
+    async isFilterOptionEnabled(optionText: string): Promise<boolean> {
+        try {
+            const optionElement = this.page.locator(`text="${optionText}"`).first();
+            if (!(await optionElement.isVisible({ timeout: 3000 }))) {
+                return false;
+            }
+
+            return await optionElement.evaluate((el) => {
+                const styles = window.getComputedStyle(el);
+                return styles.pointerEvents !== 'none' && 
+                       styles.opacity !== '0.5' && 
+                       !el.hasAttribute('disabled');
+            });
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /**
+     * Gets all available filter options for a specific filter
+     * @param filterName - Name of the filter to analyze
+     * @param maxOptions - Maximum number of options to check (default: 20)
+     * @returns Object with enabled and disabled options
+     */
+    async getFilterOptions(filterName: string, maxOptions: number = 20): Promise<{
+        enabled: string[];
+        disabled: string[];
+        total: number;
+    }> {
+        await this.openFilter(filterName);
+        
+        const enabled: string[] = [];
+        const disabled: string[] = [];
+        
+        // Get all potential clickable elements in the filter
+        const options = this.page.locator('label, [role="checkbox"], [role="radio"], generic[cursor="pointer"]');
+        const optionCount = Math.min(await options.count(), maxOptions);
+        
+        for (let i = 0; i < optionCount; i++) {
+            try {
+                const option = options.nth(i);
+                if (await option.isVisible({ timeout: 1000 })) {
+                    const text = await option.textContent();
+                    if (text && text.trim().length > 0 && text.trim().length < 50) {
+                        const isEnabled = await option.evaluate((el) => {
+                            const styles = window.getComputedStyle(el);
+                            return styles.pointerEvents !== 'none' && styles.opacity !== '0.5';
+                        });
+                        
+                        if (isEnabled) {
+                            enabled.push(text.trim());
+                        } else {
+                            disabled.push(text.trim());
+                        }
+                    }
+                }
+            } catch (error) {
+                // Continue to next option
+            }
+        }
+        
+        await this.closeFilter();
+        
+        return {
+            enabled,
+            disabled,
+            total: enabled.length + disabled.length
+        };
+    }
+
+    /**
+     * Validates specific filter options against expected enabled/disabled lists
+     * @param filterName - Name of the filter to validate
+     * @param expectedEnabled - Array of expected enabled options
+     * @param expectedDisabled - Array of expected disabled options (optional)
+     */
+    async validateFilterStates(
+        filterName: string, 
+        expectedEnabled: string[], 
+        expectedDisabled?: string[]
+    ): Promise<{ passed: boolean; missingEnabled: string[]; unexpectedDisabled: string[] }> {
+        await this.openFilter(filterName);
+        
+        const missingEnabled: string[] = [];
+        const unexpectedDisabled: string[] = [];
+        
+        // Check expected enabled options
+        for (const expectedOption of expectedEnabled) {
+            const isEnabled = await this.isFilterOptionEnabled(expectedOption);
+            if (!isEnabled) {
+                missingEnabled.push(expectedOption);
+            }
+        }
+        
+        // Check expected disabled options if provided
+        if (expectedDisabled) {
+            for (const disabledOption of expectedDisabled) {
+                const isEnabled = await this.isFilterOptionEnabled(disabledOption);
+                if (isEnabled) {
+                    unexpectedDisabled.push(disabledOption);
+                }
+            }
+        }
+        
+        await this.closeFilter();
+        
+        return {
+            passed: missingEnabled.length === 0 && unexpectedDisabled.length === 0,
+            missingEnabled,
+            unexpectedDisabled
+        };
+    }
+
+    /**
+     * Applies a specific filter option by clicking on it
+     * @param filterName - Name of the filter to open
+     * @param optionText - Text of the option to select
+     * @param applyChanges - Whether to apply changes after selection (default: true)
+     */
+    async selectFilterOption(filterName: string, optionText: string, applyChanges: boolean = true): Promise<void> {
+        await this.openFilter(filterName);
+        
+        const optionElement = this.page.locator(`text="${optionText}"`).first();
+        await expect(optionElement).toBeVisible({ timeout: 5000 });
+        
+        // Verify option is enabled before clicking
+        const isEnabled = await this.isFilterOptionEnabled(optionText);
+        if (!isEnabled) {
+            throw new Error(`Filter option "${optionText}" is disabled and cannot be selected`);
+        }
+        
+        await optionElement.click();
+        
+        if (applyChanges) {
+            await this.applyFilter();
+        } else {
+            await this.closeFilter();
+        }
+    }
+
+    /**
+     * Tests filter performance by measuring load time
+     * @param filterName - Name of the filter to test
+     * @returns Load time in milliseconds
+     */
+    async measureFilterLoadTime(filterName: string): Promise<number> {
+        const startTime = Date.now();
+        await this.openFilter(filterName, 500);
+        const endTime = Date.now();
+        await this.closeFilter();
+        
+        return endTime - startTime;
+    }
+
+    /**
+     * Validates that a filter application resulted in URL parameter changes
+     * @param expectedParam - Expected URL parameter to check for
+     * @returns boolean indicating if URL was updated correctly
+     */
+    async validateFilterUrlUpdate(expectedParam?: string): Promise<boolean> {
+        const currentUrl = this.page.url();
+        
+        if (expectedParam) {
+            return currentUrl.includes(expectedParam);
+        }
+        
+        // Generic check for any filter parameters
+        const filterParams = ['rating', 'bestfor', 'board', 'facilities', 'holiday', 'duration', 'budget'];
+        return filterParams.some(param => currentUrl.includes(param));
+    }
+
+    /**
+     * Checks for the presence of applied filter tags on the results page
+     * @param filterText - Text of the applied filter to look for
+     * @returns boolean indicating if filter tag is visible
+     */
+    async isFilterTagVisible(filterText: string): Promise<boolean> {
+        try {
+            const filterTag = this.page.locator(`text="${filterText}"`).first();
+            return await filterTag.isVisible({ timeout: 5000 });
+        } catch (error) {
+            return false;
+        }
+    }
+
+    /**
+     * Validates accommodation tags for Best For filter testing
+     * @param expectedTag - The filter tag that should appear on accommodations
+     * @returns Object with validation results and accommodation details
+     */
+    async validateAccommodationTags(expectedTag: string): Promise<{
+        totalCards: number;
+        cardsWithTag: number;
+        cardsWithoutTag: number;
+        accommodationsWithoutTag: string[];
+        validationPassed: boolean;
+    }> {
+        console.log(`🔍 Validating accommodations have "${expectedTag}" tag...`);
+        
+        try {
+            // Wait for results to load
+            await this.page.waitForTimeout(2000);
+            
+            // Get all accommodation cards
+            const accommodationCards = this.page.locator(
+                '[data-testid="accommodation-card"], .accommodation-card, .search-card, .result-card, .c-search-card'
+            );
+            
+            const totalCards = await accommodationCards.count();
+            console.log(`📊 Found ${totalCards} accommodation cards to validate`);
+            
+            if (totalCards === 0) {
+                return {
+                    totalCards: 0,
+                    cardsWithTag: 0,
+                    cardsWithoutTag: 0,
+                    accommodationsWithoutTag: [],
+                    validationPassed: true // No cards means validation passes (empty state)
+                };
+            }
+            
+            let cardsWithTag = 0;
+            const accommodationsWithoutTag: string[] = [];
+            
+            // Check each accommodation card for the expected tag
+            for (let i = 0; i < totalCards; i++) {
+                try {
+                    const card = accommodationCards.nth(i);
+                    
+                    // Get accommodation name
+                    const nameSelectors = [
+                        '.c-header-h3',
+                        '.accommodation-name',
+                        '.search-card-title',
+                        'h3',
+                        '[data-testid="accommodation-name"]'
+                    ];
+                    
+                    let accommodationName = `Accommodation ${i + 1}`;
+                    for (const nameSelector of nameSelectors) {
+                        try {
+                            const nameElement = card.locator(nameSelector).first();
+                            if (await nameElement.isVisible({ timeout: 1000 })) {
+                                const name = await nameElement.textContent();
+                                if (name && name.trim()) {
+                                    accommodationName = name.trim();
+                                    break;
+                                }
+                            }
+                        } catch (error) {
+                            continue;
+                        }
+                    }
+                    
+                    // Check if the card contains the expected tag in pills/tags section
+                    const tagSelectors = [
+                        `.pill:has-text("${expectedTag}")`,
+                        `.tag:has-text("${expectedTag}")`,
+                        `.c-pill:has-text("${expectedTag}")`,
+                        `[data-testid="accommodation-tag"]:has-text("${expectedTag}")`,
+                        `text="${expectedTag}"`
+                    ];
+                    
+                    let hasTag = false;
+                    for (const tagSelector of tagSelectors) {
+                        try {
+                            const tagElement = card.locator(tagSelector).first();
+                            if (await tagElement.isVisible({ timeout: 1000 })) {
+                                hasTag = true;
+                                break;
+                            }
+                        } catch (error) {
+                            continue;
+                        }
+                    }
+                    
+                    if (hasTag) {
+                        cardsWithTag++;
+                        console.log(`✅ "${accommodationName}" has "${expectedTag}" tag`);
+                    } else {
+                        accommodationsWithoutTag.push(accommodationName);
+                        console.log(`⚠️ "${accommodationName}" does NOT have "${expectedTag}" tag`);
+                    }
+                    
+                } catch (error) {
+                    console.warn(`⚠️ Error validating card ${i + 1}: ${error.message}`);
+                    accommodationsWithoutTag.push(`Accommodation ${i + 1} (validation error)`);
+                }
+            }
+            
+            const cardsWithoutTag = totalCards - cardsWithTag;
+            const validationPassed = cardsWithoutTag === 0;
+            
+            console.log(`📊 Tag validation summary:`);
+            console.log(`   - Total cards: ${totalCards}`);
+            console.log(`   - Cards with "${expectedTag}" tag: ${cardsWithTag}`);
+            console.log(`   - Cards without tag: ${cardsWithoutTag}`);
+            console.log(`   - Validation passed: ${validationPassed ? 'YES' : 'NO'}`);
+            
+            if (accommodationsWithoutTag.length > 0) {
+                console.log(`🔍 Accommodations without "${expectedTag}" tag:`);
+                accommodationsWithoutTag.forEach((name, index) => {
+                    console.log(`   ${index + 1}. ${name}`);
+                });
+            }
+            
+            return {
+                totalCards,
+                cardsWithTag,
+                cardsWithoutTag,
+                accommodationsWithoutTag,
+                validationPassed
+            };
+            
+        } catch (error) {
+            console.error(`❌ Error validating accommodation tags: ${error.message}`);
+            return {
+                totalCards: 0,
+                cardsWithTag: 0,
+                cardsWithoutTag: 0,
+                accommodationsWithoutTag: [],
+                validationPassed: false
+            };
+        }
+    }
+
+    /**
+     * Gets the count of search results after filter application
+     * @returns Number of results or -1 if count cannot be determined
+     */
+    async getSearchResultCount(): Promise<number> {
+        try {
+            // Try multiple selectors for result count
+            const countSelectors = [
+                '.results-count',
+                '.search-results-count',
+                '[data-testid="results-count"]',
+                'text=/\\d+\\s+results?/i',
+                'text=/showing\\s+\\d+/i'
+            ];
+            
+            for (const selector of countSelectors) {
+                try {
+                    const countElement = this.page.locator(selector).first();
+                    if (await countElement.isVisible({ timeout: 3000 })) {
+                        const countText = await countElement.textContent();
+                        const match = countText?.match(/(\d+)/);
+                        if (match) {
+                            return parseInt(match[1]);
+                        }
+                    }
+                } catch (error) {
+                    continue;
+                }
+            }
+            
+            // Fallback: count actual result cards
+            const resultCards = this.page.locator(
+                '[data-testid="accommodation-card"], .accommodation-card, .search-card, .result-card'
+            );
+            return await resultCards.count();
+            
+        } catch (error) {
+            console.warn('Could not determine search result count:', error);
+            return -1;
+        }
+    }
+
+    /**
+     * Comprehensive filter testing method that validates a filter's functionality
+     * @param filterName - Name of the filter to test
+     * @param expectedEnabled - Array of expected enabled options
+     * @param expectedDisabled - Array of expected disabled options (optional)
+     * @param testOption - Specific option to test application with (optional)
+     */
+    async testFilterComprehensively(
+        filterName: string,
+        expectedEnabled: string[],
+        expectedDisabled?: string[],
+        testOption?: string
+    ): Promise<{
+        validationPassed: boolean;
+        optionCount: number;
+        loadTime: number;
+        applicationWorked: boolean;
+        resultCount: number;
+    }> {
+        console.log(`\n🔍 Testing ${filterName} filter comprehensively:`);
+        
+        // 1. Measure load time
+        const loadTime = await this.measureFilterLoadTime(filterName);
+        console.log(`   ⏱️ Load time: ${loadTime}ms`);
+        
+        // 2. Validate filter states
+        const validation = await this.validateFilterStates(filterName, expectedEnabled, expectedDisabled);
+        console.log(`   ✅ State validation: ${validation.passed ? 'PASSED' : 'FAILED'}`);
+        if (!validation.passed) {
+            console.log(`      Missing enabled: ${validation.missingEnabled.join(', ')}`);
+            console.log(`      Unexpected disabled: ${validation.unexpectedDisabled.join(', ')}`);
+        }
+        
+        // 3. Get option count
+        const options = await this.getFilterOptions(filterName);
+        console.log(`   📊 Options: ${options.enabled.length} enabled, ${options.disabled.length} disabled`);
+        
+        // 4. Test filter application if test option provided
+        let applicationWorked = false;
+        let resultCount = -1;
+        
+        if (testOption && expectedEnabled.includes(testOption)) {
+            try {
+                const initialCount = await this.getSearchResultCount();
+                await this.selectFilterOption(filterName, testOption);
+                await this.page.waitForTimeout(2000);
+                
+                applicationWorked = await this.validateFilterUrlUpdate();
+                resultCount = await this.getSearchResultCount();
+                
+                console.log(`   🎯 Applied "${testOption}": ${applicationWorked ? 'SUCCESS' : 'FAILED'}`);
+                console.log(`   📈 Results: ${initialCount} → ${resultCount}`);
+                
+            } catch (error) {
+                console.log(`   ❌ Filter application failed: ${error.message}`);
+            }
+        }
+        
+        return {
+            validationPassed: validation.passed,
+            optionCount: options.total,
+            loadTime,
+            applicationWorked,
+            resultCount
+        };
+    }
+
+    // =================== ENHANCED REUSABLE METHODS FOR PROPER POM ===================
+
+    /**
+     * Validates that all specified filter options are enabled
+     * @param filterName - Name of the filter to validate
+     * @param expectedOptions - Array of options that should be enabled
+     * @returns Validation result with counts and status
+     */
+    async validateFilterOptions(
+        filterName: string, 
+        expectedOptions: string[]
+    ): Promise<{
+        allOptionsEnabled: boolean;
+        enabledCount: number;
+        totalCount: number;
+        missingOptions: string[];
+    }> {
+        await this.openFilter(filterName);
+        
+        const missingOptions: string[] = [];
+        let enabledCount = 0;
+        
+        console.log(`\n🔍 Validating ${filterName} filter options:`);
+        
+        for (const option of expectedOptions) {
+            const isEnabled = await this.isFilterOptionEnabled(option);
+            if (isEnabled) {
+                enabledCount++;
+                console.log(`   ✅ ${option} is enabled`);
+            } else {
+                missingOptions.push(option);
+                console.log(`   ❌ ${option} is not enabled or not found`);
+            }
+        }
+        
+        await this.closeFilter();
+        
+        return {
+            allOptionsEnabled: missingOptions.length === 0,
+            enabledCount,
+            totalCount: expectedOptions.length,
+            missingOptions
+        };
+    }
+
+    /**
+     * Applies a filter option and validates the result
+     * @param filterName - Name of the filter to apply
+     * @param optionText - Option to select
+     * @param validationOptions - What to validate after applying
+     */
+    async applyFilterAndValidate(
+        filterName: string,
+        optionText: string,
+        validationOptions: {
+            expectUrlUpdate?: boolean;
+            expectResultsChange?: boolean;
+            expectFilterTag?: boolean;
+        } = {}
+    ): Promise<{
+        applied: boolean;
+        urlUpdated: boolean;
+        resultsChanged: boolean;
+        filterTagVisible: boolean;
+        initialResultCount: number;
+        finalResultCount: number;
+    }> {
+        const initialResultCount = await this.getSearchResultCount();
+        const initialUrl = this.page.url();
+        
+        try {
+            // Apply the filter
+            await this.selectFilterOption(filterName, optionText, true);
+            
+            // Wait for changes to take effect
+            await this.page.waitForTimeout(2000);
+            
+            // Validate results
+            const finalUrl = this.page.url();
+            const finalResultCount = await this.getSearchResultCount();
+            
+            const urlUpdated = validationOptions.expectUrlUpdate ? 
+                finalUrl !== initialUrl : true;
+            
+            const resultsChanged = validationOptions.expectResultsChange ? 
+                finalResultCount !== initialResultCount : true;
+            
+            const filterTagVisible = validationOptions.expectFilterTag ? 
+                await this.isFilterTagVisible(optionText) : true;
+            
+            console.log(`   🎯 Applied filter "${optionText}": URL changed: ${urlUpdated}, Results changed: ${resultsChanged}`);
+            
+            return {
+                applied: true,
+                urlUpdated,
+                resultsChanged,
+                filterTagVisible,
+                initialResultCount,
+                finalResultCount
+            };
+            
+        } catch (error) {
+            console.error(`   ❌ Failed to apply filter "${optionText}": ${error.message}`);
+            return {
+                applied: false,
+                urlUpdated: false,
+                resultsChanged: false,
+                filterTagVisible: false,
+                initialResultCount,
+                finalResultCount: initialResultCount
+            };
+        }
+    }
+
+    /**
+     * Resets/removes a previously applied filter
+     * @param filterName - Name of the filter to reset
+     * @param optionText - Option to deselect (if applicable)
+     */
+    async resetFilter(filterName: string, optionText?: string): Promise<void> {
+        try {
+            if (optionText) {
+                // For toggle-type filters, click the same option to deselect
+                await this.openFilter(filterName);
+                
+                const optionElement = this.page.locator(`text="${optionText}"`).first();
+                if (await optionElement.isVisible({ timeout: 3000 })) {
+                    await optionElement.click();
+                    await this.applyFilter();
+                    console.log(`   🔄 Reset filter "${filterName}" option "${optionText}"`);
+                } else {
+                    await this.closeFilter();
+                    console.log(`   ℹ️ Filter option "${optionText}" not found for reset`);
+                }
+            } else {
+                // For filters that might have a "Clear All" or similar option
+                await this.openFilter(filterName);
+                
+                const clearButton = this.page.locator('button:has-text("Clear"), button:has-text("Reset"), button:has-text("Remove")').first();
+                if (await clearButton.isVisible({ timeout: 2000 })) {
+                    await clearButton.click();
+                    await this.applyFilter();
+                    console.log(`   🔄 Reset all options for filter "${filterName}"`);
+                } else {
+                    await this.closeFilter();
+                    console.log(`   ℹ️ No clear option found for filter "${filterName}"`);
+                }
+            }
+        } catch (error) {
+            console.warn(`   ⚠️ Could not reset filter "${filterName}": ${error.message}`);
+            // Try to close any open filter modal
+            await this.closeFilter();
+        }
+    }
+
+    /**
+     * Validates category-specific filter states against expected configurations
+     * @param filterName - Name of the filter to validate
+     * @param categoryConfig - Configuration object with enabled/disabled arrays
+     */
+    async validateCategorySpecificFilter(
+        filterName: string,
+        categoryConfig: {
+            enabled: string[];
+            disabled: string[];
+        }
+    ): Promise<{
+        validationPassed: boolean;
+        enabledMatches: number;
+        disabledMatches: number;
+        unexpectedEnabled: string[];
+        unexpectedDisabled: string[];
+    }> {
+        await this.openFilter(filterName);
+        
+        let enabledMatches = 0;
+        let disabledMatches = 0;
+        const unexpectedEnabled: string[] = [];
+        const unexpectedDisabled: string[] = [];
+        
+        console.log(`\n🎯 Validating category-specific ${filterName} filter:`);
+        
+        // Check expected enabled options
+        for (const expectedOption of categoryConfig.enabled) {
+            const isEnabled = await this.isFilterOptionEnabled(expectedOption);
+            if (isEnabled) {
+                enabledMatches++;
+                console.log(`   ✅ "${expectedOption}" is correctly enabled`);
+            } else {
+                unexpectedDisabled.push(expectedOption);
+                console.log(`   ❌ "${expectedOption}" should be enabled but is disabled/missing`);
+            }
+        }
+        
+        // Check expected disabled options (if they exist in UI)
+        for (const expectedOption of categoryConfig.disabled) {
+            try {
+                const optionElement = this.page.locator(`text="${expectedOption}"`).first();
+                if (await optionElement.isVisible({ timeout: 1000 })) {
+                    const isEnabled = await this.isFilterOptionEnabled(expectedOption);
+                    if (!isEnabled) {
+                        disabledMatches++;
+                        console.log(`   ✅ "${expectedOption}" is correctly disabled`);
+                    } else {
+                        unexpectedEnabled.push(expectedOption);
+                        console.log(`   ❌ "${expectedOption}" should be disabled but is enabled`);
+                    }
+                }
+                // If option is not visible, it's effectively disabled, which is acceptable
+            } catch (error) {
+                // Option not found, which is acceptable for disabled options
+            }
+        }
+        
+        await this.closeFilter();
+        
+        const validationPassed = unexpectedEnabled.length === 0 && unexpectedDisabled.length === 0;
+        
+        console.log(`   📊 Validation summary: ${enabledMatches}/${categoryConfig.enabled.length} enabled match, ${disabledMatches} disabled confirmed`);
+        
+        return {
+            validationPassed,
+            enabledMatches,
+            disabledMatches,
+            unexpectedEnabled,
+            unexpectedDisabled
+        };
+    }
+
+    /**
+     * Tests a common filter option across multiple categories
+     * @param filterName - Name of the filter to test
+     * @param testOption - Option to test (should be available in most categories)
+     */
+    async testUniversalFilterOption(filterName: string, testOption: string): Promise<{
+        available: boolean;
+        enabled: boolean;
+        applicationWorked: boolean;
+    }> {
+        try {
+            await this.openFilter(filterName);
+            
+            // Check if option exists and is enabled
+            const optionElement = this.page.locator(`text="${testOption}"`).first();
+            const available = await optionElement.isVisible({ timeout: 3000 });
+            
+            if (!available) {
+                await this.closeFilter();
+                return { available: false, enabled: false, applicationWorked: false };
+            }
+            
+            const enabled = await this.isFilterOptionEnabled(testOption);
+            
+            if (!enabled) {
+                await this.closeFilter();
+                return { available: true, enabled: false, applicationWorked: false };
+            }
+            
+            // Test application
+            await optionElement.click();
+            await this.applyFilter();
+            
+            const applicationWorked = await this.validateFilterUrlUpdate();
+            
+            console.log(`   🎯 Universal filter test for "${testOption}": Available: ${available}, Enabled: ${enabled}, Applied: ${applicationWorked}`);
+            
+            return { available, enabled, applicationWorked };
+            
+        } catch (error) {
+            console.warn(`   ⚠️ Universal filter test failed for "${testOption}": ${error.message}`);
+            await this.closeFilter();
+            return { available: false, enabled: false, applicationWorked: false };
+        }
+    }
+
+    // =================== BUDGET FILTER METHODS ===================
+
+    /**
+     * Sets the minimum budget value in the budget filter
+     * @param value - The minimum price value to set
+     */
+    async setBudgetMinValue(value: string): Promise<void> {
+        const minInput = this.page.locator('input[type="number"]').first(); // First number input is min
+        await minInput.clear();
+        await minInput.fill(value);
+        // Trigger validation by pressing Tab (which causes blur event)
+        await minInput.press('Tab');
+        await this.page.waitForTimeout(500);
+    }
+
+    async setBudgetMaxValue(value: string): Promise<void> {
+        const maxInput = this.page.locator('input[type="number"]').nth(1); // Second number input is max
+        await maxInput.clear();
+        await maxInput.fill(value);
+        // Trigger validation by pressing Tab (which causes blur event)
+        await maxInput.press('Tab');
+        await this.page.waitForTimeout(500);
+    }
+
+    async getBudgetMinValue(): Promise<string> {
+        const minInput = this.page.locator('input[type="number"]').first();
+        return await minInput.inputValue();
+    }
+
+    async getBudgetMaxValue(): Promise<string> {
+        const maxInput = this.page.locator('input[type="number"]').nth(1);
+        return await maxInput.inputValue();
+    }
+
+    /**
+     * Sets both minimum and maximum budget values
+     * @param minValue - The minimum price value
+     * @param maxValue - The maximum price value
+     */
+    async setBudgetRange(minValue: string, maxValue: string): Promise<void> {
+        await this.setBudgetMinValue(minValue);
+        await this.setBudgetMaxValue(maxValue);
+    }
+
+    /**
+     * Verifies that all displayed prices are within the specified range
+     * @param minPrice - Minimum expected price
+     * @param maxPrice - Maximum expected price
+     * @returns True if all prices are within range
+     */
+    async verifyPricesInRange(minPrice: number, maxPrice: number): Promise<boolean> {
+        await this.page.waitForTimeout(2000); // Wait for results to load
+        
+        // Look for price elements using multiple selectors
+        const priceSelectors = [
+            '[class*="price"]',
+            '[data-testid*="price"]', 
+            '.c-search-card__price',
+            '[class*="from"]',
+            'text=/£[0-9,]+/'
+        ];
+        
+        let priceElements: any[] = [];
+        
+        for (const selector of priceSelectors) {
+            const elements = await this.page.locator(selector).all();
+            if (elements.length > 0) {
+                priceElements = elements;
+                break;
+            }
+        }
+        
+        if (priceElements.length === 0) {
+            console.log('⚠️ No price elements found on the page');
+            return false;
+        }
+        
+        console.log(`📊 Checking ${priceElements.length} price elements for range ${minPrice}-${maxPrice}`);
+        
+        for (const element of priceElements) {
+            try {
+                const priceText = await element.textContent();
+                if (priceText) {
+                    // Extract numeric price from text like "£549pp", "From £1,079 pp", etc.
+                    const priceMatch = priceText.match(/£([0-9,]+)/);
+                    if (priceMatch) {
+                        const price = parseInt(priceMatch[1].replace(/,/g, ''));
+                        if (price < minPrice || price > maxPrice) {
+                            console.log(`❌ Price ${price} is outside range ${minPrice}-${maxPrice}`);
+                            return false;
+                        }
+                        console.log(`✓ Price ${price} is within range`);
+                    }
+                }
+            } catch (error) {
+                console.warn(`⚠️ Could not extract price from element: ${error.message}`);
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Clicks the Budget filter to open it
+     */
+    async clickBudgetFilter(): Promise<void> {
+        // Look for Budget filter in the filter list
+        const budgetFilter = this.page.locator('listitem').filter({ hasText: 'Budget' });
+        await budgetFilter.click();
+        await this.page.waitForTimeout(1000); // Wait for filter to open
+    }
+
+    /**
+     * Applies the current filter selections
+     */
+    async applyFilters(): Promise<void> {
+        const confirmButton = this.page.getByRole('button', { name: 'Confirm' });
+        await confirmButton.click();
+        await this.page.waitForTimeout(2000); // Wait for results to update
+    }
+
+    /**
+     * Clears all active filters
+     */
+    async clearFilters(): Promise<void> {
+        // Look for clear/reset filters option
+        const clearButton = this.page.locator('[data-testid="clear-filters"], .clear-filters, button:has-text("Clear"), button:has-text("Reset")').first();
+        if (await clearButton.isVisible({ timeout: 3000 })) {
+            await clearButton.click();
+            await this.page.waitForTimeout(1000);
+        }
+    }
+
+
 
 }
 

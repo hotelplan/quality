@@ -332,17 +332,29 @@ export class SharedSteps {
 
     async clickAcceptAllCookiesBtn(newPage) {
         const acceptAllCookiesBtn = newPage.getByRole('button', { name: 'Accept All Cookies' });
+        
+        try {
+            // First approach: Simple try-catch with shorter timeout
+            await acceptAllCookiesBtn.waitFor({ state: 'visible', timeout: 2000 });
+            await acceptAllCookiesBtn.click();
+        } catch (e) {
+            try {
+                // Second approach: Promise chain with longer timeout as fallback
+                console.log('First approach failed, trying alternative method...');
+                const isVisible = await acceptAllCookiesBtn.waitFor({ state: 'visible', timeout: 5000 })
+                    .then(() => true)
+                    .catch(() => {
+                        console.log('Accept All Cookies button not found with both methods, skipping click action');
+                        return false;
+                    });
 
-        const isVisible = await acceptAllCookiesBtn.waitFor({ state: 'visible', timeout: 5000 })
-            .then(() => true)
-            .catch(() => {
-                console.log('Accept All Cookies button not found, skipping click action');
-                return false;
-            });
-
-        if (!isVisible) return;
-
-        await acceptAllCookiesBtn.click();
+                if (isVisible) {
+                    await acceptAllCookiesBtn.click();
+                }
+            } catch (fallbackError) {
+                console.log('Both cookie handling approaches failed, proceeding without clicking Accept All Cookies');
+            }
+        }
     }
 
     async clickHomeLink() {
