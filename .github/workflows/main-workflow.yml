@@ -137,6 +137,19 @@ jobs:
             context: 'Test Report'
           });
           
+          // Add the report URL to the workflow summary
+          await core.summary
+            .addHeading('📊 Allure Test Report', 2)
+            .addTable([
+              [{data: 'Scope', header: true}, {data: 'Environment', header: true}, {data: 'Build', header: true}],
+              [scope, environment, runNumber]
+            ])
+            .addSeparator()
+            .addRaw(`🔗 <a href="${reportUrl}"><strong>View Allure Report</strong></a>`)
+            .addSeparator()
+            .addRaw(`<small><em>Report generated on: ${new Date().toLocaleString()}</em></small>`)
+            .write();
+          
           console.log(`📊 Allure Report available at: ${reportUrl}`);
 
     - name: Test Report Generation
