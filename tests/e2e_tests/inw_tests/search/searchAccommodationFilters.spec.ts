@@ -43,7 +43,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
         console.log(`🌍 Running accommodation filters tests on ${env} environment`);
         
         // Set longer timeout for filter operations
-        test.setTimeout(300000); // 5 minutes per test
+        test.setTimeout(120000); // 5 minutes per test
         
         // Set viewport for consistency
         await page.setViewportSize({ width: 1920, height: 1080 });

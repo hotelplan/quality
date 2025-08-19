@@ -83,7 +83,7 @@ jobs:
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Migration" ]; then
           npx playwright test tests/e2e_tests/inw_migration_tests/ --project=Chromium
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Components" ]; then
-          npx playwright test tests/e2e_tests/inw_tests/components/ --project=Chromium
+          npx playwright test tests/e2e_tests/inw_tests/components/ --project=Chromium --workers=3 --max-failures=5
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Search" ]; then
           npx playwright test tests/e2e_tests/inw_tests/search/ --project=Chromium
         else

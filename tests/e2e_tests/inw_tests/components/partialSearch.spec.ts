@@ -8,18 +8,18 @@ const products = ['Ski', 'Walking', 'Lapland'];
 
 test.beforeEach(async ({ page, sharedSteps }) => {
     await test.step('Given: I navigate to home page', async () => {
-        // Add retry logic for mobile browsers that might be slower
-        let retries = 3;
+        // Reduce retries from 3 to 2 for faster failure
+        let retries = 2;
         while (retries > 0) {
             try {
-                await page.goto(ECMSurl + '/', { waitUntil: 'domcontentloaded', timeout: 60000 });
+                await page.goto(ECMSurl + '/', { waitUntil: 'domcontentloaded', timeout: 45000 }); // Reduced from 60s
                 await sharedSteps.clickAcceptAllCookiesBtn(page);
                 break;
             } catch (error) {
                 retries--;
                 if (retries === 0) throw error;
                 console.warn(`Navigation failed, retrying... (${retries} attempts left)`);
-                await page.waitForTimeout(2000);
+                await page.waitForTimeout(1000); // Reduced from 2s to 1s
             }
         }
     });
@@ -28,7 +28,7 @@ test.beforeEach(async ({ page, sharedSteps }) => {
 test.describe('Partial Search', async () => {
     for (const product of products) {
         test(`The broad search proceeds with duration and adult guests for ${product} holidays @inw`, async ({ searchResultPage }) => {
-            test.setTimeout(120000);
+            test.setTimeout(90000); // Reduced from 2 minutes to 1.5 minutes
             await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
@@ -64,7 +64,7 @@ test.describe('Partial Search', async () => {
         });
 
         test(`The broad search proceeds with duration, adult, and child guests for ${product} holidays @inw`, async ({ searchResultPage }) => {
-            test.setTimeout(120000);
+            test.setTimeout(90000); // Reduced from 2 minutes to 1.5 minutes
             await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
@@ -134,7 +134,7 @@ test.describe('Partial Search', async () => {
         });
 
         test(`The broad search proceeds with default values and location for ${product} holidays @inw`, async ({ searchResultPage}) => {
-            test.setTimeout(120000);
+            test.setTimeout(90000); // Reduced from 2 minutes to 1.5 minutes
             await test.step(`Given: I select a product to search`, async () => {
                 await searchResultPage.clickSearchProductTab(product);
             });
