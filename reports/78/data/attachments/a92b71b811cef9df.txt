@@ -1,0 +1,8 @@
+     Content published:  and visible on the website    ×    - Content published: and visible on the website
+     Server error:  Contact administrator, see log for full details.One or more errors occurred. (Recursive locks not allowed)    ×    - Recursive issue
+Waiting for the notification to appear again...      Server error:  Contact administrator, see log for full details.One or more errors occurred. (Recursive locks not allowed)    ×  
+     Server error:  Contact administrator, see log for full details.One or more errors occurred. (Recursive locks not allowed)    ×    - Recursive issue
+Waiting for the notification to appear again...      Content published:  and visible on the website    ×  
+     Content published:  and visible on the website    ×    2nd - Content published: and visible on the website
+First approach failed, trying alternative method...
+Accept All Cookies button not found with both methods, skipping click action

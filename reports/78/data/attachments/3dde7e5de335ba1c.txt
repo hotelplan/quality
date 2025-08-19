@@ -1,0 +1,771 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Search >> Search bar should display Number of nights, Number of guests, Departure location and Date on Resort details page for Walking holidays @inw
+- Location: /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/resortPage.spec.ts:50:13
+
+# Error details
+
+```
+Error: locator.waitFor: Test timeout of 180000ms exceeded.
+Call log:
+  - waiting for locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View details' }).first() to be visible
+
+    at ResortPage.checkResortSearchBarAvailability (/home/runner/work/quality/quality/tests/resources/inw_resources/page_objects/resort_page.ts:80:44)
+    at /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/resortPage.spec.ts:76:48
+    at /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/resortPage.spec.ts:74:24
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button "home":
+    - img "home"
+  - link "Inghams WALKING":
+    - img "Inghams"
+    - text: WALKING
+  - navigation:
+    - list:
+      - listitem:
+        - link "Destinations"
+        - img "open"
+      - listitem:
+        - link "Holiday types"
+        - img "open"
+      - listitem:
+        - link "Inspire Me"
+        - img "open"
+      - listitem:
+        - link "Deals and offers"
+        - img "open"
+  - text: Call us today
+  - link "02045388944 open":
+    - text: "02045388944"
+    - img "open"
+  - link "Person":
+    - img "Person"
+- main:
+  - paragraph: You searched for
+  - text: Any date (7 nights)| 1 adult | Any departure location
+  - button "Edit search"
+  - button "Ratings"
+  - button "Best For"
+  - button "Board Basis"
+  - button "Facilities"
+  - button "Holiday Types"
+  - button "Duration"
+  - button "Budget"
+  - button "All filters":
+    - text: All filters
+    - img
+  - button "Sort by":
+    - text: Sort by
+    - img
+  - text: View results by resort Central Location Spa & Wellness Outdoor Pool Bar Family Rooms Solo Holidays Family-Run Indoor Pool Spa Facilities Sauna/Steam Room Single Rooms Food & Drink Family Holidays Couples Holidays Group Holidays Free Wi-Fi Multi-Centre Lakes Short Breaks Activities Small Hotel Mountains Village Charm Coastal Gym/Fitness Centres Wow Factor 158 results
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "Pension Nordstern Mayrhofen Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Pension Nordstern" [level=3]
+  - paragraph:
+    - paragraph: Mayrhofen, Austrian Tyrol, Austria
+  - img "bullet"
+  - text: Great value bed & breakfast
+  - img "bullet"
+  - text: Cosy rooms
+  - img "bullet"
+  - text: Central location Central Location
+  - img "food"
+  - list:
+    - listitem: Bed & Breakfast
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £744pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "Inghams Italy Dolomites Kronplatz Hotel Monte Paraccia External"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Monte Paraccia" [level=3]
+  - paragraph:
+    - paragraph: Kronplatz, The Dolomites, Italy
+  - img "bullet"
+  - text: Walking on the doorstep
+  - img "bullet"
+  - text: Relaxing spa facilities
+  - img "bullet"
+  - text: Welcoming atmosphere Solo Holidays Family-Run Small Hotel
+  - img "food"
+  - list:
+    - listitem: Half Board
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £860pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "4"
+  - tabpanel "1 of 4":
+    - img "Hotel Hanneshof Filzmoos Hotel Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Hanneshof" [level=3]
+  - paragraph:
+    - paragraph: Filzmoos, Austria
+  - img "bullet"
+  - text: Filzmoos Summer Card included
+  - img "bullet"
+  - text: Traditional hotel in centre
+  - img "bullet"
+  - text: Pretty street-side terrace Central Location Family-Run
+  - img "food"
+  - list:
+    - listitem: Half Board
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £869pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "Allalin Apartments Saas Fee Typical Studio"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Allalin Apartments (Self Catering)" [level=3]
+  - paragraph:
+    - paragraph: Saas-Fee, Switzerland
+  - img "bullet"
+  - text: Flexible self-catering
+  - img "bullet"
+  - text: Comfortable, well-equipped
+  - img "bullet"
+  - text: Great value option Family Holidays
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £929pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3.5"
+  - tabpanel "1 of 4":
+    - img "Hotel Zur Post Alpbach Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Zur Post" [level=3]
+  - paragraph:
+    - paragraph: Alpbach, Austrian Tyrol, Austria
+  - img "bullet"
+  - text: Fantastic location
+  - img "bullet"
+  - text: Authentic Austrian décor
+  - img "bullet"
+  - text: Outdoor pool Central Location Family-Run Small Hotel
+  - img "food"
+  - list:
+    - listitem: Bed & Breakfast
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £938pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3.5"
+  - tabpanel "1 of 4":
+    - img "Hotel Dolomiti Canazei Sauna"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Dolomiti" [level=3]
+  - paragraph:
+    - paragraph: Canazei, The Dolomites, Italy
+  - img "bullet"
+  - text: Town centre location
+  - img "bullet"
+  - text: Typical Trentino style Solo Holidays Central Location Family Holidays
+  - img "food"
+  - list:
+    - listitem: Half Board
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £948pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3.5"
+  - tabpanel "1 of 4":
+    - img "Hotel Garden Ledro Pool And Garden (6)"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Garden" [level=3]
+  - paragraph:
+    - paragraph: Lake Ledro, Italy
+  - img "bullet"
+  - text: Outdoor terrance
+  - img "bullet"
+  - text: Relaxing gardens
+  - img "bullet"
+  - text: Home away from home Group Holidays Central Location Family-Run
+  - img "food"
+  - list:
+    - listitem: Bed & Breakfast
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £954pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "4"
+  - tabpanel "1 of 4":
+    - img "Hotel Berner Zell Am See Pool And Terrace"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Berner" [level=3]
+  - paragraph:
+    - paragraph: Zell am See, Austria
+  - img "bullet"
+  - text: Zell am See Summer Card included
+  - img "bullet"
+  - text: Elevated hillside position
+  - img "bullet"
+  - text: 400m to the City Xpress gondola Family-Run Outdoor Pool
+  - img "food"
+  - list:
+    - listitem: Half Board
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £958pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 3":
+    - img "Hotel Rosa Lake Iseo Italy Garden"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+  - heading "Hotel Rosa" [level=3]
+  - paragraph:
+    - paragraph: Lake Iseo, Italy
+  - img "bullet"
+  - text: Lake view terrace
+  - img "bullet"
+  - text: Family-run charm
+  - img "bullet"
+  - text: Garden to relax in Central Location Family-Run Small Hotel
+  - img "food"
+  - list:
+    - listitem: Half Board
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £959pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3.5"
+  - tabpanel "1 of 4":
+    - img "Hotel Catullo Sirmione Catullo With Love"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Catullo" [level=3]
+  - paragraph:
+    - paragraph: Sirmione, Lake Garda, Italy
+  - img "bullet"
+  - text: Private beach
+  - img "bullet"
+  - text: Central location
+  - img "bullet"
+  - text: Friendly service Group Holidays Central Location Food & Drink
+  - img "food"
+  - list:
+    - listitem: Half Board
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £961pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "Hotel Bologna Bardolino Hotel Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Bologna" [level=3]
+  - paragraph:
+    - paragraph: Bardolino, Lake Garda, Italy
+  - img "bullet"
+  - text: Central location
+  - img "bullet"
+  - text: Private pool
+  - img "bullet"
+  - text: Family-run atmosphere Solo Holidays Central Location Family-Run
+  - img "food"
+  - list:
+    - listitem: Bed & Breakfast
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £968pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "4.5"
+  - tabpanel "1 of 4":
+    - img "Alpenpark Resort Seefeld Davidjohansson Outdoor Pool"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Alpenpark Resort" [level=3]
+  - paragraph:
+    - paragraph: Seefeld, Austrian Tyrol, Austria
+  - img "bullet"
+  - text: Fantastic family facilities
+  - img "bullet"
+  - text: Large spa and pools
+  - img "bullet"
+  - text: Close to the centre Family Holidays Spa & Wellness Family-Run
+  - img "food"
+  - list:
+    - listitem: Half Board
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: Edinburgh,
+    - listitem: Birmingham Int.,
+    - listitem: London Gatwick,
+    - listitem: Edinburgh,
+    - listitem: London Gatwick,
+    - listitem: +69 More
+  - text: From £978pp
+  - link "View details"
+  - navigation "Pagination Navigation":
+    - list:
+      - listitem:
+        - button [disabled]:
+          - img
+      - listitem:
+        - button "1" [disabled]
+      - listitem:
+        - button "2"
+      - listitem:
+        - button "3"
+      - listitem:
+        - button "4"
+      - listitem:
+        - button "5"
+      - listitem:
+        - button "6"
+      - listitem:
+        - button "7"
+      - listitem: ...
+      - listitem:
+        - button "14"
+      - listitem:
+        - button:
+          - img
+  - text: Sign up for news and exclusive offers
+  - link "Sign up now"
+- contentinfo:
+  - link "Manage my booking"
+  - link "Agent login"
+  - link "About us & stay in touch"
+  - list:
+    - listitem:
+      - link "History"
+    - listitem:
+      - link "Service"
+    - listitem:
+      - link "Reviews"
+    - listitem:
+      - link "Sustainability"
+    - listitem:
+      - link "Work for us"
+    - listitem:
+      - link "Partnerships"
+    - listitem:
+      - link "Travel advice"
+    - listitem:
+      - link "FAQs"
+    - listitem:
+      - link "Contact us"
+    - listitem:
+      - link "Request a brochure"
+  - link "Walking Holidays"
+  - list:
+    - listitem:
+      - link "Walking holiday destinations"
+  - list:
+    - listitem:
+      - link "Walking holiday types"
+  - list:
+    - listitem:
+      - link "Walking holiday inspiration"
+  - list:
+    - listitem:
+      - link "Guided walks included"
+  - list:
+    - listitem:
+      - link "Holidays by train"
+  - list:
+    - listitem:
+      - link "Multi-Centre holidays"
+  - list:
+    - listitem:
+      - link "Walking grades"
+  - list:
+    - listitem:
+      - link "Why book an Inghams Walking holiday"
+  - link "Walking deals & offers"
+  - list:
+    - listitem:
+      - link "2025 walking deals"
+  - list:
+    - listitem:
+      - link "2026 walking deals"
+  - list:
+    - listitem:
+      - link "Kids fly free"
+  - list:
+    - listitem:
+      - link "Andorra walking deals"
+  - list:
+    - listitem:
+      - link "Austria walking deals"
+  - list:
+    - listitem:
+      - link "France walking deals"
+  - list:
+    - listitem:
+      - link "Italy walking deals"
+  - list:
+    - listitem:
+      - link "Madeira walking deals"
+  - list:
+    - listitem:
+      - link "Norway walking deals"
+  - list:
+    - listitem:
+      - link "Slovenia walking deals"
+  - list:
+    - listitem:
+      - link "Switzerland walking deals"
+  - link "Follow on Facebook Walking":
+    - img
+    - text: Follow on Facebook Walking
+  - link "Follow on Instagram Walking":
+    - img
+    - text: Follow on Instagram Walking
+  - link "02045388944":
+    - img
+    - text: "02045388944"
+  - link "Ski":
+    - img
+    - img
+    - text: Ski
+  - link "Walking":
+    - img
+    - img
+    - text: Walking
+  - link "Lapland":
+    - img
+    - img
+    - text: Lapland
+  - navigation:
+    - list:
+      - listitem:
+        - link "Terms and Conditions"
+      - listitem:
+        - link "Privacy Policy"
+      - listitem:
+        - link "Modern Slavery Statement"
+      - listitem:
+        - link "Accessibility"
+      - listitem:
+        - link "Sitemap"
+  - paragraph: "stg_Inghams is a brand of Hotelplan Limited, “part of the Hotelplan UK Group” © 2025. All Rights Reserved. Registered in England and Wales as Hotelplan Ltd. Registered No 350786. ATOL 0025. ABTA V4871. VAT No: GB 217 4698 42. Registered office address: Nelson House, 55 Victoria Road, Farnborough, Hampshire, GU14 7PA."
+```
+
+# Test source
+
+```ts
+   1 | import { type Page, type Locator, expect, APIRequestContext, APIResponse } from '@playwright/test';
+   2 | import { SearchValues, ResortSearchValues } from '../utilities/models';
+   3 | import environmentBaseUrl from '../../utils/environmentBaseUrl';
+   4 |
+   5 | export class ResortPage {
+   6 |     public page: Page
+   7 |     readonly viewHotelsButtons: Locator
+   8 |     readonly searchBar: Locator
+   9 |     readonly criteriaBar: Locator
+   10 |     readonly resortSearchBarDetails: Locator
+   11 |     readonly editSearchBar: Locator
+   12 |     readonly northEnglandCheckbox: Locator
+   13 |     readonly departureBtn: Locator
+   14 |     readonly whosComingBtn: Locator
+   15 |     readonly addAdultBtn: Locator
+   16 |     readonly addChildBtn: Locator
+   17 |     readonly childOption: Locator
+   18 |     readonly durationBtn: Locator
+   19 |     readonly durationSampleVal: Locator
+   20 |     readonly departureDate: Locator
+   21 |     readonly departureDateVal: Locator
+   22 |     readonly doneBtn: Locator
+   23 |     readonly confirmDetailsBtn: Locator
+   24 |     readonly resortSearchDepartureVal: Locator
+   25 |     readonly resortSearchArrivalValue: Locator
+   26 |     readonly resortSearchWhosComingValue: Locator
+   27 |     readonly resortSearchNightsValue: Locator
+   28 |     readonly flexibleDateLink: Locator
+   29 |     readonly flexibleDateOption: Locator
+   30 |     readonly resortPriceValue: Locator
+   31 |     readonly resortPriceValueWithoutPromo: Locator
+   32 |     public resortSearchBarValues: string[] = [];
+   33 |     public resortSearchValues: ResortSearchValues | null = null;
+   34 |     public sphinxUrl: string | null = environmentBaseUrl.sphinx.dev;
+   35 |     private request: APIRequestContext;
+   36 |
+   37 |
+   38 |     constructor(page: Page, apiContext: APIRequestContext) {
+   39 |         this.page = page;
+   40 |         this.request = apiContext
+   41 |         this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View details' })
+   42 |         this.searchBar = page.locator('.c-search-criteria-bar')
+   43 |         this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]')
+   44 |         this.resortSearchBarDetails = page.locator('.c-search-criteria-bar__price-basis > span')
+   45 |         this.editSearchBar = page.locator('.c-search-criteria-bar').getByRole('button', { name: 'Edit' })
+   46 |         this.departureBtn = page.getByRole('button', { name: 'Departure location(s) Any' })
+   47 |         this.northEnglandCheckbox = this.page.getByText('Any North Of England').or(
+   48 |             this.page.locator('div:has-text("Any North Of England")')
+   49 |         ).or(
+   50 |             this.page.locator('generic:has-text("Any North Of England")')
+   51 |         )
+   52 |         this.whosComingBtn = page.getByRole('button', { name: `Who's coming?` })
+   53 |         this.addAdultBtn = page.locator('.number-range').getByRole('button', { name: '+' })
+   54 |         this.addChildBtn = page.getByRole('button', { name: 'Add a child' })
+   55 |         this.childOption = page.locator('//*[@id="childSelectList"] //li').nth(1)
+   56 |         this.durationBtn = page.locator('.nights-btn')
+   57 |         this.durationSampleVal = this.page.getByRole('radio', { name: '3 nights' }).or(
+   58 |             this.page.getByText('3 nights').filter({ has: this.page.locator('radio') })
+   59 |         ).or(
+   60 |             this.page.locator('label:has-text("3 nights")')
+   61 |         )
+   62 |         this.departureDate = page.getByRole('button', { name: 'Select date' })
+   63 |         this.departureDateVal = page.locator('.calendar-btn')
+   64 |         this.doneBtn = page.getByRole('button', { name: 'Done' })
+   65 |         this.confirmDetailsBtn = page.getByRole('button', { name: ' Confirm details ' })
+   66 |         this.resortSearchDepartureVal = page.locator('.trip-search__option .option--selected')
+   67 |         this.resortSearchNightsValue = page.getByRole('button', { name: 'nights' })
+   68 |         this.flexibleDateLink = page.getByRole('link', { name: 'Flexible dates' })
+   69 |         this.flexibleDateOption = page.locator('.exactdate-list >li').nth(1)
+   70 |         this.resortPriceValue = page.locator('.c-search-criteria-bar__price-promo >div >span').nth(1)
+   71 |         this.resortPriceValueWithoutPromo = page.locator('.c-search-criteria-bar__price >span').nth(1)
+   72 |     }
+   73 |
+   74 |     async checkResortSearchBarAvailability() {
+   75 |         let hasStickyFixedClass: boolean = false
+   76 |         let positionStyle: string = ''
+   77 |
+   78 |         const [newPage] = await Promise.all([
+   79 |             this.page.context().waitForEvent('page'),
+>  80 |             this.viewHotelsButtons.first().waitFor({ state: 'visible' }),
+      |                                            ^ Error: locator.waitFor: Test timeout of 180000ms exceeded.
+   81 |             this.viewHotelsButtons.first().click()
+   82 |         ]);
+   83 |         
+   84 |         await newPage.waitForLoadState('domcontentloaded')
+   85 |         try {
+   86 |             await newPage.waitForLoadState('networkidle', { timeout: 20000 });
+   87 |         } catch (error) {
+   88 |             console.log('Network idle timeout, but proceeding with test...');
+   89 |             // Continue with a short wait instead
+   90 |             await newPage.waitForTimeout(3000);
+   91 |         }
+   92 |         this.page = newPage
+   93 |
+   94 |         // Wait for the search criteria bar with increased timeout and better error handling
+   95 |         try {
+   96 |             await expect(newPage.locator('.c-search-criteria-bar'), 'Search bar is available').toBeVisible({ timeout: 20000 });
+   97 |         } catch (error) {
+   98 |             console.log('Search criteria bar not found, trying alternative selector...');
+   99 |             await expect(newPage.locator('[data-sticky-content="criteriabar"]'), 'Alternative search bar selector').toBeVisible({ timeout: 10000 });
+  100 |         }
+  101 |         
+  102 |         // Additional wait for page stability
+  103 |         await newPage.waitForTimeout(2000);
+  104 |         
+  105 |         hasStickyFixedClass = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
+  106 |             element.classList.contains('sticky-fixed')
+  107 |         );
+  108 |
+  109 |         positionStyle = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
+  110 |             window.getComputedStyle(element).position
+  111 |         );
+  112 |
+  113 |         expect(hasStickyFixedClass, 'Search bar is not initially sticky').toBe(false)
+  114 |         expect(positionStyle).toBe('relative')
+  115 |
+  116 |         return newPage
+  117 |     }
+  118 |
+  119 |     async scrollDown(newPage) {
+  120 |         const resortPage = new ResortPage(newPage, this.request);
+  121 |         await newPage.waitForLoadState('domcontentloaded')
+  122 |
+  123 |         await newPage.evaluate(() => window.scrollBy(0, 300));
+  124 |         await newPage.waitForTimeout(500);
+  125 |     }
+  126 |
+  127 |     async validateSearchBarTobeSticky(newPage) {
+  128 |         const resortPage = new ResortPage(newPage, this.request);
+  129 |         await newPage.waitForLoadState('domcontentloaded')
+  130 |
+  131 |         await expect(resortPage.searchBar, 'Search bar is available').toBeVisible();
+  132 |
+  133 |         const hasStickyFixedClass = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
+  134 |             element.classList.contains('sticky-fixed')
+  135 |         );
+  136 |
+  137 |         const positionStyle = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
+  138 |             window.getComputedStyle(element).position
+  139 |         );
+  140 |
+  141 |         const top = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
+  142 |             window.getComputedStyle(element).top
+  143 |         );
+  144 |
+  145 |         expect(hasStickyFixedClass, 'Search bar is sticky').toBe(true)
+  146 |         expect(positionStyle).toBe('fixed')
+  147 |         expect(top).toBe('0px')
+  148 |     }
+  149 |
+  150 |     async validateResortSearchBarDetails(searchValues: SearchValues, newPage: Page, updatedVal: boolean = false) {
+  151 |         const resortPage = new ResortPage(newPage, this.request);
+  152 |         await newPage.waitForLoadState('domcontentloaded')
+  153 |         await newPage.waitForTimeout(2000);
+  154 |
+  155 |         // Clear previous values to avoid stale data
+  156 |         this.resortSearchBarValues = [];
+  157 |
+  158 |         for (let index = 0; index < 3; index++) {
+  159 |             try {
+  160 |                 await resortPage.resortSearchBarDetails.nth(index).waitFor({ state: 'visible', timeout: 10000 });
+  161 |                 let resortSearchBarDetails = await resortPage.resortSearchBarDetails.nth(index).textContent()
+  162 |                 if (resortSearchBarDetails !== null) {
+  163 |                     this.resortSearchBarValues.push(resortSearchBarDetails);
+  164 |                 }
+  165 |             } catch (error) {
+  166 |                 console.log(`Failed to get search bar detail at index ${index}:`, error.message);
+  167 |                 // Continue with other elements
+  168 |             }
+  169 |         }
+  170 |
+  171 |         if (this.resortSearchBarValues.length === 0) {
+  172 |             throw new Error('No search bar details could be retrieved');
+  173 |         }
+  174 |
+  175 |         if (updatedVal) {
+  176 |             const expectedValues = this.resortSearchValues;
+  177 |             const actualBarValues = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
+  178 |
+  179 |             // Format expected values to match how they appear in the bar
+  180 |             const expectedFormatted = [
+```
