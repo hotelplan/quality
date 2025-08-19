@@ -1,0 +1,763 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Search >> The search bar should display the updated number of nights, number of guests, departure location, and date on the Resort Details page for Ski holidays when the details have been updated. @inw
+- Location: /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/resortPage.spec.ts:86:13
+
+# Error details
+
+```
+Error: locator.waitFor: Test timeout of 180000ms exceeded.
+Call log:
+  - waiting for locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View details' }).first() to be visible
+
+    at ResortPage.checkResortSearchBarAvailability (/home/runner/work/quality/quality/tests/resources/inw_resources/page_objects/resort_page.ts:80:44)
+    at /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/resortPage.spec.ts:104:48
+    at /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/resortPage.spec.ts:102:24
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button "home":
+    - img "home"
+  - link "Inghams SKI":
+    - img "Inghams"
+    - text: SKI
+  - navigation:
+    - list:
+      - listitem:
+        - link "Destinations"
+        - img "open"
+      - listitem:
+        - link "Holiday types"
+        - img "open"
+      - listitem:
+        - link "Inspire me"
+        - img "open"
+      - listitem:
+        - link "Deals and offers"
+        - img "open"
+      - listitem:
+        - link "Snow guarantee"
+  - text: Call us today
+  - link "02045 388944_qa open":
+    - text: 02045 388944_qa
+    - img "open"
+  - link "Person":
+    - img "Person"
+- text: "499 Days : 22 hours : 51 mins : 38 secs Free night offer"
+- main:
+  - paragraph: You searched for
+  - text: Any date | Any guests | Any departure location
+  - button "Prices & availability"
+  - button "Ratings"
+  - button "Best For"
+  - button "Board Basis"
+  - button "Facilities"
+  - button "Holiday Types"
+  - button "Duration"
+  - button "Budget"
+  - button "All filters":
+    - text: All filters
+    - img
+  - button "Sort by":
+    - text: Sort by
+    - img
+  - text: View results by resort Spa & Wellness Couples Holidays Central Location Family Rooms Bar Spa Facilities Food & Drink Close to Lifts First Time Skiers Inghams Choice Family Holidays Solo Holidays Free Wi-Fi Small Hotel Indoor Pool Sauna/Steam Room Family-Run Outdoor Pool Single Rooms Ski In/Ski Out Kids Club Gym/Fitness Centres Group Holidays Heated Boot Room Parking Peace & Quiet Children's Play Area Wow Factor Restaurant National Parks Hot Tub Sightseeing Apres Lively Resort Large Ski Area 463 results
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "Residence La Rivière Apartments Chamonix Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Residence La Riviere Apartments" [level=3]
+  - paragraph:
+    - paragraph: Chamonix, France
+  - img "bullet"
+  - text: Central Chamonix location
+  - img "bullet"
+  - text: Close to Aiguille du Midi
+  - img "bullet"
+  - text: Modern, self-catered units Central Location
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £400pp From £449pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "4"
+  - tabpanel "1 of 4":
+    - img "Park Hotel Voss Restaurant (2)"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Park Hotel" [level=3]
+  - paragraph:
+    - paragraph: Voss, Norway
+  - img "bullet"
+  - text: Renowned wine cellar
+  - img "bullet"
+  - text: Central location
+  - img "bullet"
+  - text: Scenic lake views Central Location Close to Lifts Food & Drink
+  - img "food"
+  - list:
+    - listitem: Bed & Breakfast
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £514pp From £492pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "Hotel Pyha Tunturi Pyha View"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hotel Pyhatunturi" [level=3]
+  - paragraph:
+    - paragraph: Pyhä , Lapland/Finland
+  - img "food"
+  - list:
+    - listitem: Bed & Breakfast
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £860pp From £499pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "2.5"
+  - tabpanel "1 of 4":
+    - img "Hameau De Borsat Apartments Tignes Exterior Slope View"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hameau du Borsat Apartments" [level=3]
+  - paragraph:
+    - paragraph: Tignes, Tignes-Val d’Isère Ski Area, France
+  - img "bullet"
+  - text: Conveniently located near to the ski lifts
+  - img "bullet"
+  - text: Compact, self-catered apartments
+  - img "bullet"
+  - text: Great value apartments in Tignes Family Holidays Couples Holidays Close to Lifts
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £400pp From £509pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "Les Constellations Apartments La Plagne Exterior 2"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Les Constellations Apartments" [level=3]
+  - paragraph:
+    - paragraph: La Plagne, Paradiski Ski Area, France
+  - img "bullet"
+  - text: Steps from slopeside fun
+  - img "bullet"
+  - text: Bright, cosy apartments
+  - img "bullet"
+  - text: Stunning alpine views Ski In/Ski Out Central Location
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £400pp From £509pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3.5"
+  - tabpanel "1 of 4":
+    - img "Résidence Aquisana Apartments Serre Chevalier Exterior 6"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Residence Aquisana Apartments" [level=3]
+  - paragraph:
+    - paragraph: Serre Chevalier, France
+  - img "bullet"
+  - text: Quiet, peaceful location
+  - img "bullet"
+  - text: Close to Pontillas cable car
+  - img "bullet"
+  - text: Indoor pool and hammam Family Holidays Spa & Wellness Couples Holidays
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £270pp From £519pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "4"
+  - tabpanel "1 of 4":
+    - img "Hameau Des Airelles Apartments Montgenevre Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Hameau des Airelles Apartments" [level=3]
+  - paragraph:
+    - paragraph: Montgenèvre, Milky Way Ski Area, France
+  - img "bullet"
+  - text: Modern alpine-style apartments
+  - img "bullet"
+  - text: Outdoor pool and wellness facilities
+  - img "bullet"
+  - text: Kids clubs available throughout the season Spa & Wellness Close to Lifts
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £280pp From £529pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "La Daille Apartments Val D'isere Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "La Daille Apartments" [level=3]
+  - paragraph:
+    - paragraph: Val d'Isere, Tignes-Val d’Isère Ski Area, France
+  - img "bullet"
+  - text: Close to Funival lift
+  - img "bullet"
+  - text: Stunning mountain views
+  - img "bullet"
+  - text: Ski-in/out convenience Family Holidays Close to Lifts Group Holidays
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £400pp From £529pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3"
+  - tabpanel "1 of 4":
+    - img "L'ours Blanc Apartments Alpe D'huez Exterior 2"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "L'Ours Blanc Apartments" [level=3]
+  - paragraph:
+    - paragraph: Alpe d'Huez, France
+  - img "bullet"
+  - text: Central resort location
+  - img "bullet"
+  - text: Well-equipped apartments
+  - img "bullet"
+  - text: Easy ski lift access Central Location Family Holidays
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £400pp From £539pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3.5"
+  - tabpanel "1 of 4":
+    - img "Hotel Highland Lodge Geilo Exterior Building"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Highland Lodge Hotel" [level=3]
+  - paragraph:
+    - paragraph: Geilo, Norway
+  - img "bullet"
+  - text: Central location
+  - img "bullet"
+  - text: Family friendly hotel
+  - img "bullet"
+  - text: On site restaurants Central Location Spa & Wellness Food & Drink
+  - img "food"
+  - list:
+    - listitem: Bed & Breakfast
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £584pp From £549pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "5"
+  - tabpanel "1 of 4":
+    - img "Le Centaure Apartments Flaine Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Le Centaure Apartments" [level=3]
+  - paragraph:
+    - paragraph: Flaine, France
+  - img "bullet"
+  - text: Opposite Grandes Platières lift
+  - img "bullet"
+  - text: Excellent wellness area with indoor pool
+  - img "bullet"
+  - text: South-facing stylish units Spa & Wellness Ski In/Ski Out Close to Lifts
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £270pp From £549pp
+  - link "View details"
+  - img "inghams-a"
+  - text: "3.5"
+  - tabpanel "1 of 4":
+    - img "Villa Armas Cabins Yllas Terrace Exterior"
+  - tablist "Select a slide to show":
+    - tab "Go to slide 1" [selected]
+    - tab "Go to slide 2"
+    - tab "Go to slide 3"
+    - tab "Go to slide 4"
+  - heading "Villa Armas Cabins" [level=3]
+  - paragraph:
+    - paragraph: Ylläs, Lapland/Finland
+  - img "food"
+  - list:
+    - listitem: Self Catering
+  - img "bed-and-breakfast"
+  - list:
+    - listitem: London Gatwick,
+    - listitem: Manchester Int.,
+    - listitem: Bristol,
+    - listitem: London Southend,
+    - listitem: London Heathrow,
+    - listitem: +13 More
+  - text: Save £150pp From £549pp
+  - link "View details"
+  - navigation "Pagination Navigation":
+    - list:
+      - listitem:
+        - button [disabled]:
+          - img
+      - listitem:
+        - button "1" [disabled]
+      - listitem:
+        - button "2"
+      - listitem:
+        - button "3"
+      - listitem:
+        - button "4"
+      - listitem:
+        - button "5"
+      - listitem:
+        - button "6"
+      - listitem:
+        - button "7"
+      - listitem: ...
+      - listitem:
+        - button "39"
+      - listitem:
+        - button:
+          - img
+  - text: Sign up for news and exclusive offers
+  - link "Sign up now"
+- contentinfo:
+  - link "Manage my booking"
+  - link "Agent login"
+  - link "About us & stay in touch"
+  - list:
+    - listitem:
+      - link "History"
+    - listitem:
+      - link "Service"
+    - listitem:
+      - link "Reviews"
+    - listitem:
+      - link "Sustainability"
+    - listitem:
+      - link "Work for us"
+    - listitem:
+      - link "Partnerships"
+    - listitem:
+      - link "Contact us"
+    - listitem:
+      - link "Travel advice"
+    - listitem:
+      - link "FAQs"
+    - listitem:
+      - link "Contact us"
+    - listitem:
+      - link "Request a brochure"
+  - link "Ski Holidays"
+  - list:
+    - listitem:
+      - link "Ski holiday destinations"
+  - list:
+    - listitem:
+      - link "Ski holiday types"
+  - list:
+    - listitem:
+      - link "Ski accommodation options"
+  - list:
+    - listitem:
+      - link "Ski holiday essentials"
+  - list:
+    - listitem:
+      - link "Snow guarantee"
+  - list:
+    - listitem:
+      - link "Pre-register for next winter"
+  - list:
+    - listitem:
+      - link "Why book an Inghams ski holiday"
+  - link "Ski deals & offers"
+  - list:
+    - listitem:
+      - link "2025/26 ski deals"
+  - list:
+    - listitem:
+      - link "Ski lift pass offers"
+  - list:
+    - listitem:
+      - link "Andorra ski deals"
+  - list:
+    - listitem:
+      - link "Austria ski deals"
+  - list:
+    - listitem:
+      - link "Canada ski deals"
+  - list:
+    - listitem:
+      - link "Finland ski deals"
+  - list:
+    - listitem:
+      - link "France ski deals"
+  - list:
+    - listitem:
+      - link "Italy ski deals"
+  - list:
+    - listitem:
+      - link "Norway ski deals"
+  - list:
+    - listitem:
+      - link "Switzerland ski deals"
+  - link "Follow on Facebook Ski":
+    - img
+    - text: Follow on Facebook Ski
+  - link "Follow on Instagram Ski":
+    - img
+    - text: Follow on Instagram Ski
+  - link "02045 388944_qa":
+    - img
+    - text: 02045 388944_qa
+  - link "Ski":
+    - img
+    - img
+    - text: Ski
+  - link "Walking":
+    - img
+    - img
+    - text: Walking
+  - link "Lapland":
+    - img
+    - img
+    - text: Lapland
+  - img "Ski membership"
+  - navigation:
+    - list:
+      - listitem:
+        - link "Terms and Conditions"
+      - listitem:
+        - link "Privacy Policy"
+      - listitem
+      - listitem
+      - listitem:
+        - link "Sitemap"
+      - listitem:
+        - link "test"
+  - img "Ski award"
+  - paragraph: "qa_Inghams is a brand of Hotelplan Limited, “part of the Hotelplan UK Group” © 2025. All Rights Reserved. Registered in England and Wales as Hotelplan Ltd. Registered No 350786. ATOL 0025. ABTA V4871. VAT No: GB 217 4698 42. Registered office address: Nelson House, 55 Victoria Road, Farnborough, Hampshire, GU14 7PA."
+```
+
+# Test source
+
+```ts
+   1 | import { type Page, type Locator, expect, APIRequestContext, APIResponse } from '@playwright/test';
+   2 | import { SearchValues, ResortSearchValues } from '../utilities/models';
+   3 | import environmentBaseUrl from '../../utils/environmentBaseUrl';
+   4 |
+   5 | export class ResortPage {
+   6 |     public page: Page
+   7 |     readonly viewHotelsButtons: Locator
+   8 |     readonly searchBar: Locator
+   9 |     readonly criteriaBar: Locator
+   10 |     readonly resortSearchBarDetails: Locator
+   11 |     readonly editSearchBar: Locator
+   12 |     readonly northEnglandCheckbox: Locator
+   13 |     readonly departureBtn: Locator
+   14 |     readonly whosComingBtn: Locator
+   15 |     readonly addAdultBtn: Locator
+   16 |     readonly addChildBtn: Locator
+   17 |     readonly childOption: Locator
+   18 |     readonly durationBtn: Locator
+   19 |     readonly durationSampleVal: Locator
+   20 |     readonly departureDate: Locator
+   21 |     readonly departureDateVal: Locator
+   22 |     readonly doneBtn: Locator
+   23 |     readonly confirmDetailsBtn: Locator
+   24 |     readonly resortSearchDepartureVal: Locator
+   25 |     readonly resortSearchArrivalValue: Locator
+   26 |     readonly resortSearchWhosComingValue: Locator
+   27 |     readonly resortSearchNightsValue: Locator
+   28 |     readonly flexibleDateLink: Locator
+   29 |     readonly flexibleDateOption: Locator
+   30 |     readonly resortPriceValue: Locator
+   31 |     readonly resortPriceValueWithoutPromo: Locator
+   32 |     public resortSearchBarValues: string[] = [];
+   33 |     public resortSearchValues: ResortSearchValues | null = null;
+   34 |     public sphinxUrl: string | null = environmentBaseUrl.sphinx.dev;
+   35 |     private request: APIRequestContext;
+   36 |
+   37 |
+   38 |     constructor(page: Page, apiContext: APIRequestContext) {
+   39 |         this.page = page;
+   40 |         this.request = apiContext
+   41 |         this.viewHotelsButtons = page.locator('.c-search-card__footer .c-search-card--resorts-footer').getByRole('button', { name: 'View details' })
+   42 |         this.searchBar = page.locator('.c-search-criteria-bar')
+   43 |         this.criteriaBar = page.locator('[data-sticky-content="criteriabar"]')
+   44 |         this.resortSearchBarDetails = page.locator('.c-search-criteria-bar__price-basis > span')
+   45 |         this.editSearchBar = page.locator('.c-search-criteria-bar').getByRole('button', { name: 'Edit' })
+   46 |         this.departureBtn = page.getByRole('button', { name: 'Departure location(s) Any' })
+   47 |         this.northEnglandCheckbox = this.page.getByText('Any North Of England').or(
+   48 |             this.page.locator('div:has-text("Any North Of England")')
+   49 |         ).or(
+   50 |             this.page.locator('generic:has-text("Any North Of England")')
+   51 |         )
+   52 |         this.whosComingBtn = page.getByRole('button', { name: `Who's coming?` })
+   53 |         this.addAdultBtn = page.locator('.number-range').getByRole('button', { name: '+' })
+   54 |         this.addChildBtn = page.getByRole('button', { name: 'Add a child' })
+   55 |         this.childOption = page.locator('//*[@id="childSelectList"] //li').nth(1)
+   56 |         this.durationBtn = page.locator('.nights-btn')
+   57 |         this.durationSampleVal = this.page.getByRole('radio', { name: '3 nights' }).or(
+   58 |             this.page.getByText('3 nights').filter({ has: this.page.locator('radio') })
+   59 |         ).or(
+   60 |             this.page.locator('label:has-text("3 nights")')
+   61 |         )
+   62 |         this.departureDate = page.getByRole('button', { name: 'Select date' })
+   63 |         this.departureDateVal = page.locator('.calendar-btn')
+   64 |         this.doneBtn = page.getByRole('button', { name: 'Done' })
+   65 |         this.confirmDetailsBtn = page.getByRole('button', { name: ' Confirm details ' })
+   66 |         this.resortSearchDepartureVal = page.locator('.trip-search__option .option--selected')
+   67 |         this.resortSearchNightsValue = page.getByRole('button', { name: 'nights' })
+   68 |         this.flexibleDateLink = page.getByRole('link', { name: 'Flexible dates' })
+   69 |         this.flexibleDateOption = page.locator('.exactdate-list >li').nth(1)
+   70 |         this.resortPriceValue = page.locator('.c-search-criteria-bar__price-promo >div >span').nth(1)
+   71 |         this.resortPriceValueWithoutPromo = page.locator('.c-search-criteria-bar__price >span').nth(1)
+   72 |     }
+   73 |
+   74 |     async checkResortSearchBarAvailability() {
+   75 |         let hasStickyFixedClass: boolean = false
+   76 |         let positionStyle: string = ''
+   77 |
+   78 |         const [newPage] = await Promise.all([
+   79 |             this.page.context().waitForEvent('page'),
+>  80 |             this.viewHotelsButtons.first().waitFor({ state: 'visible' }),
+      |                                            ^ Error: locator.waitFor: Test timeout of 180000ms exceeded.
+   81 |             this.viewHotelsButtons.first().click()
+   82 |         ]);
+   83 |         
+   84 |         await newPage.waitForLoadState('domcontentloaded')
+   85 |         try {
+   86 |             await newPage.waitForLoadState('networkidle', { timeout: 20000 });
+   87 |         } catch (error) {
+   88 |             console.log('Network idle timeout, but proceeding with test...');
+   89 |             // Continue with a short wait instead
+   90 |             await newPage.waitForTimeout(3000);
+   91 |         }
+   92 |         this.page = newPage
+   93 |
+   94 |         // Wait for the search criteria bar with increased timeout and better error handling
+   95 |         try {
+   96 |             await expect(newPage.locator('.c-search-criteria-bar'), 'Search bar is available').toBeVisible({ timeout: 20000 });
+   97 |         } catch (error) {
+   98 |             console.log('Search criteria bar not found, trying alternative selector...');
+   99 |             await expect(newPage.locator('[data-sticky-content="criteriabar"]'), 'Alternative search bar selector').toBeVisible({ timeout: 10000 });
+  100 |         }
+  101 |         
+  102 |         // Additional wait for page stability
+  103 |         await newPage.waitForTimeout(2000);
+  104 |         
+  105 |         hasStickyFixedClass = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
+  106 |             element.classList.contains('sticky-fixed')
+  107 |         );
+  108 |
+  109 |         positionStyle = await newPage.locator('[data-sticky-content="criteriabar"]').evaluate((element: HTMLElement) =>
+  110 |             window.getComputedStyle(element).position
+  111 |         );
+  112 |
+  113 |         expect(hasStickyFixedClass, 'Search bar is not initially sticky').toBe(false)
+  114 |         expect(positionStyle).toBe('relative')
+  115 |
+  116 |         return newPage
+  117 |     }
+  118 |
+  119 |     async scrollDown(newPage) {
+  120 |         const resortPage = new ResortPage(newPage, this.request);
+  121 |         await newPage.waitForLoadState('domcontentloaded')
+  122 |
+  123 |         await newPage.evaluate(() => window.scrollBy(0, 300));
+  124 |         await newPage.waitForTimeout(500);
+  125 |     }
+  126 |
+  127 |     async validateSearchBarTobeSticky(newPage) {
+  128 |         const resortPage = new ResortPage(newPage, this.request);
+  129 |         await newPage.waitForLoadState('domcontentloaded')
+  130 |
+  131 |         await expect(resortPage.searchBar, 'Search bar is available').toBeVisible();
+  132 |
+  133 |         const hasStickyFixedClass = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
+  134 |             element.classList.contains('sticky-fixed')
+  135 |         );
+  136 |
+  137 |         const positionStyle = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
+  138 |             window.getComputedStyle(element).position
+  139 |         );
+  140 |
+  141 |         const top = await resortPage.criteriaBar.evaluate((element: HTMLElement) =>
+  142 |             window.getComputedStyle(element).top
+  143 |         );
+  144 |
+  145 |         expect(hasStickyFixedClass, 'Search bar is sticky').toBe(true)
+  146 |         expect(positionStyle).toBe('fixed')
+  147 |         expect(top).toBe('0px')
+  148 |     }
+  149 |
+  150 |     async validateResortSearchBarDetails(searchValues: SearchValues, newPage: Page, updatedVal: boolean = false) {
+  151 |         const resortPage = new ResortPage(newPage, this.request);
+  152 |         await newPage.waitForLoadState('domcontentloaded')
+  153 |         await newPage.waitForTimeout(2000);
+  154 |
+  155 |         // Clear previous values to avoid stale data
+  156 |         this.resortSearchBarValues = [];
+  157 |
+  158 |         for (let index = 0; index < 3; index++) {
+  159 |             try {
+  160 |                 await resortPage.resortSearchBarDetails.nth(index).waitFor({ state: 'visible', timeout: 10000 });
+  161 |                 let resortSearchBarDetails = await resortPage.resortSearchBarDetails.nth(index).textContent()
+  162 |                 if (resortSearchBarDetails !== null) {
+  163 |                     this.resortSearchBarValues.push(resortSearchBarDetails);
+  164 |                 }
+  165 |             } catch (error) {
+  166 |                 console.log(`Failed to get search bar detail at index ${index}:`, error.message);
+  167 |                 // Continue with other elements
+  168 |             }
+  169 |         }
+  170 |
+  171 |         if (this.resortSearchBarValues.length === 0) {
+  172 |             throw new Error('No search bar details could be retrieved');
+  173 |         }
+  174 |
+  175 |         if (updatedVal) {
+  176 |             const expectedValues = this.resortSearchValues;
+  177 |             const actualBarValues = this.resortSearchBarValues.map(v => v.trim().toLowerCase());
+  178 |
+  179 |             // Format expected values to match how they appear in the bar
+  180 |             const expectedFormatted = [
+```

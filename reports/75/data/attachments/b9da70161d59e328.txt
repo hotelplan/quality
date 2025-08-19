@@ -1,0 +1,8 @@
+First approach failed, trying alternative method...
+Accept All Cookies button not found with both methods, skipping click action
+Attempting to click Ski product tab
+✓ Successfully clicked Ski tab using standard method
+Attempting to click Search holidays button
+Modal detected, attempting to close...
+✓ Closed modal using Escape key
+✓ Successfully clicked Search holidays button (standard)

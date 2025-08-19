@@ -1,0 +1,338 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Call to Book >> An ECMS user creates a CTB component and views it on the General Content page undefined @component @inw
+- Location: /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/ctb.spec.ts:27:9
+
+# Error details
+
+```
+Error: locator.evaluate: Test timeout of 180000ms exceeded.
+Call log:
+  - waiting for getByText('02045 388944_qa').locator('svg[title="Dropdown"]')
+
+    at CTBComponent.validateCtbButtonAvailability (/home/runner/work/quality/quality/tests/resources/inw_resources/page_objects/component/ctb.ts:56:136)
+    at /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/ctb.spec.ts:85:13
+    at /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/ctb.spec.ts:82:9
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button "Skip to menu"
+  - button "Skip to content"
+  - button "Umbraco info":
+    - img
+  - navigation "Primary":
+    - list:
+      - listitem:
+        - link "Content (active)": Content
+      - listitem:
+        - link "Media"
+      - listitem:
+        - link "Settings"
+      - listitem:
+        - link "Packages"
+      - listitem:
+        - link "Users"
+      - listitem:
+        - link "Members"
+      - listitem:
+        - link "Forms"
+      - listitem:
+        - link "Translation"
+      - listitem:
+        - link "SEO"
+  - list:
+    - listitem:
+      - button "Open backoffice search..."
+    - listitem:
+      - button "Open/Close backoffice help..."
+    - listitem:
+      - button "Open/Close your profile options... C"
+- navigation "Content":
+  - list:
+    - listitem:
+      - heading "Content" [level=1]:
+        - link "Content"
+      - button "Open context node for Content"
+      - list:
+        - listitem:
+          - button "Expand child items for Home"
+          - link "Home"
+          - button "Open context menu for Home"
+          - list:
+            - listitem:
+              - link "Search"
+              - button "Open context menu for Search"
+            - listitem:
+              - button "Expand child items for Ski Holidays"
+              - link "Ski Holidays"
+              - button "Open context menu for Ski Holidays"
+            - listitem:
+              - button "Expand child items for Walking Holidays"
+              - link "Walking Holidays"
+              - button "Open context menu for Walking Holidays"
+            - listitem:
+              - button "Expand child items for Lapland Holidays"
+              - link "Lapland Holidays"
+              - button "Open context menu for Lapland Holidays"
+            - listitem:
+              - button "Expand child items for About us"
+              - link "About us"
+              - button "Open context menu for About us"
+            - listitem:
+              - link "FAQ"
+              - button "Open context menu for FAQ"
+            - listitem:
+              - link "FAQ Search Result"
+              - button "Open context menu for FAQ Search Result"
+            - listitem:
+              - text: 
+              - link "Main Promotional Banner"
+              - button "Open context menu for Main Promotional Banner"
+            - listitem:
+              - link "Contact us"
+              - button "Open context menu for Contact us"
+            - listitem:
+              - link "Request a brochure"
+              - button "Open context menu for Request a brochure"
+            - listitem:
+              - button "Expand child items for Travel advice"
+              - link "Travel advice"
+              - button "Open context menu for Travel advice"
+            - listitem:
+              - button "Expand child items for Legal"
+              - link "Legal"
+              - button "Open context menu for Legal"
+            - listitem:
+              - link "FAQ Category"
+              - button "Open context menu for FAQ Category"
+            - listitem:
+              - link "Sign Up"
+              - button "Open context menu for Sign Up"
+            - listitem:
+              - link "Updated Page name"
+              - button "Open context menu for Updated Page name"
+            - listitem:
+              - link "test"
+              - button "Open context menu for test"
+            - listitem:
+              - link "Product"
+              - button "Open context menu for Product"
+            - listitem:
+              - link "Automation Test Page e81e5baa"
+              - button "Open context menu for Automation Test Page e81e5baa"
+            - listitem:
+              - link "Automation Test Page 6d00b89c"
+              - button "Open context menu for Automation Test Page 6d00b89c"
+            - listitem:
+              - link "Automation Test Page 83e0870c"
+              - button "Open context menu for Automation Test Page 83e0870c"
+            - listitem:
+              - link "Automation Test Page a082079e"
+              - button "Open context menu for Automation Test Page a082079e"
+            - listitem:
+              - link "Automation Test Page 8563d07c"
+              - button "Open context menu for Automation Test Page 8563d07c"
+            - listitem:
+              - link "Automation Test Page bd6a1f4b"
+              - button "Open context menu for Automation Test Page bd6a1f4b"
+            - listitem:
+              - link "Automation Test Page 4afe9369"
+              - button "Open context menu for Automation Test Page 4afe9369"
+            - listitem:
+              - link "Automation Test Page 4afe9369 (1)"
+              - button "Open context menu for Automation Test Page 4afe9369 (1)"
+            - listitem:
+              - link "Automation Test Page fa3377c4"
+              - button "Open context menu for Automation Test Page fa3377c4"
+        - listitem:
+          - button "Expand child items for System"
+          - link "System"
+          - button "Open context menu for System"
+          - list:
+            - listitem:
+              - button "Expand child items for Programs"
+              - link "Programs"
+              - button "Open context menu for Programs"
+            - listitem:
+              - link "Header"
+              - button "Open context menu for Header"
+            - listitem:
+              - link "Page Banner"
+              - button "Open context menu for Page Banner"
+            - listitem:
+              - link "Footer"
+              - button "Open context menu for Footer"
+            - listitem:
+              - link "Emergency Banner"
+              - button "Open context menu for Emergency Banner"
+            - listitem:
+              - link "Error"
+              - button "Open context menu for Error"
+            - listitem:
+              - link "Error 400"
+              - button "Open context menu for Error 400"
+            - listitem:
+              - link "Error 403"
+              - button "Open context menu for Error 403"
+            - listitem:
+              - link "Error 404"
+              - button "Open context menu for Error 404"
+            - listitem:
+              - link "Error 410"
+              - button "Open context menu for Error 410"
+            - listitem:
+              - link "Error 500"
+              - button "Open context menu for Error 500"
+            - listitem:
+              - link "Error 503"
+              - button "Open context menu for Error 503"
+            - listitem:
+              - link "xml-sitemap"
+              - button "Open context menu for xml-sitemap"
+            - listitem:
+              - link "Sitemap"
+              - button "Open context menu for Sitemap"
+            - listitem:
+              - link "Contact Section"
+              - button "Open context menu for Contact Section"
+            - listitem:
+              - link "Standard Opening Times"
+              - button "Open context menu for Standard Opening Times"
+            - listitem:
+              - link "CHOX"
+              - button "Open context menu for CHOX"
+            - listitem:
+              - link "Robots.txt"
+              - button "Open context menu for Robots.txt"
+        - listitem:
+          - button "Expand child items for Data Hubs"
+          - link "Data Hubs"
+          - button "Open context menu for Data Hubs"
+        - listitem:
+          - button "Expand child items for Recycle Bin"
+          - link "Recycle Bin"
+          - button "Open context menu for Recycle Bin"
+- paragraph: Edit Automation Test Page fa3377c4
+- text: Name
+- textbox "Name": Automation Test Page fa3377c4
+- list:
+  - listitem:
+    - button "Content"
+  - listitem:
+    - button "Info"
+  - listitem
+- button "Actions"
+- text: Links
+- list:
+  - listitem:
+    - link "en-GB /automation-test-page-fa3377c4"
+  - listitem:
+    - text: en-US
+    - emphasis: This document is published but is not in the cache
+- text: History
+- button "Rollback..."
+- text: C christian.ticar 19 August 2025 00:56 Publish Content saved and Published C christian.ticar 19 August 2025 00:55 Publish Content saved and Published General Status Published Created Date 19 August 2025 00:55 Document Type Generic Content Page
+- button "Open Generic Content Page..."
+- text: Template
+- combobox:
+  - option "Generic Template" [selected]
+  - option "TestTemplate"
+- button "Open GenericTemplate Template"
+- text: Id 38835 502e8733-9b3d-4dea-a50f-cbca4b848117
+- list:
+  - listitem:
+    - link "Home"
+    - text: /
+  - listitem: Automation Test Page fa3377c4
+- button "Save and preview"
+- button "Save"
+- button "Save and publish"
+- button "Save and publish"
+- list
+```
+
+# Test source
+
+```ts
+   1 | import { type Page, type Locator, expect } from '@playwright/test';
+   2 | import { faker } from '@faker-js/faker';
+   3 |
+   4 | export class CTBComponent {
+   5 |     readonly page: Page
+   6 |     readonly ctbTitle: Locator
+   7 |     readonly ctbPhoneNumer: Locator
+   8 |     readonly ctbLayout: Locator
+   9 |     readonly telephonNumberFld: Locator
+  10 |     public ctbTitleData: string
+  11 |     public ctaPhoneNumber: string
+  12 |     public telephoneNumberFromContactSection: string
+  13 |     public selectedLayout: string[]
+  14 |
+  15 |     constructor(page: Page) {
+  16 |         this.page = page;
+  17 |         this.ctbTitle = page.locator('#title')
+  18 |         this.ctbPhoneNumer = page.locator('#phoneNumber')
+  19 |         this.ctbLayout = page.locator('select[name="dropDownList"]').nth(2)
+  20 |         this.ctbTitleData = faker.word.adjective() + ' ' + faker.word.noun() + ' CTB Automation ' + faker.number.int({ min: 50, max: 1000 })
+  21 |         this.ctaPhoneNumber = faker.phone.number({ style: 'national' })
+  22 |         this.telephonNumberFld = page.locator('#telephoneNumber')
+  23 |     }
+  24 |
+  25 |     async fillOutCTBTitle() {
+  26 |         await this.ctbTitle.waitFor({ state: 'visible' })
+  27 |         await this.ctbTitle.fill(this.ctbTitleData)
+  28 |     }
+  29 |
+  30 |     async fillOutCTBPhoneNumber() {
+  31 |         await this.ctbPhoneNumer.fill(this.ctaPhoneNumber)
+  32 |     }
+  33 |
+  34 |     async getCTBPhoneNumber() {
+  35 |         await this.telephonNumberFld.waitFor({ state: 'visible' })
+  36 |         this.telephoneNumberFromContactSection = await this.telephonNumberFld.inputValue()
+  37 |
+  38 |         return this.telephoneNumberFromContactSection
+  39 |     }
+  40 |
+  41 |     async selectCTBLayout() {
+  42 |         const layoutRandomIndex = Math.floor(Math.random() * 2) + 1;
+  43 |         await this.ctbLayout.click()
+  44 |         this.selectedLayout = await this.ctbLayout.selectOption({ index: layoutRandomIndex })
+  45 |     }
+  46 |
+  47 |     async validateCtbButtonAvailability(newPage, rteContent) {
+  48 |         let actualCtbPhoneIcon: any
+  49 |         const ctbLayout = this.selectedLayout[0].split(':')[1]
+  50 |         expect(await newPage.getByText(this.ctbTitleData).isVisible(), "CTB Title is visible").toBeTruthy();
+  51 |
+  52 |         if (ctbLayout === 'Standard') {
+  53 |             await expect(newPage.locator('body')).toContainText(rteContent);
+  54 |             const actualCtbLayout = await newPage.getByText(`${this.ctbTitleData}`).evaluate(node => node.className)
+  55 |             expect(actualCtbLayout.includes('title'), "CTB Layout is correct").toBeTruthy()
+> 56 |             actualCtbPhoneIcon = await newPage.getByText(`${this.telephoneNumberFromContactSection}`).locator('svg[title="Dropdown"]').evaluate(node => node.classList.value)
+     |                                                                                                                                        ^ Error: locator.evaluate: Test timeout of 180000ms exceeded.
+  57 |
+  58 |
+  59 |         } else if (ctbLayout === 'Compact') {
+  60 |             const actualCtbLayout = await newPage.getByText(`${this.ctbTitleData}`).evaluate(node => node.className)
+  61 |             expect(actualCtbLayout.includes('leftContent'), "CTB Layout is correct").toBeTruthy()
+  62 |
+  63 |             actualCtbPhoneIcon = await newPage.getByText(`${this.telephoneNumberFromContactSection}`).nth(2).evaluate(node => node.previousElementSibling.classList.value)
+  64 |         }
+  65 |
+  66 |         expect(await actualCtbPhoneIcon?.includes('icon-phone-outlined'), "CTB Phone icon is correct").toBeTruthy()
+  67 |     }
+  68 |
+  69 | }
+  70 |
+  71 | export default CTBComponent
+```
