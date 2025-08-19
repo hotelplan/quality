@@ -1,0 +1,10 @@
+     Content published:  and visible on the website    ×    - Content published: and visible on the website
+Image name: Testimage1
+Image visibility: true
+Image name: Testimage2
+Image visibility: true
+Image name: Testimage3
+Image visibility: true
+     Content published:  and visible on the website    ×    - Content published: and visible on the website
+First approach failed, trying alternative method...
+Accept All Cookies button not found with both methods, skipping click action
