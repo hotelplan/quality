@@ -38,7 +38,7 @@ on:
         - qa
         - stg
       scope:
-        description: 'Test Scope'
+        description: 'Test Suites / Test Scope'
         required: true
         default: 'Components'
         type: choice
