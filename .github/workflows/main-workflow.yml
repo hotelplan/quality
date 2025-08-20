@@ -47,6 +47,7 @@ on:
         - Migration
         - Components
         - Search
+        - Accommodation Pages
 
   repository_dispatch:
     types: [deploy]
@@ -86,6 +87,8 @@ jobs:
           npx playwright test tests/e2e_tests/inw_tests/components/ --project=Chromium --workers=3 --max-failures=5
         elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Search" ]; then
           npx playwright test tests/e2e_tests/inw_tests/search/ --project=Chromium
+        elif [ "${{ github.event.inputs.scope || github.event.client_payload.scope || inputs.scope }}" == "Accommodation Pages" ]; then
+          npx playwright test tests/e2e_tests/inw_tests/accomodation_pages/ --project=Chromium
         else
           echo "No matching scope found. Please check the input."
           exit 1
