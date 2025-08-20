@@ -1,0 +1,15 @@
+First approach failed, trying alternative method...
+Accept All Cookies button not found with both methods, skipping click action
+Attempting to click Lapland product tab
+✓ Successfully clicked Lapland tab using standard method
+Attempting to click Search holidays button
+✓ Successfully clicked Search holidays button (standard)
+Criteria bar text: "Any date (7 nights)2 adults Any departure location"
+Criteria bar text: "Any date (7 nights)2 adults Any departure location"
+✓ Found expected adults count: 2
+Criteria bar text: "Any date (7 nights)2 adults Any departure location"
+Initial count of accommodation cards: 1
+Criteria bar text: "Any date (7 nights)2 adults Any departure locationEditCall us today01483 319 647"
+Criteria bar text: "Any date (7 nights)2 adults Any departure locationEditCall us today01483 319 647"
+✓ Found expected adults count: 2
+Criteria bar text: "Any date (7 nights)2 adults Any departure locationEditCall us today01483 319 647"
