@@ -14,7 +14,7 @@ on:
         required: true
         type: string
       scope:
-        description: 'Test Scope'
+        description: 'Test Suites / Test Scope'
         required: true
         type: string
 
