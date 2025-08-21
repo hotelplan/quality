@@ -930,6 +930,64 @@ export class SearchResultPage {
         await this.toggleSwitch.click()
     }
 
+    /**
+     * Enables "View results by resort" toggle switch
+     * This method switches the view from accommodations to resort-based results
+     */
+    async enableViewResultsByResort(): Promise<void> {
+        console.log(`🏔️ Enabling "View results by resort" toggle...`);
+        
+        try {
+            // Wait for the toggle to be available
+            const viewByResortToggle = this.page.locator('div').filter({ hasText: /^View results by resort$/ }).locator('label');
+            await viewByResortToggle.waitFor({ state: 'visible', timeout: 10000 });
+            
+            // Check if already enabled
+            const toggleInput = this.page.locator('input[value="showDest"]');
+            const isAlreadyEnabled = await toggleInput.isChecked().catch(() => false);
+            
+            if (isAlreadyEnabled) {
+                console.log(`✓ "View results by resort" is already enabled`);
+            } else {
+                await viewByResortToggle.click();
+                // Wait for the toggle to be processed
+                await this.page.waitForTimeout(3000);
+                console.log(`✓ Successfully enabled "View results by resort" toggle`);
+            }
+            
+            // Wait for resort results to load
+            await this.waitForResortResults();
+            
+        } catch (error) {
+            console.error(`❌ Failed to enable "View results by resort" toggle: ${error.message}`);
+            throw new Error(`Could not enable resort view toggle: ${error.message}`);
+        }
+    }
+
+    /**
+     * Waits for resort results to load after enabling resort view
+     */
+    async waitForResortResults(): Promise<void> {
+        console.log(`⏳ Waiting for resort results to load...`);
+        
+        try {
+            // Wait for resort cards to appear
+            const resortResultsSelector = '.c-search-card--resorts, [class*="resort"], .c-search-result-card';
+            await this.page.waitForSelector(resortResultsSelector, { 
+                state: 'visible', 
+                timeout: 15000 
+            });
+            
+            // Additional wait for all content to stabilize
+            await this.page.waitForTimeout(2000);
+            console.log(`✓ Resort results loaded successfully`);
+            
+        } catch (error) {
+            console.warn(`⚠️ Resort results may not have loaded completely: ${error.message}`);
+            // Don't fail the test, just log the warning
+        }
+    }
+
     async validateResortApiResults(product: string) {
         const currentURL = new URL(this.page.url());
         const params = currentURL.searchParams.toString();

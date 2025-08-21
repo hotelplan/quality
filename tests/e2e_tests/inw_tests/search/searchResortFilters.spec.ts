@@ -1,10 +1,15 @@
 import { test, expect } from '../../../resources/inw_resources/page_objects/base/page_base';
 
 /**
- * ACCOMMODATION FILTERS TEST SUITE
+ * RESORT FILTERS TEST SUITE
  * 
- * This test suite comprehensively tests all accommodation filters across Ski, Walking, and Lapland categories
+ * This test suite comprehensively tests all resort-based filters across Ski, Walking, and Lapland categories
  * following POM principles and prioritizing qa/stg environments with Chromium browser.
+ * 
+ * Key Difference from Accommodation Filters:
+ * - After performing search, the "View results by resort" toggle is enabled before filter testing
+ * - Tests validate resort-based filtering functionality rather than accommodation-specific filtering
+ * - Uses the same filter validation logic but applies to resort results
  * 
  * Test Coverage:
  * - Ratings filter testing
@@ -18,10 +23,11 @@ import { test, expect } from '../../../resources/inw_resources/page_objects/base
  * 
  * Each test follows the pattern:
  * 1. Navigate to category search results
- * 2. Open filter
- * 3. Test individual filter values
- * 4. Validate search results match applied filters
- * 5. Handle "No results" scenarios appropriately
+ * 2. Enable "View results by resort" toggle
+ * 3. Open filter
+ * 4. Test individual filter values
+ * 5. Validate search results match applied filters
+ * 6. Handle "No results" scenarios appropriately
  */
 
 // Test data configuration
@@ -32,7 +38,7 @@ const categories = [
 ];
 
 // Run only on qa and stg environments with Chromium
-test.describe('Accommodation Filters - Comprehensive Testing', () => {
+test.describe('Resort Filters - Comprehensive Testing', () => {
     test.beforeEach(async ({ page }) => {
         // Ensure we're running in the correct environment
         const env = process.env.ENV || 'qa';
@@ -40,7 +46,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
             test.skip(true, 'Skipping: Tests only run on qa and stg environments');
         }
         
-        console.log(`🌍 Running accommodation filters tests on ${env} environment`);
+        console.log(`🌍 Running resort filters tests on ${env} environment`);
         
         // Set longer timeout for filter operations
         test.setTimeout(120000); // 5 minutes per test
@@ -48,6 +54,30 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
         // Set viewport for consistency
         await page.setViewportSize({ width: 1920, height: 1080 });
     });
+
+    /**
+     * Helper function to set up resort search results
+     * 1. Navigate to category search results
+     * 2. Enable "View results by resort" toggle
+     * 3. Wait for resort results to load
+     */
+    async function setupResortSearchResults(
+        searchResultPage: any, 
+        categoryName: string, 
+        searchLocation: string = 'anywhere'
+    ): Promise<void> {
+        console.log(`🔧 Setting up ${categoryName} resort search results...`);
+        
+        // Step 1: Navigate to category search results
+        await searchResultPage.navigateToSearchResults(categoryName, searchLocation);
+        console.log(`✓ Successfully navigated to ${categoryName} search results`);
+        
+        // Step 2: Enable "View results by resort" toggle
+        await searchResultPage.enableViewResultsByResort();
+        console.log(`✓ Successfully enabled resort view for ${categoryName}`);
+        
+        console.log(`🏔️ Resort search results setup completed for ${categoryName}`);
+    }
 
     /**
      * Helper function to validate sticky bar changes for Duration filter
@@ -160,17 +190,15 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     categories.forEach(category => {
         test.describe(`${category.name} - Ratings Filter Testing`, () => {
             
-            test(`@accom @regression Should test all Ratings filter values for ${category.name}`, async ({ 
+            test(`@resort @regression Should test all Ratings filter values for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
-                // Navigate to category search results
-                console.log(`🔧 Setting up ${category.name} search results...`);
-                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
-                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                // Set up resort search results (navigate + enable resort view)
+                await setupResortSearchResults(searchResultPage, category.name, category.searchLocation);
                 
                 // Get all available rating options (filter to only numeric ratings)
-                console.log(`\n🌟 Testing Ratings filter for ${category.name}...`);
+                console.log(`\n🌟 Testing Ratings filter for ${category.name} resorts...`);
                 
                 // Use predefined rating options to avoid getting non-rating options mixed in
                 const ratingOptions = ['1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'];
@@ -223,7 +251,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                     }
                 }
                 
-                console.log(`🎉 Completed Ratings filter testing for ${category.name}`);
+                console.log(`🎉 Completed Ratings filter testing for ${category.name} resorts`);
             });
         });
     });
@@ -233,22 +261,20 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     categories.forEach(category => {
         test.describe(`${category.name} - Best For Filter Testing`, () => {
             
-            test(`@accom @regression Should test Best For filter options for ${category.name}`, async ({ 
+            test(`@resort @regression Should test Best For filter options for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
-                // Step 1-3: Navigate to Inghams website, select category, and search
-                console.log(`🔧 Setting up ${category.name} search results...`);
-                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
-                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                // Step 1-3: Set up resort search results (navigate + enable resort view)
+                await setupResortSearchResults(searchResultPage, category.name, category.searchLocation);
                 
-                // Step 4: Check search results exist in form of accommodations
-                await searchResultPage.waitForAccommodationResults();
+                // Step 4: Check search results exist in form of resorts
+                await searchResultPage.waitForResortResults();
                 const { count: initialResultCount } = await searchResultPage.countSearchResults();
-                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
-                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                expect(initialResultCount, 'Should have resort search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial resort results`);
                 
-                console.log(`\n🎯 Testing Best For filter for ${category.name}...`);
+                console.log(`\n🎯 Testing Best For filter for ${category.name} resorts...`);
                 
                 // Step 5-6: Click Best For filter and check individual filter values
                 await searchResultPage.openFilter('Best For');
@@ -394,7 +420,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 
                 console.log(`   - Category-specific behavior: ${skippedOptions.length > 0 ? 'Some options disabled/unavailable for this category' : 'All initially detected options were testable'}`);
                 
-                console.log(`🎉 Completed Best For filter testing for ${category.name}`);
+                console.log(`🎉 Completed Best For filter testing for ${category.name} resorts`);
             });
         });
     });
@@ -404,22 +430,20 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     categories.forEach(category => {
         test.describe(`${category.name} - Board Basis Filter Testing`, () => {
             
-            test(`@accom @regression Should test all Board Basis filter options for ${category.name}`, async ({ 
+            test(`@resort @regression Should test all Board Basis filter options for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
-                // Steps 1-3: Navigate to Inghams website, select category, and search
-                console.log(`🔧 Setting up ${category.name} search results...`);
-                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
-                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                // Steps 1-3: Set up resort search results (navigate + enable resort view)
+                await setupResortSearchResults(searchResultPage, category.name, category.searchLocation);
                 
-                // Step 4: Check search results exist in form of accommodations
-                await searchResultPage.waitForAccommodationResults();
+                // Step 4: Check search results exist in form of resorts
+                await searchResultPage.waitForResortResults();
                 const initialResultCount = await searchResultPage.getSearchResultCount();
-                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
-                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                expect(initialResultCount, 'Should have resort search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial resort results`);
                 
-                console.log(`\n🍽️ Testing Board Basis filter for ${category.name}...`);
+                console.log(`\n🍽️ Testing Board Basis filter for ${category.name} resorts...`);
                 
                 // Step 5: Click Board Basis and check what filter values are available
                 console.log(`✓ Opening Board Basis filter...`);
@@ -570,7 +594,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
                 console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
                 
-                console.log(`🎉 Completed Board Basis filter testing for ${category.name}`);
+                console.log(`🎉 Completed Board Basis filter testing for ${category.name} resorts`);
             });
         });
     });
@@ -580,22 +604,20 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     categories.forEach(category => {
         test.describe(`${category.name} - Facilities Filter Testing`, () => {
             
-            test(`@accom @regression Should test key Facilities filter options for ${category.name}`, async ({ 
+            test(`@resort @regression Should test key Facilities filter options for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
-                // Steps 1-3: Navigate to Inghams website, select category, and search
-                console.log(`🔧 Setting up ${category.name} search results...`);
-                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
-                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                // Steps 1-3: Set up resort search results (navigate + enable resort view)
+                await setupResortSearchResults(searchResultPage, category.name, category.searchLocation);
                 
-                // Step 4: Check search results exist in form of accommodations
-                await searchResultPage.waitForAccommodationResults();
+                // Step 4: Check search results exist in form of resorts
+                await searchResultPage.waitForResortResults();
                 const initialResultCount = await searchResultPage.getSearchResultCount();
-                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
-                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                expect(initialResultCount, 'Should have resort search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial resort results`);
                 
-                console.log(`\n🏊 Testing Facilities filter for ${category.name}...`);
+                console.log(`\n🏊 Testing Facilities filter for ${category.name} resorts...`);
                 
                 // Step 5: Click Facilities and check what filter values are available
                 console.log(`✓ Opening Facilities filter...`);
@@ -737,7 +759,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
                 console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
                 
-                console.log(`🎉 Completed Facilities filter testing for ${category.name}`);
+                console.log(`🎉 Completed Facilities filter testing for ${category.name} resorts`);
             });
         });
     });
@@ -747,22 +769,20 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     categories.forEach(category => {
         test.describe(`${category.name} - Holiday Types Filter Testing`, () => {
             
-            test(`@accom @regression Should test key Holiday Types filter options for ${category.name}`, async ({ 
+            test(`@resort @regression Should test key Holiday Types filter options for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
-                // Steps 1-3: Navigate to Inghams website, select category, and search
-                console.log(`🔧 Setting up ${category.name} search results...`);
-                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
-                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                // Steps 1-3: Set up resort search results (navigate + enable resort view)
+                await setupResortSearchResults(searchResultPage, category.name, category.searchLocation);
                 
-                // Step 4: Check search results exist in form of accommodations
-                await searchResultPage.waitForAccommodationResults();
+                // Step 4: Check search results exist in form of resorts
+                await searchResultPage.waitForResortResults();
                 const initialResultCount = await searchResultPage.getSearchResultCount();
-                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
-                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                expect(initialResultCount, 'Should have resort search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial resort results`);
                 
-                console.log(`\n🏖️ Testing Holiday Types filter for ${category.name}...`);
+                console.log(`\n🏖️ Testing Holiday Types filter for ${category.name} resorts...`);
                 
                 // Step 5: Click Holiday Types and check what filter values are available
                 console.log(`✓ Opening Holiday Types filter...`);
@@ -904,7 +924,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 console.log(`   - Skipped options: ${skippedOptions.map(opt => opt.split(' (')[0]).join(', ')}`);
                 console.log(`   - Category-specific behavior: Some options may be disabled/unavailable for this category`);
                 
-                console.log(`🎉 Completed Holiday Types filter testing for ${category.name}`);
+                console.log(`🎉 Completed Holiday Types filter testing for ${category.name} resorts`);
             });
         });
     });
@@ -914,43 +934,42 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     categories.forEach(category => {
         test.describe(`${category.name} - Duration Filter Testing`, () => {
             
-            test(`@accom @regression Should test Duration filter options for ${category.name}`, async ({ 
+            test(`@resort @regression Should test Duration filter options for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
                 // Step 1: Go to Inghams website
                 // Step 2: Click Ski, Walking or Lapland at the Search Modal
                 // Step 3: Click Search
-                console.log(`🔧 Setting up ${category.name} search results...`);
-                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
-                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                // Step 4: Enable "View results by resort" toggle
+                await setupResortSearchResults(searchResultPage, category.name, category.searchLocation);
                 
-                // Step 4: Check the search results exists in a form of Accommodations
-                await searchResultPage.waitForAccommodationResults();
+                // Step 5: Check the search results exists in a form of Resorts
+                await searchResultPage.waitForResortResults();
                 const initialResultCount = await searchResultPage.getSearchResultCount();
                 
                 // Handle edge case where category has no results (e.g., seasonal availability)
                 if (initialResultCount === 0) {
-                    console.log(`⚠️ No initial search results found for ${category.name} - this may be due to seasonal availability or limited inventory`);
+                    console.log(`⚠️ No initial resort search results found for ${category.name} - this may be due to seasonal availability or limited inventory`);
                     
                     // Check if this is a "No results" scenario vs a technical error
                     const hasNoResultsMessage = await searchResultPage.validateNoResultsMessage();
                     
                     if (hasNoResultsMessage) {
                         console.log(`📋 Confirmed: ${category.name} shows "No results matching your criteria" message`);
-                        console.log(`✅ Duration filter test completed for ${category.name} - No base results available (seasonal/business limitation)`);
+                        console.log(`✅ Duration filter test completed for ${category.name} resorts - No base results available (seasonal/business limitation)`);
                         console.log(`💡 Recommendation: Test Duration filter for ${category.name} during peak season when results are available`);
                         return; // Exit test gracefully - this is a business scenario, not a test failure
                     } else {
                         // If no results but no "No results" message, this might be a technical issue
-                        throw new Error(`No accommodation results found for ${category.name} and no "No results" message displayed - potential technical issue`);
+                        throw new Error(`No resort results found for ${category.name} and no "No results" message displayed - potential technical issue`);
                     }
                 }
                 
-                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
-                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                expect(initialResultCount, 'Should have resort search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial resort results`);
                 
-                console.log(`\n⏰ Testing Duration filter for ${category.name}...`);
+                console.log(`\n⏰ Testing Duration filter for ${category.name} resorts...`);
                 
                 try {
                     // Step 5: Click Duration
@@ -1271,7 +1290,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                     }
                 }
                 
-                console.log(`🎉 Completed Duration filter testing for ${category.name}`);
+                console.log(`🎉 Completed Duration filter testing for ${category.name} resorts`);
             });
         });
     });
@@ -1281,22 +1300,20 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     categories.forEach(category => {
         test.describe(`${category.name} - Budget Filter Comprehensive Testing`, () => {
             
-            test(`@accom @regression Should test comprehensive Budget filter validation for ${category.name}`, async ({ 
+            test(`@resort @regression Should test comprehensive Budget filter validation for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
-                // Steps 1-3: Navigate to Inghams website, select category, and search
-                console.log(`🔧 Setting up ${category.name} search results...`);
-                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
-                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                // Steps 1-3: Set up resort search results (navigate + enable resort view)
+                await setupResortSearchResults(searchResultPage, category.name, category.searchLocation);
                 
-                // Step 4: Check search results exist in form of accommodations
-                await searchResultPage.waitForAccommodationResults();
+                // Step 4: Check search results exist in form of resorts
+                await searchResultPage.waitForResortResults();
                 const initialResultCount = await searchResultPage.getSearchResultCount();
-                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
-                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                expect(initialResultCount, 'Should have resort search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial resort results`);
                 
-                console.log(`\n💰 Starting comprehensive Budget filter testing for ${category.name}...`);
+                console.log(`\n💰 Starting comprehensive Budget filter testing for ${category.name} resorts...`);
                 
                 try {
                     // Step 5: Open Budget filter
@@ -1448,7 +1465,7 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                     throw error; // Re-throw to fail the test
                 }
                 
-                console.log(`🎉 Successfully completed comprehensive Budget filter testing for ${category.name}`);
+                console.log(`🎉 Successfully completed comprehensive Budget filter testing for ${category.name} resorts`);
             });
         });
     });
@@ -1458,22 +1475,20 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
     categories.forEach(category => {
         test.describe(`${category.name} - All Filters Combined Testing`, () => {
             
-            test(`@accom @regression Should test comprehensive All Filters functionality for ${category.name}`, async ({ 
+            test(`@resort @regression Should test comprehensive All Filters functionality for ${category.name}`, async ({ 
                 page, 
                 searchResultPage 
             }) => {
-                // Navigate to category search results (Step 1-3: Go to Inghams, click category, search)
-                console.log(`🔧 Setting up ${category.name} search results...`);
-                await searchResultPage.navigateToSearchResults(category.name, category.searchLocation);
-                console.log(`✓ Successfully navigated to ${category.name} search results`);
+                // Set up resort search results (Step 1-4: Go to Inghams, click category, search, enable resort view)
+                await setupResortSearchResults(searchResultPage, category.name, category.searchLocation);
                 
-                // Step 4: Check search results exist in form of accommodations
-                await searchResultPage.waitForAccommodationResults();
+                // Step 5: Check search results exist in form of resorts
+                await searchResultPage.waitForResortResults();
                 const initialResultCount = await searchResultPage.getSearchResultCount();
-                expect(initialResultCount, 'Should have accommodation search results before filtering').toBeGreaterThan(0);
-                console.log(`✅ Found ${initialResultCount} initial accommodation results`);
+                expect(initialResultCount, 'Should have resort search results before filtering').toBeGreaterThan(0);
+                console.log(`✅ Found ${initialResultCount} initial resort results`);
                 
-                console.log(`\n🎛️ Starting comprehensive All Filters testing for ${category.name}...`);
+                console.log(`\n🎛️ Starting comprehensive All Filters testing for ${category.name} resorts...`);
                 
                 // Define filter combinations to test (simplified and more robust)
                 const filterCombinations = [
@@ -1780,9 +1795,9 @@ test.describe('Accommodation Filters - Comprehensive Testing', () => {
                 expect(filterCombinations.length, 'Should have attempted filter combinations').toBeGreaterThan(0);
                 
                 if (combinationSuccessCount > 0) {
-                    console.log(`🎉 Successfully completed comprehensive All Filters testing for ${category.name}`);
+                    console.log(`🎉 Successfully completed comprehensive All Filters testing for ${category.name} resorts`);
                 } else {
-                    console.log(`⚠️ All Filters testing completed for ${category.name} but no combinations fully succeeded`);
+                    console.log(`⚠️ All Filters testing completed for ${category.name} resorts but no combinations fully succeeded`);
                 }
             });
         });
