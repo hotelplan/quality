@@ -1,0 +1,1190 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Call to Book >> An ECMS user creates a CTB component and views it on the General Content page undefined @component @inw
+- Location: /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/ctb.spec.ts:27:9
+
+# Error details
+
+```
+Error: Timed out 60000ms waiting for expect(locator).toContainText(expected)
+
+Locator: locator('body')
+- Expected string  -   1
++ Received string  + 434
+
+- Sufficio tametsi pecco vesica succurro deputo debeo. Claudeo nesciunt clibanus delego tametsi quis dapifer accedo. Ars tametsi advoco terra cruciamentum caries ullam.
++
++     
++
++     
++     
++
++
++
++
++     
++
++     
++
++         
++             
++
++                 
++                     
++                         
++                     
++                     
++                         
++                     
++                 
++                 
++
++                     
++                         
++                             
++                                 
++                             
++                             
++
++                         
++                     
++                 
++                 
++                 
++
++                         
++                                     
++                                         Ski Holidays
++                                     
++                                     
++                                         Walking Holidays
++                                     
++                                     
++                                         Lapland Holidays
++                                     
++                         
++                     
++                     
++                         Call us today02045388944
++                             Opening times
++ Mon-Fri: 10:00 - 18:00 
++ Sat: 9:00 - 17:30 
++ Sun: Closed
++                         
++                     
++                 
++                 
++                 
++                 
++                     
++                         
++                             
++                                 
++                             
++                         
++                     
++                     
++                         Call us today
++                             
++                                 02045388944
++                                 
++                                     
++                                 
++                             
++                         
++                         
++                             Opening times
++ Mon-Fri: 10:00 - 18:00 
++ Sat: 9:00 - 17:30 
++ Sun: Closed
++                         
++                     
++                     
++                         
++                             
++                                 
++                             
++                         
++                     
++                 
++             
++         
++
++     
++
++
++
++     
++         
++             
++                     Home
++                     Automation Test Page 801d4737
++             
++         
++     
++     
++
++
++
++
++     
++     
++
++
++     
++         
++
++
++
++
++
++     
++         Automation Test Page 801d4737
++     
++         
++
++
++
++
++
++     
++
++
++
++
++
++
++
++     
++         
++                 focused saw CTB Automation 68
++                 
++                     
++                         
++                     
++                     02045388944
++                 
++         
++     
++
++
++
++         
++
++         
++             
++                     Sign up for news and exclusive offers
++                     Sign up now
++             
++         
++
++     
++
++     
++     
++
++         
++
++
++
++
++     
++         
++     
++         
++             
++         
++     
++     
++         
++     
++     Ski 
++
++
++
++         
++     
++         
++             
++         
++     
++     
++         
++     
++     Walking 
++
++
++
++         
++     
++         
++             
++         
++     
++     
++         
++     
++     Lapland 
++
++
++
++     
++                 
++             
++                 
++
++
++
++
++             
++                 
++                     
++                         Manage my booking
++                         Agent login
++                     
++
++                             
++                                     About us & stay in touch
++                                 
++                                                 History
++                                                 Service
++                                                 Reviews
++                                                 Sustainability
++                                                 Work for us
++                                                 Partnerships
++                                                 Travel advice
++                                                 FAQs
++                                                 Contact us
++                                                 Request a brochure
++                                 
++                             
++                 
++             
++
++                     
++                             Ski Holidays
++                         
++                                         Ski holiday destinations
++                                         Ski holiday types
++                                         Ski accommodation options
++                                         Ski holiday essentials
++                                         Snow guarantee
++                                         Pre-register for next winter
++                                         Why book an Inghams ski holiday
++                         
++                     
++                     
++                             Ski deals & offers
++                         
++                                         2025/26 ski deals
++                                         Ski lift pass offers
++                                         Andorra ski deals
++                                         Austria ski deals
++                                         Canada ski deals
++                                         Finland ski deals
++                                         France ski deals
++                                         Italy ski deals
++                                         Norway ski deals
++                                         Switzerland ski deals
++                         
++                     
++
++             
++             
++
++                     
++                             Walking Holidays
++                         
++                                         Walking holiday destinations
++                                         Walking holiday types
++                                         Walking holiday inspiration
++                                         Guided walks included
++                                         Holidays by train
++                                         Multi-Centre holidays
++                                         Walking grades
++                                         Why book an Inghams Walking holiday
++                         
++                     
++                     
++                             Walking deals & offers
++                         
++                                         2025 walking deals
++                                         2026 walking deals
++                                         Kids fly free
++                                         Andorra walking deals
++                                         Austria walking deals
++                                         France walking deals
++                                         Italy walking deals
++                                         Madeira walking deals
++                                         Norway walking deals
++                                         Slovenia walking deals
++                                         Switzerland walking deals
++                         
++                     
++
++             
++             
++
++                     
++                             Lapland Holidays
++                         
++                                         Lapland holiday destinations
++                                         Lapland activities
++                                         Lapland holiday types
++                                         Lapland short breaks
++                                         Lapland inclusive packages
++                                         Snow guarantee
++                                         Pre-register for next winter
++                                         Santa Break holidays
++                                         Why book an Inghams Lapland holiday
++                         
++                     
++                     
++                             Lapland deals & offers
++                         
++                                         2025/2026 Lapland deals
++                                         Levi deals
++                                         Yllas deals
++                                         Saariselka deals
++                         
++                     
++
++             
++         
++
++
++         
++             
++                 
++                     
++                         
++                     Follow on facebook
++                 
++                 
++                     
++                              Facebook Ski
++                              Facebook Walking
++                              Facebook Lapland
++                     
++                 
++             
++
++             
++                 
++                     
++                         
++                     Follow on Instagram
++                 
++                 
++                     
++                              Instagram Ski
++                              Instagram Walking
++                              Instagram Lapland
++                     
++                 
++             
++
++             
++                 
++                     
++                         
++                     
++                     02045388944
++                 
++                 
++             
++         
++
++                 
++             
++
++                 
++
++
++             
++                 
++                     
++
++
++     
++
++
++     
++
++
++                     
++                         
++                                 Terms and Conditions
++                                 Privacy Policy
++                                 Modern Slavery Statement
++                                 Accessibility
++                                 Sitemap
++                             
++                         
++                     
++                     
++                     
++
++
++     
++     
++
++
++                     
++ stg_Inghams is a brand of Hotelplan Limited, “part of the Hotelplan UK Group” © 2025. All Rights Reserved. Registered in England and Wales as Hotelplan Ltd. Registered No 350786. ATOL 0025. ABTA V4871. VAT No: GB 217 4698 42.Registered office address: Nelson House, 55 Victoria Road, Farnborough, Hampshire, GU14 7PA.                    
++                 
++         
++
++     
++     
++         
++         
++     
++
++         
++
++         
++
++
++
+Call log:
+  - expect.toContainText with timeout 60000ms
+  - waiting for locator('body')
+    63 × locator resolved to <body class=" t-inghams  p-home ">…</body>
+       - unexpected value "
+    
+
+    
+    
+
+
+
+
+    
+
+    
+
+        
+            
+
+                
+                    
+                        
+                    
+                    
+                        
+                    
+                
+                
+
+                    
+                        
+                            
+                                
+                            
+                            
+
+                        
+                    
+                
+                
+                
+
+                        
+                                    
+                                        Ski Holidays
+                                    
+                                    
+                                        Walking Holidays
+                                    
+                                    
+                                        Lapland Holidays
+                                    
+                        
+                    
+                    
+                        Call us today02045388944
+                            Opening times
+Mon-Fri: 10:00 - 18:00 
+Sat: 9:00 - 17:30 
+Sun: Closed
+                        
+                    
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                            
+                        
+                    
+                    
+                        Call us today
+                            
+                                02045388944
+                                
+                                    
+                                
+                            
+                        
+                        
+                            Opening times
+Mon-Fri: 10:00 - 18:00 
+Sat: 9:00 - 17:30 
+Sun: Closed
+                        
+                    
+                    
+                        
+                            
+                                
+                            
+                        
+                    
+                
+            
+        
+
+    
+
+
+
+    
+        
+            
+                    Home
+                    Automation Test Page 801d4737
+            
+        
+    
+    
+
+
+
+
+    
+    
+
+
+    
+        
+
+
+
+
+
+    
+        Automation Test Page 801d4737
+    
+        
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+        
+                focused saw CTB Automation 68
+                
+                    
+                        
+                    
+                    02045388944
+                
+        
+    
+
+
+
+        
+
+        
+            
+                    Sign up for news and exclusive offers
+                    Sign up now
+            
+        
+
+    
+
+    
+    
+
+        
+
+
+
+
+    
+        
+    
+        
+            
+        
+    
+    
+        
+    
+    Ski 
+
+
+
+        
+    
+        
+            
+        
+    
+    
+        
+    
+    Walking 
+
+
+
+        
+    
+        
+            
+        
+    
+    
+        
+    
+    Lapland 
+
+
+
+    
+                
+            
+                
+
+
+
+
+            
+                
+                    
+                        Manage my booking
+                        Agent login
+                    
+
+                            
+                                    About us & stay in touch
+                                
+                                                History
+                                                Service
+                                                Reviews
+                                                Sustainability
+                                                Work for us
+                                                Partnerships
+                                                Travel advice
+                                                FAQs
+                                                Contact us
+                                                Request a brochure
+                                
+                            
+                
+            
+
+                    
+                            Ski Holidays
+                        
+                                        Ski holiday destinations
+                                        Ski holiday types
+                                        Ski accommodation options
+                                        Ski holiday essentials
+                                        Snow guarantee
+                                        Pre-register for next winter
+                                        Why book an Inghams ski holiday
+                        
+                    
+                    
+                            Ski deals & offers
+                        
+                                        2025/26 ski deals
+                                        Ski lift pass offers
+                                        Andorra ski deals
+                                        Austria ski deals
+                                        Canada ski deals
+                                        Finland ski deals
+                                        France ski deals
+                                        Italy ski deals
+                                        Norway ski deals
+                                        Switzerland ski deals
+                        
+                    
+
+            
+            
+
+                    
+                            Walking Holidays
+                        
+                                        Walking holiday destinations
+                                        Walking holiday types
+                                        Walking holiday inspiration
+                                        Guided walks included
+                                        Holidays by train
+                                        Multi-Centre holidays
+                                        Walking grades
+                                        Why book an Inghams Walking holiday
+                        
+                    
+                    
+                            Walking deals & offers
+                        
+                                        2025 walking deals
+                                        2026 walking deals
+                                        Kids fly free
+                                        Andorra walking deals
+                                        Austria walking deals
+                                        France walking deals
+                                        Italy walking deals
+                                        Madeira walking deals
+                                        Norway walking deals
+                                        Slovenia walking deals
+                                        Switzerland walking deals
+                        
+                    
+
+            
+            
+
+                    
+                            Lapland Holidays
+                        
+                                        Lapland holiday destinations
+                                        Lapland activities
+                                        Lapland holiday types
+                                        Lapland short breaks
+                                        Lapland inclusive packages
+                                        Snow guarantee
+                                        Pre-register for next winter
+                                        Santa Break holidays
+                                        Why book an Inghams Lapland holiday
+                        
+                    
+                    
+                            Lapland deals & offers
+                        
+                                        2025/2026 Lapland deals
+                                        Levi deals
+                                        Yllas deals
+                                        Saariselka deals
+                        
+                    
+
+            
+        
+
+
+        
+            
+                
+                    
+                        
+                    Follow on facebook
+                
+                
+                    
+                             Facebook Ski
+                             Facebook Walking
+                             Facebook Lapland
+                    
+                
+            
+
+            
+                
+                    
+                        
+                    Follow on Instagram
+                
+                
+                    
+                             Instagram Ski
+                             Instagram Walking
+                             Instagram Lapland
+                    
+                
+            
+
+            
+                
+                    
+                        
+                    
+                    02045388944
+                
+                
+            
+        
+
+                
+            
+
+                
+
+
+            
+                
+                    
+
+
+    
+
+
+    
+
+
+                    
+                        
+                                Terms and Conditions
+                                Privacy Policy
+                                Modern Slavery Statement
+                                Accessibility
+                                Sitemap
+                            
+                        
+                    
+                    
+                    
+
+
+    
+    
+
+
+                    
+stg_Inghams is a brand of Hotelplan Limited, “part of the Hotelplan UK Group” © 2025. All Rights Reserved. Registered in England and Wales as Hotelplan Ltd. Registered No 350786. ATOL 0025. ABTA V4871. VAT No: GB 217 4698 42.Registered office address: Nelson House, 55 Victoria Road, Farnborough, Hampshire, GU14 7PA.                    
+                
+        
+
+    
+    
+        
+        
+    
+
+        
+
+        
+
+
+"
+
+    at CTBComponent.validateCtbButtonAvailability (/home/runner/work/quality/quality/tests/resources/inw_resources/page_objects/component/ctb.ts:53:51)
+    at /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/ctb.spec.ts:85:13
+    at /home/runner/work/quality/quality/tests/e2e_tests/inw_tests/components/ctb.spec.ts:82:9
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - button "Skip to menu"
+  - button "Skip to content"
+  - button "Umbraco info":
+    - img
+  - navigation "Primary":
+    - list:
+      - listitem:
+        - link "Content (active)": Content
+      - listitem:
+        - link "Media"
+      - listitem:
+        - link "Settings"
+      - listitem:
+        - link "Packages"
+      - listitem:
+        - link "Users"
+      - listitem:
+        - link "Members"
+      - listitem:
+        - link "Forms"
+      - listitem:
+        - link "Translation"
+      - listitem:
+        - link "SEO"
+  - list:
+    - listitem:
+      - button "Open backoffice search..."
+    - listitem:
+      - button "Open/Close backoffice help..."
+    - listitem:
+      - button "Open/Close your profile options... C"
+- navigation "Content":
+  - list:
+    - listitem:
+      - heading "Content" [level=1]:
+        - link "Content"
+      - button "Open context node for Content"
+      - list:
+        - listitem:
+          - button "Expand child items for Home"
+          - link "Home"
+          - button "Open context menu for Home"
+          - list:
+            - listitem:
+              - link "Search"
+              - button "Open context menu for Search"
+            - listitem:
+              - button "Expand child items for Ski Holidays"
+              - link "Ski Holidays"
+              - button "Open context menu for Ski Holidays"
+            - listitem:
+              - button "Expand child items for Walking Holidays"
+              - link "Walking Holidays"
+              - button "Open context menu for Walking Holidays"
+            - listitem:
+              - button "Expand child items for Lapland Holidays"
+              - link "Lapland Holidays"
+              - button "Open context menu for Lapland Holidays"
+            - listitem:
+              - button "Expand child items for About us"
+              - link "About us"
+              - button "Open context menu for About us"
+            - listitem:
+              - text: 
+              - link "Main Promotional Banner"
+              - button "Open context menu for Main Promotional Banner"
+            - listitem:
+              - link "FAQ"
+              - button "Open context menu for FAQ"
+            - listitem:
+              - link "FAQ Search Result"
+              - button "Open context menu for FAQ Search Result"
+            - listitem:
+              - link "FAQ Category"
+              - button "Open context menu for FAQ Category"
+            - listitem:
+              - link "Contact us"
+              - button "Open context menu for Contact us"
+            - listitem:
+              - link "Sign Up"
+              - button "Open context menu for Sign Up"
+            - listitem:
+              - link "Request a brochure"
+              - button "Open context menu for Request a brochure"
+            - listitem:
+              - button "Expand child items for Travel advice"
+              - link "Travel advice"
+              - button "Open context menu for Travel advice"
+            - listitem:
+              - button "Expand child items for Legal"
+              - link "Legal"
+              - button "Open context menu for Legal"
+            - listitem:
+              - link "Test"
+              - button "Open context menu for Test"
+            - listitem:
+              - link "Swathi test columns"
+              - button "Open context menu for Swathi test columns"
+            - listitem:
+              - link "Rachel Test"
+              - button "Open context menu for Rachel Test"
+            - listitem:
+              - link "Automation Test Page a398e8cf"
+              - button "Open context menu for Automation Test Page a398e8cf"
+            - listitem:
+              - link "Automation Test Page fcf50dc3"
+              - button "Open context menu for Automation Test Page fcf50dc3"
+            - listitem:
+              - link "Automation Test Page 801d4737"
+              - button "Open context menu for Automation Test Page 801d4737"
+        - listitem:
+          - button "Expand child items for System"
+          - link "System"
+          - button "Open context menu for System"
+          - list:
+            - listitem:
+              - button "Expand child items for Programs"
+              - link "Programs"
+              - button "Open context menu for Programs"
+            - listitem:
+              - link "Header"
+              - button "Open context menu for Header"
+            - listitem:
+              - link "Page Banner"
+              - button "Open context menu for Page Banner"
+            - listitem:
+              - link "Footer"
+              - button "Open context menu for Footer"
+            - listitem:
+              - link "Emergency Banner"
+              - button "Open context menu for Emergency Banner"
+            - listitem:
+              - link "Error"
+              - button "Open context menu for Error"
+            - listitem:
+              - link "Error 400"
+              - button "Open context menu for Error 400"
+            - listitem:
+              - link "Error 404"
+              - button "Open context menu for Error 404"
+            - listitem:
+              - link "Error 410"
+              - button "Open context menu for Error 410"
+            - listitem:
+              - link "Error 500"
+              - button "Open context menu for Error 500"
+            - listitem:
+              - link "xml-sitemap"
+              - button "Open context menu for xml-sitemap"
+            - listitem:
+              - link "Sitemap"
+              - button "Open context menu for Sitemap"
+            - listitem:
+              - link "Contact Section"
+              - button "Open context menu for Contact Section"
+            - listitem:
+              - link "Standard Opening Times"
+              - button "Open context menu for Standard Opening Times"
+            - listitem:
+              - link "CHOX"
+              - button "Open context menu for CHOX"
+            - listitem:
+              - link "Robots.txt"
+              - button "Open context menu for Robots.txt"
+        - listitem:
+          - button "Expand child items for Data Hubs"
+          - link "Data Hubs"
+          - button "Open context menu for Data Hubs"
+        - listitem:
+          - button "Expand child items for Recycle Bin"
+          - link "Recycle Bin"
+          - button "Open context menu for Recycle Bin"
+- paragraph: Edit Automation Test Page 801d4737
+- text: Name
+- textbox "Name": Automation Test Page 801d4737
+- list:
+  - listitem:
+    - button "Content"
+  - listitem:
+    - button "Info"
+  - listitem
+- button "Actions"
+- text: Links
+- list:
+  - listitem:
+    - link "en-GB /automation-test-page-801d4737"
+  - listitem:
+    - text: en-US
+    - emphasis: This document is published but is not in the cache
+- text: History
+- button "Rollback..."
+- text: C christian.ticar 22 August 2025 12:51 Publish Content saved and Published C christian.ticar 22 August 2025 12:51 Publish Content saved and Published General Status Published Created Date 22 August 2025 12:51 Document Type Generic Content Page
+- button "Open Generic Content Page..."
+- text: Template
+- combobox:
+  - option "Generic Template" [selected]
+  - option "TestTemplate"
+- button "Open GenericTemplate Template"
+- text: Id 38305 deff9d38-0203-43ef-8cda-0373e7a6e307
+- list:
+  - listitem:
+    - link "Home"
+    - text: /
+  - listitem: Automation Test Page 801d4737
+- button "Save and preview"
+- button "Save"
+- button "Save and publish"
+- button "Save and publish"
+- list
+```
+
+# Test source
+
+```ts
+   1 | import { type Page, type Locator, expect } from '@playwright/test';
+   2 | import { faker } from '@faker-js/faker';
+   3 |
+   4 | export class CTBComponent {
+   5 |     readonly page: Page
+   6 |     readonly ctbTitle: Locator
+   7 |     readonly ctbPhoneNumer: Locator
+   8 |     readonly ctbLayout: Locator
+   9 |     readonly telephonNumberFld: Locator
+  10 |     public ctbTitleData: string
+  11 |     public ctaPhoneNumber: string
+  12 |     public telephoneNumberFromContactSection: string
+  13 |     public selectedLayout: string[]
+  14 |
+  15 |     constructor(page: Page) {
+  16 |         this.page = page;
+  17 |         this.ctbTitle = page.locator('#title')
+  18 |         this.ctbPhoneNumer = page.locator('#phoneNumber')
+  19 |         this.ctbLayout = page.locator('select[name="dropDownList"]').nth(2)
+  20 |         this.ctbTitleData = faker.word.adjective() + ' ' + faker.word.noun() + ' CTB Automation ' + faker.number.int({ min: 50, max: 1000 })
+  21 |         this.ctaPhoneNumber = faker.phone.number({ style: 'national' })
+  22 |         this.telephonNumberFld = page.locator('#telephoneNumber')
+  23 |     }
+  24 |
+  25 |     async fillOutCTBTitle() {
+  26 |         await this.ctbTitle.waitFor({ state: 'visible' })
+  27 |         await this.ctbTitle.fill(this.ctbTitleData)
+  28 |     }
+  29 |
+  30 |     async fillOutCTBPhoneNumber() {
+  31 |         await this.ctbPhoneNumer.fill(this.ctaPhoneNumber)
+  32 |     }
+  33 |
+  34 |     async getCTBPhoneNumber() {
+  35 |         await this.telephonNumberFld.waitFor({ state: 'visible' })
+  36 |         this.telephoneNumberFromContactSection = await this.telephonNumberFld.inputValue()
+  37 |
+  38 |         return this.telephoneNumberFromContactSection
+  39 |     }
+  40 |
+  41 |     async selectCTBLayout() {
+  42 |         const layoutRandomIndex = Math.floor(Math.random() * 2) + 1;
+  43 |         await this.ctbLayout.click()
+  44 |         this.selectedLayout = await this.ctbLayout.selectOption({ index: layoutRandomIndex })
+  45 |     }
+  46 |
+  47 |     async validateCtbButtonAvailability(newPage, rteContent) {
+  48 |         let actualCtbPhoneIcon: any
+  49 |         const ctbLayout = this.selectedLayout[0].split(':')[1]
+  50 |         expect(await newPage.getByText(this.ctbTitleData).isVisible(), "CTB Title is visible").toBeTruthy();
+  51 |
+  52 |         if (ctbLayout === 'Standard') {
+> 53 |             await expect(newPage.locator('body')).toContainText(rteContent);
+     |                                                   ^ Error: Timed out 60000ms waiting for expect(locator).toContainText(expected)
+  54 |             const actualCtbLayout = await newPage.getByText(`${this.ctbTitleData}`).evaluate(node => node.className)
+  55 |             expect(actualCtbLayout.includes('title'), "CTB Layout is correct").toBeTruthy()
+  56 |             actualCtbPhoneIcon = await newPage.getByText(`${this.telephoneNumberFromContactSection}`).locator('svg[title="Dropdown"]').evaluate(node => node.classList.value)
+  57 |
+  58 |
+  59 |         } else if (ctbLayout === 'Compact') {
+  60 |             const actualCtbLayout = await newPage.getByText(`${this.ctbTitleData}`).evaluate(node => node.className)
+  61 |             expect(actualCtbLayout.includes('leftContent'), "CTB Layout is correct").toBeTruthy()
+  62 |
+  63 |             actualCtbPhoneIcon = await newPage.getByText(`${this.telephoneNumberFromContactSection}`).nth(2).evaluate(node => node.previousElementSibling.classList.value)
+  64 |         }
+  65 |
+  66 |         expect(await actualCtbPhoneIcon?.includes('icon-phone-outlined'), "CTB Phone icon is correct").toBeTruthy()
+  67 |     }
+  68 |
+  69 | }
+  70 |
+  71 | export default CTBComponent
+```
