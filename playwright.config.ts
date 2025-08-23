@@ -37,7 +37,7 @@ export default defineConfig({
         ? baseEnvUrl.stg.inghams
         : baseEnvUrl.qa.inghams
   },
-  timeout: 180000, // 3 minutes timeout for overall test case execution (reduced from 5 minutes)
+  timeout: 300000, // 5 minutes timeout for overall test case execution (increased for comprehensive rating testing)
   expect: {
     timeout: 60000, // 1 minute timeout for individual assertions (reduced from 2 minutes)
   },

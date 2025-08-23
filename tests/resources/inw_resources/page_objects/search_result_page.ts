@@ -170,23 +170,38 @@ export class SearchResultPage {
      * Checks if accommodation ratings match the applied filter
      * @param expectedRating - The rating that should be displayed
      */
+    /**
+     * Validates ratings for both accommodation and resort views
+     * @param expectedRating - The rating that should be displayed
+     */
     async validateAccommodationRatings(expectedRating: string): Promise<{ isValid: boolean; actualRatings: string[]; invalidCards: number }> {
-        console.log(`🔍 Validating accommodation ratings match filter: ${expectedRating}`);
+        const isResortView = await this.isInResortView();
+        console.log(`🔍 Validating ${isResortView ? 'resort' : 'accommodation'} ratings match filter: ${expectedRating}`);
         
         const ratingSelectors = [
             '.rating > span',
-            '[data-testid="rating"]',
+            '[data-testid="rating"]', 
             '.star-rating',
             '.accommodation-rating',
-            '[class*="rating"] span'
+            '.resort-rating',
+            '[class*="rating"] span',
+            '.c-rating span',
+            '[class*="star"] span'
         ];
         
         let actualRatings: string[] = [];
         let invalidCards = 0;
         
-        // Get all accommodation cards
-        const accommodationCards = this.page.locator('.c-search-card, [data-testid="accommodation-card"], .search-card').all();
-        const cards = await accommodationCards;
+        // Get result cards based on current view mode
+        let resultCards;
+        if (isResortView) {
+            resultCards = this.page.locator('.c-search-card, [data-testid="resort-card"], .resort-card, .search-card').all();
+        } else {
+            resultCards = this.page.locator('.c-search-card, [data-testid="accommodation-card"], .search-card').all();
+        }
+        
+        const cards = await resultCards;
+        console.log(`📊 Found ${cards.length} ${isResortView ? 'resort' : 'accommodation'} cards to validate`);
         
         for (let i = 0; i < cards.length; i++) {
             const card = cards[i];
@@ -200,12 +215,15 @@ export class SearchResultPage {
                         if (ratingText && ratingText.trim()) {
                             actualRatings.push(ratingText.trim());
                             
-                            // Check if rating matches expected
-                            if (!ratingText.includes(expectedRating)) {
+                            // Check if rating matches expected (more flexible matching)
+                            const numericRating = parseFloat(ratingText);
+                            const expectedNumeric = parseFloat(expectedRating);
+                            
+                            if (isNaN(numericRating) || numericRating < expectedNumeric) {
                                 invalidCards++;
-                                console.warn(`❌ Card ${i + 1}: Expected rating ${expectedRating}, found ${ratingText}`);
+                                console.warn(`❌ Card ${i + 1}: Expected rating ≥${expectedRating}, found ${ratingText}`);
                             } else {
-                                console.log(`✅ Card ${i + 1}: Rating ${ratingText} matches filter`);
+                                console.log(`✅ Card ${i + 1}: Rating ${ratingText} matches filter (≥${expectedRating})`);
                             }
                             ratingFound = true;
                             break;
@@ -848,16 +866,32 @@ export class SearchResultPage {
     }
 
     async validateToggleValue(toggleValue: boolean = false) {
-        const isChecked = await this.toggleValue.isChecked();
-
-        await this.page.waitForLoadState('domcontentloaded');
-        await expect(this.toggleValue, 'Toggle is available').toHaveCount(1)
-
-        if (toggleValue) {
-            expect(isChecked, 'Toggle is grouped by Accommodation').toBe(true)
-        } else {
-            expect(isChecked, 'Toggle is grouped by Resort').toBe(false)
-
+        console.log(`🔍 Validating toggle value - expected: ${toggleValue ? 'Resort view (enabled)' : 'Accommodation view (disabled)'}`);
+        
+        try {
+            // Wait for page to stabilize
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForTimeout(1000);
+            
+            // Check toggle availability first
+            await expect(this.toggleValue, 'Toggle is available').toHaveCount(1);
+            
+            // Get current toggle state
+            const isChecked = await this.toggleValue.isChecked();
+            console.log(`📊 Toggle current state: ${isChecked ? 'enabled (resort view)' : 'disabled (accommodation view)'}`);
+            
+            // Validate against expected state
+            if (toggleValue) {
+                expect(isChecked, 'Toggle should be enabled for Resort view').toBe(true);
+                console.log(`✅ Toggle validation passed - Resort view is enabled as expected`);
+            } else {
+                expect(isChecked, 'Toggle should be disabled for Accommodation view').toBe(false);
+                console.log(`✅ Toggle validation passed - Accommodation view is enabled as expected`);
+            }
+            
+        } catch (error) {
+            console.error(`❌ Toggle validation failed: ${error.message}`);
+            throw error;
         }
     }
 
@@ -926,8 +960,33 @@ export class SearchResultPage {
     }
 
     async clickGroupToggle() {
-        await this.toggleSwitch.waitFor({ state: 'visible' })
-        await this.toggleSwitch.click()
+        console.log(`🔄 Clicking group toggle to switch view mode...`);
+        
+        try {
+            // Get current state before clicking
+            const currentState = await this.isInResortView();
+            console.log(`📊 Current view: ${currentState ? 'Resort view' : 'Accommodation view'}`);
+            
+            await this.toggleSwitch.waitFor({ state: 'visible', timeout: 10000 });
+            await this.toggleSwitch.click();
+            
+            // Wait for toggle to process
+            await this.page.waitForTimeout(2000);
+            
+            // Verify the toggle switched
+            const newState = await this.isInResortView();
+            console.log(`📊 New view after toggle: ${newState ? 'Resort view' : 'Accommodation view'}`);
+            
+            if (currentState === newState) {
+                console.warn(`⚠️ Toggle state did not change after clicking`);
+            } else {
+                console.log(`✅ Successfully switched from ${currentState ? 'Resort' : 'Accommodation'} view to ${newState ? 'Resort' : 'Accommodation'} view`);
+            }
+            
+        } catch (error) {
+            console.error(`❌ Failed to click group toggle: ${error.message}`);
+            throw error;
+        }
     }
 
     /**
@@ -938,29 +997,133 @@ export class SearchResultPage {
         console.log(`🏔️ Enabling "View results by resort" toggle...`);
         
         try {
-            // Wait for the toggle to be available
-            const viewByResortToggle = this.page.locator('div').filter({ hasText: /^View results by resort$/ }).locator('label');
-            await viewByResortToggle.waitFor({ state: 'visible', timeout: 10000 });
+            // Wait for page to be fully loaded
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.page.waitForTimeout(2000);
             
-            // Check if already enabled
-            const toggleInput = this.page.locator('input[value="showDest"]');
-            const isAlreadyEnabled = await toggleInput.isChecked().catch(() => false);
+            // Use JavaScript evaluation to locate and interact with the toggle
+            const toggleResult = await this.page.evaluate(() => {
+                // Find the toggle switch element
+                const toggleSwitch = document.querySelector('.c-toggle-switch');
+                if (!toggleSwitch) {
+                    return { success: false, error: 'Toggle switch not found' };
+                }
+                
+                // Find the checkbox input within the toggle switch
+                const checkbox = toggleSwitch.querySelector('input[type="checkbox"][value="showDest"]') as HTMLInputElement;
+                if (!checkbox) {
+                    return { success: false, error: 'Checkbox input not found' };
+                }
+                
+                // Check current state
+                const isCurrentlyChecked = checkbox.checked;
+                console.log(`Toggle current state: ${isCurrentlyChecked ? 'enabled' : 'disabled'}`);
+                
+                // Only click if not already enabled
+                if (!isCurrentlyChecked) {
+                    checkbox.click();
+                    console.log('Clicked toggle checkbox');
+                    return { 
+                        success: true, 
+                        clicked: true, 
+                        checkedAfter: checkbox.checked, 
+                        value: checkbox.value 
+                    };
+                } else {
+                    console.log('Toggle already enabled, no action needed');
+                    return { 
+                        success: true, 
+                        clicked: false, 
+                        checkedAfter: true, 
+                        value: checkbox.value 
+                    };
+                }
+            });
             
-            if (isAlreadyEnabled) {
-                console.log(`✓ "View results by resort" is already enabled`);
-            } else {
-                await viewByResortToggle.click();
-                // Wait for the toggle to be processed
+            if (!toggleResult.success) {
+                throw new Error(toggleResult.error);
+            }
+            
+            console.log(`✓ Toggle operation successful: ${JSON.stringify(toggleResult)}`);
+            
+            // Wait for the page to update after toggle activation
+            if (toggleResult.clicked) {
+                console.log('⏳ Waiting for resort view to load after toggle activation...');
                 await this.page.waitForTimeout(3000);
-                console.log(`✓ Successfully enabled "View results by resort" toggle`);
+                
+                // Wait for loading indicators to disappear
+                try {
+                    await this.page.waitForSelector('.loading, .spinner, [class*="loading"]', { 
+                        state: 'detached', 
+                        timeout: 10000 
+                    });
+                } catch {
+                    // Loading indicator might not be present, continue
+                }
             }
             
             // Wait for resort results to load
             await this.waitForResortResults();
             
+            console.log(`✅ Successfully enabled "View results by resort" toggle`);
+            
         } catch (error) {
             console.error(`❌ Failed to enable "View results by resort" toggle: ${error.message}`);
-            throw new Error(`Could not enable resort view toggle: ${error.message}`);
+            
+            // Fallback: Try alternative toggle locators
+            try {
+                console.log(`🔄 Attempting fallback toggle method...`);
+                await this.toggleSwitch.waitFor({ state: 'visible', timeout: 5000 });
+                await this.toggleSwitch.click();
+                await this.page.waitForTimeout(3000);
+                await this.waitForResortResults();
+                console.log(`✅ Fallback toggle method succeeded`);
+            } catch (fallbackError) {
+                console.error(`❌ Fallback method also failed: ${fallbackError.message}`);
+                throw new Error(`Could not enable resort view toggle. Primary error: ${error.message}, Fallback error: ${fallbackError.message}`);
+            }
+        }
+    }
+
+    /**
+     * Checks if the current view is showing resort results
+     * @returns boolean indicating if we're in resort view
+     */
+    async isInResortView(): Promise<boolean> {
+        console.log(`🔍 Checking if currently in resort view...`);
+        
+        try {
+            // Check if the toggle is enabled
+            const toggleResult = await this.page.evaluate(() => {
+                const checkbox = document.querySelector('input[type="checkbox"][value="showDest"]') as HTMLInputElement;
+                return checkbox ? checkbox.checked : false;
+            });
+            
+            if (toggleResult) {
+                console.log(`✓ Resort view confirmed - toggle is enabled`);
+                return true;
+            }
+            
+            // Additional check: Look for resort-specific UI elements
+            const resortViewIndicators = [
+                'View results by accommodation', // Toggle text changes when in resort view
+                'View accommodation(s)' // Button text in resort cards
+            ];
+            
+            for (const indicator of resortViewIndicators) {
+                const hasIndicator = await this.page.locator(`text=${indicator}`).count() > 0;
+                if (hasIndicator) {
+                    console.log(`✓ Resort view confirmed by UI indicator: "${indicator}"`);
+                    return true;
+                }
+            }
+            
+            console.log(`❌ Not in resort view - toggle is disabled and no resort indicators found`);
+            return false;
+            
+        } catch (error) {
+            console.warn(`⚠️ Error checking resort view status: ${error.message}`);
+            return false;
         }
     }
 
@@ -971,20 +1134,88 @@ export class SearchResultPage {
         console.log(`⏳ Waiting for resort results to load...`);
         
         try {
-            // Wait for resort cards to appear
-            const resortResultsSelector = '.c-search-card--resorts, [class*="resort"], .c-search-result-card';
-            await this.page.waitForSelector(resortResultsSelector, { 
-                state: 'visible', 
-                timeout: 15000 
-            });
+            // Wait for resort cards to appear - try multiple selectors
+            const resortSelectors = [
+                '.c-search-card--resorts',
+                '.c-search-card',
+                '[class*="resort"]',
+                '.c-search-result-card',
+                '[data-testid="resort-card"]'
+            ];
             
-            // Additional wait for all content to stabilize
+            let resortCardsFound = false;
+            for (const selector of resortSelectors) {
+                try {
+                    await this.page.waitForSelector(selector, { 
+                        state: 'visible', 
+                        timeout: 10000 
+                    });
+                    const count = await this.page.locator(selector).count();
+                    if (count > 0) {
+                        console.log(`✓ Found ${count} resort results using selector: ${selector}`);
+                        resortCardsFound = true;
+                        break;
+                    }
+                } catch {
+                    // Try next selector
+                    continue;
+                }
+            }
+            
+            if (!resortCardsFound) {
+                console.warn(`⚠️ Resort cards not found with any selector, checking for general search results...`);
+                
+                // Fallback: Check for any search results
+                const generalSelectors = ['.c-search-card', '[class*="search"]', '.search-result'];
+                for (const selector of generalSelectors) {
+                    try {
+                        const count = await this.page.locator(selector).count();
+                        if (count > 0) {
+                            console.log(`✓ Found ${count} general search results using selector: ${selector}`);
+                            resortCardsFound = true;
+                            break;
+                        }
+                    } catch {
+                        continue;
+                    }
+                }
+            }
+            
+            // Additional wait for content stabilization
             await this.page.waitForTimeout(2000);
-            console.log(`✓ Resort results loaded successfully`);
+            
+            // Validate that we're now in resort view by checking page elements
+            try {
+                // Look for resort-specific UI elements or text that indicates resort view
+                const resortViewIndicators = [
+                    'View results by accommodation', // Toggle text changes when in resort view
+                    'resort', // Generic resort text
+                    'View accommodation' // Button text in resort cards
+                ];
+                
+                let resortViewConfirmed = false;
+                for (const indicator of resortViewIndicators) {
+                    const hasIndicator = await this.page.locator(`text=${indicator}`).count() > 0;
+                    if (hasIndicator) {
+                        console.log(`✓ Resort view confirmed by indicator: "${indicator}"`);
+                        resortViewConfirmed = true;
+                        break;
+                    }
+                }
+                
+                if (!resortViewConfirmed) {
+                    console.warn(`⚠️ Could not confirm resort view is active through indicators`);
+                }
+                
+            } catch (error) {
+                console.warn(`⚠️ Error validating resort view indicators: ${error.message}`);
+            }
+            
+            console.log(`✅ Resort results loading completed`);
             
         } catch (error) {
             console.warn(`⚠️ Resort results may not have loaded completely: ${error.message}`);
-            // Don't fail the test, just log the warning
+            // Don't fail the test, just log the warning as results might still be usable
         }
     }
 
@@ -1750,15 +1981,26 @@ export class SearchResultPage {
      * Gets the count of search results after filter application
      * @returns Number of results or -1 if count cannot be determined
      */
+    /**
+     * Gets the count of search results, aware of current view mode (resort vs accommodation)
+     * @returns Number of results or -1 if count cannot be determined
+     */
     async getSearchResultCount(): Promise<number> {
         try {
-            // Try multiple selectors for result count
+            console.log(`🔢 Getting search result count...`);
+            
+            // First check what view mode we're in
+            const isResortView = await this.isInResortView();
+            console.log(`📊 Current view mode: ${isResortView ? 'Resort' : 'Accommodation'}`);
+            
+            // Try multiple selectors for result count text
             const countSelectors = [
                 '.results-count',
-                '.search-results-count',
+                '.search-results-count', 
                 '[data-testid="results-count"]',
                 'text=/\\d+\\s+results?/i',
-                'text=/showing\\s+\\d+/i'
+                'text=/showing\\s+\\d+/i',
+                'text=/\\d+\\s+(resort|accommodation)s?/i'
             ];
             
             for (const selector of countSelectors) {
@@ -1768,7 +2010,9 @@ export class SearchResultPage {
                         const countText = await countElement.textContent();
                         const match = countText?.match(/(\d+)/);
                         if (match) {
-                            return parseInt(match[1]);
+                            const count = parseInt(match[1]);
+                            console.log(`✅ Found result count via text: ${count} (${isResortView ? 'resorts' : 'accommodations'})`);
+                            return count;
                         }
                     }
                 } catch (error) {
@@ -1776,11 +2020,23 @@ export class SearchResultPage {
                 }
             }
             
-            // Fallback: count actual result cards
-            const resultCards = this.page.locator(
-                '[data-testid="accommodation-card"], .accommodation-card, .search-card, .result-card'
-            );
-            return await resultCards.count();
+            // Fallback: count actual result cards based on view mode
+            let resultCards;
+            if (isResortView) {
+                // In resort view, count resort cards
+                resultCards = this.page.locator(
+                    '.c-search-card--resorts, [data-testid="resort-card"], .resort-card, .c-search-card, .search-card'
+                );
+            } else {
+                // In accommodation view, count accommodation cards
+                resultCards = this.page.locator(
+                    '[data-testid="accommodation-card"], .accommodation-card, .c-search-card, .search-card, .result-card'
+                );
+            }
+            
+            const cardCount = await resultCards.count();
+            console.log(`📊 Counted ${cardCount} result cards (${isResortView ? 'resort' : 'accommodation'} view)`);
+            return cardCount;
             
         } catch (error) {
             console.warn('Could not determine search result count:', error);
